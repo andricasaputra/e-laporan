@@ -3,11 +3,7 @@
 @section('content')
 <div class="container" style="margin-top: 4%">
 
-  @if (Session::has('success'))
-     <div class="alert alert-success">{{ Session::get('success') }}</div>
-  @elseif (Session::has('warning'))
-      <div class="alert alert-danger">{{ Session::get('warning') }}</div>
-  @endif
+  @include('inc.message')
 
   <h2>Upload Impor Karantina Tumbuhan</h2>
 

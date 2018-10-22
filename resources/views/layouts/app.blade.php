@@ -18,16 +18,16 @@
 <body>
   <div class="body-wrapper">
     <!-- partial:../../partials/_sidebar.html -->
-    <aside class="mdc-persistent-drawer mdc-persistent-drawer--open">
+    <aside class="mdc-persistent-drawer mdc-persistent-drawer--open" style="height: 100%">
       @auth
-      <nav class="mdc-persistent-drawer__drawer">
+      <nav class="mdc-persistent-drawer__drawer" >
         <div class="mdc-persistent-drawer__toolbar-spacer">
           <a href="../../index.html" class="brand-logo"><!--<img src="../../images/logo.svg" alt="logo">--></a>
         </div>
-        <div class="mdc-list-group">
+        <div class="mdc-list-group"> 
           <nav class="mdc-list mdc-drawer-menu">
 
-            <div class="mdc-list-item mdc-drawer-item" href="#" data-toggle="expansionPanel" target-panel="ui-sub-menu">
+            <div class="mdc-list-item mdc-drawer-item" data-toggle="expansionPanel" target-panel="ui-sub-menu">
               <a class="mdc-drawer-link" href="#">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">backup</i>
                 Upload
@@ -59,31 +59,31 @@
               </div>
             </div>
 
-            <div class="mdc-list-item mdc-drawer-item" href="#" data-toggle="expansionPanel" target-panel="ui-sub-menu2">
+            <div class="mdc-list-item mdc-drawer-item"  data-toggle="expansionPanel" target-panel="ui-sub-menu22">
               <a class="mdc-drawer-link" href="#">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
                 Download
                 <i class="mdc-drawer-arrow material-icons">arrow_drop_down</i>
               </a>
-              <div class="mdc-expansion-panel" id="ui-sub-menu2">
+              <div class="mdc-expansion-panel" id="ui-sub-menu22">
                 <nav class="mdc-list mdc-drawer-submenu">
                   <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.upload.page.ekspor') }}">
+                    <a class="mdc-drawer-link" href="{{ route('kt.download.page.ekspor') }}">
                       Ekspor
                     </a>
                   </div>
                   <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.upload.page.impor') }}">
+                    <a class="mdc-drawer-link" href="{{ route('kt.download.page.impor') }}">
                       Impor
                     </a>
                   </div>
                   <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.upload.page.domas') }}">
+                    <a class="mdc-drawer-link" href="{{ route('kt.download.page.domas') }}">
                       Domestik Masuk
                     </a>
                   </div>
                   <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.upload.page.dokel') }}">
+                    <a class="mdc-drawer-link" href="{{ route('kt.download.page.dokel') }}">
                       Domestik Keluar
                     </a>
                   </div>
@@ -95,8 +95,8 @@
                 @if (Route::has('register'))
                     <div class="mdc-list-item mdc-drawer-item">
                       <a class="mdc-drawer-link" href="{{ route('register') }}">
-                        <i class="fa fa-user fa-custom" aria-hidden="true"></i>
-                        Register User
+                        <i class="fa fa-gear fa-custom" aria-hidden="true"></i>
+                        User Management
                       </a>
                     </div>
                 @endif
@@ -121,11 +121,20 @@
             </a>
             <div class="mdc-simple-menu mdc-simple-menu--right" tabindex="-1" id="logout-menu">
                 <ul class="mdc-simple-menu__items mdc-list" role="menu" aria-hidden="true">
-                  <li class="mdc-list-item" role="menuitem" tabindex="0">
-                    <i class="material-icons mdc-theme--primary mr-1">settings</i>
-                    Settings
-                  </li>
-                  <a ref="{{ route('logout') }}" onclick="event.preventDefault();
+                  @if(Auth::user()->role_id == 1) 
+                    <a href="{{ route('welcome.admin') }}">
+                  @else
+                    <a href="{{ route('welcome') }}">
+                  @endif
+                      
+                      <li class="mdc-list-item" role="menuitem" tabindex="0">
+                        <i class="material-icons mdc-theme--primary mr-1">settings</i>
+                        Go To Home
+                      </li>
+                      
+                  </a>
+                  
+                  <a href="{{ route('logout') }}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
                     <li class="mdc-list-item" role="menuitem" tabindex="0">
                       <i class="material-icons mdc-theme--primary mr-1">power_settings_new</i>Logout
@@ -160,6 +169,7 @@
   <script src="{{asset('js/material.js')}}"></script>
   <script src="{{asset('js/dashboard.js')}}"></script>
   <!-- End custom js for this page-->
+  @yield('custom_script')
 </body>
 
 </html>

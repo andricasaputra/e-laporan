@@ -2,7 +2,7 @@
 
 Route::prefix('operasional')->group(function () {
 
-	Route::group(['middleware' => ['kt']], function () {
+	Route::middleware('kt')->group(function () {
 
 		Route::get('/export', function () {
 	    	return view('export');
@@ -20,9 +20,7 @@ Route::prefix('operasional')->group(function () {
 		    	return view('operasional.kt.upload.domas');
 			})->name('kt.upload.page.domas');
 
-			Route::get('upload/dokel', function () {
-			    return view('operasional.kt.upload.dokel');
-			})->name('kt.upload.page.dokel'); 
+			Route::get('upload/dokel', 'DokelKt@sendToUploadDokel')->name('kt.upload.page.dokel'); 
 
 			Route::get('upload/ekspor', function () {
 			    return view('operasional.kt.upload.ekspor');
@@ -39,6 +37,32 @@ Route::prefix('operasional')->group(function () {
 			Route::post('ekspor/importdata', 'EksporKt@imports')->name('kt.upload.proses.ekspor');
 
 			Route::post('impor/importdata', 'ImporKt@imports')->name('kt.upload.proses.impor');
+
+			/*Export Routes*/
+
+			Route::get('download/domas', function () {
+		    	return view('operasional.kt.download.domas');
+			})->name('kt.download.page.domas');
+
+			Route::get('download/dokel', function () {
+			    return view('operasional.kt.download.dokel');
+			})->name('kt.download.page.dokel'); 
+
+			Route::get('download/ekspor', function () {
+			    return view('operasional.kt.download.ekspor');
+			})->name('kt.download.page.ekspor'); 
+
+			Route::get('download/impor', function () {
+			    return view('operasional.kt.download.impor');
+			})->name('kt.download.page.impor'); 
+
+			Route::post('dokel/exportdata/{tahun}/{bulan?}', 'DokelKt@exports')->name('kt.download.proses.dokel');
+
+			Route::post('domas/exportdata', 'DomasKt@exports')->name('kt.download.proses.domas');
+
+			Route::post('ekspor/exportdata', 'EksporKt@exports')->name('kt.download.proses.ekspor');
+
+			Route::post('impor/exportdata', 'ImporKt@exports')->name('kt.download.proses.impor');
 
 		});/*End Route Prefix KT*/
 

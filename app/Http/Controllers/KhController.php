@@ -22,8 +22,8 @@ class KhController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function operasional()
     {
-        return view('kh.home');
+        return view('operasional.kh.home');
     }
 }

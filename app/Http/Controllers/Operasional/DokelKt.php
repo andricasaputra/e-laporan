@@ -8,19 +8,166 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Operasional\DokelKt as Operasional;
 
+use App\User;
+
 class DokelKt extends Controller
 {
+    /**
+     *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
+     *
+     * @return to View
+     */
+    public function sendToUploadDokel()
+    {
+        $user_id    = Auth::user()->id;
+
+        $user       = User::where('id', $user_id)->first();
+
+        $wilker     = User::find($user_id)->wilker;
+
+        return view('operasional.kt.upload.dokel')
+        ->with('user', $user)
+        ->with('wilker', $wilker);
+    }
+
+    /**
+     *Digunakan untuk pengecekan jenis karantina apakah sesuai 
+     *
+     * @return bool
+     */
+    private function checkJenisKarantina($path)
+    {
+        /*Get Format Laporan Untuk Dokel*/
+        $tipe_karantina = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+
+            config(['excel.import.startRow' => 1]);
+
+        })->limit(1)->first();
+
+
+        if($tipe_karantina == null){
+
+            return 'not our format';
+
+        }
+
+        foreach ($tipe_karantina as $key => $value) {
+
+            $getContent = explode('_', $key);
+
+            $kt         = trim($getContent[3].' '.$getContent[4]);
+
+        }
+
+        /*Cek Jika File Yang Diunggah Domestik Keluar */
+
+        return $kt == 'karantina tumbuhan' ?: false;
+
+    }
+
+    /**
+     *Digunakan untuk pengecekan jenis permohonan apakah sesuai 
+     *
+     * @return bool
+     */
+    private function checkJenisPermohonan($path)
+    {
+        /*Get Format Laporan Untuk Dokel*/
+        $tipe_permohonan = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+
+            config(['excel.import.startRow' => 2]);
+
+        })->first();
+
+        /*set here*/
+        foreach ($tipe_permohonan as $tipe) {
+
+            $lowereing  = strtolower($tipe);
+
+            $getContent = explode(':', $lowereing);
+
+            $tipe       = trim($getContent[1]);
+
+        }
+
+        /*Cek Jika File Yang Diunggah Domestik Keluar */
+
+        return $tipe == 'domestik keluar' ?: false;
+    }
+
+    /**
+     *Import valid data ke database 
+     *
+     * @return void
+     */
     public function imports(Request $request) 
 	{
-        $user_id = Auth::user()->id;
-        $wilker_id = Auth::user()->wilker_id;
+        $request->validate([
 
-	    if($request->hasFile('impor')){
+            'filenya' => 'mimes:xls,xlsx'
 
-            $path = $request->file('impor')->getRealPath();
+        ]);
 
-            $datas = Excel::selectSheets('Sheet1')->load($path)->get();
+        $user_id = $request->user_id;
 
+        $wilker_id = $request->wilker_id;
+
+	    if($request->hasFile('filenya')){
+
+            $path = $request->file('filenya')->getRealPath();
+
+            /*Cek Format Laporan*/
+            if ($this->checkJenisKarantina($path) === 'not our format') {
+
+                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Merupakan Format Laporan Bulanan Dari IQFAST!');
+
+                return redirect()->back();
+            }
+
+            /*Cek Jenis Karantina*/
+            if($this->checkJenisKarantina($path) === false){
+
+                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Untuk Karantina Tumbuhan!');
+
+                return redirect()->back();
+
+            }
+
+            /*Cek Jenis Permohonan*/
+            if ($this->checkJenisPermohonan($path) === false) {
+
+                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Domestik Keluar!');
+
+                return redirect()->back();
+
+            }
+ 
+            /*Ambil Bulan Dan Tahun Pada Laporan Di Row 3*/
+            $headings = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+
+                config(['excel.import.startRow' => 3]);
+
+            })->first();
+
+            /*Data Asli Dimulai Dari Row Ke 7*/
+            $datas = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+                
+                config(['excel.import.startRow' => 7]);
+
+            })->get();
+
+            /*set tanggal format Y-m-d*/
+            foreach ($headings as $heading) {
+                $lowereing  = strtolower($heading);
+                $getContent = explode(' ', $lowereing);
+                $bulan      = $getContent[2];
+                $tahun      = $getContent[6];
+                $tanggal_laporan[] = $tahun.'-'.$bulan.'-01';
+            }
+
+            $success = 0;
+
+            /*Jika semua validasi berhasil & jika file tidak kosong maka insert ke database*/
             if (!empty($datas) && $datas->count() > 0) :
 
                     foreach ($datas as $key => $value) :
@@ -30,6 +177,7 @@ class DokelKt extends Controller
                         $dokel->wilker_id = $wilker_id;
                         $dokel->user_id = $user_id;
                         $dokel->no = $value->no;
+                        $dokel->bulan = $tanggal_laporan[0];
                         $dokel->no_permohonan = $value->no_permohonan;
                         $dokel->no_aju = $value->no_aju;
                         $dokel->tanggal_permohonan = $value->tanggal_permohonan;
@@ -77,26 +225,41 @@ class DokelKt extends Controller
                         $dokel->biaya_perjalanan_dinas = $value->biaya_perjadin;
                         $dokel->total_pnbp = $value->total_pnbp;
 
-                        $cek = Operasional::find($value->no_permohonan);
+                        $cek = Operasional::where('no_permohonan', $value->no_permohonan)
+                        ->where('no_aju', $value->no_aju)->first();
+
+                        /*Jika data yang sama atau file yang sama sudah pernah diupload maka data jangan dimasukkan ke dalam database*/ 
 
                         if ($cek !== null) {
 
-                            $success[] = 1;
+                            $success = 1;
 
                             continue;
 
                         }else{
 
-                            $success[] = $dokel->save();
-                        }
+                            $dokel->save();
 
+                            $success = 2;
+                        }
 
                     endforeach;
 
-                    if (count($success) > 0) {
+                    /*Jika data berhasil di insert ke database*/ 
+                    if ($success > 0) {
 
-                        \Session::flash('success','Data Berhasil Diimport!');
+                        /*Jika data berhasil di insert ke database tetapi file sudah pernah diupload tampilkan pesan*/ 
+                        if ($success == 1) {
+                        
+                            \Session::flash('success','File Sudah Pernah Diunggah, Tidak Ada Data Untuk Diperbarui!');
 
+                        }else{
+
+                            \Session::flash('success','Data Berhasil Diimport!');
+
+                        }       
+
+                    /*Error tidak terduga / bad connection??*/
                     }else{
 
                         \Session::flash('warning','Gagal Import Data!');
@@ -105,7 +268,7 @@ class DokelKt extends Controller
 
             endif;
 
-            
+        /*Jika file ksoong tampilkan pesan error*/    
         }else{
 
             \Session::flash('warning','Harap Pilih File Untuk Diimport Terlebih Dahulu!');
@@ -115,5 +278,50 @@ class DokelKt extends Controller
         return redirect()->back();
 
 	}
+
+    /**
+     *Export data dengan format excel dari database
+     *
+     * @return void
+     */
+    public function exports($tahun = '', $bulan = 'all')
+    {
+
+        if ($tahun != '') :
+            
+            if ($bulan != 'all') {
+                
+                $Datas = Operasional::whereMonth('tanggal_permohonan', $bulan)->get()->toArray();
+                
+            }else{
+
+                $Datas = Operasional::whereYear('tanggal_permohonan', $tahun)->get()->toArray();
+
+            }
+
+        else :
+
+            if ($bulan != 'all') {
+                
+                $Datas = Operasional::whereMonth('tanggal_permohonan', $bulan)->get()->toArray();
+
+            }else{
+
+                $Datas = Operasional::all()->toArray();
+            }
+
+        endif;
+
+        return Excel::create('Datas', function($excel) use ($Datas) {
+            $excel->sheet('Data Details', function($sheet) use ($Datas){
+
+                $sheet->fromArray($Datas);
+                
+            });
+        })->download('xlsx');
+        
+        \Session::flash('success','Data Berhasil Didownload!');
+  
+    }
 }
 

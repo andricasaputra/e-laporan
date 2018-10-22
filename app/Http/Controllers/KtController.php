@@ -22,8 +22,8 @@ class KtController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function operasional()
     {
-        return view('kt.home');
+        return view('operasional.kt.home');
     }
 }

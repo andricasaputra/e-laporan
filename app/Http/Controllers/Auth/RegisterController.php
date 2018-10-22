@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-use App\DaftarWilker as Wilker;
+use App\Wilker;
 
 class RegisterController extends Controller
 {

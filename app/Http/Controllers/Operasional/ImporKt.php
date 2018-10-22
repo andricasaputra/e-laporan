@@ -7,5 +7,14 @@ use App\Http\Controllers\Controller;
 
 class ImporKt extends Controller
 {
-    //
+
+	public function imports()
+    {
+        
+    }
+
+    public function exports()
+    {
+        
+    }
 }

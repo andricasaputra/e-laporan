@@ -8,5 +8,6 @@ class EksporKt extends Model
 {
     protected $table = 'ekspor_kt', 
     		  $primaryKey = 'no_permohonan', 
-    		  $guarded = ['id']; 
+    		  $guarded = ['id'],
+    		  $hidden = ['id', 'user_id', 'wilker_id', 'role_id', 'created_at', 'updated_at'];
 }

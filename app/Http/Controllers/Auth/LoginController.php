@@ -32,6 +32,16 @@ class LoginController extends Controller
     {
         if($user->role_id == 1 && $user->bagian == '-') {
 
+            return redirect(route('welcome.admin'));
+
+        } else {
+
+            return redirect(route('welcome'));
+
+        }
+
+        /*if($user->role_id == 1 && $user->bagian == '-') {
+
             return redirect(route('home'));
 
         }elseif ($user->role_id != 1 && $user->bagian == 'kh') {
@@ -42,7 +52,7 @@ class LoginController extends Controller
 
             return redirect(route('kt.home'));
 
-        }
+        }*/
     }
 
 }

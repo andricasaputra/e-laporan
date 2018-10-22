@@ -1,65 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" style="margin-top: 4%">
 
-  @if (Session::has('success'))
-     <div class="alert alert-success">{{ Session::get('success') }}</div>
-  @elseif (Session::has('warning'))
-      <div class="alert alert-danger">{{ Session::get('warning') }}</div>
-  @endif
+<main class="content-wrapper">
+  <div class="mdc-layout-grid">
+    <div class="mdc-layout-grid__inner">
+      <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+          <div class="mdc-card">
+            <div class="mdc-layout-grid__inner">
+              <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-7">
+                <section class="purchase__card_section">
+                    
+                    @include('inc.message')
 
-  <h2>Upload Domestik Keluar Karantina Tumbuhan</h2>
+                    <h4>Upload Domestik Keluar Karantina Tumbuhan</h4>
+                    <div class="col-md-12">
+                      <div class="row">
+                        <form action="{{ route('kt.upload.proses.dokel') }}" method="post" enctype="multipart/form-data">
+                            @csrf
 
-  <div class="col-md-12">
-    <div class="row">
-      <form action="{{ route('kt.upload.proses.dokel') }}" method="post" enctype="multipart/form-data">
-          @csrf
-          <div class="form-group">
-              <input type="file" name="impor">
+                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+
+                            <div class="form-group">
+                              <label for="wilker_id">Nama Wilker</label>
+                              <select name="wilker_id" class="form-control">
+                                <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group">
+                              <label for="filenya">Pilih File Laporan</label>
+                              <input type="file" name="filenya" class="form-control">
+                            </div>
+                            <input type="submit" name="Import" class="btn btn-success" value="Upload">
+                        </form>
+                      </div>
+                    </div>
+                </section>
+              </div>
+            </div>
           </div>
-          <input type="submit" name="Import" class="btn btn-success" value="Upload">
-      </form>
+        </div>
     </div>
   </div>
+</main>
 
-  <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-      <div class="mdc-card">
-        <section class="mdc-card__primary">
-          <h1 class="mdc-card__title mdc-card__title--large">Text Field</h1>
-        </section>
-        <section class="mdc-card__supporting-text">
-          <div class="mdc-layout-grid__inner">
-            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4-desktop">
-              <div class="template-demo">
-                <div id="demo-tf-box-wrapper">
-                  <div id="tf-box-example" class="mdc-text-field mdc-text-field--box w-100">
-                    <input required pattern=".{8,}" type="text" id="tf-box" class="mdc-text-field__input" aria-controls="name-validation-message">
-                    <label for="tf-box" class="mdc-text-field__label">Your Name</label>
-                    <div class="mdc-text-field__bottom-line"></div>
-                  </div>
-                  <p class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg" id="name-validation-msg">
-                    Must be at least 8 characters
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4-desktop">
-              <div class="template-demo">
-                <div id="demo-tf-box-leading-wrapper">
-                  <div id="tf-box-leading-example" class="mdc-text-field mdc-text-field--box mdc-text-field--with-leading-icon w-100">
-                    <i class="material-icons mdc-text-field__icon" tabindex="0">event</i>
-                    <input type="text" id="tf-box-leading" class="mdc-text-field__input">
-                    <label for="tf-box-leading" class="mdc-text-field__label">Your name</label>
-                    <div class="mdc-text-field__bottom-line"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-
-</div>
 @endsection

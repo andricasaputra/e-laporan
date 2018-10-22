@@ -12,7 +12,7 @@
             <div class="mdc-layout-grid__inner">
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-7">
                 <section class="purchase__card_section">
-                  <p>Selamat Datang {{ Auth::user()->name }}</p>
+                  Selamat Datang {{ Auth::user()->name }}
                 </section>
               </div>
             </div>

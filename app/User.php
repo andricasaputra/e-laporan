@@ -33,7 +33,12 @@ class User extends Authenticatable
         return $this->hasOne('App\Role');
     }
 
-    public function getPostDokel()
+    public function wilker()
+    {
+        return $this->belongsTo('App\Wilker');
+    }
+
+    public function getUploadDokelKt()
     {
         return $this->hasMany('App\Models\Operasional\DokelKt');
     }

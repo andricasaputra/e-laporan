@@ -9,7 +9,7 @@
 
   <div class="col-md-12">
     <div class="row">
-      <form action="{{ route('kt.upload.proses.domas') }}" method="post" enctype="multipart/form-data">
+      <form action="{{ route('kt.download.proses.domas') }}" method="post" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
               <input type="file" name="impor">

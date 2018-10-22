@@ -20,17 +20,14 @@ class RedirectIfAuthenticated
 
         if (Auth::guard($guard)->check()) {
             
-            if (Auth::guard($guard)->user()->bagian == '-') {
+            if (Auth::guard($guard)->user()->role_id == 1) {
 
-                return redirect(route('home'));
+                return redirect(route('welcome.admin'));
 
-            }elseif(Auth::guard($guard)->user()->bagian == 'kt'){
+            } else {
 
-                return redirect(route('kt.home'));
+                return redirect(route('welcome'));
 
-            }elseif(Auth::guard($guard)->user()->bagian == 'kh'){
-
-                return redirect(route('kh.home'));
             }
         }
 

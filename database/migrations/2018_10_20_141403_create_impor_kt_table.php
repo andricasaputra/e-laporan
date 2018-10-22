@@ -20,7 +20,8 @@ class CreateImporKtTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('no')->default(0)->nullable();
-            $table->string('no_permohonan')->unique()->nullable();
+            $table->date('bulan')->index()->nullable();
+            $table->string('no_permohonan')->nullable();
             $table->string('no_aju')->index()->nullable();
             $table->date('tanggal_permohonan')->index()->nullable();
             $table->string('jenis_permohonan')->index()->nullable();

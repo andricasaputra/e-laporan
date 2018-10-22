@@ -119,4 +119,9 @@ class DomasKt extends Controller
         return redirect()->back();
 
 	}
+
+    public function exports()
+    {
+        
+    }
 }

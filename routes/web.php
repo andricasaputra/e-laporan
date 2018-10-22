@@ -6,15 +6,17 @@ Route::get('/', function () {
     return redirect(route('login'));
 });
 
-Route::prefix('operasional')->group(function () {
+Route::middleware('auth')->get('/welcome', function() {
+	return view('welcome');
+})->name('welcome');
 
-	Route::get('/admin/home', 'AdminController@index')->name('home');
+Route::middleware('admin')->get('/welcome_admin', function() {
+	return view('welcome_admin');
+})->name('welcome.admin');
 
-	Route::get('/kh/home', 'KhController@index')->name('kh.home');
+Route::get('operasional/home', 'HomeController@operasional')->name('home');
 
-	Route::get('/kt/home', 'KtController@index')->name('kt.home');
 
-});
 
 
 
