@@ -7,30 +7,34 @@
    <div class="row">
       <div class="col-md-10 offset-md-1 card">
           <div class="card-header">
-            Register Users
+            Edit Users
           </div>
           <div class="card-body">
-            
+
             @include('inc.message')
 
-            <form method="POST" action="{{ route('register') }}">
-                @csrf
+            <form method="POST" action="{{ route('users.update', $user->id) }}">
 
+                @csrf
+                @method('PUT')
+            
                 <div class="form-group row">
                     <label for="wilker" class="col-md-4 col-form-label text-md-right">Wilker</label>
 
                     <div class="col-md-6"> 
-                        @if(count($wilker) > 0)
 
-                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="wilker" required>
-                                @foreach($wilker as $w)
+                        <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="wilker" required>
+                                <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
+                                @if(count($wilkers) > 0)
 
-                                    <option value="{{$w->id}}">{{$w->nama_wilker}}</option>
+                                    @foreach($wilkers as $wil)
 
-                                @endforeach
-                            </select>
+                                        <option value="{{ $wil->id }}">{{ $wil->nama_wilker }}</option>
 
-                        @endif
+                                    @endforeach
+
+                                @endif
+                        </select>
 
                         @if ($errors->has('wilker'))
                             <span class="invalid-feedback" role="alert">
@@ -44,7 +48,7 @@
                     <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nama') }}</label>
 
                     <div class="col-md-6">
-                        <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                        <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ $user->name }}" required autofocus>
 
                         @if ($errors->has('name'))
                             <span class="invalid-feedback" role="alert">
@@ -59,6 +63,7 @@
 
                     <div class="col-md-6">
                         <select class="form-control{{ $errors->has('bagian') ? ' is-invalid' : '' }}" name="bagian">
+                            <option value="{{ $user->bagian }}"> {{ $user->bagian }} </option>
                             <option value="kh">Karantina Hewan</option>
                             <option value="kt">Karantina Tumbuhan</option>
                             <option value="fu">Fungsional Umum</option>
@@ -78,6 +83,7 @@
 
                     <div class="col-md-6">
                         <select class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role">
+                            <option value="{{ $role->id }}">{{ $role->role }}</option>
                             <option value="2">User</option>
                             <option value="1">Admin</option>
                         </select>
@@ -94,7 +100,7 @@
                     <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
 
                     <div class="col-md-6">
-                        <input id="username" type="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required>
+                        <input id="username" type="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ $user->username }}" required>
 
                         @if ($errors->has('username'))
                             <span class="invalid-feedback" role="alert">
@@ -106,7 +112,7 @@
 
             
                 <div class="form-group row">
-                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password Baru') }}</label>
 
                     <div class="col-md-6">
                         <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
@@ -130,7 +136,7 @@
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" class="btn btn-primary">
-                            {{ __('Register') }}
+                            {{ __('Edit') }}
                         </button>
                     </div>
                 </div>

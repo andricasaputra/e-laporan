@@ -63,7 +63,7 @@ class CreateEksporKtTable extends Migration
             $table->string('nomor_dok_pelepasan')->index()->nullable();
             $table->date('tanggal_pelepasan')->index()->nullable();
             $table->integer('no_seri')->index()->nullable();
-            $table->string('dokumen_pendukung')->nullable();
+            $table->text('dokumen_pendukung')->nullable();
             $table->text('kontainer')->nullable();
             $table->integer('biaya_perjalanan_dinas')->default(0)->nullable();
             $table->integer('total_pnbp')->default(0)->index()->nullable();

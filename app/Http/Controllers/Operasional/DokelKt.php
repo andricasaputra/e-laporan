@@ -44,7 +44,7 @@ class DokelKt extends Controller
 
         })->limit(1)->first();
 
-
+        /*Cek isi file kosong atau tidak*/
         if($tipe_karantina == null){
 
             return 'not our format';
@@ -52,16 +52,9 @@ class DokelKt extends Controller
         }
 
         foreach ($tipe_karantina as $key => $value) {
-
-            $getContent = explode('_', $key);
-
-            $kt         = trim($getContent[3].' '.$getContent[4]);
-
+            /*Cek Jika File Yang Diunggah File KT */
+            return strpos($key, 'operasional_karantina_tumbuhan') ? true : false;
         }
-
-        /*Cek Jika File Yang Diunggah Domestik Keluar */
-
-        return $kt == 'karantina tumbuhan' ?: false;
 
     }
 

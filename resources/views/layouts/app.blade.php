@@ -13,100 +13,14 @@
   <link rel="stylesheet" href="{{asset('font-awesome/css/font-awesome.min.css')}}">
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
   <link rel="stylesheet" href="{{asset('css/style.css')}}">
+  <link rel="stylesheet" href="{{asset('css/datatables.min.css')}}">
+ 
 </head>
 
 <body>
   <div class="body-wrapper">
     <!-- partial:../../partials/_sidebar.html -->
-    <aside class="mdc-persistent-drawer mdc-persistent-drawer--open" style="height: 100%">
-      @auth
-      <nav class="mdc-persistent-drawer__drawer" >
-        <div class="mdc-persistent-drawer__toolbar-spacer">
-          <a href="../../index.html" class="brand-logo"><!--<img src="../../images/logo.svg" alt="logo">--></a>
-        </div>
-        <div class="mdc-list-group"> 
-          <nav class="mdc-list mdc-drawer-menu">
-
-            <div class="mdc-list-item mdc-drawer-item" data-toggle="expansionPanel" target-panel="ui-sub-menu">
-              <a class="mdc-drawer-link" href="#">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">backup</i>
-                Upload
-                <i class="mdc-drawer-arrow material-icons">arrow_drop_down</i>
-              </a>
-              <div class="mdc-expansion-panel" id="ui-sub-menu">
-                <nav class="mdc-list mdc-drawer-submenu">
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.upload.page.ekspor') }}">
-                      Ekspor
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.upload.page.impor') }}">
-                      Impor
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.upload.page.domas') }}">
-                      Domestik Masuk
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.upload.page.dokel') }}">
-                      Domestik Keluar
-                    </a>
-                  </div>
-                </nav>
-              </div>
-            </div>
-
-            <div class="mdc-list-item mdc-drawer-item"  data-toggle="expansionPanel" target-panel="ui-sub-menu22">
-              <a class="mdc-drawer-link" href="#">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
-                Download
-                <i class="mdc-drawer-arrow material-icons">arrow_drop_down</i>
-              </a>
-              <div class="mdc-expansion-panel" id="ui-sub-menu22">
-                <nav class="mdc-list mdc-drawer-submenu">
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.download.page.ekspor') }}">
-                      Ekspor
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.download.page.impor') }}">
-                      Impor
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.download.page.domas') }}">
-                      Domestik Masuk
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="{{ route('kt.download.page.dokel') }}">
-                      Domestik Keluar
-                    </a>
-                  </div>
-                </nav>
-              </div>
-            </div>
-
-             @if ( Auth::user()->role_id == 1 )
-                @if (Route::has('register'))
-                    <div class="mdc-list-item mdc-drawer-item">
-                      <a class="mdc-drawer-link" href="{{ route('register') }}">
-                        <i class="fa fa-gear fa-custom" aria-hidden="true"></i>
-                        User Management
-                      </a>
-                    </div>
-                @endif
-            @endif
-
-          </nav>
-        </div>
-      </nav>
-      @endauth
-    </aside>
+    @include('inc.barside')
     <!-- partial -->
     <!-- partial:../../partials/_navbar.html -->
     <header class="mdc-toolbar mdc-elevation--z4 mdc-toolbar--fixed">
@@ -160,7 +74,7 @@
   </div>
 
   <!-- body wrapper -->
-  <!-- plugins:js -->
+
   <script src="{{asset('js/material-components-web.min.js')}}"></script>
   <script src="{{asset('js/jquery.min.js')}}"></script>
   <script src="{{asset('js/Chart.min.js')}}"></script>
@@ -168,8 +82,18 @@
   <script src="{{asset('js/misc.js')}}"></script>
   <script src="{{asset('js/material.js')}}"></script>
   <script src="{{asset('js/dashboard.js')}}"></script>
+  <script src="{{asset('js/datatables.min.js')}}"></script>
+  
+  @yield('custom_scripts')
+
+  <script>
+    window.setTimeout(function() {
+        $(".alert-success").fadeTo(500, 0).slideUp(500, function() {
+            $(this).hide();
+        });
+    }, 5000);
+  </script>
   <!-- End custom js for this page-->
-  @yield('custom_script')
 </body>
 
 </html>

@@ -2,22 +2,30 @@
 
 namespace App\Http\Controllers\Operasional;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Operasional\ImporKt as Operasional;
+use App\Models\Operasional\DokelKh as Operasional;
 
 use App\User;
+use App\Http\Resources\DokelKhResource as Resource;
 
-class ImporKt extends Controller
+ini_set('max_execution_time', 200);
+
+class ImporKh extends Controller
 {
-	/**
+
+    public function api()
+    {
+        return Resource::collection(Operasional::all());
+    }
+    /**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
      *
      * @return to View
      */
-    public function sendToUploadImpor()
+    public function sendToUploadDokel()
     {
         $user_id    = Auth::user()->id;
 
@@ -25,7 +33,7 @@ class ImporKt extends Controller
 
         $wilker     = User::find($user_id)->wilker;
 
-        return view('operasional.kt.upload.impor')
+        return view('operasional.kh.upload.dokel')
         ->with('user', $user)
         ->with('wilker', $wilker);
     }
@@ -37,7 +45,7 @@ class ImporKt extends Controller
      */
     private function checkJenisKarantina($path)
     {
-        /*Get Format Laporan Untuk impor*/
+        /*Get Format Laporan Untuk Dokel*/
         $tipe_karantina = Excel::selectSheets('Sheet1')->load($path, function($reader) {
 
             config(['excel.import.startRow' => 1]);
@@ -52,8 +60,8 @@ class ImporKt extends Controller
         }
 
         foreach ($tipe_karantina as $key => $value) {
-            /*Cek Jika File Yang Diunggah File KT */
-            return strpos($key, 'operasional_karantina_tumbuhan') ? true : false;
+            /*Cek Jika File Yang Diunggah File KH */
+            return strpos($key, 'operasional_karantina_hewan') ? true : false;
         }
 
     }
@@ -65,7 +73,7 @@ class ImporKt extends Controller
      */
     private function checkJenisPermohonan($path)
     {
-        /*Get Format Laporan Untuk impor*/
+        /*Get Format Laporan Untuk Dokel*/
         $tipe_permohonan = Excel::selectSheets('Sheet1')->load($path, function($reader) {
 
             config(['excel.import.startRow' => 2]);
@@ -83,9 +91,9 @@ class ImporKt extends Controller
 
         }
 
-        /*Cek Jika File Yang Diunggah Domestik Masuk */
+        /*Cek Jika File Yang Diunggah Domestik Keluar */
 
-        return $tipe == 'impor' ?: false;
+        return $tipe == 'domestik keluar' ?: false;
     }
 
     /**
@@ -94,7 +102,7 @@ class ImporKt extends Controller
      * @return void
      */
     public function imports(Request $request) 
-    {
+	{
         $request->validate([
 
             'filenya' => 'mimes:xls,xlsx'
@@ -105,7 +113,7 @@ class ImporKt extends Controller
 
         $wilker_id = $request->wilker_id;
 
-        if($request->hasFile('filenya')){
+	    if($request->hasFile('filenya')){
 
             $path = $request->file('filenya')->getRealPath();
 
@@ -120,7 +128,7 @@ class ImporKt extends Controller
             /*Cek Jenis Karantina*/
             if($this->checkJenisKarantina($path) === false){
 
-                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Untuk Karantina Tumbuhan!');
+                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Untuk Karantina Hewan!');
 
                 return redirect()->back();
 
@@ -129,7 +137,7 @@ class ImporKt extends Controller
             /*Cek Jenis Permohonan*/
             if ($this->checkJenisPermohonan($path) === false) {
 
-                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Kegiatan Impor!');
+                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Domestik Keluar!');
 
                 return redirect()->back();
 
@@ -165,58 +173,61 @@ class ImporKt extends Controller
 
                     foreach ($datas as $key => $value) :
 
-                        $impor = new Operasional;
+                        $dokel = new Operasional;
 
-                        $impor->wilker_id = $wilker_id;
-                        $impor->user_id = $user_id;
-                        $impor->no = $value->no;
-                        $impor->bulan = $tanggal_laporan[0];
-                        $impor->no_permohonan = $value->no_permohonan;
-                        $impor->no_aju = $value->no_aju;
-                        $impor->tanggal_permohonan = $value->tanggal_permohonan;
-                        $impor->jenis_permohonan = $value->jenis_permohonan;
-                        $impor->nama_pemohon = $value->nama_pemohon;
-                        $impor->nama_pengirim = $value->nama_pengirim;
-                        $impor->alamat_pengirim = $value->alamat_pengirim;
-                        $impor->nama_penerima = $value->nama_penerima;
-                        $impor->alamat_penerima = $value->alamat_penerima;
-                        $impor->jumlah_kemasan = $value->jumlah_kemasan;
-                        $impor->kota_asal = $value->kota_asal;
-                        $impor->asal = $value->asal;
-                        $impor->kota_tujuan = $value->kota_tuju;
-                        $impor->tujuan = $value->tujuan;
-                        $impor->port_asal = $value->port_asal;
-                        $impor->port_tujuan = $value->port_tuju;
-                        $impor->moda_alat_angkut_terakhir = $value->moda_alat_angkut_terakhir;
-                        $impor->tipe_alat_angkut_terakhir = $value->tipe_alat_angkut_terakhir;
-                        $impor->nama_alat_angkut_terakhir = $value->nama_alat_angkut_terakhir;
-                        $impor->status_internal = $value->status_internal;
-                        $impor->lokasi_mp = $value->lokasi_mp;
-                        $impor->tempat_produksi = $value->tempat_produksi;
-                        $impor->nama_tempat_pelaksanaan = $value->nama_tempat_pelaksanaan;
-                        $impor->peruntukan = $value->peruntukan;
-                        $impor->golongan = $value->golongan;
-                        $impor->kode_hs = $value->kode_hs;
-                        $impor->nama_komoditas = $value->nama_komoditas;
-                        $impor->nama_komoditas_en = $value->nama_komoditas_en;
-                        $impor->volume_netto = $value->volume_netto;
-                        $impor->sat_netto = $value->sat_netto;
-                        $impor->volume_bruto = $value->volume_bruto;
-                        $impor->sat_bruto = $value->sat_bruto;
-                        $impor->volume_lain = $value->volume_lain;
-                        $impor->sat_lain = $value->sat_lain;
-                        $impor->volumeP1 = $value->volumep1;
-                        $impor->nettoP1 = $value->nettop1;
-                        $impor->volumeP8 = $value->volumep8;
-                        $impor->nettoP8 = $value->nettop8;
-                        $impor->dok_pelepasan = $value->dok_pelepasan;
-                        $impor->nomor_dok_pelepasan = $value->nomor_dok_pelepasan;
-                        $impor->tanggal_pelepasan = $value->tanggal_pelepasan;
-                        $impor->no_seri = $value->no_seri;
-                        $impor->dokumen_pendukung = $value->dokumen_pendukung;
-                        $impor->kontainer = $value->kontainer;
-                        $impor->biaya_perjalanan_dinas = $value->biaya_perjadin;
-                        $impor->total_pnbp = $value->total_pnbp;
+                        $dokel->wilker_id = $wilker_id;
+                        $dokel->user_id = $user_id;
+                        $dokel->no = $value->no;
+                        $dokel->bulan = $tanggal_laporan[0]; 
+                        $dokel->no_permohonan = $value->no_permohonan; 
+                        $dokel->no_aju = $value->no_aju; 
+                        $dokel->tanggal_permohonan = $value->tanggal_permohonan; 
+                        $dokel->jenis_permohonan = $value->jenis_permohonan; 
+                        $dokel->nama_pemohon = $value->nama_pemohon; 
+                        $dokel->nama_pengirim = $value->nama_pengirim; 
+                        $dokel->alamat_pengirim = $value->alamat_pengirim; 
+                        $dokel->nama_penerima = $value->nama_penerima; 
+                        $dokel->alamat_penerima = $value->alamat_penerima; 
+                        $dokel->jumlah_kemasan = $value->jumlah_kemasan; 
+                        $dokel->kota_asal = $value->kota_asal; 
+                        $dokel->asal = $value->asal; 
+                        $dokel->kota_tuju = $value->kota_tuju; 
+                        $dokel->tujuan = $value->tujuan; 
+                        $dokel->port_asal = $value->port_asal; 
+                        $dokel->port_tuju = $value->port_tuju; 
+                        $dokel->moda_alat_angkut_terakhir = $value->moda_alat_angkut_terakhir; 
+                        $dokel->tipe_alat_angkut_terakhir = $value->tipe_alat_angkut_terakhir; 
+                        $dokel->nama_alat_angkut_terakhir = $value->nama_alat_angkut_terakhir; 
+                        $dokel->status_internal = $value->status_internal; 
+                        $dokel->peruntukan = $value->peruntukan; 
+                        $dokel->jenis_mp = $value->jenis_mp; 
+                        $dokel->kelas_mp = $value->kelas_mp; 
+                        $dokel->kode_hs = $value->kode_hs; 
+                        $dokel->nama_mp = $value->nama_mp; 
+                        $dokel->nama_latin = $value->nama_latin; 
+                        $dokel->jumlah = $value->jumlah; 
+                        $dokel->satuan = $value->satuan; 
+                        $dokel->jantan = $value->jantan; 
+                        $dokel->betina = $value->betina; 
+                        $dokel->netto = $value->netto; 
+                        $dokel->sat_netto = $value->sat_netto; 
+                        $dokel->bruto = $value->bruto; 
+                        $dokel->sat_bruto = $value->sat_bruto; 
+                        $dokel->keterangan = $value->keterangan; 
+                        $dokel->breed = $value->breed; 
+                        $dokel->volumeP1 = $value->volumeP1; 
+                        $dokel->nettoP1 = $value->nettoP1; 
+                        $dokel->volumeP8 = $value->volumeP8; 
+                        $dokel->nettoP8 = $value->nettoP8; 
+                        $dokel->dok_pelepasan = $value->dok_pelepasan; 
+                        $dokel->nomor_dok_pelepasan = $value->nomor_dok_pelepasan; 
+                        $dokel->tanggal_pelepasan = $value->tanggal_pelepasan; 
+                        $dokel->no_seri = $value->no_seri; 
+                        $dokel->dokumen_pendukung = $value->dokumen_pendukung; 
+                        $dokel->kontainer = $value->kontainer; 
+                        $dokel->biaya_perjalanan_dinas = $value->biaya_perjalanan_dinas; 
+                        $dokel->total_pnbp = $value->total_pnbp; 
+
 
                         $cek = Operasional::where('no_permohonan', $value->no_permohonan)
                         ->where('no_aju', $value->no_aju)->first();
@@ -231,7 +242,7 @@ class ImporKt extends Controller
 
                         }else{
 
-                            $impor->save();
+                            $dokel->save();
 
                             $success = 2;
                         }
@@ -258,17 +269,6 @@ class ImporKt extends Controller
                         \Session::flash('warning','Gagal Import Data!');
 
                     }
-            else:
-
-                $impor = new Operasional;
-
-                $impor->wilker_id = $wilker_id;
-                $impor->user_id = $user_id;
-                $impor->bulan = $tanggal_laporan[0];
-
-                $impor->save();
-
-                \Session::flash('success','Data Berhasil Diimport!');
 
             endif;
 
@@ -281,7 +281,7 @@ class ImporKt extends Controller
 
         return redirect()->back();
 
-    }
+	}
 
     /**
      *Export data dengan format excel dari database
@@ -328,3 +328,4 @@ class ImporKt extends Controller
   
     }
 }
+

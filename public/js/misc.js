@@ -15,6 +15,14 @@
       drawer.open = !drawer.open;
     });
 
+
+    if ($(window).width() < 1000){
+
+      drawer.open = !drawer.open;
+      $(".body-wrapper .page-wrapper .content-wrapper").toggleClass("drawer-minimized")
+
+    }
+
     //Add active class to nav-link based on url dynamically
     //Active class can be hard coded directly in html file also as required
     var current = location.pathname;
@@ -45,3 +53,6 @@
     });
   });
 })(jQuery);
+
+
+

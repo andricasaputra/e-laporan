@@ -4,9 +4,9 @@ namespace App\Models\Operasional;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DokelKt extends Model
+class DokelKh extends Model
 {
-    protected $table = 'dokel_kt', 
+    protected $table = 'dokel_kh', 
     		  $guarded = ['id'],
  			  $hidden = ['id', 'user_id', 'wilker_id', 'role_id', 'no', 'created_at', 'updated_at'];
 

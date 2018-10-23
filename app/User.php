@@ -25,12 +25,12 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'created_at', 'updated_at'
     ];
 
     public function role()
     {
-        return $this->hasOne('App\Role');
+        return $this->belongsTo('App\Role');
     }
 
     public function wilker()
@@ -40,6 +40,6 @@ class User extends Authenticatable
 
     public function getUploadDokelKt()
     {
-        return $this->hasMany('App\Models\Operasional\DokelKt');
+        return $this->belongsToMany('App\Models\Operasional\DokelKt');
     }
 }

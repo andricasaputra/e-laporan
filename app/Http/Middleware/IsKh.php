@@ -17,9 +17,13 @@ class IsKh
     
     public function handle($request, Closure $next)
     {
-        if (Auth::user() && Auth::user()->bagian == 'kh') {
+        if (Auth::user()) {
 
-            return $next($request);
+            if (Auth::user()->bagian == '-' || Auth::user()->bagian == 'kh') {
+
+                return $next($request);
+
+            }   
                 
          }
 

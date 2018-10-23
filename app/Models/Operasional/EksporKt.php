@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class EksporKt extends Model
 {
     protected $table = 'ekspor_kt', 
-    		  $primaryKey = 'no_permohonan', 
     		  $guarded = ['id'],
-    		  $hidden = ['id', 'user_id', 'wilker_id', 'role_id', 'created_at', 'updated_at'];
+    		  $hidden = ['id', 'user_id', 'wilker_id', 'role_id', 'no', 'created_at', 'updated_at'];
+
 }
