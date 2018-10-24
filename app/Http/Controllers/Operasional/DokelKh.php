@@ -13,13 +13,8 @@ use App\Http\Resources\DokelKhResource as Resource;
 
 ini_set('max_execution_time', 200);
 
-class DokelKh extends Controller
+class DokelKh extends Controller implements OperasionalInterface
 {
-
-    public function api()
-    {
-        return Resource::collection(Operasional::all());
-    }
     /**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
      *
@@ -39,18 +34,51 @@ class DokelKh extends Controller
     }
 
     /**
+     *Digunakan untuk pengecekan wilker pada laporan excel 
+     *Apakah sesuai atau tidak dengan wilker user yang mengupload 
+     *
+     * @return string
+     */
+    public function checkUserWilker($path)
+    {
+        /*Get Format Laporan Untuk Domas*/
+        $user_wilker = Excel::selectSheetsByIndex(0)->load($path)->limit(1)->first();
+
+        /*Cek isi file kosong atau tidak*/
+        if($user_wilker == null){
+
+            return 'not our format';
+
+        }
+
+        foreach ($user_wilker as $key => $value) {
+
+            /*Get Wilker By Dokumen Yang Diupload*/
+            $x      = explode(":", $value);
+
+            $wilker = trim($x[2]);
+
+            if (strpos($wilker, '.') !== false) {
+
+                $wilker = str_replace('.', ' ', $wilker);
+            }   
+
+            $wilker = str_replace(' ', '', $wilker);
+            
+            return trim($wilker);
+        }
+
+    }
+
+    /**
      *Digunakan untuk pengecekan jenis karantina apakah sesuai 
      *
      * @return bool
      */
-    private function checkJenisKarantina($path)
+    public function checkJenisKarantina($path)
     {
         /*Get Format Laporan Untuk Dokel*/
-        $tipe_karantina = Excel::selectSheets('Sheet1')->load($path, function($reader) {
-
-            config(['excel.import.startRow' => 1]);
-
-        })->limit(1)->first();
+        $tipe_karantina = Excel::selectSheetsByIndex(0)->load($path)->limit(1)->first();
 
         /*Cek isi file kosong atau tidak*/
         if($tipe_karantina == null){
@@ -60,8 +88,16 @@ class DokelKh extends Controller
         }
 
         foreach ($tipe_karantina as $key => $value) {
+
+            /*Cek dari value Kosong atau tidak*/
+            if ($value == null || strpos($key, 'operasional_karantina_hewan') === false) {
+
+                return false;
+
+            }
+
             /*Cek Jika File Yang Diunggah File KH */
-            return strpos($key, 'operasional_karantina_hewan') ? true : false;
+            return strpos($key, 'operasional_karantina_hewan') !== false ? true : false;
         }
 
     }
@@ -71,10 +107,10 @@ class DokelKh extends Controller
      *
      * @return bool
      */
-    private function checkJenisPermohonan($path)
+    public function checkJenisPermohonan($path)
     {
         /*Get Format Laporan Untuk Dokel*/
-        $tipe_permohonan = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+        $tipe_permohonan = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
             config(['excel.import.startRow' => 2]);
 
@@ -111,6 +147,17 @@ class DokelKh extends Controller
 
         $user_id = $request->user_id;
 
+        $wilker_user = User::find($user_id)->wilker;
+
+        $wilker_user = $wilker_user->nama_wilker;
+
+        if (strpos($wilker_user, '.') !== false) {
+
+            $wilker_user = str_replace('.', ' ', $wilker_user);
+        }
+
+        $wilker_user = str_replace(' ', '', $wilker_user);
+
         $wilker_id = $request->wilker_id;
 
 	    if($request->hasFile('filenya')){
@@ -142,16 +189,26 @@ class DokelKh extends Controller
                 return redirect()->back();
 
             }
+
+            $wilker_laporan_clue = substr($this->checkUserWilker($path), -10, 8);
+
+            /*Cek Wilker Dari User Yang Mengupload*/
+            if(strpos($wilker_user, $wilker_laporan_clue) === false && Auth::user()->role_id != 1){
+
+                \Session::flash('warning','Laporan Yang Anda Unggah Tidak Sesuai Dengan Wilker Anda!');
+
+                return redirect()->back();
+            }
  
             /*Ambil Bulan Dan Tahun Pada Laporan Di Row 3*/
-            $headings = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+            $headings = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
                 config(['excel.import.startRow' => 3]);
 
             })->first();
 
             /*Data Asli Dimulai Dari Row Ke 7*/
-            $datas = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+            $datas = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
                 
                 config(['excel.import.startRow' => 7]);
 
@@ -270,6 +327,18 @@ class DokelKh extends Controller
 
                     }
 
+            else:
+
+                $dokel = new Operasional;
+
+                $dokel->wilker_id = $wilker_id;
+                $dokel->user_id = $user_id;
+                $dokel->bulan = $tanggal_laporan[0];
+
+                $dokel->save();
+
+                \Session::flash('success','Data Berhasil Diimport!');
+
             endif;
 
         /*Jika file ksoong tampilkan pesan error*/    
@@ -316,15 +385,15 @@ class DokelKh extends Controller
 
         endif;
 
+        \Session::flash('success','Data Berhasil Didownload!');
+
         return Excel::create('Datas', function($excel) use ($Datas) {
             $excel->sheet('Data Details', function($sheet) use ($Datas){
 
                 $sheet->fromArray($Datas);
                 
             });
-        })->download('xlsx');
-        
-        \Session::flash('success','Data Berhasil Didownload!');
+        })->download('xlsx');       
   
     }
 }

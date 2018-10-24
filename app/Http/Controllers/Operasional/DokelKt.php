@@ -10,7 +10,9 @@ use App\Models\Operasional\DokelKt as Operasional;
 
 use App\User;
 
-class DokelKt extends Controller
+ini_set('max_execution_time', 200);
+
+class DokelKt extends Controller implements OperasionalInterface
 {
     /**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
@@ -38,7 +40,7 @@ class DokelKt extends Controller
     private function checkJenisKarantina($path)
     {
         /*Get Format Laporan Untuk Dokel*/
-        $tipe_karantina = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+        $tipe_karantina = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
             config(['excel.import.startRow' => 1]);
 
@@ -66,7 +68,7 @@ class DokelKt extends Controller
     private function checkJenisPermohonan($path)
     {
         /*Get Format Laporan Untuk Dokel*/
-        $tipe_permohonan = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+        $tipe_permohonan = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
             config(['excel.import.startRow' => 2]);
 
@@ -136,14 +138,14 @@ class DokelKt extends Controller
             }
  
             /*Ambil Bulan Dan Tahun Pada Laporan Di Row 3*/
-            $headings = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+            $headings = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
                 config(['excel.import.startRow' => 3]);
 
             })->first();
 
             /*Data Asli Dimulai Dari Row Ke 7*/
-            $datas = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+            $datas = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
                 
                 config(['excel.import.startRow' => 7]);
 
@@ -258,6 +260,18 @@ class DokelKt extends Controller
                         \Session::flash('warning','Gagal Import Data!');
 
                     }
+
+            else:
+
+                $dokel = new Operasional;
+
+                $dokel->wilker_id = $wilker_id;
+                $dokel->user_id = $user_id;
+                $dokel->bulan = $tanggal_laporan[0];
+
+                $dokel->save();
+
+                \Session::flash('success','Data Berhasil Diimport!');
 
             endif;
 

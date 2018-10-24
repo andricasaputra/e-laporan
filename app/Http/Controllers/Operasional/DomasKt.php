@@ -10,6 +10,8 @@ use App\Models\Operasional\DomasKt as Operasional;
 
 use App\User;
 
+ini_set('max_execution_time', 200);
+
 class DomasKt extends Controller
 {
     /**
@@ -38,7 +40,7 @@ class DomasKt extends Controller
     private function checkJenisKarantina($path)
     {
         /*Get Format Laporan Untuk Domas*/
-        $tipe_karantina = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+        $tipe_karantina = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
             config(['excel.import.startRow' => 1]);
 
@@ -66,7 +68,7 @@ class DomasKt extends Controller
     private function checkJenisPermohonan($path)
     {
         /*Get Format Laporan Untuk Domas*/
-        $tipe_permohonan = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+        $tipe_permohonan = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
             config(['excel.import.startRow' => 2]);
 
@@ -136,14 +138,14 @@ class DomasKt extends Controller
             }
  
             /*Ambil Bulan Dan Tahun Pada Laporan Di Row 3*/
-            $headings = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+            $headings = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
                 config(['excel.import.startRow' => 3]);
 
             })->first();
 
             /*Data Asli Dimulai Dari Row Ke 7*/
-            $datas = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+            $datas = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
                 
                 config(['excel.import.startRow' => 7]);
 

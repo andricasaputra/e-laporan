@@ -6,26 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Operasional\DokelKh as Operasional;
+use App\Models\Operasional\DomasKh as Operasional;
 
 use App\User;
-use App\Http\Resources\DokelKhResource as Resource;
 
 ini_set('max_execution_time', 200);
 
-class DomasKh extends Controller
+class DomasKh extends Controller implements OperasionalInterface
 {
-
-    public function api()
-    {
-        return Resource::collection(Operasional::all());
-    }
     /**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
      *
      * @return to View
      */
-    public function sendToUploadDokel()
+    public function sendToUploadDomas()
     {
         $user_id    = Auth::user()->id;
 
@@ -33,9 +27,47 @@ class DomasKh extends Controller
 
         $wilker     = User::find($user_id)->wilker;
 
-        return view('operasional.kh.upload.dokel')
+        return view('operasional.kh.upload.domas')
         ->with('user', $user)
         ->with('wilker', $wilker);
+    }
+
+    /**
+     *Digunakan untuk pengecekan wilker pada laporan excel 
+     *Apakah sesuai atau tidak dengan wilker user yang mengupload 
+     *
+     * @return string
+     */
+    public function checkUserWilker($path)
+    {
+        /*Get Format Laporan Untuk Domas*/
+        $user_wilker = Excel::selectSheetsByIndex(0)->load($path)->limit(1)->first();
+
+
+        /*Cek isi file kosong atau tidak*/
+        if($user_wilker == null){
+
+            return 'not our format';
+
+        }
+
+        foreach ($user_wilker as $key => $value) {
+
+            /*Get Wilker By Dokumen Yang Diupload*/
+            $x      = explode(":", $value);
+
+            $wilker = trim($x[2]);
+
+            if (strpos($wilker, '.') !== false) {
+
+                $wilker = str_replace('.', ' ', $wilker);
+            }   
+
+            $wilker = str_replace(' ', '', $wilker);
+            
+            return trim($wilker);
+        }
+
     }
 
     /**
@@ -43,14 +75,10 @@ class DomasKh extends Controller
      *
      * @return bool
      */
-    private function checkJenisKarantina($path)
+    public function checkJenisKarantina($path)
     {
-        /*Get Format Laporan Untuk Dokel*/
-        $tipe_karantina = Excel::selectSheets('Sheet1')->load($path, function($reader) {
-
-            config(['excel.import.startRow' => 1]);
-
-        })->limit(1)->first();
+        /*Get Format Laporan Untuk Domas*/
+        $tipe_karantina = Excel::selectSheetsByIndex(0)->load($path)->limit(1)->first();
 
         /*Cek isi file kosong atau tidak*/
         if($tipe_karantina == null){
@@ -60,7 +88,15 @@ class DomasKh extends Controller
         }
 
         foreach ($tipe_karantina as $key => $value) {
-            /*Cek Jika File Yang Diunggah File KH */
+
+            /*Cek dari value Kosong atau tidak*/
+            if ($value == null || strpos($key, 'operasional_karantina_hewan') === false) {
+
+                return false;
+
+            }
+
+            /*Cek Jika File Yang Diunggah File kh */
             return strpos($key, 'operasional_karantina_hewan') ? true : false;
         }
 
@@ -71,10 +107,10 @@ class DomasKh extends Controller
      *
      * @return bool
      */
-    private function checkJenisPermohonan($path)
+    public function checkJenisPermohonan($path)
     {
-        /*Get Format Laporan Untuk Dokel*/
-        $tipe_permohonan = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+        /*Get Format Laporan Untuk Domas*/
+        $tipe_permohonan = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
             config(['excel.import.startRow' => 2]);
 
@@ -91,9 +127,9 @@ class DomasKh extends Controller
 
         }
 
-        /*Cek Jika File Yang Diunggah Domestik Keluar */
+        /*Cek Jika File Yang Diunggah Domestik Masuk */
 
-        return $tipe == 'domestik keluar' ?: false;
+        return $tipe == 'domestik masuk' ?: false;
     }
 
     /**
@@ -102,7 +138,7 @@ class DomasKh extends Controller
      * @return void
      */
     public function imports(Request $request) 
-	{
+    {
         $request->validate([
 
             'filenya' => 'mimes:xls,xlsx'
@@ -111,9 +147,20 @@ class DomasKh extends Controller
 
         $user_id = $request->user_id;
 
+        $wilker_user = User::find($user_id)->wilker;
+
+        $wilker_user = $wilker_user->nama_wilker;
+
+        if (strpos($wilker_user, '.') !== false) {
+
+            $wilker_user = str_replace('.', ' ', $wilker_user);
+        }
+
+        $wilker_user = str_replace(' ', '', $wilker_user);
+
         $wilker_id = $request->wilker_id;
 
-	    if($request->hasFile('filenya')){
+        if($request->hasFile('filenya')){
 
             $path = $request->file('filenya')->getRealPath();
 
@@ -125,6 +172,7 @@ class DomasKh extends Controller
                 return redirect()->back();
             }
 
+
             /*Cek Jenis Karantina*/
             if($this->checkJenisKarantina($path) === false){
 
@@ -134,24 +182,34 @@ class DomasKh extends Controller
 
             }
 
+            $wilker_laporan_clue = substr($this->checkUserWilker($path), -10, 8);
+
+            /*Cek Wilker Dari User Yang Mengupload - Jika Admin -> abaikan*/
+            if(strpos($wilker_user, $wilker_laporan_clue) === false && Auth::user()->role_id != 1){
+
+                \Session::flash('warning','Laporan Yang Anda Unggah Tidak Sesuai Dengan Wilker Anda!');
+
+                return redirect()->back();
+            }
+
             /*Cek Jenis Permohonan*/
             if ($this->checkJenisPermohonan($path) === false) {
 
-                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Domestik Keluar!');
+                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Domestik Masuk!');
 
                 return redirect()->back();
 
             }
  
             /*Ambil Bulan Dan Tahun Pada Laporan Di Row 3*/
-            $headings = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+            $headings = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
                 config(['excel.import.startRow' => 3]);
 
             })->first();
 
             /*Data Asli Dimulai Dari Row Ke 7*/
-            $datas = Excel::selectSheets('Sheet1')->load($path, function($reader) {
+            $datas = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
                 
                 config(['excel.import.startRow' => 7]);
 
@@ -173,61 +231,58 @@ class DomasKh extends Controller
 
                     foreach ($datas as $key => $value) :
 
-                        $dokel = new Operasional;
+                        $domas = new Operasional;
 
-                        $dokel->wilker_id = $wilker_id;
-                        $dokel->user_id = $user_id;
-                        $dokel->no = $value->no;
-                        $dokel->bulan = $tanggal_laporan[0]; 
-                        $dokel->no_permohonan = $value->no_permohonan; 
-                        $dokel->no_aju = $value->no_aju; 
-                        $dokel->tanggal_permohonan = $value->tanggal_permohonan; 
-                        $dokel->jenis_permohonan = $value->jenis_permohonan; 
-                        $dokel->nama_pemohon = $value->nama_pemohon; 
-                        $dokel->nama_pengirim = $value->nama_pengirim; 
-                        $dokel->alamat_pengirim = $value->alamat_pengirim; 
-                        $dokel->nama_penerima = $value->nama_penerima; 
-                        $dokel->alamat_penerima = $value->alamat_penerima; 
-                        $dokel->jumlah_kemasan = $value->jumlah_kemasan; 
-                        $dokel->kota_asal = $value->kota_asal; 
-                        $dokel->asal = $value->asal; 
-                        $dokel->kota_tuju = $value->kota_tuju; 
-                        $dokel->tujuan = $value->tujuan; 
-                        $dokel->port_asal = $value->port_asal; 
-                        $dokel->port_tuju = $value->port_tuju; 
-                        $dokel->moda_alat_angkut_terakhir = $value->moda_alat_angkut_terakhir; 
-                        $dokel->tipe_alat_angkut_terakhir = $value->tipe_alat_angkut_terakhir; 
-                        $dokel->nama_alat_angkut_terakhir = $value->nama_alat_angkut_terakhir; 
-                        $dokel->status_internal = $value->status_internal; 
-                        $dokel->peruntukan = $value->peruntukan; 
-                        $dokel->jenis_mp = $value->jenis_mp; 
-                        $dokel->kelas_mp = $value->kelas_mp; 
-                        $dokel->kode_hs = $value->kode_hs; 
-                        $dokel->nama_mp = $value->nama_mp; 
-                        $dokel->nama_latin = $value->nama_latin; 
-                        $dokel->jumlah = $value->jumlah; 
-                        $dokel->satuan = $value->satuan; 
-                        $dokel->jantan = $value->jantan; 
-                        $dokel->betina = $value->betina; 
-                        $dokel->netto = $value->netto; 
-                        $dokel->sat_netto = $value->sat_netto; 
-                        $dokel->bruto = $value->bruto; 
-                        $dokel->sat_bruto = $value->sat_bruto; 
-                        $dokel->keterangan = $value->keterangan; 
-                        $dokel->breed = $value->breed; 
-                        $dokel->volumeP1 = $value->volumeP1; 
-                        $dokel->nettoP1 = $value->nettoP1; 
-                        $dokel->volumeP8 = $value->volumeP8; 
-                        $dokel->nettoP8 = $value->nettoP8; 
-                        $dokel->dok_pelepasan = $value->dok_pelepasan; 
-                        $dokel->nomor_dok_pelepasan = $value->nomor_dok_pelepasan; 
-                        $dokel->tanggal_pelepasan = $value->tanggal_pelepasan; 
-                        $dokel->no_seri = $value->no_seri; 
-                        $dokel->dokumen_pendukung = $value->dokumen_pendukung; 
-                        $dokel->kontainer = $value->kontainer; 
-                        $dokel->biaya_perjalanan_dinas = $value->biaya_perjalanan_dinas; 
-                        $dokel->total_pnbp = $value->total_pnbp; 
-
+                        $domas->wilker_id = $wilker_id;
+                        $domas->user_id = $user_id;
+                        $domas->no = $value->no;
+                        $domas->bulan = $tanggal_laporan[0];
+                        $domas->no_permohonan = $value->no_permohonan;
+                        $domas->no_aju = $value->no_aju;
+                        $domas->tanggal_permohonan = $value->tanggal_permohonan;
+                        $domas->jenis_permohonan = $value->jenis_permohonan;
+                        $domas->nama_pemohon = $value->nama_pemohon;
+                        $domas->nama_pengirim = $value->nama_pengirim;
+                        $domas->alamat_pengirim = $value->alamat_pengirim;
+                        $domas->nama_penerima = $value->nama_penerima;
+                        $domas->alamat_penerima = $value->alamat_penerima;
+                        $domas->jumlah_kemasan = $value->jumlah_kemasan;
+                        $domas->kota_asal = $value->kota_asal;
+                        $domas->asal = $value->asal;
+                        $domas->kota_tujuan = $value->kota_tuju;
+                        $domas->tujuan = $value->tujuan;
+                        $domas->port_asal = $value->port_asal;
+                        $domas->port_tujuan = $value->port_tuju;
+                        $domas->moda_alat_angkut_terakhir = $value->moda_alat_angkut_terakhir;
+                        $domas->tipe_alat_angkut_terakhir = $value->tipe_alat_angkut_terakhir;
+                        $domas->nama_alat_angkut_terakhir = $value->nama_alat_angkut_terakhir;
+                        $domas->status_internal = $value->status_internal;
+                        $domas->lokasi_mp = $value->lokasi_mp;
+                        $domas->tempat_produksi = $value->tempat_produksi;
+                        $domas->nama_tempat_pelaksanaan = $value->nama_tempat_pelaksanaan;
+                        $domas->peruntukan = $value->peruntukan;
+                        $domas->golongan = $value->golongan;
+                        $domas->kode_hs = $value->kode_hs;
+                        $domas->nama_komoditas = $value->nama_komoditas;
+                        $domas->nama_komoditas_en = $value->nama_komoditas_en;
+                        $domas->volume_netto = $value->volume_netto;
+                        $domas->sat_netto = $value->sat_netto;
+                        $domas->volume_bruto = $value->volume_bruto;
+                        $domas->sat_bruto = $value->sat_bruto;
+                        $domas->volume_lain = $value->volume_lain;
+                        $domas->sat_lain = $value->sat_lain;
+                        $domas->volumeP1 = $value->volumep1;
+                        $domas->nettoP1 = $value->nettop1;
+                        $domas->volumeP8 = $value->volumep8;
+                        $domas->nettoP8 = $value->nettop8;
+                        $domas->dok_pelepasan = $value->dok_pelepasan;
+                        $domas->nomor_dok_pelepasan = $value->nomor_dok_pelepasan;
+                        $domas->tanggal_pelepasan = $value->tanggal_pelepasan;
+                        $domas->no_seri = $value->no_seri;
+                        $domas->dokumen_pendukung = $value->dokumen_pendukung;
+                        $domas->kontainer = $value->kontainer;
+                        $domas->biaya_perjalanan_dinas = $value->biaya_perjadin;
+                        $domas->total_pnbp = $value->total_pnbp;
 
                         $cek = Operasional::where('no_permohonan', $value->no_permohonan)
                         ->where('no_aju', $value->no_aju)->first();
@@ -242,7 +297,7 @@ class DomasKh extends Controller
 
                         }else{
 
-                            $dokel->save();
+                            $domas->save();
 
                             $success = 2;
                         }
@@ -269,6 +324,17 @@ class DomasKh extends Controller
                         \Session::flash('warning','Gagal Import Data!');
 
                     }
+            else:
+
+                $domas = new Operasional;
+
+                $domas->wilker_id = $wilker_id;
+                $domas->user_id = $user_id;
+                $domas->bulan = $tanggal_laporan[0];
+
+                $domas->save();
+
+                \Session::flash('success','Data Berhasil Diimport!');
 
             endif;
 
@@ -281,7 +347,7 @@ class DomasKh extends Controller
 
         return redirect()->back();
 
-	}
+    }
 
     /**
      *Export data dengan format excel dari database
@@ -316,15 +382,15 @@ class DomasKh extends Controller
 
         endif;
 
+        \Session::flash('success','Data Berhasil Didownload!');
+
         return Excel::create('Datas', function($excel) use ($Datas) {
             $excel->sheet('Data Details', function($sheet) use ($Datas){
 
                 $sheet->fromArray($Datas);
                 
             });
-        })->download('xlsx');
-        
-        \Session::flash('success','Data Berhasil Didownload!');
+        })->download('xlsx'); 
   
     }
 }

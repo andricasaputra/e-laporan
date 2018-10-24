@@ -17,6 +17,7 @@ Route::prefix('operasional')->group(function () {
 
 		Route::prefix('kt')->group(function () {
 
+			/*View Page*/
 			Route::get('upload/domas', 'DomasKt@sendToUploadDomas')
 			->name('kt.upload.page.domas');
 
@@ -29,6 +30,7 @@ Route::prefix('operasional')->group(function () {
 			Route::get('upload/impor', 'ImporKt@sendToUploadImpor')
 			->name('kt.upload.page.impor'); 
 
+			/*Proses Upload*/
 			Route::post('dokel/importdata', 'DokelKt@imports')
 			->name('kt.upload.proses.dokel');
 
@@ -91,20 +93,18 @@ Route::prefix('operasional')->group(function () {
 
 		Route::prefix('kh')->group(function () {
 
-			Route::get('upload/domas', function () {
-		    	return view('operasional.kh.upload.domas');
-			})->name('kh.upload.page.domas');
+			/*View Page*/
+			Route::get('upload/domas', 'DomasKh@sendToUploadDomas')
+			->name('kh.upload.page.domas');
 
 			Route::get('upload/dokel', 'DokelKh@sendToUploadDokel')
 			->name('kh.upload.page.dokel'); 
 
-			Route::get('upload/ekspor', function () {
-			    return view('operasional.kh.upload.ekspor');
-			})->name('kh.upload.page.ekspor'); 
+			Route::get('upload/ekspor', 'EksporKh@sendToUploadEkspor')
+			->name('kh.upload.page.ekspor');
 
-			Route::get('upload/impor', function () {
-			    return view('operasional.kh.upload.impor');
-			})->name('kh.upload.page.impor'); 
+			Route::get('upload/impor', 'ImporKh@sendToUploadImpor')
+			->name('kh.upload.page.impor');
 
 			Route::post('dokel/importdata', 'DokelKh@imports')
 			->name('kh.upload.proses.dokel');
