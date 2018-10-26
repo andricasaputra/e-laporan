@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers\Operasional;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Operasional\EksporKh as Operasional;
 
 use App\User;
+use App\Wilker;
+use DataTables;
 
 ini_set('max_execution_time', 200);
 
-class EksporKh extends Controller implements OperasionalInterface
+class EksporKh extends UploadOperasional
 {
+    public function sendToDataKh()
+    {
+        $titles = $this->tableTitleKh();
+        return view('operasional.kh.data.ekspor')->with('titles', $titles);
+    }
     /**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
      *
@@ -25,109 +31,18 @@ class EksporKh extends Controller implements OperasionalInterface
 
         $user       = User::where('id', $user_id)->first();
 
-        $wilker     = User::find($user_id)->wilker;
+        if (Auth::user()->role_id == 1) {
+
+            $wilker     = Wilker::where('nama_wilker', '!=', 'Kantor induk')->get();
+
+        }else{
+
+            $wilker     = User::find($user_id)->wilker->toArray();
+        }
 
         return view('operasional.kh.upload.ekspor')
         ->with('user', $user)
         ->with('wilker', $wilker);
-    }
-
-    /**
-     *Digunakan untuk pengecekan wilker pada laporan excel 
-     *Apakah sesuai atau tidak dengan wilker user yang mengupload 
-     *
-     * @return string
-     */
-    public function checkUserWilker($path)
-    {
-        /*Get Format Laporan Untuk Domas*/
-        $user_wilker = Excel::selectSheetsByIndex(0)->load($path)->limit(1)->first();
-
-        /*Cek isi file kosong atau tidak*/
-        if($user_wilker == null){
-
-            return 'not our format';
-
-        }
-
-        foreach ($user_wilker as $key => $value) {
-
-            /*Get Wilker By Dokumen Yang Diupload*/
-            $x      = explode(":", $value);
-
-            $wilker = trim($x[2]);
-
-            if (strpos($wilker, '.') !== false) {
-
-                $wilker = str_replace('.', ' ', $wilker);
-            }   
-
-            $wilker = str_replace(' ', '', $wilker);
-            
-            return trim($wilker);
-        }
-    }
-
-    /**
-     *Digunakan untuk pengecekan jenis karantina apakah sesuai 
-     *
-     * @return bool
-     */
-    public function checkJenisKarantina($path)
-    {
-        /*Get Format Laporan Untuk Ekspor*/
-        $tipe_karantina = Excel::selectSheetsByIndex(0)->load($path)->limit(1)->first();
-
-        /*Cek isi file kosong atau tidak*/
-        if($tipe_karantina == null){
-
-            return 'not our format';
-
-        }
-
-        foreach ($tipe_karantina as $key => $value) {
-
-            /*Cek dari value Kosong atau tidak*/
-            if ($value == null || strpos($key, 'operasional_karantina_hewan') === false) {
-
-                return false;
-
-            }
-
-           /*Cek Jika File Yang Diunggah File KH */
-           return strpos($key, 'operasional_karantina_hewan') !== false ? true : false;
-        }
-
-    }
-
-    /**
-     *Digunakan untuk pengecekan jenis permohonan apakah sesuai 
-     *
-     * @return bool
-     */
-    public function checkJenisPermohonan($path)
-    {
-        /*Get Format Laporan Untuk Ekspor*/
-        $tipe_permohonan = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
-
-            config(['excel.import.startRow' => 2]);
-
-        })->first();
-
-        /*set here*/
-        foreach ($tipe_permohonan as $tipe) {
-
-            $lowereing  = strtolower($tipe);
-
-            $getContent = explode(':', $lowereing);
-
-            $tipe       = trim($getContent[1]);
-
-        }
-
-        /*Cek Jika File Yang Diunggah Domestik Keluar */
-
-        return $tipe == 'ekspor' ?: false;
     }
 
     /**
@@ -139,6 +54,7 @@ class EksporKh extends Controller implements OperasionalInterface
 	{
         $request->validate([
 
+            'wilker_id' => 'required',
             'filenya' => 'mimes:xls,xlsx'
 
         ]);
@@ -162,37 +78,8 @@ class EksporKh extends Controller implements OperasionalInterface
 
             $path = $request->file('filenya')->getRealPath();
 
-            /*Cek Format Laporan*/
-            if ($this->checkJenisKarantina($path) === 'not our format') {
-
-                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Merupakan Format Laporan Bulanan Dari IQFAST!');
-
-                return redirect()->back();
-            }
-
-            /*Cek Jenis Karantina*/
-            if($this->checkJenisKarantina($path) === false){
-
-                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Untuk Karantina Hewan!');
-
-                return redirect()->back();
-
-            }
-
-            $wilker_laporan_clue = substr($this->checkUserWilker($path), -10, 8);
-
-            /*Cek Wilker Dari User Yang Mengupload*/
-            if(strpos($wilker_user, $wilker_laporan_clue) === false && Auth::user()->role_id != 1){
-
-                \Session::flash('warning','Laporan Yang Anda Unggah Tidak Sesuai Dengan Wilker Anda!');
-
-                return redirect()->back();
-            }
-
-            /*Cek Jenis Permohonan*/
-            if ($this->checkJenisPermohonan($path) === false) {
-
-                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Kegiatan Ekspor!');
+            /*Filter Data Sebelum Insert Database*/
+            if($this->checkingData($path, 'operasional_karantina_hewan', 'ekspor', $wilker_user) === false){
 
                 return redirect()->back();
 
@@ -203,7 +90,7 @@ class EksporKh extends Controller implements OperasionalInterface
 
                 config(['excel.import.startRow' => 3]);
 
-            })->first();
+            })->first()->toArray();
 
             /*Data Asli Dimulai Dari Row Ke 7*/
             $datas = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
@@ -283,9 +170,10 @@ class EksporKh extends Controller implements OperasionalInterface
                         $ekspor->biaya_perjalanan_dinas = $value->biaya_perjalanan_dinas; 
                         $ekspor->total_pnbp = $value->total_pnbp; 
 
-
-                        $cek = Operasional::where('no_permohonan', $value->no_permohonan)
-                        ->where('no_aju', $value->no_aju)->first();
+                        $cek = Operasional::where('nomor_dok_pelepasan', $value->nomor_dok_pelepasan)
+                        ->where('no_seri', $value->no_seri)
+                        ->where('tanggal_pelepasan', $value->tanggal_pelepasan)
+                        ->where('no_permohonan', $value->no_permohonan)->first();
 
                         /*Jika data yang sama atau file yang sama sudah pernah diupload maka data jangan dimasukkan ke dalam database*/ 
 
@@ -381,6 +269,13 @@ class EksporKh extends Controller implements OperasionalInterface
             });
         })->download('xlsx');
         
+    }
+
+    public function api()
+    {
+        $ekspor = Operasional::all();
+ 
+        return Datatables::of($ekspor)->addIndexColumn()->make(true);
     }
 }
 

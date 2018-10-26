@@ -54,7 +54,7 @@
               { "data": "name" },
               { "data": "username" },
               { "data": "bagian" },
-              { "data": "options" }
+              { "data": "action" }
             ]  
 
         });

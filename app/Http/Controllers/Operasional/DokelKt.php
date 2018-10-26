@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers\Operasional;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Operasional\DokelKt as Operasional;
 
 use App\User;
+use App\Wilker;
+use DataTables;
 
 ini_set('max_execution_time', 200);
 
-class DokelKt extends Controller implements OperasionalInterface
+class DokelKt extends UploadOperasional
 {
+    public function sendToDataKt()
+    {
+        $titles = $this->tableTitleKt();
+        return view('operasional.kt.data.dokel')->with('titles', $titles);
+    }
     /**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
      *
@@ -25,69 +31,18 @@ class DokelKt extends Controller implements OperasionalInterface
 
         $user       = User::where('id', $user_id)->first();
 
-        $wilker     = User::find($user_id)->wilker;
+        if (Auth::user()->role_id == 1) {
+
+            $wilker     = Wilker::where('nama_wilker', '!=', 'Kantor induk')->get();
+
+        }else{
+
+            $wilker     = User::find($user_id)->wilker->toArray();
+        }
 
         return view('operasional.kt.upload.dokel')
         ->with('user', $user)
         ->with('wilker', $wilker);
-    }
-
-    /**
-     *Digunakan untuk pengecekan jenis karantina apakah sesuai 
-     *
-     * @return bool
-     */
-    private function checkJenisKarantina($path)
-    {
-        /*Get Format Laporan Untuk Dokel*/
-        $tipe_karantina = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
-
-            config(['excel.import.startRow' => 1]);
-
-        })->limit(1)->first();
-
-        /*Cek isi file kosong atau tidak*/
-        if($tipe_karantina == null){
-
-            return 'not our format';
-
-        }
-
-        foreach ($tipe_karantina as $key => $value) {
-            /*Cek Jika File Yang Diunggah File KT */
-            return strpos($key, 'operasional_karantina_tumbuhan') ? true : false;
-        }
-
-    }
-
-    /**
-     *Digunakan untuk pengecekan jenis permohonan apakah sesuai 
-     *
-     * @return bool
-     */
-    private function checkJenisPermohonan($path)
-    {
-        /*Get Format Laporan Untuk Dokel*/
-        $tipe_permohonan = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
-
-            config(['excel.import.startRow' => 2]);
-
-        })->first();
-
-        /*set here*/
-        foreach ($tipe_permohonan as $tipe) {
-
-            $lowereing  = strtolower($tipe);
-
-            $getContent = explode(':', $lowereing);
-
-            $tipe       = trim($getContent[1]);
-
-        }
-
-        /*Cek Jika File Yang Diunggah Domestik Keluar */
-
-        return $tipe == 'domestik keluar' ?: false;
     }
 
     /**
@@ -99,11 +54,23 @@ class DokelKt extends Controller implements OperasionalInterface
 	{
         $request->validate([
 
+            'wilker_id' => 'required',
             'filenya' => 'mimes:xls,xlsx'
 
         ]);
 
         $user_id = $request->user_id;
+
+        $wilker_user = User::find($user_id)->wilker;
+
+        $wilker_user = $wilker_user->nama_wilker;
+
+        if (strpos($wilker_user, '.') !== false) {
+
+            $wilker_user = str_replace('.', ' ', $wilker_user);
+        }
+
+        $wilker_user = str_replace(' ', '', $wilker_user);
 
         $wilker_id = $request->wilker_id;
 
@@ -111,38 +78,19 @@ class DokelKt extends Controller implements OperasionalInterface
 
             $path = $request->file('filenya')->getRealPath();
 
-            /*Cek Format Laporan*/
-            if ($this->checkJenisKarantina($path) === 'not our format') {
-
-                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Merupakan Format Laporan Bulanan Dari IQFAST!');
-
-                return redirect()->back();
-            }
-
-            /*Cek Jenis Karantina*/
-            if($this->checkJenisKarantina($path) === false){
-
-                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Untuk Karantina Tumbuhan!');
+            /*Filter Data Sebelum Insert Database*/
+            if($this->checkingData($path, 'operasional_karantina_tumbuhan', 'domestik keluar', $wilker_user) === false){
 
                 return redirect()->back();
 
             }
 
-            /*Cek Jenis Permohonan*/
-            if ($this->checkJenisPermohonan($path) === false) {
-
-                \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Domestik Keluar!');
-
-                return redirect()->back();
-
-            }
- 
             /*Ambil Bulan Dan Tahun Pada Laporan Di Row 3*/
             $headings = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
 
                 config(['excel.import.startRow' => 3]);
 
-            })->first();
+            })->first()->toArray();
 
             /*Data Asli Dimulai Dari Row Ke 7*/
             $datas = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
@@ -220,8 +168,10 @@ class DokelKt extends Controller implements OperasionalInterface
                         $dokel->biaya_perjalanan_dinas = $value->biaya_perjadin;
                         $dokel->total_pnbp = $value->total_pnbp;
 
-                        $cek = Operasional::where('no_permohonan', $value->no_permohonan)
-                        ->where('no_aju', $value->no_aju)->first();
+                        $cek = Operasional::where('nomor_dok_pelepasan', $value->nomor_dok_pelepasan)
+                        ->where('no_seri', $value->no_seri)
+                        ->where('tanggal_pelepasan', $value->tanggal_pelepasan)
+                        ->where('no_permohonan', $value->no_permohonan)->first();
 
                         /*Jika data yang sama atau file yang sama sudah pernah diupload maka data jangan dimasukkan ke dalam database*/ 
 
@@ -329,6 +279,13 @@ class DokelKt extends Controller implements OperasionalInterface
         
         \Session::flash('success','Data Berhasil Didownload!');
   
+    }
+
+    public function api()
+    {
+        $dokel = Operasional::all();
+ 
+        return Datatables::of($dokel)->addIndexColumn()->make(true);
     }
 }
 

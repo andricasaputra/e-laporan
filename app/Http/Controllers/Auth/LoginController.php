@@ -37,7 +37,7 @@ class LoginController extends Controller
         } else {
 
             return redirect(route('welcome'));
-
+            
         }
 
         /*if($user->role_id == 1 && $user->bagian == '-') {

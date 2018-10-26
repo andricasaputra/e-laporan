@@ -4,20 +4,22 @@ Route::prefix('operasional')->group(function () {
 
 	Route::middleware('kt')->group(function () {
 
-		Route::get('/export', function () {
-	    	return view('export');
-		})->name('page.export');
-
-		Route::get('/import', function () {
-	    	return view('import');
-		})->name('page.import');
-
-		Route::get('exportdata', 'Export@export')
-		->name('export');
-
 		Route::prefix('kt')->group(function () {
 
 			/*View Page*/
+			Route::get('viewdata/dokel', 'DokelKt@sendToDataKt')
+			->name('kt.view.page.dokel');
+
+			Route::get('viewdata/domas', 'DomasKt@sendToDataKt')
+			->name('kt.view.page.domas');
+
+			Route::get('viewdata/ekspor', 'EksporKt@sendToDataKt')
+			->name('kt.view.page.ekspor');
+
+			Route::get('viewdata/impor', 'ImporKt@sendToDataKt')
+			->name('kt.view.page.impor');
+
+			/*KT Upload Routes*/
 			Route::get('upload/domas', 'DomasKt@sendToUploadDomas')
 			->name('kt.upload.page.domas');
 
@@ -80,20 +82,23 @@ Route::prefix('operasional')->group(function () {
 	/*KH Prefix*/
 	Route::middleware('kh')->group(function () {
 
-		Route::get('/export', function () {
-	    	return view('export');
-		})->name('page.export');
-
-		Route::get('/import', function () {
-	    	return view('import');
-		})->name('page.import');
-
-		Route::get('exportdata', 'Export@export')
-		->name('export');
-
 		Route::prefix('kh')->group(function () {
 
 			/*View Page*/
+
+			Route::get('viewdata/dokel', 'DokelKh@sendToDataKh')
+			->name('kh.view.page.dokel');
+
+			Route::get('viewdata/domas', 'DomasKh@sendToDataKh')
+			->name('kh.view.page.domas');
+
+			Route::get('viewdata/ekspor', 'EksporKh@sendToDataKh')
+			->name('kh.view.page.ekspor');
+
+			Route::get('viewdata/impor', 'ImporKh@sendToDataKh')
+			->name('kh.view.page.impor');
+
+			/*KH Upload Routes*/
 			Route::get('upload/domas', 'DomasKh@sendToUploadDomas')
 			->name('kh.upload.page.domas');
 

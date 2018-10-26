@@ -83,6 +83,7 @@
   <script src="{{asset('js/material.js')}}"></script>
   <script src="{{asset('js/dashboard.js')}}"></script>
   <script src="{{asset('js/datatables.min.js')}}"></script>
+  <script src="{{asset('js/datatables_operasional.js')}}"></script>
   
   @yield('custom_scripts')
 

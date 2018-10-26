@@ -24,7 +24,23 @@
                             <div class="form-group">
                               <label for="wilker_id">Nama Wilker</label>
                               <select name="wilker_id" class="form-control">
-                                <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
+                               
+                                @if(count($wilker) == 8)
+
+                                    <option disabled selected>Pilih Wilker</option>
+
+                                  @foreach($wilker as $w)
+
+                                    <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
+
+                                  @endforeach
+
+                                @else 
+
+                                    <option value="{{ $wilker['id'] }}">{{ $wilker['nama_wilker'] }}</option>
+
+                                @endif
+                                
                               </select>
                             </div>
 

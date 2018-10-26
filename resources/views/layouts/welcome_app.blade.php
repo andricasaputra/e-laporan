@@ -63,12 +63,6 @@
   <!-- body wrapper -->
   <!-- plugins:js -->
   <script src="{{asset('js/material-components-web.min.js')}}"></script>
-  <script src="{{asset('js/jquery.min.js')}}"></script>
-  <script src="{{asset('js/Chart.min.js')}}"></script>
-  <script src="{{asset('js/progressbar.min.js')}}"></script>
-  <script src="{{asset('js/misc.js')}}"></script>
-  <script src="{{asset('js/material.js')}}"></script>
-  <script src="{{asset('js/dashboard.js')}}"></script>
   <!-- End custom js for this page-->
 </body>
 
