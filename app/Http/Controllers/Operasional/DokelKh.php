@@ -15,10 +15,13 @@ ini_set('max_execution_time', 200);
 
 class DokelKh extends UploadOperasional
 {
-    public function sendToDataKh()
+    public function sendToDataKh($year = null)
     {
         $titles = $this->tableTitleKh();
-        return view('operasional.kh.data.dokel')->with('titles', $titles);
+
+        return view('operasional.kh.data.tables.dokel')
+        ->with('titles', $titles)
+        ->with('tahun', $year);
     }
     /**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
@@ -284,10 +287,10 @@ class DokelKh extends UploadOperasional
   
     }
 
-    public function api()
+    public function api($year)
     {
-        $dokel = Operasional::all();
- 
+        $dokel = Operasional::whereYear('bulan', $year);
+
         return Datatables::of($dokel)->addIndexColumn()->make(true);
     }
 }

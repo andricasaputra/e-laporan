@@ -15,10 +15,13 @@ ini_set('max_execution_time', 200);
 
 class ImporKh extends UploadOperasional
 {
-    public function sendToDataKh()
+    public function sendToDataKh($year = null)
     {
         $titles = $this->tableTitleKh();
-        return view('operasional.kh.data.impor')->with('titles', $titles);
+
+        return view('operasional.kh.data.tables.impor')
+        ->with('titles', $titles)
+        ->with('tahun', $year);
     }
     /**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
@@ -271,10 +274,10 @@ class ImporKh extends UploadOperasional
   
     }
 
-    public function api()
+    public function api($year)
     {
-        $impor = Operasional::all();
- 
+        $impor = Operasional::whereYear('bulan', $year);
+
         return Datatables::of($impor)->addIndexColumn()->make(true);
     }
 }

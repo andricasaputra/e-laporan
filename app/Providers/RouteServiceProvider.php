@@ -67,7 +67,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapOperasionalRoutes()
     {
-        Route::middleware('web')
+        Route::middleware('web', 'auth')
              ->namespace($this->namespace . '\\Operasional')
              ->group(base_path('routes/operasional.php'));
     }

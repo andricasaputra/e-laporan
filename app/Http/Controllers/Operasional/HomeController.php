@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -46,19 +47,19 @@ class HomeController extends Controller
 
             $this->useMiddleware('admin');
 
-            return view('operasional.home');
+            return redirect('operasional/admin/home/');
 
         elseif(Auth::user()->role_id != 1 && \Auth::user()->bagian == 'kt'):
            
             $this->useMiddleware('kt');
 
-            return view('operasional.kt.home');
+            return redirect('operasional/kt/home/');
 
         else:
 
             $this->useMiddleware('kh');
 
-            return view('operasional.kh.home');
+            return redirect('operasional/kh/home/');
 
         endif;   
     }

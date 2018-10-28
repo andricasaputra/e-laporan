@@ -5,11 +5,17 @@ namespace App\Http\Controllers\Operasional;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\Request;
 
 ini_set('max_execution_time', 200);
 
 class UploadOperasional extends Controller
 {
+    /*Menangkap URL Request Kemudian Di Redirect*/
+    protected function selectAnotherYear(Request $request)
+    {
+        return redirect($request->year);
+    }
     /**
      *Digunakan mencetak semua table kt head pada masing2 class turunan
      *dan kemuadian masing2 child class mengoper ke view yang diperlukan 

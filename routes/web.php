@@ -26,8 +26,11 @@ Route::middleware('admin')->group(function () {
 
 });
 
-Route::get('operasional/home', 'HomeController@operasional')->name('home');
+Route::namespace('Operasional')->group(function () {
 
+	Route::get('operasional', 'HomeController@operasional')->name('home');
+
+});
 
 
 

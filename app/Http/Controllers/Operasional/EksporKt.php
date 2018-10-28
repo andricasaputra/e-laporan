@@ -15,10 +15,13 @@ ini_set('max_execution_time', 200);
 
 class EksporKt extends UploadOperasional
 {
-    public function sendToDataKt()
+    public function sendToDataKt($year = null)
     {
         $titles = $this->tableTitleKt();
-        return view('operasional.kt.data.ekspor')->with('titles', $titles);
+
+        return view('operasional.kt.data.tables.ekspor')
+        ->with('titles', $titles)
+        ->with('tahun', $year);
     }
     /**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
@@ -280,10 +283,10 @@ class EksporKt extends UploadOperasional
   
     }
 
-    public function api()
+    public function api($year)
     {
-        $ekspor = Operasional::all();
- 
+        $ekspor = Operasional::whereYear('bulan', $year);
+
         return Datatables::of($ekspor)->addIndexColumn()->make(true);
     }
 }

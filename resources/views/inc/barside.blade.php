@@ -7,6 +7,13 @@
     <div class="mdc-list-group"> 
       <nav class="mdc-list mdc-drawer-menu">
 
+        <div class="mdc-list-item mdc-drawer-item">
+          <a class="mdc-drawer-link" href="{{ route('home') }}">
+            <i class="fa fa-home fa-custom"></i>
+            Home
+          </a>
+        </div>
+
         @if (Auth::user()->role_id == 1 && Auth::user()->bagian == '-')
 
           @include('inc.barside_kt')

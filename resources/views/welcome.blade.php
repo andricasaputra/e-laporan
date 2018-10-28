@@ -7,16 +7,6 @@
     color: #fff
   }
 
-  .btn-default{
-    background-color: #3E50B4;
-    color: #fff;
-  }
-
-  .btn-default:hover {
-    background-color: #2e3b85;
-    color: #fff;
-  }
-
   .card-body{
     -webkit-box-shadow: 10px 10px 4px -4px rgba(0,0,0,0.24);
     -moz-box-shadow: 10px 10px 4px -4px rgba(0,0,0,0.24);
@@ -40,7 +30,7 @@
         </div>
       </div>
     </div>
-
+    
     <div class="container-fluid">
       <div class="row mb-4">
         <div class="col-sm-6">

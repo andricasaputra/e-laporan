@@ -11,21 +11,21 @@ Route::get('users', 'UserController@api')->name('api.user');
 
 Route::namespace('Operasional')->group(function () {
 
-	Route::post('kt/dokel', 'DokelKt@api')->name('api.kt.dokel');
+	Route::post('kt/dokel/{year}', 'DokelKt@api')->name('api.kt.dokel');
 
-	Route::post('kt/domas', 'DomasKt@api')->name('api.kt.domas');
+	Route::post('kt/domas/{year}', 'DomasKt@api')->name('api.kt.domas');
 
-	Route::post('kt/ekspor', 'EksporKt@api')->name('api.kt.ekspor');
+	Route::post('kt/ekspor/{year}', 'EksporKt@api')->name('api.kt.ekspor');
 
-	Route::post('kt/impor', 'ImporKt@api')->name('api.kt.impor');
+	Route::post('kt/impor/{year}', 'ImporKt@api')->name('api.kt.impor');
 
-	Route::post('kh/dokel', 'DokelKh@api')->name('api.kh.dokel');
+	Route::post('kh/dokel/{year}', 'DokelKh@api')->name('api.kh.dokel');
 
-	Route::post('kh/domas', 'DomasKh@api')->name('api.kh.domas');
+	Route::post('kh/domas/{year}', 'DomasKh@api')->name('api.kh.domas');
 
-	Route::post('kh/ekspor', 'EksporKh@api')->name('api.kh.ekspor');
+	Route::post('kh/ekspor/{year}', 'EksporKh@api')->name('api.kh.ekspor');
 
-	Route::post('kh/impor', 'ImporKh@api')->name('api.kh.impor');
+	Route::post('kh/impor/{year}', 'ImporKh@api')->name('api.kh.impor');
 
 });
 

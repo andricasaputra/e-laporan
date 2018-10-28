@@ -15,10 +15,13 @@ ini_set('max_execution_time', 200);
 
 class DomasKh extends UploadOperasional
 {
-    public function sendToDataKh()
+    public function sendToDataKh($year = null)
     {
         $titles = $this->tableTitleKh();
-        return view('operasional.kh.data.domas')->with('titles', $titles);
+
+        return view('operasional.kh.data.tables.domas')
+        ->with('titles', $titles)
+        ->with('tahun', $year);
     }
     /**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
@@ -280,10 +283,10 @@ class DomasKh extends UploadOperasional
   
     }
 
-    public function api()
+    public function api($year)
     {
-        $domas = Operasional::all();
- 
+        $domas = Operasional::whereYear('bulan', $year);
+
         return Datatables::of($domas)->addIndexColumn()->make(true);
     }
 }

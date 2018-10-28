@@ -3,6 +3,7 @@
 namespace App\Models\Operasional;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\TanggalController as Tanggal;
 
 class DokelKt extends Model
 {
@@ -14,4 +15,9 @@ class DokelKt extends Model
  	{
  		return $this->belongsTo('App\User');
  	}*/
+
+ 	public function getBulanAttribute($value)
+    {
+        return Tanggal::bulanTahun($value);
+    }
 }

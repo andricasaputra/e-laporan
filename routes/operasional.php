@@ -2,21 +2,41 @@
 
 Route::prefix('operasional')->group(function () {
 
+	Route::prefix('admin')->group(function () {
+
+		Route::post('home', 'HomeAdmin@show')
+		->name('post.tahun.operasional');
+
+		Route::get('home/{year?}', 'HomeAdmin@showAnotherYear')
+		->name('showyear.operasional');
+
+	});
+
+	/*post for another year choice all routes on tables kh or kt*/
+	Route::post('viewdata', 'UploadOperasional@selectAnotherYear')
+	->name('view.select.year');
+
 	Route::middleware('kt')->group(function () {
 
 		Route::prefix('kt')->group(function () {
 
+			Route::post('home', 'HomeKt@show')
+			->name('post.tahun.operasional.kt');
+
+			Route::get('home/{year?}', 'HomeKt@showAnotherYear')
+			->name('showyear.operasional.kt');
+
 			/*View Page*/
-			Route::get('viewdata/dokel', 'DokelKt@sendToDataKt')
+			Route::get('viewdata/dokel/{year?}', 'DokelKt@sendToDataKt')
 			->name('kt.view.page.dokel');
 
-			Route::get('viewdata/domas', 'DomasKt@sendToDataKt')
+			Route::get('viewdata/domas/{year?}', 'DomasKt@sendToDataKt')
 			->name('kt.view.page.domas');
 
-			Route::get('viewdata/ekspor', 'EksporKt@sendToDataKt')
+			Route::get('viewdata/ekspor/{year?}', 'EksporKt@sendToDataKt')
 			->name('kt.view.page.ekspor');
 
-			Route::get('viewdata/impor', 'ImporKt@sendToDataKt')
+			Route::get('viewdata/impor/{year?}', 'ImporKt@sendToDataKt')
 			->name('kt.view.page.impor');
 
 			/*KT Upload Routes*/
@@ -46,7 +66,6 @@ Route::prefix('operasional')->group(function () {
 			->name('kt.upload.proses.impor');
 
 			/*Export Routes*/
-
 			Route::get('download/domas', function () {
 		    	return view('operasional.kt.download.domas');
 			})->name('kt.download.page.domas');
@@ -84,18 +103,23 @@ Route::prefix('operasional')->group(function () {
 
 		Route::prefix('kh')->group(function () {
 
-			/*View Page*/
+			Route::post('home', 'HomeKh@show')
+			->name('post.tahun.operasional.kh');
 
-			Route::get('viewdata/dokel', 'DokelKh@sendToDataKh')
+			Route::get('home/{year?}', 'HomeKh@showAnotherYear')
+			->name('showyear.operasional.kh');
+
+			/*View Page*/
+			Route::get('viewdata/dokel/{year?}', 'DokelKh@sendToDataKh')
 			->name('kh.view.page.dokel');
 
-			Route::get('viewdata/domas', 'DomasKh@sendToDataKh')
+			Route::get('viewdata/domas/{year?}', 'DomasKh@sendToDataKh')
 			->name('kh.view.page.domas');
 
-			Route::get('viewdata/ekspor', 'EksporKh@sendToDataKh')
+			Route::get('viewdata/ekspor/{year?}', 'EksporKh@sendToDataKh')
 			->name('kh.view.page.ekspor');
 
-			Route::get('viewdata/impor', 'ImporKh@sendToDataKh')
+			Route::get('viewdata/impor/{year?}', 'ImporKh@sendToDataKh')
 			->name('kh.view.page.impor');
 
 			/*KH Upload Routes*/
@@ -124,7 +148,6 @@ Route::prefix('operasional')->group(function () {
 			->name('kh.upload.proses.impor');
 
 			/*Export Routes*/
-
 			Route::get('download/domas', function () {
 		    	return view('operasional.kh.download.domas');
 			})->name('kh.download.page.domas');

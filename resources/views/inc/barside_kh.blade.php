@@ -7,22 +7,22 @@
   <div class="mdc-expansion-panel" id="ui-sub-menu-kh-show">
     <nav class="mdc-list mdc-drawer-submenu">
       <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link" href="{{ route('kh.view.page.ekspor') }}">
+        <a class="mdc-drawer-link" href="{{ route('kh.view.page.ekspor', date('Y')) }}">
           Ekspor
         </a>
       </div>
       <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link"href="{{ route('kh.view.page.impor') }}">
+        <a class="mdc-drawer-link"href="{{ route('kh.view.page.impor', date('Y')) }}">
           Impor
         </a>
       </div>
       <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link" href="{{ route('kh.view.page.domas') }}">
+        <a class="mdc-drawer-link" href="{{ route('kh.view.page.domas', date('Y')) }}">
           Domestik Masuk
         </a>
       </div>
       <div class="mdc-list-item mdc-drawer-item">
-        <a class="mdc-drawer-link" href="{{ route('kh.view.page.dokel') }}">
+        <a class="mdc-drawer-link" href="{{ route('kh.view.page.dokel', date('Y')) }}">
           Domestik Keluar
         </a>
       </div>
