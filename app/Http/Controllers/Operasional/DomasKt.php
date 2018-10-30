@@ -13,13 +13,13 @@ use DataTables;
 
 ini_set('max_execution_time', 200);
 
-class DomasKt extends UploadOperasional
+class DomasKt extends UploadOperasional implements OperasionalInterface
 {
-    public function sendToDataKt($year = null)
+    public function sendToData($year = null)
     {
         $titles = $this->tableTitleKt();
 
-        return view('operasional.kt.data.tables.domas')
+        return view('intern.operasional.kt.data.tables.domas')
         ->with('titles', $titles)
         ->with('tahun', $year);
     }
@@ -28,7 +28,7 @@ class DomasKt extends UploadOperasional
      *
      * @return to View
      */
-    public function sendToUploadDomas()
+    public function sendToUpload()
     {
         $user_id    = Auth::user()->id;
 
@@ -43,7 +43,7 @@ class DomasKt extends UploadOperasional
             $wilker     = User::find($user_id)->wilker->toArray();
         }
 
-        return view('operasional.kt.upload.domas')
+        return view('intern.operasional.kt.upload.domas')
         ->with('user', $user)
         ->with('wilker', $wilker);
     }

@@ -41,6 +41,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapOperasionalRoutes();
 
+        $this->mapIkmRoutes();
+
         //
     }
 
@@ -58,18 +60,26 @@ class RouteServiceProvider extends ServiceProvider
              ->group(base_path('routes/web.php'));
     }
 
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
+
     protected function mapOperasionalRoutes()
     {
         Route::middleware('web', 'auth')
+             ->prefix('intern')
              ->namespace($this->namespace . '\\Operasional')
-             ->group(base_path('routes/operasional.php'));
+             ->group(function(){
+                Route::prefix('operasional')->group(base_path('routes/operasional.php'));
+             });
+    }
+
+
+    protected function mapIkmRoutes()
+    {
+        Route::middleware('web')
+             ->prefix('intern')
+             ->namespace($this->namespace . '\\Ikm')
+             ->group(function(){
+                Route::prefix('ikm')->group(base_path('routes/ikm.php'));
+             });
     }
 
     /**

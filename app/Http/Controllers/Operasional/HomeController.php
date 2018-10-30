@@ -47,19 +47,19 @@ class HomeController extends Controller
 
             $this->useMiddleware('admin');
 
-            return redirect('operasional/admin/home/');
+            return redirect('intern/operasional/admin/home/');
 
         elseif(Auth::user()->role_id != 1 && \Auth::user()->bagian == 'kt'):
            
             $this->useMiddleware('kt');
 
-            return redirect('operasional/kt/home/');
+            return redirect('intern/operasional/kt/home/');
 
         else:
 
             $this->useMiddleware('kh');
 
-            return redirect('operasional/kh/home/');
+            return redirect('intern/operasional/kh/home/');
 
         endif;   
     }

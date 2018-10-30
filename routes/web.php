@@ -1,13 +1,17 @@
 <?php
 
 Route::get('/', function () {
+    return 'ini buat website';
+});
+
+Route::get('/login', function () {
     return redirect(route('login'));
 });
 
 Auth::routes();
 
-Route::middleware('auth')->get('/welcome', function() {
-	return view('welcome');
+Route::middleware('auth')->get('intern/welcome', function() {
+	return view('intern.welcome');
 })->name('welcome');
 
 Route::middleware('admin')->group(function () {
@@ -20,15 +24,15 @@ Route::middleware('admin')->group(function () {
 
 	Route::post('operasional/allusers', 'UserController@allUsers' )->name('users.all');
 
-	Route::get('/welcome_admin', function() {
-		return view('welcome_admin');
+	Route::get('intern/welcome_admin', function() {
+		return view('intern.welcome_admin');
 	})->name('welcome.admin');
 
 });
 
 Route::namespace('Operasional')->group(function () {
 
-	Route::get('operasional', 'HomeController@operasional')->name('home');
+	Route::get('operasional', 'HomeController@operasional')->name('intern.operasional.home');
 
 });
 

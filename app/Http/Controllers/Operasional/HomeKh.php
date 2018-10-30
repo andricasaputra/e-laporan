@@ -23,14 +23,14 @@ class HomeKh extends Controller
 			return redirect(route('showyear.operasional.kh', $request->year));
 		}
 
-    	return view('operasional.kh.home')
+    	return view('intern.operasional.kh.home')
     	->with('datas', $this->dataOperasional($year));
     }
 
 
     public function showAnotherYear($year = null)
     {
-    	return view('operasional.kh.home')
+    	return view('intern.operasional.kh.home')
     	->with('datas', $this->dataOperasional($year));
     }
 

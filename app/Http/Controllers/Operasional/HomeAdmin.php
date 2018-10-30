@@ -27,14 +27,14 @@ class HomeAdmin extends Controller
 			return redirect(route('showyear.operasional', $request->year));
 		}
 
-    	return view('operasional.home')
+    	return view('intern.operasional.home')
     	->with('datas', $this->dataOperasional($year));
     }
 
 
     public function showAnotherYear($year = null)
     {
-    	return view('operasional.home')
+    	return view('intern.operasional.home')
     	->with('datas', $this->dataOperasional($year));
     }
 

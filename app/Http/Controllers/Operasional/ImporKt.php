@@ -13,13 +13,13 @@ use DataTables;
 
 ini_set('max_execution_time', 200);
 
-class ImporKt extends UploadOperasional
+class ImporKt extends UploadOperasional implements OperasionalInterface
 {
-    public function sendToDataKt($year = null)
+    public function sendToData($year = null)
     {
         $titles = $this->tableTitleKt();
 
-        return view('operasional.kt.data.tables.impor')
+        return view('intern.operasional.kt.data.tables.impor')
         ->with('titles', $titles)
         ->with('tahun', $year);
     }
@@ -28,7 +28,7 @@ class ImporKt extends UploadOperasional
      *
      * @return to View
      */
-    public function sendToUploadImpor()
+    public function sendToUpload()
     {
         $user_id    = Auth::user()->id;
 
@@ -43,7 +43,7 @@ class ImporKt extends UploadOperasional
             $wilker     = User::find($user_id)->wilker->toArray();
         }
 
-        return view('operasional.kt.upload.impor')
+        return view('intern.operasional.kt.upload.impor')
         ->with('user', $user)
         ->with('wilker', $wilker);
     }

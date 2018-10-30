@@ -13,13 +13,13 @@ use DataTables;
 
 ini_set('max_execution_time', 200);
 
-class DokelKt extends UploadOperasional
+class DokelKt extends UploadOperasional implements OperasionalInterface
 {
-    public function sendToDataKt($year = null)
+    public function sendToData($year = null)
     {
         $titles = $this->tableTitleKt();
 
-        return view('operasional.kt.data.tables.dokel')
+        return view('intern.operasional.kt.data.tables.dokel')
         ->with('titles', $titles)
         ->with('tahun', $year);
     }
@@ -29,7 +29,7 @@ class DokelKt extends UploadOperasional
      *
      * @return to View
      */
-    public function sendToUploadDokel()
+    public function sendToUpload()
     {
         $user_id    = Auth::user()->id;
 
@@ -44,7 +44,7 @@ class DokelKt extends UploadOperasional
             $wilker     = User::find($user_id)->wilker->toArray();
         }
 
-        return view('operasional.kt.upload.dokel')
+        return view('intern.operasional.kt.upload.dokel')
         ->with('user', $user)
         ->with('wilker', $wilker);
     }
