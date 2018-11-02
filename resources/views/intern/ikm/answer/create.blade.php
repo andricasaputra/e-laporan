@@ -1,6 +1,6 @@
 @extends('intern.layouts.admin')
 
-@section('title', 'Tambah IKM')
+@section('title', 'Tambah Data Jawaban IKM')
 
 @section('barside.title', 'IKM Sumbawa')
 
@@ -32,8 +32,8 @@
 	  		@csrf
 
 	  		<div class="form-group">
-	  			<label for="judul">Jawaban</label>
-	  			<input type="text" name="jawaban" class="form-control" value="{{ old('jawaban') }}">
+	  			<label for="answer">Jawaban</label>
+	  			<input type="text" name="answer" class="form-control" value="{{ old('jawaban') }}">
 	  		</div>
 	  		<div class="pull-right">
 	  			<input type="submit" name="submit" value="Simpan" class="btn btn-warning">

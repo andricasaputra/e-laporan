@@ -7,4 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     protected $table = 'ikm_answer';
+    protected $fillable = ['question_id', 'answer'];
+
+    public function question()
+    {
+    	$this->belongsToMany(Question::class);
+    }
 }

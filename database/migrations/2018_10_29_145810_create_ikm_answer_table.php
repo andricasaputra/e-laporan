@@ -15,9 +15,7 @@ class CreateIkmAnswerTable extends Migration
     {
         Schema::create('ikm_answer', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('question_id')->unsigned()->nullable();
-            $table->string('answer');
-            $table->foreign('question_id')->references('id')->on('ikm_question')->onDelete('cascade');
+            $table->string('answer')->unique();
             $table->timestamps();
         });
     }

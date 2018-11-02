@@ -1,6 +1,6 @@
 @extends('intern.layouts.admin')
 
-@section('title', 'Edit Jawaban IKM')
+@section('title', 'Ubah Jawaban IKM')
 
 @section('barside.title', 'IKM Sumbawa')
 

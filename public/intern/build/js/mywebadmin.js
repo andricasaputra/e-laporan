@@ -2,9 +2,7 @@ $(document).ready(function(){
 
 	/*$('textarea').ckeditor();*/
 
-    $('.datatable').DataTable({
-        "scrollCollapse": false
-    });
+    $('.datatable').DataTable();
 
     /*tableAdminHeadline();
 

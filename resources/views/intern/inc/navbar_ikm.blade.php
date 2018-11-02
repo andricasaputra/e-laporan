@@ -10,12 +10,16 @@
         <ul class="nav side-menu">
           <li><a href="{{ route('intern.ikm.index') }}"><i class="fa fa-home"></i> Hasil Survey </a>
           </li>
-          <li><a href="#"><i class="fa fa-home"></i> Analitycs </a>
+          <li><a href="#"><i class="fa fa-line-chart"></i> Analitycs </a>
           </li>
-          <li><a><i class="fa fa-money"></i> Menu <span class="fa fa-chevron-down"></span></a>
+          <li><a><i class="fa fa-gear"></i> Setting Aplikasi <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li><a href="{{ route('intern.ikm.index') }}">Setting Pertanyaan</a></li>
+              <li><a href="{{ route('intern.ikm.layanan.index') }}">Setting Layanan</a></li>
+              <li><a href="{{ route('intern.ikm.question.index') }}">Setting Pertanyaan</a></li>
               <li><a href="{{ route('intern.ikm.answer.index') }}">Setting Jawaban</a></li>
+              <li><a href="{{ route('intern.ikm.pendidikan.index') }}">Setting Pendidikan</a></li>
+              <li><a href="{{ route('intern.ikm.pekerjaan.index') }}">Setting Pekerjaan</a></li>
+              <li><a href="{{ route('intern.ikm.umur.index') }}">Setting Umur</a></li>
             </ul>
           </li>
         </ul>

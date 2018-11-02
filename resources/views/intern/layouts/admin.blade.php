@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Admin | @yield('title', 'Panel Web Sumbawa')</title>
+    <title>@yield('title', 'Panel Web Sumbawa')</title>
 
     <link rel="icon" type="image/png" href="{{asset('images/favicon-32x32.png')}}" sizes="32x32">
 

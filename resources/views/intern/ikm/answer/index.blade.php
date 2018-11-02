@@ -1,6 +1,6 @@
 @extends('intern.layouts.admin')
 
-@section('title', 'Home')
+@section('title', 'E-IKM | Setting Jawaban')
 
 @section('barside.title', 'IKM Sumbawa')
 
@@ -8,7 +8,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="page-title">
 	  <div class="title_left">
-	    <h3>Tambah Jawaban IKM</h3>
+	    <h3>Jawaban IKM</h3>
 	  </div>
 	</div>
 </div>
@@ -26,7 +26,7 @@
 	    <div class="clearfix"></div>
 	  </div>
 	  <div class="x_content">
-	    <table id="adminHeadlineTable" class="table table-striped table-bordered text-center" width="100%">
+	    <table class="table table-striped table-bordered text-center datatable" width="100%">
 	      <thead>
 	        <tr>
 	          <th>No</th>

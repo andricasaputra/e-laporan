@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Ikm;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Models\Ikm\Question as Pertanyaan;
+use App\Models\Ikm\Answer as Jawaban;
+
 class Questions extends Controller
 {
     /**
@@ -14,7 +17,10 @@ class Questions extends Controller
      */
     public function index()
     {
-        //
+        $question = Pertanyaan::all();
+
+        return view('intern.ikm.question.index')
+        ->with('questions', $question);
     }
 
     /**
@@ -24,7 +30,8 @@ class Questions extends Controller
      */
     public function create()
     {
-        //
+        $answers = Jawaban::all();
+        return view('intern.ikm.question.create')->with('answers', $answers);
     }
 
     /**
@@ -35,18 +42,42 @@ class Questions extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+
+            'pertanyaan' => 'required|min:10',
+            'jawaban_1' => 'required',
+            'jawaban_2' => 'required',
+            'jawaban_3' => 'required',
+            'jawaban_4' => 'required',
+
+        ]);
+
+        $question = Pertanyaan::create([
+
+            'question' => $request->pertanyaan
+
+        ]);
+
+        /*$answer = Pertanyaan::find($question->id);*/
+
+        $question->answer()->attach([
+            $request->jawaban_1,
+            $request->jawaban_2,
+            $request->jawaban_3,
+            $request->jawaban_4
+        ]);
+
+        return redirect(route('intern.ikm.question.index'))
+        ->with('success', 'Berhasil Tambah pertanyaan!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $question = Pertanyaan::find($id);
+
+        return view('intern.ikm.question.show')
+        ->with('question', $question)
+        ->with('answers', $question->answer);
     }
 
     /**
@@ -57,7 +88,12 @@ class Questions extends Controller
      */
     public function edit($id)
     {
-        //
+        $question = Pertanyaan::find($id);
+        $answers = Jawaban::all();
+
+        return view('intern.ikm.question.edit')
+        ->with('question', $question)
+        ->with('answers', $answers);
     }
 
     /**
@@ -69,7 +105,21 @@ class Questions extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $question = Pertanyaan::find($id);
+
+        $question->question = $request->pertanyaan;
+
+        $question->save();
+
+        $question->answer()->sync([
+            $request->jawaban_1,
+            $request->jawaban_2,
+            $request->jawaban_3,
+            $request->jawaban_4
+        ]);
+
+        return redirect(route('intern.ikm.question.index'))
+        ->with('success', 'Berhasil Tambah pertanyaan!');
     }
 
     /**
@@ -80,6 +130,13 @@ class Questions extends Controller
      */
     public function destroy($id)
     {
-        //
+        $question = Pertanyaan::find($id);
+
+        $question->answer()->detach();
+
+        $question->delete();
+
+        return redirect(route('intern.ikm.question.index'))
+        ->with('success', 'Data Berhasil Dihapus!');
     }
 }

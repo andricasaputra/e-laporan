@@ -36,6 +36,16 @@ Route::namespace('Operasional')->group(function () {
 
 });
 
+Route::namespace('Ikm')->group(function () {
+
+	Route::get('ikm', function(){
+		return view('ikm.home');
+	})->name('ikm.home');
+
+	Route::get('ikm/survey', 'SurveyPage@index')->name('ikm.survey');
+
+});
+
 
 
 

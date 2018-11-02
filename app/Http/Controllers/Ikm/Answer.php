@@ -40,13 +40,13 @@ class Answer extends Controller
     {
         $request->validate([
 
-            'jawaban' => 'required|min:4|max:20'
+            'answer' => 'required|unique:ikm_answer|min:4|max:30'
 
         ]);
 
         $answer = new Jawaban;
 
-        $answer->answer = $request->jawaban;
+        $answer->answer = $request->answer;
 
         $answer->save();
 
@@ -89,7 +89,7 @@ class Answer extends Controller
         $answer->save();
 
         return redirect(route('intern.ikm.answer.index'))
-        ->with('success', 'Berhasil Tambah Jawaban!');
+        ->with('success', 'Berhasil Ubah Jawaban!');
     }
 
     /**
