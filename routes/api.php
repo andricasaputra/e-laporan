@@ -6,7 +6,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::get('users', 'UserController@api')->name('api.user');
 
 Route::namespace('Operasional')->group(function () {
@@ -26,6 +25,13 @@ Route::namespace('Operasional')->group(function () {
 	Route::post('kh/ekspor/{year}', 'EksporKh@api')->name('api.kh.ekspor');
 
 	Route::post('kh/impor/{year}', 'ImporKh@api')->name('api.kh.impor');
+
+});
+
+Route::namespace('Ikm')->group(function () {
+
+	Route::get('ikm', 'HomeAdminIkm@api')->name('api.ikm');
+	Route::get('ikm/show/{id}', 'HomeAdminIkm@detailApi')->name('api.show');
 
 });
 

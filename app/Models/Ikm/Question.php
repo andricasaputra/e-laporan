@@ -11,6 +11,6 @@ class Question extends Model
 
     public function answer()
     {
-    	return $this->belongsToMany(Answer::class);
+    	return $this->belongsToMany(Answer::class, 'ikm_answer_question');
     }
 }

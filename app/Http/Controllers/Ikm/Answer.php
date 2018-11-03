@@ -40,7 +40,8 @@ class Answer extends Controller
     {
         $request->validate([
 
-            'answer' => 'required|unique:ikm_answer|min:4|max:30'
+            'answer' => 'required|unique:ikm_answer|min:4|max:30',
+            'nilai' => 'required'
 
         ]);
 
@@ -78,7 +79,8 @@ class Answer extends Controller
     {
         $request->validate([
 
-            'jawaban' => 'required|min:4|max:20'
+            'jawaban' => 'required|min:4|max:20',
+            'nilai' => 'required'
 
         ]);
 

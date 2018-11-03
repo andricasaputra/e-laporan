@@ -33,7 +33,16 @@
 
 	  		<div class="form-group">
 	  			<label for="answer">Jawaban</label>
-	  			<input type="text" name="answer" class="form-control" value="{{ old('jawaban') }}">
+	  			<input type="text" name="answer" class="form-control" value="{{ old('answer') }}">
+	  		</div>
+	  		<div class="form-group">
+	  			<label for="nilai">Nilai</label>
+	  			<select name="nilai" class="form-control">
+	  				<option value="1">1</option>
+	  				<option value="2">2</option>
+	  				<option value="3">3</option>
+	  				<option value="4">4</option>
+	  			</select>
 	  		</div>
 	  		<div class="pull-right">
 	  			<input type="submit" name="submit" value="Simpan" class="btn btn-warning">

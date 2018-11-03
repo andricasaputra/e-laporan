@@ -1,4 +1,11 @@
 jQuery(document).ready(function( $ ) {
+  
+  // Dinamyc navbar
+  let url = window.location;
+  $(`.nav-menu li a[href="${url}"]`).parent().addClass('menu-active');
+  $(`.nav-menu li a`).filter(function() {
+       return this.href == url;
+  }).parent().addClass('menu-active');
 
   // Back to top button
   $(window).scroll(function() {

@@ -30,5 +30,9 @@ Route::prefix('admin')->group(function () {
     	'names' => 'intern.ikm.layanan'     
 	])->except(['show']);
 
+	Route::resource('settingikm', 'SettingIkm', [
+    	'names' => 'intern.ikm.settingikm'     
+	])->except(['show']);
+
 });
 

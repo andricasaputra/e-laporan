@@ -23,6 +23,23 @@
   </section><!-- #intro -->
 
   <main>
+    <section id="call-to-action" class="wow fadeInUp">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-9 text-center text-lg-left">
+            <h3 class="cta-title">Arti Penting Survey Ini</h3>
+            <p class="cta-text">
+              <span class="intro">"K</span>ami mengharapkan hubungan dan komunikasi dalam pemberian pelayanan kami untuk
+              terus dapat ditingkatkan. Komentar, saran dan masukan mitra usaha sangat berharga bagi kami, karena sudah menjadi harapan dan tujuan kami dalam pemberian pelayanan prima sejalan dengan tingkat kualitas sarana dan prasarana yang kami miliki. Oleh karena itu kami sangat menghargai bila mitra usaha dapat meluangkan waktu beberapa menit untuk mengisi kuisioner ini, sebagai bahan evalusi dan prioritas kami dalam meningkatkan kualitas pelayanan kami. Terima kasih atas kesediaan mitra usaha dalam menjalin kerjasama dengan kami.<span class="intro">"</span>
+            </p>
+          </div>
+          <div class="col-lg-3 cta-btn-container text-center">
+            <a class="cta-btn align-middle" href="{{ route('ikm.survey') }}">Mulai Survey</a>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- #call-to-action -->
   <!--==========================
       Contact Section
     ============================-->
@@ -30,7 +47,11 @@
       <div class="container">
         <div class="section-header">
           <h2>Kontak kami</h2>
-          <p>Sed tamen tempor magna labore dolore dolor sint tempor duis magna elit veniam aliqua esse amet veniam enim export quid quid veniam aliqua eram noster malis nulla duis fugiat culpa esse aute nulla ipsum velit export irure minim illum fore</p>
+          <p>
+            Jika anda memiliki keluhan, saran atau masukan atas pelayanan yang kami berikan,
+            silahkan hubungi kami melalui call center dibawah ini. Kami informasikan bahwa petugas kami
+            <b>tidak</b> menerima <b>suap</b> dan <b>gratifikasi</b> dalam bentuk apapun!
+          </p>
         </div>
 
         <div class="row contact-info">
@@ -39,7 +60,7 @@
             <div class="contact-address">
               <i class="ion-ios-location-outline"></i>
               <h3>Alamat</h3>
-              <address>Jln. Pelabuhan Badas No. 01 Sumbawa Besar</address>
+              <address>Jln. Pelabuhan Badas No. 01 Sumbawa Besar - NTB</address>
             </div>
           </div>
 

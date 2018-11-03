@@ -14,16 +14,22 @@
     Intro Section
   ============================-->
   <section id="about" class="wow fadeInUp">
-
   <!-- Set up your HTML -->
 	<div class="container mb-5">
-		<form action="" method="post" role="form" class="contactForm">
+    <div id="result" class="text-center"></div>
+    <div class="col-12 text-center" style="margin-bottom: 3%">
+      <h5 class="judul">{{ $is_open->keterangan }}</h5>
+      <p class="judul">{{ $is_open->start_date }} s/d {{ $is_open->end_date }}</p>
+      <hr>
+    </div>
+		<form id="form_ikm">
+      @csrf
 			<div class="form">
 				<p class="mb-3">A. Data responden</p>
         <hr>
             <div class="form-group">
-              <select class="form-control" name="jenis_layanan" required>
-                <option disabled selected>- Jenis Layanan -</option>
+              <select class="form-control" name="jenis_layanan" required="required">
+                <option disabled selected value="">- Jenis Layanan -</option>
                 @foreach($layanan as $l)
 
                   <option value="{{ $l->id }}">{{ $l->jenis_layanan }}</option>
@@ -33,15 +39,15 @@
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <select class="form-control" name="jenis_kelamin" required>
-                  <option disabled selected>- Jenis Kelamin -</option>
+                <select class="form-control" name="jenis_kelamin" required="required">
+                  <option disabled selected value="">- Jenis Kelamin -</option>
                   <option value="1">Laki-laki</option>
                   <option value="2">Perempuan</option>
                 </select>
               </div>
               <div class="form-group col-md-6">
-                <select class="form-control" name="umur" required>
-                  <option disabled selected>- Umur -</option>
+                <select class="form-control" name="umur" required="required">
+                  <option disabled selected value="">- Umur -</option>
                   @foreach($umur as $u)
 
                     <option value="{{ $u->id }}">{{ $u->umur }}</option>
@@ -52,8 +58,8 @@
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <select class="form-control" name="pendidikan" required>
-                  <option disabled selected>- Pendidikan Terakhir -</option>
+                <select class="form-control" name="pendidikan" required="required">
+                  <option disabled selected value="">- Pendidikan Terakhir -</option>
                   @foreach($pendidikan as $p)
 
                     <option value="{{ $p->id }}">{{ $p->pendidikan }}</option>
@@ -63,7 +69,7 @@
               </div>
               <div class="form-group col-md-6">
                 <select class="form-control" name="pekerjaan" required>
-	                <option disabled selected>- Pekerjaan -</option>
+	                <option disabled selected value="">- Pekerjaan -</option>
                     @foreach($pekerjaan as $p)
 
                       <option value="{{ $p->id }}">{{ $p->pekerjaan }}</option>
@@ -73,9 +79,11 @@
               </div>
             </div>
        		</div>
-       	<p class="mb-3">B. Pendapat Responden Tentang Pelayanan</p>
+          
+       	<p class="mt-3 mb-3">B. Pendapat responden tentang pelayanan</p>
         <hr>
        	<div class="col-12">
+          <input type="hidden" name="ikm_id" value="{{ $is_open->id }}">
 	         <ol>
 				  		@foreach($questions as $question)
 				  		<div class="form-group mt-3 mb-3">
@@ -85,9 +93,10 @@
 					  				<div class="form-check" style="margin-top: 20px;margin-bottom: 20px">
 									    <div class="radio">
   										  <label>
-                          <input type="radio" value="radio1" name="{{ $question->id }}" required>
+                          <input type="radio" value="{{ $answer->id }}" name="{{ $question->id }}[]" required>
                           {{ $answer->answer }}
                         </label>
+
 										  </div>
 									</div>
 					  			@endforeach
@@ -97,7 +106,7 @@
 					  	@endforeach
 				  	</ol>
 			  	</div> 
-          <div class="text-center form"><button type="submit"><b>Kirim</b></button></div>
+          <div class="text-center"><button type="submit" class="send_ikm">Kirim</button></div>
         </form>
 	</div>
 
@@ -111,7 +120,10 @@
       <div class="container">
         <div class="section-header">
           <h2>Kontak kami</h2>
-          <p>Sed tamen tempor magna labore dolore dolor sint tempor duis magna elit veniam aliqua esse amet veniam enim export quid quid veniam aliqua eram noster malis nulla duis fugiat culpa esse aute nulla ipsum velit export irure minim illum fore</p>
+          <p>Jika anda memiliki keluhan, saran atau masukan atas pelayanan yang kami berikan,
+            silahkan hubungi kami melalui call center dibawah ini. Kami informasikan bahwa petugas kami
+            <b>tidak</b> menerima <b>suap</b> dan <b>gratifikasi</b> dalam bentuk apapun!
+          </p>
         </div>
 
         <div class="row contact-info">
@@ -148,4 +160,60 @@
   </main>
 
 @endsection	
+
+@section('script')
+
+  <script>
+    $(document).ready(function(){
+
+      $('#form_ikm').on('submit', function(event){
+
+        event.preventDefault();
+
+        $.ajax({
+
+          url :'{{ route('ikm.store') }}',
+
+          method :'POST',
+
+          data : new FormData (this),
+
+          contentType : false,
+
+          cache : false,
+
+          processData : false,
+
+        }).done(function(){
+
+          $('#form_ikm').trigger('reset');
+
+          $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+          $('#result').html(
+
+            `<div class='alert alert-success'> 
+
+              <h5>
+                Terimakasih atas penilaian yang anda berikan, masukan anda sangat bermanfaat
+                untuk kemajuan unit kami agar terus memperbaiki dan meningkatkan kualitas 
+                pelayanan bagi masyarakat
+              </h5>
+
+              <br/>
+
+              <a href='#' class='btn btn-success btn-sm'> Cetak hasil survey </a>
+
+             </div>`
+
+          )
+
+        });
+
+      });
+
+    });
+  </script>
+
+@endsection
 

@@ -158,7 +158,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 34px;
   }
   #header #logo img {
-    max-height: 40px;
+    max-height: 33px;
   }
 }
 
@@ -896,6 +896,14 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 #call-to-action .cta-text {
   color: #fff;
+  line-height: 25px
+}
+
+#call-to-action .cta-text span {
+  font-size: 18pt;
+  font-weight: bold;
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
 }
 
 @media (min-width: 769px) {
@@ -1133,3 +1141,5 @@ body.mobile-nav-active #mobile-nav-toggle {
 #footer .credits a {
   color: #0c2e8a;
 }
+
+

@@ -58,8 +58,6 @@ class Questions extends Controller
 
         ]);
 
-        /*$answer = Pertanyaan::find($question->id);*/
-
         $question->answer()->attach([
             $request->jawaban_1,
             $request->jawaban_2,

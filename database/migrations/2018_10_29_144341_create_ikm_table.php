@@ -17,7 +17,7 @@ class CreateIkmTable extends Migration
             $table->increments('id');
             $table->date('start_date');
             $table->date('end_date');
-            $table->boolean('is_open')->default(false);
+            $table->int('is_open')->default(NULL)->nullable();
             $table->timestamps();
         });
     }

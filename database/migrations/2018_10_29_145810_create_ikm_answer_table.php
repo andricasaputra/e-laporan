@@ -16,6 +16,7 @@ class CreateIkmAnswerTable extends Migration
         Schema::create('ikm_answer', function (Blueprint $table) {
             $table->increments('id');
             $table->string('answer')->unique();
+            $table->integer('nilai')->default(1);
             $table->timestamps();
         });
     }

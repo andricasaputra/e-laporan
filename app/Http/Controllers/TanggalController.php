@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 class TanggalController
 {
-
     const SERVER_TIMEZONE = 'Asia/Makassar';
 
     const SERVER_DATEFORMAT = 'Y-m-d';
 
     public static function bulanTahun($tanggal)
     {
-
         $bulan = array(
 
             1 => 'Januari',
@@ -42,19 +40,12 @@ class TanggalController
 
         $pecahkan = explode('-', $tanggal);
 
-        // variabel pecahkan 0 = tanggal
-
-        // variabel pecahkan 1 = bulan
-
-        // variabel pecahkan 2 = tahun
-
         return $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
 
     }
 
-    public static function balik_tgl_indo($tanggal)
+    public static function balikTanggal($tanggal)
     {
-
         $bulan = array(
 
             'Januari'   => '1',
@@ -89,19 +80,12 @@ class TanggalController
 
         $pecahkan = explode(' ', $tanggal);
 
-        // variabel pecahkan 0 = tanggal
-
-        // variabel pecahkan 1 = bulan
-
-        // variabel pecahkan 2 = tahun
-
         return $pecahkan[2] . '-' . $bulan[$pecahkan[1]] . '-' . $pecahkan[0];
 
     }
 
-    public static function balik_tgl_indo2($tanggal)
+    public static function balikTanggalVersi2($tanggal)
     {
-
         $bulan = array(
 
             'Januari'   => '1',
@@ -137,8 +121,11 @@ class TanggalController
         $pecahkan = explode(' ', $tanggal);
 
         if ($bulan[$pecahkan[1]] < 10) {
+
             $bulannya = "0" . $bulan[$pecahkan[1]];
+
         } else {
+
             $bulannya = $bulan[$pecahkan[1]];
         }
 
@@ -146,10 +133,9 @@ class TanggalController
 
     }
 
-    public static function tgl_indo2($tanggal2)
+    public static function tanggalIndo($tanggal)
     {
-
-        $bulan2 = array(
+        $bulan = array(
 
             1 => 'Januari',
 
@@ -177,17 +163,50 @@ class TanggalController
 
         );
 
-        $pecahkan2 = explode('-', $tanggal2);
+        $pecahkan = explode('-', $tanggal);
 
-        return $pecahkan2[2] . ' ' . $bulan2[(int) $pecahkan2[1]];
+        return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
 
     }
 
-    // FUNGSI BULAN DALAM BAHASA INDONESIA
+    public static function tanggalIndoVersi2($tanggal)
+    {
+        $bulan = array(
+
+            1 => 'Januari',
+
+            'Februari',
+
+            'Maret',
+
+            'April',
+
+            'Mei',
+
+            'Juni',
+
+            'Juli',
+
+            'Agustus',
+
+            'September',
+
+            'Oktober',
+
+            'November',
+
+            'Desember',
+
+        );
+
+        $pecahkan = explode('-', $tanggal);
+
+        return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]];
+
+    }
 
     public static function bulan($bln)
     {
-
         $bulan = $bln;
 
         switch ($bulan) {
@@ -246,30 +265,27 @@ class TanggalController
 
     }
 
-    //CARA MEMANGGIL FUNGSI BULAN
-
-    // $bulan = bulan(date("m"));
-
-    // echo $bulan;
-
     public static function hari($tanggal)
     {
-
         $hari = date('l', microtime($tanggal));
 
-        $hari_indonesia = array('Monday' => 'Senin',
+        $hari_indonesia = array(
 
-            'Tuesday'                        => 'Selasa',
+            'Monday' => 'Senin',
 
-            'Wednesday'                      => 'Rabu',
+            'Tuesday' => 'Selasa',
 
-            'Thursday'                       => 'Kamis',
+            'Wednesday' => 'Rabu',
 
-            'Friday'                         => 'Jum' . "'" . 'at',
+            'Thursday' => 'Kamis',
 
-            'Saturday'                       => 'Sabtu',
+            'Friday' => 'Jum' . "'" . 'at',
 
-            'Sunday'                         => 'Minggu');
+            'Saturday' => 'Sabtu',
+
+            'Sunday' => 'Minggu'
+
+        );
 
         $hari_ini = $hari_indonesia[$hari];
 
@@ -277,30 +293,28 @@ class TanggalController
 
     }
 
-    public static function now()
+    public static function sekarang()
     {
-
         date_default_timezone_set(self::SERVER_TIMEZONE);
 
         $date = new \DateTime('now');
-        $date->setTimezone(new \DateTimeZone(self::SERVER_TIMEZONE));
-        $str_server_now = $date->format(self::SERVER_DATEFORMAT);
 
-        // return timezone to server default
+        $date->setTimezone(new \DateTimeZone(self::SERVER_TIMEZONE));
+
+        $str_server_now = $date->format(self::SERVER_DATEFORMAT);
 
         return $str_server_now;
     }
 
     public static function besok()
     {
-
         date_default_timezone_set(self::SERVER_TIMEZONE);
 
         $date = new \DateTime('tomorrow');
-        $date->setTimezone(new \DateTimeZone(self::SERVER_TIMEZONE));
-        $str_server_tom = $date->format(self::SERVER_DATEFORMAT);
 
-        // return timezone to server default
+        $date->setTimezone(new \DateTimeZone(self::SERVER_TIMEZONE));
+
+        $str_server_tom = $date->format(self::SERVER_DATEFORMAT);
 
         return $str_server_tom;
     }

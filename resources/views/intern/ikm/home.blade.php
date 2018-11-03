@@ -18,16 +18,17 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="x_panel">
 	  <div class="x_content">
-	    <table id="adminHeadlineTable" class="table table-striped table-bordered text-center" width="100%">
+	    <table id="adminHomeIkm" class="table table-striped table-bordered text-center" width="100%">
 	      <thead>
 	        <tr>
-	          <th width="3%">No</th>
-	          <th width="15%">Judul Headline</th>
-	          <th width="25%">Deskripsi</th>
-	          <th width="32%">Gambar</th>
-	          <th width="7%">Tanggal Dibuat</th>
-	          <th width="5%">Status</th>
-	          <th width="13%">Action</th>
+	          <th>No</th>
+	          <th>Responden ID</th>
+	          <th>Layanan</th>
+	          <th>Jenis Kelamin</th>
+	          <th>Umur</th>
+	          <th>Pendidikan</th>
+	          <th>Pekerjaan</th>
+	          <th>Action</th>
 	        </tr>
 	      </thead>
 	    </table>
@@ -36,7 +37,7 @@
 </div>
 
 <!-- Modal Delete -->
-<div class="modal fade" id="modalDeleteHeadline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalDeleteIkm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -47,14 +48,15 @@
       </div>
       <div class="modal-body text-center">
       	<h3>Apakah Anda Yakin Ingin Meghapus Data Ini?</h3><br>
-        <form action="" method="post">
+        <form action="{{route('intern.ikm.destroy', 'delete')}}" method="post">
 
 	  		@csrf
         	@method('DELETE')
 
-        	<input type="hidden" name="id" id="headlineId">
+        	<input type="hidden" name="id" id="ikmId">
         	
         	<input type="submit" name="delete" value="Ya" class="btn btn-primary">
+
         	<button type="button" class="btn btn-success" data-dismiss="modal">Tidak</button>
 	  	</form>
       </div>
@@ -64,6 +66,55 @@
   </div>
 </div>
 
+@endsection
 
+@section('scripts')
+
+  <script>
+    $(document).ready(function() {
+
+    	let url = '{{ route('api.ikm') }}';
+    	let data = [
+
+	    	{ "data" : "DT_Row_Index", orderable: false, searchable: false},
+	        { "data" : "id" },
+	        { "data" : "layanan.jenis_layanan" },
+	        { "data" : "jenis_kelamin" },
+	        { "data" : "umur.umur" },
+	        { "data" : "pekerjaan.pekerjaan" },
+	        { "data" : "pendidikan.pendidikan" },
+	        { "data" : "action" , orderable: false, searchable: false}
+
+		]
+
+	    $('#adminHomeIkm').DataTable({
+
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               "url": url,
+               "dataType": "JSON"
+            },
+            "columns": data,
+			"columnDefs": [{
+			    "defaultContent": "-",
+			    "targets": "_all"
+			}]
+
+        });
+
+  	});
+
+  	$(document).on('click', '#deleteIkm', function(e){
+
+        e.preventDefault();
+        let id = $( this ).data( 'id' );
+
+        $('#modalDeleteIkm').modal('show');
+
+        let idInForm = $("#modalDeleteIkm #ikmId").val(id);
+
+    });
+  </script>
 
 @endsection

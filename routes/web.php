@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/', function () {
-    return 'ini buat website';
+    return 'masih dalam pengembangan :)';
 });
 
 Route::get('/login', function () {
@@ -43,6 +43,12 @@ Route::namespace('Ikm')->group(function () {
 	})->name('ikm.home');
 
 	Route::get('ikm/survey', 'SurveyPage@index')->name('ikm.survey');
+
+	Route::post('ikm/survey', 'SurveyPage@store')->name('ikm.store');
+
+	Route::get('ikm/faq', function(){
+		return view('ikm.faq');
+	})->name('ikm.faq');
 
 });
 
