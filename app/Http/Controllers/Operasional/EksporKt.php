@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Operasional\EksporKt as Operasional;
-
 use App\User;
 use App\Wilker;
 use DataTables;

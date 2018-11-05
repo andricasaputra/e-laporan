@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Ikm;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Ikm\Jadwal as Model;
 use Carbon;
 
-use App\Models\Ikm\SettingIkm as Model;
-
-class SettingIkm extends Controller
+class Jadwal extends Controller
 {
     /**
      * Display a listing of the resource.

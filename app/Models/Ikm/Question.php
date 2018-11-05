@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     protected $table = 'ikm_question';
-    protected $fillable = ['question'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $hidden = ['id', 'answer_id', 'created_at', 'updated_at'];
 
     public function answer()
     {

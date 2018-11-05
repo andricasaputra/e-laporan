@@ -22,12 +22,14 @@
 	      <thead>
 	        <tr>
 	          <th>No</th>
+            <th>Periode</th>
 	          <th>Responden ID</th>
 	          <th>Layanan</th>
 	          <th>Jenis Kelamin</th>
 	          <th>Umur</th>
 	          <th>Pendidikan</th>
 	          <th>Pekerjaan</th>
+            <th>Waktu Survey</th>
 	          <th>Action</th>
 	        </tr>
 	      </thead>
@@ -48,7 +50,7 @@
       </div>
       <div class="modal-body text-center">
       	<h3>Apakah Anda Yakin Ingin Meghapus Data Ini?</h3><br>
-        <form action="{{route('intern.ikm.destroy', 'delete')}}" method="post">
+        <form action="{{route('intern.ikm.home.destroy', 'delete')}}" method="post">
 
 	  		@csrf
         	@method('DELETE')
@@ -73,16 +75,18 @@
   <script>
     $(document).ready(function() {
 
-    	let url = '{{ route('api.ikm') }}';
+    	let url = '{{ route('api.ikm', $tahun) }}';
     	let data = [
 
 	    	{ "data" : "DT_Row_Index", orderable: false, searchable: false},
+          { "data" : "ikm[0].keterangan" },
 	        { "data" : "id" },
 	        { "data" : "layanan.jenis_layanan" },
 	        { "data" : "jenis_kelamin" },
 	        { "data" : "umur.umur" },
 	        { "data" : "pekerjaan.pekerjaan" },
 	        { "data" : "pendidikan.pendidikan" },
+          { "data" : "created_at" },
 	        { "data" : "action" , orderable: false, searchable: false}
 
 		]

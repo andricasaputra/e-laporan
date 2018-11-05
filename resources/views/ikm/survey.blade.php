@@ -108,6 +108,7 @@
 			  	</div> 
           <div class="text-center"><button type="submit" class="send_ikm">Kirim</button></div>
         </form>
+        <hr>
 	</div>
 
   </section><!-- #intro -->
@@ -116,7 +117,7 @@
   <!--==========================
       Contact Section
     ============================-->
-    <section id="contact" class="wow fadeInUp">
+    <section id="contact">
       <div class="container">
         <div class="section-header">
           <h2>Kontak kami</h2>
@@ -194,7 +195,7 @@
 
             `<div class='alert alert-success'> 
 
-              <h5>
+              <h5 style="color: #209270">
                 Terimakasih atas penilaian yang anda berikan, masukan anda sangat bermanfaat
                 untuk kemajuan unit kami agar terus memperbaiki dan meningkatkan kualitas 
                 pelayanan bagi masyarakat

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\DaftarWilker as Wilker;
 
 class DaftarWilker extends Controller

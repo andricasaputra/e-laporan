@@ -261,7 +261,6 @@ class UploadOperasional extends Controller
             return false;
         }
 
-
         /*Cek Jenis Karantina*/
         if($this->checkJenisKarantina($path, $jenis_karantina) === false){
 

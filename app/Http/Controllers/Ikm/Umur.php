@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Ikm;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\Models\Ikm\Umur as Model;
 
 class Umur extends Controller

@@ -8,4 +8,5 @@ class Pendidikan extends Model
 {
     protected $table = 'ikm_pendidikan';
     protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $hidden = ['id', 'created_at', 'updated_at'];
 }

@@ -78,7 +78,7 @@
                 <div class="col-sm-9 card_body_welcome">
                     <h3 class="card-title">E - IKM</h3>
                     <p class="card-text">Status : In Planning</p>
-                    <a href="{{ route('intern.ikm.index') }}" class="btn btn-default">Masuk Ke Aplikasi!</a>
+                    <a href="{{ route('intern.ikm.home.index') }}" class="btn btn-default">Masuk Ke Aplikasi!</a>
                 </div>
               </div>
             </div>

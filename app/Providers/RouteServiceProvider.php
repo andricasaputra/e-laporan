@@ -74,7 +74,7 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapIkmRoutes()
     {
-        Route::middleware('web')
+        Route::middleware('web', 'auth')
              ->prefix('intern')
              ->namespace($this->namespace . '\\Ikm')
              ->group(function(){

@@ -2,9 +2,15 @@
 
 Route::prefix('admin')->group(function () {
 
-	Route::resource('home', 'HomeAdminIkm', [
-    	'names' => 'intern.ikm'
-	]);
+	Route::resource('home', 'Home', [
+    	'names' => 'intern.ikm.home'
+	])->except(['index', 'show', 'store']);
+
+	Route::get('home/{tahun?}', 'Home@index')
+	->name('intern.ikm.home.index');
+
+	Route::get('ikm/show/{id}/{tahun?}', 'Home@show')
+	->name('intern.ikm.home.show');
 
 	Route::resource('answer', 'Answer', [
     	'names' => 'intern.ikm.answer'     
@@ -30,7 +36,7 @@ Route::prefix('admin')->group(function () {
     	'names' => 'intern.ikm.layanan'     
 	])->except(['show']);
 
-	Route::resource('settingikm', 'SettingIkm', [
+	Route::resource('jadwal', 'Jadwal', [
     	'names' => 'intern.ikm.settingikm'     
 	])->except(['show']);
 

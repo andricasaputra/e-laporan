@@ -8,7 +8,7 @@
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
       <div class="menu_section">
         <ul class="nav side-menu">
-          <li><a href="{{ route('intern.ikm.index') }}"><i class="fa fa-home"></i> Hasil Survey </a>
+          <li><a href="{{ route('intern.ikm.home.index') }}"><i class="fa fa-home"></i> Hasil Survey </a>
           </li>
           <li><a href="#"><i class="fa fa-line-chart"></i> Analitycs </a>
           </li>
@@ -46,7 +46,6 @@
     <!-- /menu footer buttons -->
   </div>
 </div>
-
 <!-- top navigation -->
 <div class="top_nav">
   <div class="nav_menu">
@@ -54,7 +53,6 @@
       <div class="nav toggle">
         <a id="menu_toggle"><i class="fa fa-bars"></i></a>
       </div>
-
       <ul class="nav navbar-nav navbar-right">
         <li class="">
           <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -90,4 +88,5 @@
   </div>
 </div>
 <!-- /top navigation -->
+
 

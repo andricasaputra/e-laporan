@@ -1,9 +1,15 @@
+select{
+    cursor: pointer;
+}
+
 .radio label,.radio-inline label{
     padding-left:55px
 }
-.radio input[type="radio"],.radio input[type="checkbox"],.radio-inline input[type="radio"],.radio-inline input[type="checkbox"],.checkbox input[type="radio"],.checkbox input[type="checkbox"],.checkbox-inline input[type="radio"],.checkbox-inline input[type="checkbox"]{
+
+.radio input[type="radio"],.radio input[type="checkbox"],.radio-inline input[type="radio"],.checkbox input[type="radio"],.checkbox-inline input[type="radio"]{
     margin-left:-25px
 }
+
 input[type="radio"],.radio input[type="radio"],.radio-inline input[type="radio"]{
     position:relative;
     margin-right:10px;
@@ -15,9 +21,11 @@ input[type="radio"],.radio input[type="radio"],.radio-inline input[type="radio"]
     appearance:none;
     cursor:pointer
 }
+
 input[type="radio"]:focus,.radio input[type="radio"]:focus,.radio-inline input[type="radio"]:focus{
     outline:none
 }
+
 input[type="radio"]:before,input[type="radio"]:after,.radio input[type="radio"]:before,.radio input[type="radio"]:after,.radio-inline input[type="radio"]:before,.radio-inline input[type="radio"]:after{
     content:"";
     display:block;
@@ -27,6 +35,7 @@ input[type="radio"]:before,input[type="radio"]:after,.radio input[type="radio"]:
     -webkit-transition:240ms;
     transition:240ms
 }
+
 input[type="radio"]:before,.radio input[type="radio"]:before,.radio-inline input[type="radio"]:before{
     position:absolute;
     left:0;
@@ -35,21 +44,26 @@ input[type="radio"]:before,.radio input[type="radio"]:before,.radio-inline input
     -webkit-transform:scale(0);
     transform:scale(0)
 }
+
 input[type="radio"]:after,.radio input[type="radio"]:after,.radio-inline input[type="radio"]:after{
     position:relative;
     top:0px;
     border:2px solid #bbb
 }
+
 input[type="radio"]:checked:before,.radio input[type="radio"]:checked:before,.radio-inline input[type="radio"]:checked:before{
     -webkit-transform:scale(0.5);
     transform:scale(0.5)
 }
+
 input[type="radio"]:disabled:checked:before,.radio input[type="radio"]:disabled:checked:before,.radio-inline input[type="radio"]:disabled:checked:before{
     background-color:#dee2e6
 }
+
 input[type="radio"]:checked:after,.radio input[type="radio"]:checked:after,.radio-inline input[type="radio"]:checked:after{
     border-color:#FFB300
 }
+
 input[type="radio"]:disabled:after,input[type="radio"]:disabled:checked:after,.radio input[type="radio"]:disabled:after,.radio input[type="radio"]:disabled:checked:after,.radio-inline input[type="radio"]:disabled:after,.radio-inline input[type="radio"]:disabled:checked:after{
     border-color:#dee2e6
 }
@@ -92,12 +106,14 @@ h3.faq_intro {
     background: #ffc233;
     padding: 0;
 }
+
 .accordion-section .panel-default .panel-title a {
     display: block;
     font-size: 13pt;
     font-weight: normal;
     color: #000 !important;
 }
+
 .accordion-section .panel-default .panel-title a:after {
     font-family: 'FontAwesome';
     font-style: normal;
@@ -106,9 +122,11 @@ h3.faq_intro {
     float: right;
     margin-top: -12px;
 }
+
 .accordion-section .panel-default .panel-title a.collapsed:after {
     content: "\f107";
 }
+
 .accordion-section .panel-default .panel-body {
     font-size: 1rem;
     font-style: italic;
@@ -131,6 +149,7 @@ button.send_ikm{
     color: #fff;
     background: #0c2e8a;
     border: 2px solid #0c2e8a;
+    cursor: pointer;
 }
 
 button.send_ikm:hover {

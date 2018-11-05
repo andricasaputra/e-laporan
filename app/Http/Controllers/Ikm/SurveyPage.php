@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Ikm;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-use App\Models\Ikm\SettingIkm as Setting;
+use App\Models\Ikm\Jadwal;
 use App\Models\Ikm\Question;
 use App\Models\Ikm\Layanan;
 use App\Models\Ikm\Umur;
@@ -23,7 +22,7 @@ class SurveyPage extends Controller
      */
     public function index()
     {
-        $is_open    = Setting::where('is_open', 1)->where('is_open', '!=', NULL)->first();
+        $is_open    = Jadwal::where('is_open', 1)->where('is_open', '!=', NULL)->first();
         $questions  = Question::with('answer')->get();
         $layanan    = Layanan::all();
         $umur       = Umur::all();

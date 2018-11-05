@@ -8,4 +8,5 @@ class Pekerjaan extends Model
 {
     protected $table = 'ikm_pekerjaan';
     protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $hidden = ['id', 'created_at', 'updated_at'];
 }

@@ -19,13 +19,12 @@
 	  </div>
 	</div>
 </div>
-
 <div class="clearfix"></div>
 
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="x_panel">
 	  <div class="x_title">
-		<a href="{{ route('intern.ikm.index') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
+		<a href="{{ route('intern.ikm.home.index') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
 		<ul class="nav navbar-right panel_toolbox">
 		  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 		  </li>
@@ -58,7 +57,7 @@
 
     $(document).ready(function() {
 
-    	let url = '{{ route('api.show', $responden->id) }}';
+    	let url = '{{ route('api.show', [$responden->id, $year]) }}';
 
     	let data = [
 
