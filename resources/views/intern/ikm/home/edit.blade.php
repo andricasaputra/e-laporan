@@ -8,7 +8,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="page-title">
 	  <div class="title_left">
-	    <h3>Edit Jawaban IKM</h3>
+	    <h3>Edit Jawaban Responden IKM</h3>
 	  </div>
 	</div>
 </div>
@@ -32,20 +32,27 @@
 	  		@csrf
 	  		@method('PUT')
 
-	  		<div class="form-group">
-	  			<label for="judul">Jawaban</label>
-	  			<input type="text" name="jawaban" class="form-control" value="{{ $responden->home }}">
-	  		</div>
-	  		<div class="form-group">
-	  			<label for="nilai">Jenis Layanan</label>
-	  			<select name="nilai" class="form-control">
-	  				<option value="{{ $responden->layanan_id }}">{{ $responden->layanan_id }}</option>
-	  				<option value="1">1</option>
-	  				<option value="2">2</option>
-	  				<option value="3">3</option>
-	  				<option value="4">4</option>
-	  			</select>
-	  		</div>
+	  		@php $no = 1  @endphp
+
+	  		<input type="hidden" name="responden_id"  value="{{ $responden->id }}">
+	  		@for($i = 0; $i < count($responden->question); $i++)
+
+	  			<h4>{{ $no++ }} Pertanyaan : {{ $responden->question[$i]->question }}</h4>
+
+	  			<div class="form-group">
+
+		  			<label for="jawaban">Jawaban</label>
+	  				<select name="{{ $responden->id }}[]" class="form-control">
+		  				<option value="{{ $responden->answer[$i]->id }}">{{ $responden->answer[$i]->answer }}</option>
+		  				@foreach($jawaban as $j)
+		  					<option value="{{ $j->id }}">{{ $j->answer }}</option>
+		  				@endforeach
+	  				</select>
+
+		  		</div>
+
+	  		@endfor
+		  	<br/>
 	  		<div class="pull-right">
 	  			<input type="submit" name="submit" value="Simpan" class="btn btn-warning">
 	  		</div>

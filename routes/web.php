@@ -50,6 +50,10 @@ Route::namespace('Ikm')->group(function () {
 		return view('ikm.faq');
 	})->name('ikm.faq');
 
+	Route::get('ikm/success/{id}', 'SurveyPage@success')->name('ikm.success');
+
+	Route::get('ikm/cetak/{id}', 'SurveyPage@cetak')->name('ikm.cetak');
+
 });
 
 

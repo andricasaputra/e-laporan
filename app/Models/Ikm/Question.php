@@ -14,4 +14,5 @@ class Question extends Model
     {
     	return $this->belongsToMany(Answer::class, 'ikm_answer_question');
     }
+
 }

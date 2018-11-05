@@ -12,6 +12,7 @@ use App\Models\Ikm\Pendidikan;
 use App\Models\Ikm\Pekerjaan;
 use App\Models\Ikm\Responden;
 use App\Models\Ikm\Result;
+use App\Models\Ikm\Answer;
 use DataTables;
 
 class Home extends Controller
@@ -42,7 +43,7 @@ class Home extends Controller
                     </a>
             ';
 
-        })->rawColumns(['action'])->make(true);
+        })->make(true);
     }
 
     /**
@@ -71,6 +72,7 @@ class Home extends Controller
     public function index($year = null)
     {
         $tahun = !isset($year) ? date('Y') : $year ;
+
         return view('intern.ikm.home.index')->with(compact('tahun'));
     }
 
@@ -106,17 +108,12 @@ class Home extends Controller
     public function edit($id)
     {
         $responden  = Responden::find($id);
-        $layanan    = $responden->layanan;
-        $umur       = $responden->umur;
-        $pendidikan = $responden->pendidikan;
-        $pekerjaan  = $responden->pekerjaan;
-        $result     = $responden->result;
-        $ikm        = $responden->ikm;
-        $question   = $responden->question;
-        $answer     = $responden->answer;
+        $jawaban    = Answer::all();
 
         return view('intern.ikm.home.edit')
-        ->with('responden', $responden);
+        ->with('responden', $responden)
+        ->with('jawaban', $jawaban);
+
     }
 
     /**
@@ -128,7 +125,30 @@ class Home extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        $responden = Responden::find($id);
+
+        $answer = $request->except([
+            'responden_id',
+            'submit',
+            '_method',
+            '_token',
+        ]);
+
+        $no = 0;
+
+        for ($i=0; $i < count($answer[$id]); $i++) { 
+
+            $result = Result::where('responden_id', $id)
+            ->where('answer_id', $responden->result[$i]->answer_id)->first();
+
+            $result->answer_id = $answer[$id][$i];
+
+            $result->save();
+
+        }
+
+        return redirect(route('intern.ikm.home.index'))->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -139,6 +159,11 @@ class Home extends Controller
      */
     public function destroy(Request $request)
     {
-        dd($request->id);
+        $responden = Responden::find($request->id);
+
+        $responden->delete();
+
+        return redirect(route('intern.ikm.home.index'))->with('success', 'Data Berhasil Dihapus');
+
     }
 }

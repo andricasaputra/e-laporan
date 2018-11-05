@@ -22,7 +22,7 @@
       <p class="judul">{{ $is_open->start_date }} s/d {{ $is_open->end_date }}</p>
       <hr>
     </div>
-		<form id="form_ikm">
+		<form action="{{ route('ikm.store') }}" method="POST">
       @csrf
 			<div class="form">
 				<p class="mb-3">A. Data responden</p>
@@ -162,59 +162,5 @@
 
 @endsection	
 
-@section('script')
 
-  <script>
-    $(document).ready(function(){
-
-      $('#form_ikm').on('submit', function(event){
-
-        event.preventDefault();
-
-        $.ajax({
-
-          url :'{{ route('ikm.store') }}',
-
-          method :'POST',
-
-          data : new FormData (this),
-
-          contentType : false,
-
-          cache : false,
-
-          processData : false,
-
-        }).done(function(){
-
-          $('#form_ikm').trigger('reset');
-
-          $('html, body').animate({ scrollTop: 0 }, 'slow');
-
-          $('#result').html(
-
-            `<div class='alert alert-success'> 
-
-              <h5 style="color: #209270">
-                Terimakasih atas penilaian yang anda berikan, masukan anda sangat bermanfaat
-                untuk kemajuan unit kami agar terus memperbaiki dan meningkatkan kualitas 
-                pelayanan bagi masyarakat
-              </h5>
-
-              <br/>
-
-              <a href='#' class='btn btn-success btn-sm'> Cetak hasil survey </a>
-
-             </div>`
-
-          )
-
-        });
-
-      });
-
-    });
-  </script>
-
-@endsection
 

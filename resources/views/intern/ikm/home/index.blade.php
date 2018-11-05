@@ -18,6 +18,35 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="x_panel">
 	  <div class="x_content">
+      <div class="col-md-1">
+          <div class="form-group">
+            <label>Pilih Tahun</label>
+            <select class="form-control" name="year" id="year">
+             
+              @if(last(request()->segments()) == 'home')
+
+                <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
+
+              @endif
+
+              @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
+
+                @if(last(request()->segments()) == $i)
+        
+                  <option value="{{ $i }}" selected>{{ $i }}</option>
+
+                @else
+
+                  <option value="{{ $i }}">{{ $i }}</option>
+                  
+                @endif
+
+              @endfor
+
+            </select>
+            
+          </div>
+      </div>
 	    <table id="adminHomeIkm" class="table table-striped table-bordered text-center" width="100%">
 	      <thead>
 	        <tr>
@@ -30,6 +59,7 @@
 	          <th>Pendidikan</th>
 	          <th>Pekerjaan</th>
             <th>Waktu Survey</th>
+            <th>Nilai Rata-rata</th>
 	          <th>Action</th>
 	        </tr>
 	      </thead>
@@ -73,7 +103,17 @@
 @section('scripts')
 
   <script>
+    
+
     $(document).ready(function() {
+
+      $('#year').on('change', function(){
+
+        let year = $(this).val();
+
+        window.location = '{{ route('intern.ikm.home.index') }}/' + year;
+
+      });
 
     	let url = '{{ route('api.ikm', $tahun) }}';
     	let data = [
@@ -87,6 +127,7 @@
 	        { "data" : "pekerjaan.pekerjaan" },
 	        { "data" : "pendidikan.pendidikan" },
           { "data" : "created_at" },
+          { "data" : ""},
 	        { "data" : "action" , orderable: false, searchable: false}
 
 		]
