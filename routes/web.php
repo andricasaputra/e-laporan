@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/', function () {
-    return 'masih dalam pengembangan :)';
+    return view('ikm.home');
 });
 
 Route::get('/login', function () {

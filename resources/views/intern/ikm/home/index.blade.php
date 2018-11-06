@@ -102,64 +102,130 @@
 
 @section('scripts')
 
-  <script>
+  @if(Auth::user()->role_id == 1)
+
+    <script>
     
+      $(document).ready(function() {
 
-    $(document).ready(function() {
+        $('#year').on('change', function(){
 
-      $('#year').on('change', function(){
+          let year = $(this).val();
 
-        let year = $(this).val();
-
-        window.location = '{{ route('intern.ikm.home.index') }}/' + year;
-
-      });
-
-    	let url = '{{ route('api.ikm', $tahun) }}';
-    	let data = [
-
-	    	{ "data" : "DT_Row_Index", orderable: false, searchable: false},
-          { "data" : "ikm[0].keterangan" },
-	        { "data" : "id" },
-	        { "data" : "layanan.jenis_layanan" },
-	        { "data" : "jenis_kelamin" },
-	        { "data" : "umur.umur" },
-	        { "data" : "pekerjaan.pekerjaan" },
-	        { "data" : "pendidikan.pendidikan" },
-          { "data" : "created_at" },
-          { "data" : ""},
-	        { "data" : "action" , orderable: false, searchable: false}
-
-		]
-
-	    $('#adminHomeIkm').DataTable({
-
-            "processing": true,
-            "serverSide": true,
-            "ajax":{
-               "url": url,
-               "dataType": "JSON"
-            },
-            "columns": data,
-			"columnDefs": [{
-			    "defaultContent": "-",
-			    "targets": "_all"
-			}]
+          window.location = '{{ route('intern.ikm.home.index') }}/' + year;
 
         });
 
-  	});
+        let url = '{{ route('api.ikm', $tahun) }}';
+        let data = [
 
-  	$(document).on('click', '#deleteIkm', function(e){
+          { "data" : "DT_Row_Index", orderable: false, searchable: false},
+          { "data" : "ikm[0].keterangan" },
+          { "data" : "id" },
+          { "data" : "layanan.jenis_layanan" },
+          { "data" : "jenis_kelamin" },
+          { "data" : "umur.umur" },
+          { "data" : "pekerjaan.pekerjaan" },
+          { "data" : "pendidikan.pendidikan" },
+          { "data" : "created_at" },
+          { "data" : ""},
+          { "data" : "action" , orderable: false, searchable: false}
 
-        e.preventDefault();
-        let id = $( this ).data( 'id' );
+      ]
 
-        $('#modalDeleteIkm').modal('show');
+        $('#adminHomeIkm').DataTable({
 
-        let idInForm = $("#modalDeleteIkm #ikmId").val(id);
+              "processing": true,
+              "serverSide": true,
+              "ajax":{
+                 "url": url,
+                 "dataType": "JSON"
+              },
+              "columns": data,
+        "columnDefs": [{
+            "defaultContent": "-",
+            "targets": "_all"
+        }]
 
-    });
-  </script>
+          });
+
+      });
+
+      $(document).on('click', '#deleteIkm', function(e){
+
+          e.preventDefault();
+          let id = $( this ).data( 'id' );
+
+          $('#modalDeleteIkm').modal('show');
+
+          let idInForm = $("#modalDeleteIkm #ikmId").val(id);
+
+      });
+    </script>
+
+  @else
+
+    <script>
+    
+      $(document).ready(function() {
+
+        $('#year').on('change', function(){
+
+          let year = $(this).val();
+
+          window.location = '{{ route('intern.ikm.home.index') }}/' + year;
+
+        });
+
+        let url = '{{ route('api.ikm', $tahun) }}';
+        let data = [
+
+          { "data" : "DT_Row_Index", orderable: false, searchable: false},
+          { "data" : "ikm[0].keterangan" },
+          { "data" : "id" },
+          { "data" : "layanan.jenis_layanan" },
+          { "data" : "jenis_kelamin" },
+          { "data" : "umur.umur" },
+          { "data" : "pekerjaan.pekerjaan" },
+          { "data" : "pendidikan.pendidikan" },
+          { "data" : "created_at" },
+          { "data" : ""},
+          { "data" : "-" , orderable: false, searchable: false}
+
+      ]
+
+        $('#adminHomeIkm').DataTable({
+
+              "processing": true,
+              "serverSide": true,
+              "ajax":{
+                 "url": url,
+                 "dataType": "JSON"
+              },
+              "columns": data,
+        "columnDefs": [{
+            "defaultContent": "-",
+            "targets": "_all"
+        }]
+
+          });
+
+      });
+
+      $(document).on('click', '#deleteIkm', function(e){
+
+          e.preventDefault();
+          let id = $( this ).data( 'id' );
+
+          $('#modalDeleteIkm').modal('show');
+
+          let idInForm = $("#modalDeleteIkm #ikmId").val(id);
+
+      });
+    </script>
+
+  @endif
+
+  
 
 @endsection

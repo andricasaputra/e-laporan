@@ -12,17 +12,21 @@
           </li>
           <li><a href="#"><i class="fa fa-line-chart"></i> Analitycs </a>
           </li>
-          <li><a><i class="fa fa-gear"></i> Setting Aplikasi <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-              <li><a href="{{ route('intern.ikm.settingikm.index') }}">Setting Jadwal</a></li>
-              <li><a href="{{ route('intern.ikm.layanan.index') }}">Setting Layanan</a></li>
-              <li><a href="{{ route('intern.ikm.question.index') }}">Setting Pertanyaan</a></li>
-              <li><a href="{{ route('intern.ikm.answer.index') }}">Setting Jawaban</a></li>
-              <li><a href="{{ route('intern.ikm.pendidikan.index') }}">Setting Pendidikan</a></li>
-              <li><a href="{{ route('intern.ikm.pekerjaan.index') }}">Setting Pekerjaan</a></li>
-              <li><a href="{{ route('intern.ikm.umur.index') }}">Setting Umur</a></li>
-            </ul>
-          </li>
+          @if(Auth::user()->role_id == 1)
+
+            <li><a><i class="fa fa-gear"></i> Setting Aplikasi <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                <li><a href="{{ route('intern.ikm.settingikm.index') }}">Setting Jadwal</a></li>
+                <li><a href="{{ route('intern.ikm.layanan.index') }}">Setting Layanan</a></li>
+                <li><a href="{{ route('intern.ikm.question.index') }}">Setting Pertanyaan</a></li>
+                <li><a href="{{ route('intern.ikm.answer.index') }}">Setting Jawaban</a></li>
+                <li><a href="{{ route('intern.ikm.pendidikan.index') }}">Setting Pendidikan</a></li>
+                <li><a href="{{ route('intern.ikm.pekerjaan.index') }}">Setting Pekerjaan</a></li>
+                <li><a href="{{ route('intern.ikm.umur.index') }}">Setting Umur</a></li>
+              </ul>
+            </li>
+
+          @endif
         </ul>
       </div>
     </div>

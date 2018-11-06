@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('intern.layouts.app')
 
 @section('content')
 
@@ -11,7 +11,7 @@
           </div>
           <div class="card-body">
             
-            @include('inc.message')
+            @include('intern.inc.message')
 
             <form method="POST" action="{{ route('register') }}">
                 @csrf

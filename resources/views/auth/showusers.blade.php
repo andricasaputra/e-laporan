@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('intern.layouts.app')
 
 @section('title', 'Home Operasional - Show All Users')
 
@@ -14,7 +14,7 @@
   <div class="container-fluid">
    <div class="row">
       <div class="col-md-10 offset-md-1 card">
-          @include('inc.message')
+          @include('intern.inc.message')
           <div class="card-header">
             Data Users
           </div>
