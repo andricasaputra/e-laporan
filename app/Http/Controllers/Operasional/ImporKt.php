@@ -12,7 +12,7 @@ use DataTables;
 
 ini_set('max_execution_time', 200);
 
-class ImporKt extends UploadOperasional implements OperasionalInterface
+class ImporKt extends BaseOperasional implements BaseOperasionalInterface
 {
     public function sendToData($year = null)
     {

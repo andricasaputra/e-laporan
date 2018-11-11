@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 ini_set('max_execution_time', 200);
 
-class UploadOperasional extends Controller
+class BaseOperasional extends Controller
 {
     /*Menangkap URL Request Kemudian Di Redirect*/
     protected function selectAnotherYear(Request $request)

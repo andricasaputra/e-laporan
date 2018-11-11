@@ -1,10 +1,7 @@
 <?php
 
-Route::post('home', 'HomeKh@show')
-->name('post.tahun.operasional.kh');
-
-Route::get('home/{year?}', 'HomeKh@showAnotherYear')
-->name('showyear.operasional.kh');
+Route::get('home/{year?}', 'HomeKh@show')
+->name('show.operasional.kh');
 
 /*View Page*/
 Route::get('viewdata/dokel/{year?}', 'DokelKh@sendToData')

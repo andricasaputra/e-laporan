@@ -85,7 +85,7 @@ class UserController extends Controller
         return Datatables::of($users)
             ->addColumn('action', function($users){
 
-                return '<a href="'. route('users.edit', $users->id) .'" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>';
+                return '<a href="'. route('users.edit', $users->id) .'" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>';
 
             })->rawColumns(['action'])->make(true);
     }

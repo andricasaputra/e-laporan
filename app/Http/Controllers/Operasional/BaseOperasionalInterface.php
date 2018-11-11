@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
 
-interface OperasionalInterface
+interface BaseOperasionalInterface
 {
 	public function sendToData($year);
 	public function sendToUpload();

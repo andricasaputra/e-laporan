@@ -2,6 +2,8 @@
 
 @section('link')
 
+<link href="{{ asset('css/swiper.min.css') }}" rel="stylesheet">
+
 <link href="{{asset('css/ikm.css')}}" rel="stylesheet">
 
 @endsection
@@ -9,108 +11,140 @@
 @section('content')
 
   @include('inc.ikm_navbar')
-  
   <!--==========================
     Intro Section
   ============================-->
-  <section id="about" class="wow fadeInUp">
-  <!-- Set up your HTML -->
-	<div class="container mb-5">
-    <div id="result" class="text-center"></div>
-    <div class="col-12 text-center" style="margin-bottom: 3%">
-      <h5 class="judul">{{ $is_open->keterangan }}</h5>
-      <p class="judul">{{ $is_open->start_date }} s/d {{ $is_open->end_date }}</p>
-      <hr>
-    </div>
-		<form action="{{ route('ikm.store') }}" method="POST">
+  <section id="survey">
+    <!-- Swiper -->
+    <form id="formsubmit">
+
       @csrf
-			<div class="form">
-				<p class="mb-3">A. Data responden</p>
-        <hr>
-            <div class="form-group">
-              <select class="form-control" name="jenis_layanan" required="required">
-                <option disabled selected value="">- Jenis Layanan -</option>
-                @foreach($layanan as $l)
 
-                  <option value="{{ $l->id }}">{{ $l->jenis_layanan }}</option>
+      <div class="container-fluid text-center form">
+        <div class="swiper-container">
 
-                @endforeach
-              </select>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <select class="form-control" name="jenis_kelamin" required="required">
-                  <option disabled selected value="">- Jenis Kelamin -</option>
-                  <option value="1">Laki-laki</option>
-                  <option value="2">Perempuan</option>
-                </select>
-              </div>
-              <div class="form-group col-md-6">
-                <select class="form-control" name="umur" required="required">
-                  <option disabled selected value="">- Umur -</option>
-                  @foreach($umur as $u)
-
-                    <option value="{{ $u->id }}">{{ $u->umur }}</option>
-
-                  @endforeach
-                </select>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <select class="form-control" name="pendidikan" required="required">
-                  <option disabled selected value="">- Pendidikan Terakhir -</option>
-                  @foreach($pendidikan as $p)
-
-                    <option value="{{ $p->id }}">{{ $p->pendidikan }}</option>
-
-                  @endforeach
-                </select>
-              </div>
-              <div class="form-group col-md-6">
-                <select class="form-control" name="pekerjaan" required>
-	                <option disabled selected value="">- Pekerjaan -</option>
-                    @foreach($pekerjaan as $p)
-
-                      <option value="{{ $p->id }}">{{ $p->pekerjaan }}</option>
-
-                    @endforeach
-                </select>
-              </div>
-            </div>
-       		</div>
+          <div class="col-12 text-center mt-5" style="margin-bottom: 5%">
+            <h5 class="judul">{{ $is_open->keterangan }}</h5>
+            <p class="judul">{{ $is_open->start_date }} s/d {{ $is_open->end_date }}</p>
+            <hr>
+            <div id="message"></div>
+          </div>
           
-       	<p class="mt-3 mb-3">B. Pendapat responden tentang pelayanan</p>
-        <hr>
-       	<div class="col-12">
-          <input type="hidden" name="ikm_id" value="{{ $is_open->id }}">
-	         <ol>
-				  		@foreach($questions as $question)
-				  		<div class="form-group mt-3 mb-3">
-					  		<div class="mb-3" style="text-align: left; margin-top: 20px">
-					  			<h5><li>{{ $question->question }}</li></h5>
-					  			@foreach($question->answer as $answer)
-					  				<div class="form-check" style="margin-top: 20px;margin-bottom: 20px">
-									    <div class="radio">
-  										  <label>
-                          <input type="radio" value="{{ $answer->id }}" name="{{ $question->id }}[]" required>
-                          {{ $answer->answer }}
-                        </label>
+          <div class="swiper-wrapper">  
+            
+            <div class="swiper-slide">
+              <div class="container">
+                <h5 class="mb-5 survey-questions">Data Responden</h5>
+                <p class="sub"><small>Silahkan lengkapi data dibawah ini!</small></p>
+                
+                <div class="survey-responden">
+                    <div class="form-group">
+                      <select class="form-control" name="jenis_layanan" id="jenis_layanan" required="required">
+                        <option disabled selected value="">- Jenis Layanan -</option>
+                        @foreach($layanan as $l)
 
-										  </div>
-									</div>
-					  			@endforeach
-					  		</div>	
-					  	</div>
-              <hr>
-					  	@endforeach
-				  	</ol>
-			  	</div> 
-          <div class="text-center"><button type="submit" class="send_ikm">Kirim</button></div>
-        </form>
-        <hr>
-	</div>
+                          <option value="{{ $l->id }}">{{ $l->jenis_layanan }}</option>
 
+                        @endforeach
+                      </select>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6"> 
+                        <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" required="required">
+                          <option disabled selected value="">- Jenis Kelamin -</option>
+                          <option value="1">Laki-laki</option>
+                          <option value="2">Perempuan</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <select class="form-control" name="umur" id="umur" required="required">
+                          <option disabled selected value="">- Umur -</option>
+                          @foreach($umur as $u)
+
+                            <option value="{{ $u->id }}">{{ $u->umur }}</option>
+
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <select class="form-control" name="pendidikan" id="pendidikan" required="required">
+                          <option disabled selected value="">- Pendidikan Terakhir -</option>
+                          @foreach($pendidikan as $p)
+
+                            <option value="{{ $p->id }}">{{ $p->pendidikan }}</option>
+
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <select class="form-control" name="pekerjaan" id="pekerjaan" required>
+                          <option disabled selected value="">- Pekerjaan -</option>
+                            @foreach($pekerjaan as $p)
+
+                              <option value="{{ $p->id }}">{{ $p->pekerjaan }}</option>
+
+                            @endforeach
+                        </select>
+                      </div>
+                    </div>
+                </div>
+                
+              </div>
+            </div>
+
+            <input type="hidden" name="ikm_id" value="{{ $is_open->id }}">
+
+            @php $no = 1 @endphp
+
+            @foreach($questions as $question)
+
+            <div class="swiper-slide uncheck">
+              <div class="continer">
+              <h5 class="mb-5 survey-questions">Pendapat responden tentang pelayanan</h5>
+              <p class="sub"><small>Silahkan pilih jawaban yang paling sesuai!</small></p>
+              <div class="col-12">
+                <input type="hidden" name="ikm_id" value="{{ $is_open->id }}">
+                    <div class="form-group mt-3 mb-3">
+                      <div class="mb-3 survey-questions">
+                        <h5>{{ $no++ }}. {{ $question->question }}</h5>
+                        @foreach($question->answer as $answer)
+                          <div class="form-check form-check-inline cek-form " style="margin-top: 20px;margin-bottom: 20px">
+                            <div class="radio">
+                              <label>
+                                <input  type="radio" value="{{ $answer->id }}" name="{{ $question->id }}[]">
+                                {{ $answer->answer }}
+                              </label>
+                            </div>
+                          </div>
+                        @endforeach
+                      </div>  
+                    </div>
+                </div> 
+                @if(count($questions) == $no - 1)
+                  <div class="text-center"><button type="submit" class="mt-5 send_ikm">Kirim</button></div>
+                  <br>
+                @endif
+              </div>
+            </div>
+            @endforeach
+          </div>
+
+          <div id="counter"></div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+          <!-- Add Arrows -->
+          <div class="swiper-button-next">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 44"><path d="M27,22L27,22L5,44l-2.1-2.1L22.8,22L2.9,2.1L5,0L27,22L27,22z"></svg>
+          </div>
+          <div class="swiper-button-prev">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 44"><path d="M0,22L22,0l2.1,2.1L4.2,22l19.9,19.9L22,44L0,22L0,22L0,22z"></svg>
+          </div>
+        </div>
+      </div>
+    </form>
+    <hr>
   </section><!-- #intro -->
 
   <main>
@@ -161,6 +195,14 @@
   </main>
 
 @endsection	
+
+@section('script')
+
+<script src="{{ asset('js/swiper.min.js') }}"></script>
+
+<script src="{{ asset('js/ikm.js') }}"></script>
+
+@endsection
 
 
 

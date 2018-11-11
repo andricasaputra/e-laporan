@@ -37,7 +37,7 @@
 
 @endsection
 
-@section('custom_scripts')
+@section('script')
 
   <script>
     $(document).ready(function () {

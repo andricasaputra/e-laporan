@@ -85,7 +85,7 @@
   <script src="{{asset('js/datatables.min.js')}}"></script>
   <script src="{{asset('js/datatables_operasional.js')}}"></script>
   
-  @yield('custom_scripts')
+  @yield('script')
 
   <script>
     window.setTimeout(function() {

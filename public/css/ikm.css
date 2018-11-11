@@ -1,3 +1,16 @@
+html, body {
+  position: relative;
+  height: 100%;
+}
+body {
+  background: #fff;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color:#000;
+  margin: 0;
+  padding: 0;
+}
+
 select{
     cursor: pointer;
 }
@@ -13,7 +26,8 @@ select{
 input[type="radio"],.radio input[type="radio"],.radio-inline input[type="radio"]{
     position:relative;
     margin-right:10px;
-    vertical-align:top;
+    vertical-align:text-top;
+    margin-top: -10px;
     border:none;
     background-color:transparent;
     -webkit-appearance:none;
@@ -38,8 +52,8 @@ input[type="radio"]:before,input[type="radio"]:after,.radio input[type="radio"]:
 
 input[type="radio"]:before,.radio input[type="radio"]:before,.radio-inline input[type="radio"]:before{
     position:absolute;
-    left:0;
-    top:0px;
+    left:14px;
+    top:10px;
     background-color:#FFB300;
     -webkit-transform:scale(0);
     transform:scale(0)
@@ -69,20 +83,13 @@ input[type="radio"]:disabled:after,input[type="radio"]:disabled:checked:after,.r
 }
 
 h5{
-	color:  #0C2E8A;
-	font-size: 13pt;
+	color: #0C2E8A;
+	font-size: 15pt;
 	font-weight: 600;
 }
 
-p.mb-3{
-	text-decoration: underline;
-	font-size: 11pt;
-    font-style: italic;
-    font-weight: bold;
-}
 
 h5.judul{
-
     font-size: 18pt;
 }
 
@@ -157,10 +164,122 @@ button.send_ikm:hover {
   color: #0c2e8a;
 }
 
+/*Form Layout*/
+
+
+section#survey{
+
+  height: auto;
+  margin-bottom: 5%
+
+}
+
+#survey .form input, #survey .form textarea {
+  padding: 10px 14px;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 15px;
+}
+
+#survey .form select:not([multiple]):not([size]) {
+  height: 44px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#survey .form select[size='10'], select[multiple] {
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#survey .form button[type="submit"] {
+  background: #ffb300;
+  border: 0;
+  border-radius: 3px;
+  padding: 10px 30px;
+  color: #fff;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+#survey .form button[type="submit"]:hover {
+  background: #2dc899;
+}
+
+h5.survey-questions{
+  position: relative; 
+  font-size: 15pt;
+  font-weight: 600;
+  color: #0C2E8A;
+  margin-top: -5%;
+}
+
+p.sub{
+  position: relative;
+  margin-top: -40px;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+div.survey-questions,  div.survey-responden{
+  text-align: center; 
+  margin-top: 50px;
+}
+
+div.form-group{
+  padding-bottom: 20px
+}
+
+/*Swiper*/
+
+.swiper-wrapper {
+  margin-top: 10%;
+}
+
+.swiper-container {
+  width: 100%;
+  height: auto;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+}
+
+.swiper-slide .container{
+  text-align: center;
+  width: 80%
+}
+
+.swiper-button-next, .swiper-button-prev {
+    top: 70%;
+    fill: #0C2E8A;
+}
+
+.swiper-button-next,
+.swiper-container-rtl .swiper-button-prev,
+.swiper-button-prev, 
+.swiper-container-rtl .swiper-button-next{
+    background-image: none;
+}
+
+/*.swiper-pagination-progressbar .swiper-pagination-progressbar-fill{
+   background: #0C2E8A
+}*/
+
 @media only screen and (max-width: 700px){
 
+    .radio label,.radio-inline label{
+        padding-left:45px;
+        margin-bottom: -10%
+    }
+
+
 	input[type="radio"], .radio input[type="radio"], .radio-inline input[type="radio"]{
-	    margin-right:10px;
+	    margin-right:0px;
+        margin-top: -13px;
 	}
 
 	.radio label,.radio-inline label{
@@ -169,11 +288,45 @@ button.send_ikm:hover {
 
 	h5{
 		font-size: 11pt;
-		line-height: 30px;
+		line-height: 25px;
 	}
+
+    h5.judul{
+        display: none;
+    }
+
+    h5.survey-questions{
+      font-size: 11pt;
+    }
+
+    p.judul{
+        display: none;
+    }
 
 	p.mb-3{
 		font-size: 11pt;
 	}
+
+    div.form-group{
+      padding-bottom: 10px
+    }
+
+    .swiper-button-next, .swiper-button-prev {
+        top: 50%;
+    }
+
+    div.survey-questions,  div.survey-responden{
+       text-align: center; 
+       margin-top: 20px;
+    }
+
+
+    div#counter{
+        position: relative;
+        margin-top: -32%;
+        margin-bottom: 40%
+    }
+
+
 
 }

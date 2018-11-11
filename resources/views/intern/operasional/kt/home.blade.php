@@ -34,28 +34,24 @@
         
         <div class="row mb-3">
           <div class="col-md-2 col-sm-12">
-            <form action="{{ route('post.tahun.operasional.kt') }}" method="POST">
-              @csrf
-              <div class="form-group">
-                <label>Tahun</label>
-                <select class="form-control" name="year">
-                  @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
-              
-                    @if($i == $datas['tahun'])
+            <div class="form-group">
+              <label>Tahun</label>
+              <select class="form-control" name="year" id="year">
+                @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
+            
+                  @if($i == $datas['tahun'])
 
-                      <option value="{{ $i }}" selected>{{ $i }}</option>
+                    <option value="{{ $i }}" selected>{{ $i }}</option>
 
-                    @else
+                  @else
 
-                      <option value="{{ $i }}">{{ $i }}</option>
+                    <option value="{{ $i }}">{{ $i }}</option>
 
-                    @endif
+                  @endif
 
-                  @endfor
-                </select>
-              </div>
-              <button type="submit">Pilih</button>
-            </form>
+                @endfor
+              </select>
+            </div>
           </div>
         </div>
 
@@ -83,5 +79,23 @@
     </div> {{-- end container --}}
 
 </main>
+
+@endsection
+
+@section('script')
+
+<script>
+  $(document).ready(function(){
+
+    $('#year').on('change', function() {
+
+      let year = $(this).val();
+
+      window.location = '{{ route('show.operasional.kt') }}/' + year;
+
+    });
+
+  });
+</script>
 
 @endsection

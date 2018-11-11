@@ -86,7 +86,7 @@ class SurveyPage extends Controller
             
         }
 
-        return redirect(route('ikm.success', $responden->id));
+        return route('ikm.success', $responden->id);
 
     }
 

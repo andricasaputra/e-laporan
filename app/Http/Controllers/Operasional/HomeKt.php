@@ -11,37 +11,20 @@ use App\Models\Operasional\ImporKt;
 
 class HomeKt extends Controller
 {
-    public function show(Request $request)
+    public function show($year = null)
     {
-    	if(!isset($request)) {
+        if(!isset($year)) {
 
-		   $year = date('Y');
+           $year = date('Y');
 
-		}else{
+        }
 
-			return redirect(route('showyear.operasional.kt', $request->year));
-		}
-
-    	return view('intern.operasional.kt.home')
-    	->with('datas', $this->dataOperasional($year));
+        return view('intern.operasional.kt.home')
+        ->with('datas', $this->dataOperasional($year));
     }
-
-
-    public function showAnotherYear($year = null)
-    {
-    	return view('intern.operasional.kt.home')
-    	->with('datas', $this->dataOperasional($year));
-    }
-
 
     public function dataOperasional($year)
     {
-    	if(!isset($year)) {
-
-		   $year = date('Y');
-
-		}
-
     	$data[$year] = [
 
     		'tahun' => $year,

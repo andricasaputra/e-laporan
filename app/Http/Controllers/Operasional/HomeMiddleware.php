@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-class HomeController extends Controller
+class HomeMiddleware extends Controller
 {
     /**
      *Dynamic Middleware pass to here
@@ -43,13 +43,13 @@ class HomeController extends Controller
      */
     public function operasional()
     {
-        if(Auth::user()->role_id == 1 && \Auth::user()->bagian == '-'):
+        if(Auth::user()->role_id == 1 && Auth::user()->bagian == '-'):
 
             $this->useMiddleware('admin');
 
             return redirect('intern/operasional/admin/home/');
 
-        elseif(Auth::user()->role_id != 1 && \Auth::user()->bagian == 'kt'):
+        elseif(Auth::user()->role_id != 1 && Auth::user()->bagian == 'kt'):
            
             $this->useMiddleware('kt');
 

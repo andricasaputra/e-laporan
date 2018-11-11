@@ -12,7 +12,7 @@ use DataTables;
 
 ini_set('max_execution_time', 200);
 
-class DomasKh extends UploadOperasional implements OperasionalInterface
+class DomasKh extends BaseOperasional implements BaseOperasionalInterface
 {
     public function sendToData($year = null)
     {

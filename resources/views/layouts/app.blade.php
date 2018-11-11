@@ -2,13 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>@yield('title', 'Survey Indeks Kepuasan Masyarakat')</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="survey-ikm" name="keywords">
   <meta content="survey-ikm-sumbawa" name="description">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Web Sumbawa">
+  <meta name="apple-mobile-web-app-title" content="e-Office">
+  <meta name="theme-color" content="#FFB300">
+  <meta name="msapplication-navbutton-color" content="#FFB300">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-starturl" content="/ikm">
 
-  <!-- Favicons -->
-  <link href="{{ asset('images/favicon-32x32.png') }}" rel="icon">
+  <title>@yield('title', 'Survey Indeks Kepuasan Masyarakat')</title>
+
+  <link rel="manifest" href="{{ asset('manifest.json') }}">
+  <link rel="icon" type="image/png" href="{{ asset('images/favicon-32x32.png') }}" sizes="32x32">
+  <link rel="icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
+  <link rel="apple-touch-icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('images/web-sumbawa2x.png') }}">
+  <link rel="apple-touch-icon" type="image/png" sizes="96x96" href="{{ asset('images/web-sumbawa2x.png') }}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/web-sumbawa3x.png') }}">
+  <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="{{ asset('images/web-sumbawa3x.png') }}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('images/web-sumbawa4x.png') }}">
+  <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="{{ asset('images/web-sumbawa4x.png') }}">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet">
