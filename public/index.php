@@ -25,6 +25,17 @@ require __DIR__.'/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
+| Production Path
+|--------------------------------------------------------------------------
+|
+| Uncomment This Bottom Line On Production And Comment Or Delete One Line Above*
+|
+*/
+
+/*require __DIR__.'/../../e-office/vendor/autoload.php';*/
+
+/*
+|--------------------------------------------------------------------------
 | Turn On The Lights
 |--------------------------------------------------------------------------
 |
@@ -36,6 +47,17 @@ require __DIR__.'/../vendor/autoload.php';
 */
 
 $app = require_once __DIR__.'/../bootstrap/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Production Path
+|--------------------------------------------------------------------------
+|
+| Uncomment This Bottom Line On Production And Comment Or Delete One Line Above*
+|
+*/
+
+/*$app = require_once __DIR__.'/../../e-office/bootstrap/app.php';*/
 
 /*
 |--------------------------------------------------------------------------

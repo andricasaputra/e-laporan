@@ -32,6 +32,7 @@ class Result extends Model
 
     public function layanan()
     {
-    	return $this->belongsTo(Answer::class);
+    	return $this->belongsTo(Layanan::class);
     }
+
 }

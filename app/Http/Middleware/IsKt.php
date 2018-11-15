@@ -19,11 +19,11 @@ class IsKt
     {
         if (Auth::user()) {
 
-            if (Auth::user()->bagian == '-' || Auth::user()->bagian == 'kt') {
+            if (Auth::user()->pegawai->jenis_karantina == NULL || Auth::user()->pegawai->jenis_karantina == 'kt') {
 
                 return $next($request);
 
-            }   
+            }  
                 
          }
 

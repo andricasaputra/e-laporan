@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Operasional\EksporKh as Operasional;
-use App\User;
-use App\Wilker;
+use App\Models\User;
+use App\Models\Wilker;
 use DataTables;
 
 ini_set('max_execution_time', 200);

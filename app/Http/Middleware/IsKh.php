@@ -19,7 +19,7 @@ class IsKh
     {
         if (Auth::user()) {
 
-            if (Auth::user()->bagian == '-' || Auth::user()->bagian == 'kh') {
+            if (Auth::user()->pegawai->jenis_karantina == NULL || Auth::user()->pegawai->jenis_karantina == 'kh') {
 
                 return $next($request);
 

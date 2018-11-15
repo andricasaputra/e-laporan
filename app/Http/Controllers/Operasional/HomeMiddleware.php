@@ -22,7 +22,7 @@ class HomeMiddleware extends Controller
      */
     public function __construct()
     {
-        $this->middleware(self::$use_middleware);
+        return $this->middleware(self::$use_middleware);
     }
 
     /**
@@ -43,23 +43,33 @@ class HomeMiddleware extends Controller
      */
     public function operasional()
     {
-        if(Auth::user()->role_id == 1 && Auth::user()->bagian == '-'):
+        if (!Auth::user()) {
+
+            return redirect(route('login'));
+            
+        }
+
+        if(Auth::user()->role_id === 1 || Auth::user()->role_id === 2):
 
             $this->useMiddleware('admin');
 
             return redirect('intern/operasional/admin/home/');
 
-        elseif(Auth::user()->role_id != 1 && Auth::user()->bagian == 'kt'):
+        elseif(Auth::user()->role_id === 3 && Auth::user()->pegawai->jenis_karantina == 'kt'):
            
             $this->useMiddleware('kt');
 
             return redirect('intern/operasional/kt/home/');
 
-        else:
+        elseif(Auth::user()->role_id === 3 && Auth::user()->pegawai->jenis_karantina == 'kh'):
 
             $this->useMiddleware('kh');
 
             return redirect('intern/operasional/kh/home/');
+
+        else:
+
+            return redirect(route('welcome'))->with('warning', 'Maaf anda tidak mempunyai hak akses ke halaman ini');
 
         endif;   
     }

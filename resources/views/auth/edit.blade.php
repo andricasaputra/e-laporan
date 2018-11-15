@@ -1,5 +1,11 @@
 @extends('intern.layouts.app')
 
+@section('barside')
+
+  @include('intern.inc.barside_manajemen')
+
+@endsection
+
 @section('content')
 
 <main class="content-wrapper">
@@ -24,7 +30,7 @@
                     <div class="col-md-6"> 
 
                         <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="wilker" required>
-                                <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
+                                <option value="{{ $wilker_user->id }}">{{ $wilker_user->nama_wilker }}</option>
                                 @if(count($wilkers) > 0)
 
                                     @foreach($wilkers as $wil)
@@ -45,34 +51,111 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nama') }}</label>
+                    <label for="nama" class="col-md-4 col-form-label text-md-right">{{ __('Nama') }}</label>
 
                     <div class="col-md-6">
-                        <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ $user->name }}" required autofocus>
+                        <input id="nama" type="text" class="form-control{{ $errors->has('nama') ? ' is-invalid' : '' }}" name="nama" value="{{ $user->pegawai->nama }}" required autofocus>
 
-                        @if ($errors->has('name'))
+                        @if ($errors->has('nama'))
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('name') }}</strong>
+                                <strong>{{ $errors->first('nama') }}</strong>
                             </span>
                         @endif
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="bagian" class="col-md-4 col-form-label text-md-right">{{ __('Bagian') }}</label>
+                    <label for="nip" class="col-md-4 col-form-label text-md-right">{{ __('NIP') }}</label>
 
                     <div class="col-md-6">
-                        <select class="form-control{{ $errors->has('bagian') ? ' is-invalid' : '' }}" name="bagian">
-                            <option value="{{ $user->bagian }}"> {{ $user->bagian }} </option>
+                        <input id="nip" type="text" class="form-control{{ $errors->has('nip') ? ' is-invalid' : '' }}" name="nip" value="{{ $user->pegawai->nip }}" required autofocus>
+
+                        @if ($errors->has('nip'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('nip') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="pangkat" class="col-md-4 col-form-label text-md-right">{{ __('Pangkat') }}</label>
+
+                    <div class="col-md-6">
+                        @if(count($golongan) > 0)
+
+                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="golongan" required>
+                                @if($golongan_user !== NULL)
+                                    <option value="{{ $golongan_user->id }}">{{ $golongan_user->golongan }}</option>
+                                @else
+                                    <option value="" disabled selected>-- Pilih Pangkat/Golongan --</option>
+                                @endif
+                                
+                                @foreach($golongan as $g)
+
+                                    <option value="{{$g->id}}">{{$g->pangkat}} - {{$g->golongan}}</option>
+
+                                @endforeach
+
+                                    <option value=""></option>
+                            </select>
+
+                        @endif
+
+                        @if ($errors->has('pangkat'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('pangkat') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="jabatan" class="col-md-4 col-form-label text-md-right">{{ __('Jabatan') }}</label>
+
+                    <div class="col-md-6">
+                        @if(count($jabatan) > 0)
+
+                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="jabatan" required>
+                                @if($jabatan_user !== NULL)
+                                    <option value="{{ $jabatan_user->id }}">{{ $jabatan_user->jabatan }}</option>
+                                @else
+                                    <option value="" disabled selected>-- Pilih Jabatan --</option>
+                                @endif
+                                
+                                @foreach($jabatan as $j)
+
+                                    <option value="{{$j->id}}">{{$j->jabatan}}</option>
+
+                                @endforeach
+                                    <option value=""></option>
+                            </select>
+
+                        @endif
+
+                        @if ($errors->has('jabatan'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('jabatan') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="jenis_karantina" class="col-md-4 col-form-label text-md-right">{{ __('Jenis Karantina') }}</label>
+
+                    <div class="col-md-6">
+                        <select class="form-control{{ $errors->has('jenis_karantina') ? ' is-invalid' : '' }}" name="jenis_karantina">
+                            <option value="{{ $user->pegawai->jenis_karantina }}"> {{ $user->pegawai->jenis_karantina }} </option>
                             <option value="kh">Karantina Hewan</option>
                             <option value="kt">Karantina Tumbuhan</option>
                             <option value="fu">Fungsional Umum</option>
                             <option value="-"></option>
                         </select>
 
-                        @if ($errors->has('bagian'))
+                        @if ($errors->has('jenis_karantina'))
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('bagian') }}</strong>
+                                <strong>{{ $errors->first('jenis_karantina') }}</strong>
                             </span>
                         @endif
                     </div>
@@ -83,7 +166,7 @@
 
                     <div class="col-md-6">
                         <select class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role">
-                            <option value="{{ $role->id }}">{{ $role->role }}</option>
+                            <option value="{{ $user->role->id }}">{{ $user->role->role }}</option>
                             <option value="2">User</option>
                             <option value="1">Admin</option>
                         </select>

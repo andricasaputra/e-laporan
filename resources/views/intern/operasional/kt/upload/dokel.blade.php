@@ -1,5 +1,11 @@
 @extends('intern.layouts.app')
 
+@section('barside')
+
+  @include('intern.inc.barside')
+
+@endsection
+
 @section('content')
 
 <main class="content-wrapper">

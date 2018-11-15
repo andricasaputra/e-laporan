@@ -51,14 +51,14 @@ class Handler extends ExceptionHandler
         if ($exception instanceof TokenMismatchException) {
 
             return redirect(route('login'))
-            ->with('warning', 'Sorry, your session seems to have expired. Please login again.');
+            ->with('warning', 'Harap Login Terlebih Dahulu');
 
         }
 
         if ($exception instanceof AuthenticationException) {
 
             return redirect(route('login'))
-            ->with('warning', 'Sorry, your session seems to have expired. Please login again.');
+            ->with('warning', 'Harap Login Terlebih Dahulu');
 
         }
 

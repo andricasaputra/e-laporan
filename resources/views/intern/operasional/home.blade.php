@@ -2,6 +2,12 @@
 
 @section('title', 'Home Operasional - Halaman Utama')
 
+@section('barside')
+
+  @include('intern.inc.barside')
+
+@endsection
+
 @section('content')
 
 <style type="text/css">

@@ -7,11 +7,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>@yield('title', config('app.name'))</title>
+  <meta content="e-Office-sumbawa" name="keywords">
+  <meta content="e-Office-sumbawa" name="description">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="e-Office">
+  <meta name="apple-mobile-web-app-title" content="e-Office">
+  <meta name="theme-color" content="#00A9F4">
+  <meta name="msapplication-navbutton-color" content="#00A9F4">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-starturl" content="/login">
+  
+  <title>@yield('title', 'E-Office Karantina Sumbawa')</title>
+  
+  <link rel="manifest" href="{{ asset('manifest.json') }}">
+  <link rel="icon" type="image/png" href="{{ asset('images/favicon-32x32.png') }}" sizes="32x32">
+  <link rel="icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
+  <link rel="apple-touch-icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('images/web-sumbawa2x.png') }}">
+  <link rel="apple-touch-icon" type="image/png" sizes="96x96" href="{{ asset('images/web-sumbawa2x.png') }}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/web-sumbawa3x.png') }}">
+  <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="{{ asset('images/web-sumbawa3x.png') }}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('images/web-sumbawa4x.png') }}">
+  <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="{{ asset('images/web-sumbawa4x.png') }}">
+  
   <link rel="icon" href="{{asset('images/favicon-32x32.png')}}" type="image/png" sizes="32x32">
   <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{asset('css/util.css')}}">
   <link rel="stylesheet" href="{{asset('css/main.css')}}">
+  <style>
+    @media only screen and (max-width: 700px){
+        .limiter .container-login100{
+            margin-top: -20%;
+        }
+        
+        img{
+            margin-top: -5%;
+        }
+        
+        .wrap-input100:first-of-type{
+            margin-top: 5%;
+        }
+    }
+  </style>
 </head>
 
 <body>
@@ -21,14 +59,14 @@
             <div class="wrap-login100 p-t-85 p-b-20">
 
                 @if (Session::has('success'))
-                   <div class="alert alert-success">{{ Session::get('success') }}</div>
+                   <div class="alert alert-success text-center">{{ Session::get('success') }}</div>
                 @elseif (Session::has('warning'))
-                    <div class="alert alert-danger">{{ Session::get('warning') }}</div>
+                    <div class="alert alert-danger text-center">{{ Session::get('warning') }}</div>
                 @endif
 
                 @if($errors->any())
                   @foreach($errors->all() as $error)
-                    <div class="alert alert-danger">{{$error}}</div>
+                    <div class="alert alert-danger text-center">{{$error}}</div>
                   @endforeach
                 @endif
                 
@@ -41,7 +79,7 @@
                     </span>
 
                     <span class="login100-form-avatar">
-                        <img src="{{asset('images/web-sumbawa4x.png')}}" alt="AVATAR">
+                        <img src="{{asset('images/web-sumbawa4x.png')}}" alt="logo">
                     </span>
 
                     <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Enter username">
@@ -83,6 +121,7 @@
             </div>
         </div>
     </div>
+    
 
 </body>
 

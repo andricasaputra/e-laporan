@@ -1,4 +1,3 @@
-
 <?php 
 
 Route::prefix('admin')->group(function () {
@@ -8,6 +7,9 @@ Route::prefix('admin')->group(function () {
 
 	Route::get('ikm/show/{id}/{tahun?}', 'Home@show')
 	->name('intern.ikm.home.show');
+
+	Route::get('ikm/statistik', 'Statistik@index')
+	->name('intern.ikm.statistik.index');
 
 	Route::middleware('admin')->group(function () {
 

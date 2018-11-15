@@ -17,18 +17,9 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-
         if (Auth::guard($guard)->check()) {
             
-            if (Auth::guard($guard)->user()->role_id == 1) {
-
-                return redirect(route('welcome.admin'));
-
-            } else {
-
-                return redirect(route('welcome'));
-
-            }
+            return redirect(route('welcome'))->with('warning', 'Anda tidak mempunyai hak akses ke halaman ini!');
         }
 
         return $next($request);

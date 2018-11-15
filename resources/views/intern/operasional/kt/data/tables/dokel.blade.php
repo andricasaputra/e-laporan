@@ -1,6 +1,13 @@
 @extends('intern.layouts.app')
 
-@section('title','Operasional - Data Domestik Keluar')			
+@section('title','Operasional - Data Domestik Keluar')	
+
+@section('barside')
+
+  @include('intern.inc.barside')
+
+@endsection
+		
 @section('content')
 
 <style type="text/css">

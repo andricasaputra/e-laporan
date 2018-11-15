@@ -40,17 +40,11 @@ class Responden extends Model
 
     public function question()
     {   
-        /*This hasManyThrough relation query = this query
-        select `ikm_question`.*, `ikm_result`.`responden_id` from `ikm_question` inner join `ikm_result` on `ikm_result`.`question_id` = `ikm_question`.`id` where `ikm_result`.`responden_id` = 18*/
-
         return $this->hasManyThrough(Question::class, Result::class, 'responden_id', 'id', 'id', 'question_id');
     }
 
     public function answer()
     {   
-        /*This hasManyThrough relation query = this query
-        select `ikm_answer`.*, `ikm_result`.`responden_id` from `ikm_answer` inner join `ikm_result` on `ikm_result`.`answer_id` = `ikm_answer`.`id` where `ikm_result`.`responden_id` = 18*/
-
         return $this->hasManyThrough(Answer::class, Result::class, 'responden_id', 'id', 'id', 'answer_id');
     }
 
@@ -72,6 +66,24 @@ class Responden extends Model
     public function pekerjaan()
     {
     	return $this->belongsTo(Pekerjaan::class);
+    }
+
+    public function sumRating()
+    {
+        return $this->answer()
+          ->selectRaw('sum(nilai) as aggregate')
+          ->groupBy('question_id');
+    }
+
+    public function getSumRatingAttribute()
+    {
+        if ( ! array_key_exists('sumRating', $this->relations)) {
+           $this->load('sumRating');
+        }
+
+        $relation = $this->getRelation('sumRating')->first();
+
+        return ($relation) ? $relation->aggregate : null;
     }
 
 }

@@ -30,7 +30,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if($user->role_id == 1 && $user->bagian == '-') {
+        /*if($user->role_id == 1 && $user->bagian == '-') {
 
             return redirect(route('welcome.admin'));
 
@@ -38,7 +38,9 @@ class LoginController extends Controller
 
             return redirect(route('welcome'));
             
-        }
+        }*/
+
+        return redirect(route('welcome'));
     }
 
 }

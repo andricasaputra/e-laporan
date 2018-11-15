@@ -6,6 +6,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('users', 'UserController@api')->name('api.user');
+
 Route::namespace('Operasional')->group(function () {
 
 	Route::post('kt/dokel/{year}', 'DokelKt@api')->name('api.kt.dokel');

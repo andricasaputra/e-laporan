@@ -14,47 +14,19 @@
           </a>
         </div>
 
-        @if (Auth::user()->role_id == 1 && Auth::user()->bagian == '-')
+        @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
 
           @include('intern.inc.barside_kt')
           @include('intern.inc.barside_kh')
 
-        @elseif(Auth::user()->role_id != 1 && Auth::user()->bagian == 'kt')
+        @elseif(Auth::user()->role_id != 1 && Auth::user()->pegawai->jenis_karantina == 'kt')
 
           @include('intern.inc.barside_kt')
 
-        @else
+        @elseif(Auth::user()->role_id != 1 && Auth::user()->pegawai->jenis_karantina == 'kh')
 
           @include('intern.inc.barside_kh')
           
-        @endif
-
-         @if ( Auth::user()->role_id == 1 )
-            @if (Route::has('register'))
-
-                <div class="mdc-list-item mdc-drawer-item"  data-toggle="expansionPanel" target-panel="user-management">
-                <a class="mdc-drawer-link" href="#">
-                   <i class="fa fa-gear fa-custom" aria-hidden="true"></i>
-                  User Management
-                  <i class="mdc-drawer-arrow material-icons">arrow_drop_down</i>
-                </a>
-                <div class="mdc-expansion-panel" id="user-management">
-                  <nav class="mdc-list mdc-drawer-submenu">
-                    <div class="mdc-list-item mdc-drawer-item">
-                      <a class="mdc-drawer-link" href="{{ route('users.show') }}">
-                        Lihat Data
-                      </a>
-                    </div>
-                    <div class="mdc-list-item mdc-drawer-item">
-                      <a class="mdc-drawer-link" href="{{ route('register') }}">
-                        Register New User
-                      </a>
-                    </div>
-                  </nav>
-                </div>
-              </div>
-              
-            @endif
         @endif
 
       </nav>

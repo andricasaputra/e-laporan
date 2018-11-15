@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta content="survey-ikm" name="keywords">
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta content="survey-ikm-sumbawa" name="keywords">
   <meta content="survey-ikm-sumbawa" name="description">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="Web Sumbawa">
-  <meta name="apple-mobile-web-app-title" content="e-Office">
-  <meta name="theme-color" content="#FFB300">
-  <meta name="msapplication-navbutton-color" content="#FFB300">
+  <meta name="application-name" content="e-IKM">
+  <meta name="apple-mobile-web-app-title" content="e-IKM">
+  <meta name="theme-color" content="#081E5B">
+  <meta name="msapplication-navbutton-color" content="#081E5B">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="msapplication-starturl" content="/ikm">
 

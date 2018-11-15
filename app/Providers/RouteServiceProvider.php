@@ -39,9 +39,11 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapIkmRoutes();
+
         $this->mapOperasionalRoutes();
 
-        $this->mapIkmRoutes();
+        $this->mapAplicationManagementRoutes();
 
         //
     }
@@ -80,6 +82,14 @@ class RouteServiceProvider extends ServiceProvider
              ->group(function(){
                 Route::prefix('ikm')->group(base_path('routes/ikm.php'));
              });
+    }
+
+    protected function mapAplicationManagementRoutes()
+    {
+        Route::middleware('web', 'admin')
+             ->prefix('intern')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/management.php'));
     }
 
     /**

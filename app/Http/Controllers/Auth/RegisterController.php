@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-
-use App\User;
-use App\Wilker;
-
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Wilker;
+use App\Models\Jabatan;
+use App\Models\Golongan;
+use App\Models\MasterPegawai as Master;
 
 class RegisterController extends Controller
 {
@@ -36,8 +38,15 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $wilker = Wilker::all();
-        return view('auth.register')->with('wilker', $wilker);
+        $roles      = Role::where('id', '!=', 1)->get();
+        $wilker     = Wilker::all();
+        $jabatan    = Jabatan::all();
+        $golongan   = Golongan::all();
+        return view('auth.register')
+        ->with('roles', $roles)
+        ->with('wilker', $wilker)
+        ->with('jabatan', $jabatan)
+        ->with('golongan', $golongan);
     }
 
 
@@ -50,10 +59,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'wilker' => 'required|string|max:255',
-            'bagian' => 'required|string|max:255',
-            'role' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
+            'wilker' => 'required|string',
+            'nip' => 'required|max:18|unique:master_pegawai',
+            'role' => 'required|string',
+            'nama' => 'required|string',
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -63,17 +72,27 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
-        return User::create([
-            'wilker_id' => $data['wilker'],
-            'username' => $data['username'],
-            'bagian' => $data['bagian'],
+        $master = Master::create([
+            'nama' => $data['nama'],
+            'nip' => $data['nip'],
+            'jenis_karantina' => $data['jenis_karantina'],
+            'golongan_id' => $data['golongan'],
+            'jabatan_id' => $data['jabatan'],
+            'wilker_id' => $data['wilker']
+        ]);
+
+        $master->user()->create([
             'role_id' => $data['role'],
-            'name' => $data['name'],
-            'password' => Hash::make($data['password']),
+            'username' => $data['username'],
+            'password' => Hash::make($data['password'])
+        ]);
+
+        return $master->profile()->create([
+            'nama' => $data['nama']
         ]);
     }
 

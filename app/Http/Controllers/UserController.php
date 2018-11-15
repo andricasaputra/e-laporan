@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use App\User;
-use App\Wilker;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Wilker;
+use App\Models\Jabatan;
+use App\Models\Golongan;
+use App\Models\MasterPegawai as Master;
 use DataTables;
 
 class UserController extends Controller
@@ -16,76 +20,71 @@ class UserController extends Controller
         return view('auth.showusers');
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'wilker_id' => $data['wilker'],
-            'username'  => $data['username'],
-            'bagian'    => $data['bagian'],
-            'role_id'   => $data['role'],
-            'name'      => $data['name'],
-            'password'  => Hash::make($data['password']),
-        ]);
-    }
 
     public function edit($id)
     {
+        $user       = User::with(['pegawai', 'role'])->find($id);
+        $roles      = Role::where('id', '!=', 1)->get();
         $wilkers    = Wilker::all();
-        $user       = User::find($id);
-        $wilker     = $user->wilker;
-        $role       = $user->role;
-        return view('auth.edit')->with('user', $user)
-        ->with('wilker', $wilker)
-        ->with('role', $role)
-        ->with('wilkers', $wilkers);
+        $jabatan    = Jabatan::all();
+        $golongan   = Golongan::all();
+
+        return view('auth.edit')
+        ->with('user', $user)
+        ->with('wilker_user', $user->wilker->first())
+        ->with('golongan_user', $user->golongan->first())
+        ->with('jabatan_user', $user->jabatan->first())
+        ->with('roles', $roles)
+        ->with('wilkers', $wilkers)
+        ->with('jabatan', $jabatan)
+        ->with('golongan', $golongan);
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
 
-            'wilker'    => 'required|string|max:255',
-            'bagian'    => 'required|string|max:255',
-            'role'      => 'required|string|max:255',
-            'name'      => 'required|string|max:255',
-            'username'  => 'required|string|max:255',
-            'password'  => 'required|string|min:6|confirmed',
+            'wilker'            => 'required|string',
+            'jenis_karantina'   => 'required|string',
+            'role'              => 'required|string',
+            'nama'              => 'required|string',
+            'username'          => 'required|string',
+            'password'          => 'required|string|min:6|confirmed',
 
         ]); 
 
-        $user = User::find($id);
+        $master = Master::find($id);
 
-        $user->wilker_id    = $request->wilker;
-        $username           = $request->username;
-        $user->bagian       = $request->bagian;
-        $user->role_id      = $request->role;
-        $user->name         = $request->name;
-        $user->password     = Hash::make($request->password);
+        $master->update([
+            'nama' => $request->nama,
+            'nip' => $request->nip,
+            'jenis_karantina' => $request->jenis_karantina,
+            'golongan_id' => $request->golongan,
+            'jabatan_id' => $request->jabatan,
+            'wilker_id' => $request->wilker
+        ]);
 
-        if($user->save()){
+        $master->user()->update([
+            'role_id' => $request->role,
+            'username' => $request->username,
+            'password' => Hash::make($request->password)
+        ]);
 
-            return redirect(route('users.show'))->with('success', 'Data User Berhasil Diubah');
+        $master->profile()->update([
+            'nama' => $request->nama
+        ]);
 
-        }
-
-        return redirect()->back()->with('warning', 'Terjadi Kesalahan, Gagal Ubah Data');
-
+        return redirect(route('users.index'))->with('success', 'Data User Berhasil Diubah');
     }
 
     public function api()
     {
-        $users = User::all();
+        $users = User::with('pegawai');
  
         return Datatables::of($users)
             ->addColumn('action', function($users){
 
-                return '<a href="'. route('users.edit', $users->id) .'" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>';
+                return '<a href="'. route('users.edit', $users->pegawai->id) .'" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>';
 
             })->rawColumns(['action'])->make(true);
     }

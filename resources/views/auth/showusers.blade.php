@@ -2,6 +2,12 @@
 
 @section('title', 'Home Operasional - Show All Users')
 
+@section('barside')
+
+  @include('intern.inc.barside_manajemen')
+
+@endsection
+
 @section('content')
 
 <style type="text/css">
@@ -24,7 +30,7 @@
                  <th>Id</th>
                  <th>Name</th>
                  <th>Username</th>
-                 <th>Bagian</th>
+                 <th>Status</th>
                  <th>Options</th>
               </thead>
               <tbody></tbody>        
@@ -51,9 +57,9 @@
             },
             "columns": [
               { "data": "id" },
-              { "data": "name" },
+              { "data": "pegawai.nama" },
               { "data": "username" },
-              { "data": "bagian" },
+              { "data": "pegawai.is_active" },
               { "data": "action" }
             ]  
 

@@ -10,9 +10,9 @@
         <ul class="nav side-menu">
           <li><a href="{{ route('intern.ikm.home.index') }}"><i class="fa fa-home"></i> Hasil Survey </a>
           </li>
-          <li><a href="#"><i class="fa fa-line-chart"></i> Analitycs </a>
+          <li><a href="{{ route('intern.ikm.statistik.index') }}"><i class="fa fa-line-chart"></i> Statistik </a>
           </li>
-          @if(Auth::user()->role_id == 1)
+          @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
 
             <li><a><i class="fa fa-gear"></i> Setting Aplikasi <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
@@ -60,16 +60,12 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="">
           <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            {{ ucwords(Auth::user()->name) }}&nbsp;&nbsp;&nbsp;
+            {{ ucwords(Auth::user()->pegawai->nama) }}&nbsp;&nbsp;&nbsp;
             <span class=" fa fa-angle-down"></span>
           </a>
           <ul class="dropdown-menu dropdown-usermenu pull-right">
             <li>
-              @if(Auth::user()->role_id == 1) 
-                <a href="{{ route('welcome.admin') }}">
-              @else
-                <a href="{{ route('welcome') }}">
-              @endif
+              <a href="{{ route('welcome') }}">
                 <i class="fa fa-home pull-right"></i> Go To Home
               </a>
             </li>

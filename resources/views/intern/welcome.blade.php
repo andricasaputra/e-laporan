@@ -7,10 +7,46 @@
     color: #fff
   }
 
+  .btn{
+    border-radius: 30px !important;
+  }
+
+  .btn-default{
+    background-color: #3E50B4;
+    color: #fff;
+  }
+
+  .btn-default:hover {
+    background-color: #2e3b85;
+    color: #fff;
+  }
+
+  .card, .card-body{
+    border-radius: 20px !important;
+    outline: none;
+  }
+
   .card-body{
-    -webkit-box-shadow: 10px 10px 4px -4px rgba(0,0,0,0.24);
-    -moz-box-shadow: 10px 10px 4px -4px rgba(0,0,0,0.24);
-    box-shadow: 10px 10px 4px -4px rgba(0,0,0,0.24);
+    -webkit-box-shadow: 10px 10px 4px -4px rgba(0,0,0,0.25);
+    -moz-box-shadow: 10px 10px 4px -4px rgba(0,0,0,0.25);
+    box-shadow: 10px 10px 4px -4px rgba(0,0,0,0.25);
+  }
+
+
+  i.fa{
+     margin-top: 15px;
+  }
+
+  @media only screen and (max-width: 700px){
+    .card{
+      display: block;
+      text-align: center;
+    }
+    
+    i.fa{
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
   }
 </style>
 
@@ -22,7 +58,7 @@
             <div class="mdc-layout-grid__inner">
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-7">
                 <section class="purchase__card_section">
-                  Selamat Datang <b>{{ Auth::user()->name }}</b>
+                  Selamat Datang <b>{{ Auth::user()->pegawai->nama }}</b>
                 </section>
               </div>
             </div>
@@ -30,10 +66,12 @@
         </div>
       </div>
     </div>
-    
+
+    @include('intern.inc.message')
+
     <div class="container-fluid">
-      <div class="row mb-4">
-        <div class="col-sm-6">
+      <div class="row">
+        <div class="col-sm-6 mb-4">
           <div class="card">
             <div class="card-body" style="background-color: #00A9F4">
               <div class="row">
@@ -43,13 +81,13 @@
                 <div class="col-sm-9 card_body_welcome">
                     <h3 class="card-title">E - Laporan Operasional</h3>
                     <p class="card-text">Status : In Progress</p>
-                    <a href="{{ route('intern.operasional.home') }}" class="btn btn-success">Masuk Ke Aplikasi!</a>                    
+                    <a href="{{ route('intern.operasional.home') }}" class="btn btn-success">Masuk Ke Aplikasi!</a> 
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6 mb-4">
           <div class="card">
             <div class="card-body" style="background-color: #3E50B4">
               <div class="row">
@@ -59,7 +97,7 @@
                 <div class="col-sm-9 card_body_welcome">
                     <h3 class="card-title">E - Surat Tugas</h3>
                     <p class="card-text">Status : In Planning</p>
-                    <a href="#" class="btn btn-danger">Masuk Ke Aplikasi!</a>
+                    <a href="#" class="btn" style="background-color: #54B2A9; color:#fff">Masuk Ke Aplikasi!</a>
                 </div>
               </div>
             </div>
@@ -68,7 +106,7 @@
       </div>
 
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 mb-4">
           <div class="card">
             <div class="card-body" style="background-color: #82B440">
               <div class="row">
@@ -77,15 +115,16 @@
                 </div>
                 <div class="col-sm-9 card_body_welcome">
                     <h3 class="card-title">E - IKM</h3>
-                    <p class="card-text">Status : In Planning</p>
+                    <p class="card-text">Status : In Progress</p>
                     <a href="{{ route('intern.ikm.home.index') }}" class="btn btn-default">Masuk Ke Aplikasi!</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-6">
-          <div class="card-body" style="background-color: #E91E63">
+        <div class="col-sm-6 mb-4">
+          <div class="card">
+            <div class="card-body" style="background-color: #E91E63">
               <div class="row">
                 <div class="col-sm-3 text-center" style="color: #fff">
                    <i class="fa fa-file fa-5x"></i>
@@ -97,9 +136,45 @@
                 </div>
               </div>
             </div>
+          </div> 
         </div>
       </div>
-    </div> 
 
+      <div class="row">
+        <div class="col-sm-6 mb-4">
+          <div class="card">
+            <div class="card-body" style="background-color: #F38630">
+              <div class="row">
+                <div class="col-sm-3 text-center" style="color: #fff">
+                   <i class="fa fa-user fa-5x"></i>
+                </div>
+                <div class="col-sm-9 card_body_welcome">
+                    <h3 class="card-title">Website Admin Panel</h3>
+                    <p class="card-text">Status : In Planning</p>
+                    <a href="#" class="btn" style="background-color: #D62D20; color:#fff">Masuk Ke Aplikasi!</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 mb-4">
+          <div class="card">
+            <div class="card-body" style="background-color: #5E412F">
+              <div class="row">
+                <div class="col-sm-3 text-center" style="color: #fff">
+                   <i class="fa fa-gear fa-5x"></i>
+                </div>
+                <div class="col-sm-9 card_body_welcome">
+                    <h3 class="card-title">Aplikasi Manajemen</h3>
+                    <p class="card-text">Status : In Progress</p>
+                    <a href="{{ route('users.index') }}" class="btn" style="background-color: #0087CB; color:#fff">Masuk Ke Aplikasi!</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
+    
 </main>
 @endsection
