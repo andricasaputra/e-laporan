@@ -1,6 +1,6 @@
 @extends('intern.layouts.admin')
 
-@section('title', 'Home')
+@section('title', 'E-IKM | Show')
 
 @section('barside.title', 'IKM Sumbawa')
 
@@ -51,7 +51,7 @@
 
 @endsection
 
-@section('scripts')
+@section('script')
 
   <script>
 

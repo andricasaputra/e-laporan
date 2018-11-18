@@ -32,7 +32,7 @@ class Responden extends Model
     public function ikm()
     {   
         /*This hasManyThrough relation query = this query
-        select `ikm`.*, `ikm_result`.`responden_id` from `ikm` inner join `ikm_result` on `ikm_result`.`ikm_id` = `ikm`.`id` where `ikm_result`.`responden_id` = 18*/
+        select `ikm`.*, `ikm_result`.`responden_id` from `ikm` inner join `ikm_result` on `ikm_result`.`ikm_id` = `ikm`.`id` where `ikm_result`.`responden_id` = whatever_responden_id*/
 
         return $this->hasManyThrough(Jadwal::class, Result::class, 'responden_id', 'id', 'id', 'ikm_id')
         ->groupBy('ikm_result.responden_id');

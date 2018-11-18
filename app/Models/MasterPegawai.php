@@ -34,7 +34,7 @@ class MasterPegawai extends Model
 
     public function jabatan()
     {
-        return $this->hasOne(Jabatan::class, 'jabatan_id');
+        return $this->hasOne(Jabatan::class, 'id');
     }
 
     public function wilker()

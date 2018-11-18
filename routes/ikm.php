@@ -8,8 +8,11 @@ Route::prefix('admin')->group(function () {
 	Route::get('ikm/show/{id}/{tahun?}', 'Home@show')
 	->name('intern.ikm.home.show');
 
-	Route::get('ikm/statistik', 'Statistik@index')
+	Route::get('ikm/statistik/{id?}', 'Statistik@index')
 	->name('intern.ikm.statistik.index');
+
+	Route::get('ikm/statistik/cetak/{id}', 'Statistik@cetakRekap')
+	->name('intern.ikm.statistik.cetak');
 
 	Route::middleware('admin')->group(function () {
 

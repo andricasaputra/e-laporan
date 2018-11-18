@@ -36,5 +36,7 @@ Route::namespace('Ikm')->group(function () {
 	
 	Route::get('ikm/detail/{id}/{tahun?}', 'Home@detailApi')->name('api.show');
 
+	Route::get('statistik/ikm/{id?}', 'Statistik@api')->name('api.statistik');
+
 });
 

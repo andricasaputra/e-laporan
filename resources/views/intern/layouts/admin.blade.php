@@ -113,9 +113,9 @@
     <script src="{{asset('intern/build/js/custom.min.js')}}"></script>
     <script src="{{asset('intern/build/js/mywebadmin.js')}}"></script>
 
-    @yield('scripts')
+    @yield('script')
 
-    @yield('chart-scripts')
+    @yield('chart-script')
 
   </body>
 </html>

@@ -1,6 +1,6 @@
 @extends('intern.layouts.admin')
 
-@section('title', 'Home')
+@section('title', 'E-IKM | Home')
 
 @section('barside.title', 'IKM Sumbawa')
 
@@ -100,7 +100,7 @@
 
 @endsection
 
-@section('scripts')
+@section('script')
 
   @if(Auth::user()->role_id == 1)
 

@@ -8,9 +8,14 @@
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
       <div class="menu_section">
         <ul class="nav side-menu">
-          <li><a href="{{ route('intern.ikm.home.index') }}"><i class="fa fa-home"></i> Hasil Survey </a>
+          <li>
+            <a href="{{ route('intern.ikm.home.index') }}"><i class="fa fa-home"></i> Hasil Survey </a>
           </li>
-          <li><a href="{{ route('intern.ikm.statistik.index') }}"><i class="fa fa-line-chart"></i> Statistik </a>
+          <li><a><i class="fa fa-line-chart"></i> Statistik <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a href="{{ route('intern.ikm.statistik.index') }}">Hasil Rekap IKM</a></li>
+              <li><a href="#">Grafik</a></li>
+            </ul>
           </li>
           @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
 
