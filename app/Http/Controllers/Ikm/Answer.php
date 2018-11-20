@@ -60,7 +60,7 @@ class Answer extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $answer = Jawaban::find($id);
 
@@ -74,7 +74,7 @@ class Answer extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $request->validate([
 
@@ -99,7 +99,7 @@ class Answer extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $answer = Jawaban::find($id);
 

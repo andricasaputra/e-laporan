@@ -60,7 +60,7 @@ class Pekerjaan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $pekerjaan = Model::find($id);
 
@@ -74,7 +74,7 @@ class Pekerjaan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $request->validate([
 
@@ -98,7 +98,7 @@ class Pekerjaan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         Model::destroy($id);
 

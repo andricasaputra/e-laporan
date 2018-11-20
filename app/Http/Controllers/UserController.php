@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
+use DataTables;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Wilker;
 use App\Models\Jabatan;
 use App\Models\Golongan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\MasterPegawai as Master;
-use DataTables;
 
 class UserController extends Controller
 {
-
     public function index()
     {
         return view('auth.showusers');
     }
 
 
-    public function edit($id)
+    public function edit(int $id)
     {
         $user       = User::with(['pegawai', 'role'])->find($id);
         $roles      = Role::where('id', '!=', 1)->get();
@@ -40,7 +39,7 @@ class UserController extends Controller
         ->with('golongan', $golongan);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $request->validate([
 

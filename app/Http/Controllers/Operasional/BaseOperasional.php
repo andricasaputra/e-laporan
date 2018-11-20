@@ -1,28 +1,96 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Http\Controllers\Operasional;
 
+use App\Models\User;
+use App\Models\Wilker;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Database\Eloquent\Collection;
 
-ini_set('max_execution_time', 200);
+ini_set('max_execution_time', '200');
 
 class BaseOperasional extends Controller
 {
+    private function getUserId() : int
+    {
+        return Auth::user()->id;
+    }
+
+    private function getUserRoleId() : int
+    {
+        return Auth::user()->role_id;
+    }
+
+    protected function setUserWilkerId(int $wilker_id) : int
+    {
+        return $wilker_id;
+    }
+
+    protected function setUserWilker() : string
+    {
+        $wilker_user = User::find($this->getUserId())->wilker->first();
+
+        $wilker_user = $wilker_user->nama_wilker;
+
+        if (strpos($wilker_user, '.') !== false) {
+
+            $wilker_user = str_replace('.', ' ', $wilker_user);
+        }
+
+        return str_replace(' ', '', $wilker_user);
+
+    }
+
+    protected function checkActiveUserIdAndRequestUserId(int $user_id) : int
+    {
+        if ($this->setActiveUser()->id !== $user_id) {
+
+            Session::flash('warning','Unautorizhed User Detected!');
+
+            return false;
+
+        }
+
+        return $user_id;
+    }
+
+    protected function setActiveUser() : User
+    {
+        $user = User::where('id', $this->getUserId())->first();
+
+        return $user;
+    }
+
+    protected function setActiveUserWilker() : Collection 
+    {
+        $wilker = $this->getUserRoleId() === 1 ||  $this->getUserRoleId() === 2
+
+                ? Wilker::where('nama_wilker', '!=', 'Kantor induk')->get()
+
+                : User::find($this->getUserId())->wilker->toArray();
+
+        return $wilker;
+    }
+
     /*Menangkap URL Request Kemudian Di Redirect*/
-    protected function selectAnotherYear(Request $request)
+    protected function selectAnotherYear(Request $request) : string
     {
         return redirect($request->year);
     }
+
     /**
      *Digunakan mencetak semua table kt head pada masing2 class turunan
      *dan kemuadian masing2 child class mengoper ke view yang diperlukan 
      *
      * @return array
      */
-    protected function tableTitleKt()
+    protected function tableTitleKt() : array
     {
         return array(
              'no',
@@ -82,7 +150,7 @@ class BaseOperasional extends Controller
      * 
      * @return array
      */
-    protected function tableTitleKh()
+    protected function tableTitleKh() : array
     {
         return array(
             'no',
@@ -143,7 +211,7 @@ class BaseOperasional extends Controller
      *
      * @return string
      */
-    protected function checkUserWilker($path)
+    protected function checkUserWilker(string $path) : string
     {
         /*Get Format Laporan Untuk Domas*/
         $user_wilker = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
@@ -173,7 +241,7 @@ class BaseOperasional extends Controller
 
             $wilker = str_replace(' ', '', $wilker);
             
-            return trim($wilker);
+            return strtolower(trim($wilker));
         }
 
     }
@@ -183,7 +251,7 @@ class BaseOperasional extends Controller
      *
      * @return bool
      */
-    protected function checkJenisKarantina($path, $jenis_karantina)
+    protected function checkJenisKarantina(string $path, string $jenis_karantina)
     {
         /*Get Format Laporan Untuk Dokel*/
         $tipe_karantina = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
@@ -219,7 +287,7 @@ class BaseOperasional extends Controller
      *
      * @return bool
      */
-    protected function checkJenisPermohonan($path, $jenis_permohonan)
+    protected function checkJenisPermohonan(string $path, string $jenis_permohonan)
     {
         /*Get Format Laporan Untuk Dokel*/
         $tipe_permohonan = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
@@ -251,12 +319,12 @@ class BaseOperasional extends Controller
      *
      * @return bool
      */
-    protected function checkingData($path, $jenis_karantina, $jenis_permohonan, $user)
+    protected function checkingData(string $path, string $jenis_karantina, string $jenis_permohonan, string $user) : bool
     {
         /*Cek Format Laporan*/
         if ($this->checkJenisKarantina($path, $jenis_karantina) === 'not our format') {
 
-            \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Merupakan Format Laporan Bulanan Dari IQFAST!');
+            Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Merupakan Format Laporan Bulanan Dari IQFAST!');
 
             return false;
         }
@@ -264,7 +332,7 @@ class BaseOperasional extends Controller
         /*Cek Jenis Karantina*/
         if($this->checkJenisKarantina($path, $jenis_karantina) === false){
 
-            \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Kegiatan ' . ucwords(str_replace('_', ' ', $jenis_karantina)).' !');
+            Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Kegiatan ' . ucwords(str_replace('_', ' ', $jenis_karantina)).' !');
 
             return false;
 
@@ -273,7 +341,7 @@ class BaseOperasional extends Controller
         /*Cek Jenis Permohonan*/
         if ($this->checkJenisPermohonan($path, $jenis_permohonan) === false) {
 
-            \Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Kegiatan ' . ucwords($jenis_permohonan) .' !');
+            Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Kegiatan ' . ucwords($jenis_permohonan) .' !');
 
             return false;
 
@@ -282,9 +350,9 @@ class BaseOperasional extends Controller
         $wilker_laporan_clue = substr($this->checkUserWilker($path), -10, 8);
 
         /*Cek Wilker Dari User Yang Mengupload*/
-        if(strpos($user, $wilker_laporan_clue) === false && Auth::user()->role_id != 1){
+        if(strpos($user, $wilker_laporan_clue) === false && Auth::user()->role_id !== 1 && Auth::user()->role_id !== 2){
 
-            \Session::flash('warning','Laporan Yang Anda Unggah Tidak Sesuai Dengan Wilker Anda!');
+            Session::flash('warning','Laporan Yang Anda Unggah Tidak Sesuai Dengan Wilker Anda!');
 
             return false;
         }

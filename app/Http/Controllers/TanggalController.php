@@ -8,7 +8,7 @@ class TanggalController
 
     const SERVER_DATEFORMAT = 'Y-m-d';
 
-    public static function bulanTahun($tanggal)
+    public static function bulanTahun(string $tanggal) : string
     {
         $bulan = array(
 
@@ -44,7 +44,7 @@ class TanggalController
 
     }
 
-    public static function balikTanggal($tanggal)
+    public static function balikTanggal(string $tanggal) : string
     {
         $bulan = array(
 
@@ -84,7 +84,7 @@ class TanggalController
 
     }
 
-    public static function balikTanggalVersi2($tanggal)
+    public static function balikTanggalVersi2(string $tanggal) : string
     {
         $bulan = array(
 
@@ -133,7 +133,7 @@ class TanggalController
 
     }
 
-    public static function tanggalIndo($tanggal)
+    public static function tanggalIndo(string $tanggal) : string
     {
         $bulan = array(
 
@@ -169,7 +169,7 @@ class TanggalController
 
     }
 
-    public static function tanggalIndoVersi2($tanggal)
+    public static function tanggalIndoVersi2(string $tanggal) : string
     {
         $bulan = array(
 
@@ -205,7 +205,7 @@ class TanggalController
 
     }
 
-    public static function bulan($bln)
+    public static function bulan(string $bln) : string
     {
         $bulan = $bln;
 
@@ -265,7 +265,7 @@ class TanggalController
 
     }
 
-    public static function hari($tanggal)
+    public static function hari(string $tanggal) : string
     {
         $hari = date('l', microtime($tanggal));
 
@@ -293,7 +293,7 @@ class TanggalController
 
     }
 
-    public static function sekarang()
+    public static function sekarang() : string
     {
         date_default_timezone_set(self::SERVER_TIMEZONE);
 
@@ -306,7 +306,7 @@ class TanggalController
         return $str_server_now;
     }
 
-    public static function besok()
+    public static function besok() : string
     {
         date_default_timezone_set(self::SERVER_TIMEZONE);
 

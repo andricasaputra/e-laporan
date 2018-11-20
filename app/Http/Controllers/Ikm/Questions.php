@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Ikm;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Ikm\Question as Pertanyaan;
 use App\Models\Ikm\Answer as Jawaban;
+use App\Models\Ikm\Question as Pertanyaan;
 
 class Questions extends Controller
 {
@@ -68,7 +68,7 @@ class Questions extends Controller
         ->with('success', 'Berhasil Tambah pertanyaan!');
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $question = Pertanyaan::find($id);
 
@@ -83,7 +83,7 @@ class Questions extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $question = Pertanyaan::find($id);
         $answers = Jawaban::all();
@@ -100,7 +100,7 @@ class Questions extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $question = Pertanyaan::find($id);
 
@@ -125,7 +125,7 @@ class Questions extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $question = Pertanyaan::find($id);
 

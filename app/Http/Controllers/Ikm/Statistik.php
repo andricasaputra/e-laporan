@@ -1,17 +1,17 @@
-<?php
+<?php 
+
+declare(strict_types = 1);
 
 namespace App\Http\Controllers\Ikm;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Ikm\Result;
-use App\Models\Ikm\Responden;
-use App\Models\Ikm\Question;
-use App\Models\Ikm\Answer;
-use App\Models\Ikm\Jadwal;
-use App\Models\MasterPegawai;
-use DataTables;
 use PDF;
+use DataTables;
+use App\Models\Ikm\Jadwal;
+use App\Models\Ikm\Result;
+use Illuminate\Http\Request;
+use App\Models\Ikm\Question;
+use App\Models\MasterPegawai;
+use App\Http\Controllers\Controller;
 
 class Statistik extends Controller
 {
@@ -68,7 +68,7 @@ class Statistik extends Controller
 		return $pdf->stream('ikm.pdf');
     }
 
-    private function setCetakTableHeader()
+    protected function setCetakTableHeader() : array
     {
     	$questions = Question::all();
 
@@ -85,7 +85,7 @@ class Statistik extends Controller
     	return $data;
     }
 
-    private function setCetakTableBody(int $id)
+    protected function setCetakTableBody(int $id) : array
     {
     	$result = Result::with(['answer:ikm_answer.id,nilai'])->where('ikm_id', $id)->get();
 
@@ -102,14 +102,14 @@ class Statistik extends Controller
     	return $data;
     }
 
-    private function apiSource(int $id = null)
+    protected function apiSource(int $id = null) : array
     {
 		if (!isset($id)) {
 
 			$id = $this->getId();
 		}
     		
-    	$result = Result::with(['answer:ikm_answer.id,nilai', 'question'])->where('ikm_id', $id)->get();
+    	$result = Result::with(['answer:ikm_answer.id,nilai', 'question', 'ikm'])->where('ikm_id', $id)->get();
 
     	$result = $result->groupBy('question_id');
 
@@ -134,7 +134,8 @@ class Statistik extends Controller
 		  			'unsur_pelayanan' => 'U'.$no++.' - '.$this->getUnsur($no2++),
 		  			'nrr' => $nrr ,
 		  			'rata_nrr' => number_format((float)$nrr  / $total_responden, 3, '.', ''),
-		  			'nrr_perunsur' => number_format((float)$nrr  / $total_responden * 0.111, 3, '.', '')
+		  			'nrr_perunsur' => number_format((float)$nrr  / $total_responden * 0.111, 3, '.', ''),
+                    'periode' => $r->ikm->keterangan,
 
 	  			];
 
@@ -145,14 +146,14 @@ class Statistik extends Controller
   		return $data;
     }
 
-    private function getRataRataNilai()
+    protected function getRataRataNilai()
     {
     	$result = Result::with(['answer:ikm_answer.id,nilai', 'question'])->get();
 
     	return $result->groupBy('question_id');
     }
 
-    private function getId()
+    protected function getId() : int
     {
     	$result_id = Result::with(['ikm' => function ($query) {
 	    	$query->where('is_open', 1);
@@ -163,7 +164,7 @@ class Statistik extends Controller
 		return $id;
 	}
 
-	private function getUnsur(int $no)
+	protected function getUnsur(int $no) : string
 	{
 		switch ($no) {
 			case 1:

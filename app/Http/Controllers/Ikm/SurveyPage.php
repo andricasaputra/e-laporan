@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Http\Controllers\Ikm;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Ikm\Jadwal;
-use App\Models\Ikm\Question;
-use App\Models\Ikm\Layanan;
 use App\Models\Ikm\Umur;
-use App\Models\Ikm\Pendidikan;
+use App\Models\Ikm\Jadwal;
+use App\Models\Ikm\Layanan;
+use Illuminate\Http\Request;
+use App\Models\Ikm\Question;
 use App\Models\Ikm\Pekerjaan;
-
 use App\Models\Ikm\Responden;
+use App\Models\Ikm\Pendidikan;
+use App\Http\Controllers\Controller;
 
 class SurveyPage extends Controller
 {
@@ -90,14 +91,14 @@ class SurveyPage extends Controller
 
     }
 
-    public function success($id)
+    public function success(int $id)
     {
         $responden = Responden::find($id);
         return view('ikm.success')
         ->with('responden', $responden);
     }
 
-    public function cetak($id)
+    public function cetak(int $id)
     {
         $responden = Responden::find($id);
         $questions = Question::all();

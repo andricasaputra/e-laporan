@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\{Controller, Rupiah, TanggalController};
 use App\Models\Operasional\{
     DokelKh, 
     DomasKh, 
@@ -14,10 +15,11 @@ use App\Models\Operasional\{
     EksporKt, 
     ImporKt 
 };
+use App\Http\Controllers\{Controller, Rupiah, TanggalController};
 
 class HomeAdmin extends Controller
 {
-    public function show($year = null, $month = null)
+    public function show(int $year = null, string $month = null)
     {
     	$year = isset($year) ? $year : date('Y');
 
@@ -25,7 +27,7 @@ class HomeAdmin extends Controller
     	->with('datas', $this->dataOperasional($year, $month));
     }
 
-    public function dataOperasional($year, $month = null)
+    public function dataOperasional($year, $month = null) : array
     {
         $pnbp_bulan_lalu = !isset($month) 
 
@@ -51,7 +53,7 @@ class HomeAdmin extends Controller
     	return $data[$year];
     }
 
-    public function dataKh($year, $month = null)
+    public function dataKh($year, $month = null) : array
     {
     	$domas_kh 	= DomasKh::where('nomor_dok_pelepasan','!=', NULL)
                     ->whereYear('bulan', $year);
@@ -101,7 +103,7 @@ class HomeAdmin extends Controller
     	return $datakh;
     }
 
-    public function dataKt($year, $month = null)
+    public function dataKt($year, $month = null) : array
     {
 
     	$domas_kt   = DomasKt::where('nomor_dok_pelepasan','!=', NULL)
@@ -151,7 +153,7 @@ class HomeAdmin extends Controller
     	return $datakt;
     }
 
-    public function pnbpKh($year, $month = null)
+    public function pnbpKh($year, $month = null) : int
     {
         $pnbp_domas     = DomasKh::whereYear('bulan', $year);
 
@@ -179,7 +181,7 @@ class HomeAdmin extends Controller
                 + $pnbp_impor->sum('total_pnbp');
     }
 
-    public function pnbpKt($year, $month = null)
+    public function pnbpKt($year, $month = null) : int
     {
         $pnbp_domas     = DomasKt::whereYear('bulan', $year);
 

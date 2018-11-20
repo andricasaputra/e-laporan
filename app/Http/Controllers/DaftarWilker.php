@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Wilker;
+use Illuminate\Http\Request;
 
 class DaftarWilker extends Controller
 {

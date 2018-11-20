@@ -3,9 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Session\TokenMismatchException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -59,6 +60,18 @@ class Handler extends ExceptionHandler
 
             return redirect(route('login'))
             ->with('warning', 'Harap Login Terlebih Dahulu');
+
+        }
+
+        if ($exception instanceof HttpException) {
+
+            $statusCode = $exception->getStatusCode();
+
+            switch ($statusCode) {
+
+                case '404': return abort(404);
+
+            }
 
         }
 

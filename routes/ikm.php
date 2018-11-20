@@ -11,6 +11,9 @@ Route::prefix('admin')->group(function () {
 	Route::get('ikm/statistik/{id?}', 'Statistik@index')
 	->name('intern.ikm.statistik.index');
 
+	Route::get('ikm/grafik/{id?}', 'Grafik@index')
+	->name('intern.ikm.grafik.index');
+
 	Route::get('ikm/statistik/cetak/{id}', 'Statistik@cetakRekap')
 	->name('intern.ikm.statistik.cetak');
 
@@ -47,6 +50,8 @@ Route::prefix('admin')->group(function () {
 		Route::resource('jadwal', 'Jadwal', [
 	    	'names' => 'intern.ikm.settingikm'     
 		])->except(['show']);
+
+		Route::post('show/{id}', 'Jadwal@show')->name('intern.ikm.settingikm.show');
 
 	});
 

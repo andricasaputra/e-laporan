@@ -38,5 +38,7 @@ Route::namespace('Ikm')->group(function () {
 
 	Route::get('statistik/ikm/{id?}', 'Statistik@api')->name('api.statistik');
 
+	Route::get('statistik/grafik/{id?}', 'Grafik@chartApi')->name('api.grafik');
+
 });
 

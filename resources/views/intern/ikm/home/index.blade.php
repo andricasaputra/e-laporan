@@ -18,34 +18,38 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="x_panel">
 	  <div class="x_content">
-      <div class="col-md-1">
+      <div class="row">
+        
+        <div class="col-md-1">
           <div class="form-group">
             <label>Pilih Tahun</label>
-            <select class="form-control" name="year" id="year">
-             
-              @if(last(request()->segments()) == 'home')
+              <select class="form-control" name="year" id="year">
+               
+                @if(last(request()->segments()) == 'home')
 
-                <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
+                  <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
 
-              @endif
-
-              @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
-
-                @if(last(request()->segments()) == $i)
-        
-                  <option value="{{ $i }}" selected>{{ $i }}</option>
-
-                @else
-
-                  <option value="{{ $i }}">{{ $i }}</option>
-                  
                 @endif
 
-              @endfor
+                @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
 
-            </select>
-            
-          </div>
+                  @if(last(request()->segments()) == $i)
+          
+                    <option value="{{ $i }}" selected>{{ $i }}</option>
+
+                  @else
+
+                    <option value="{{ $i }}">{{ $i }}</option>
+                    
+                  @endif
+
+                @endfor
+
+              </select>
+              
+            </div>
+
+        </div>
       </div>
 	    <table id="adminHomeIkm" class="table table-striped table-bordered text-center" width="100%">
 	      <thead>

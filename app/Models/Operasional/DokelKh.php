@@ -5,11 +5,11 @@ namespace App\Models\Operasional;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\TanggalController as Tanggal;
 
-class DokelKh extends Model
+class DokelKh extends Model implements ModelInterface
 {
-    protected $table = 'dokel_kh', 
-    		  $guarded = ['id'],
- 			  $hidden = ['id', 'user_id', 'wilker_id', 'role_id', 'no', 'created_at', 'updated_at'];
+    protected $table 	= 'dokel_kh', 
+    		  $guarded 	= ['id'],
+ 			  $hidden 	= ['id', 'user_id', 'wilker_id', 'role_id', 'no', 'created_at', 'updated_at'];
 
  	public function getBulanAttribute($value)
     {

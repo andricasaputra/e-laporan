@@ -45,11 +45,22 @@
 		      		<td>{{ $setting->start_date }}</td>
 		      		<td>{{ $setting->end_date }}</td>
 		      		<td>	
-	      				@if($setting->is_open == 0)
-	      					<a href="#" class="btn btn-danger btn-xs">Close</a>
+	      				@if($setting->is_open === NULL)
+	      					{{ 'Tidak Aktif/ Expired' }}
+		      				<form action="{{ route('intern.ikm.settingikm.show', $setting->id) }}" method="POST">
+			      				@csrf
+				      			<input type="hidden" name="is_open" value="1">
+				      			<input type="submit" name="submit" class="btn btn-success btn-xs" value="Open">
+			      			</form>
 	      				@else
-	      					<a href="#" class="btn btn-success btn-xs">Open</a>
-	      				@endif		
+	      					{{ 'Aktif/ Sedang berlangsung' }}
+	      					<form action="{{ route('intern.ikm.settingikm.show', $setting->id) }}" method="POST">
+			      				@csrf
+				      			<input type="hidden" name="is_open" value="">
+				      			<input type="submit" name="submit" class="btn btn-danger btn-xs" value="Close">
+			      			</form>
+	      				@endif	
+
 		      		</td>
 		      		<td>{{ $setting->keterangan }}</td>
 		      		<td>
@@ -66,6 +77,12 @@
 	      	@endforeach
 	      </tbody>
 	    </table>
+	    <div class="row">
+	    	<h4><i>Ket : <br>
+	    	- Untuk membuka atau menutup periode IKM silahkan tekan tombol close atau open di kolom status <br>
+	    	- Untuk membuat periode IKM baru silahkan tekan tombol Tambah Jadwal
+	    	</i></h4>
+	    </div>
 	  </div>
 	</div>
 </div>

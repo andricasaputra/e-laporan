@@ -60,6 +60,10 @@ Route::namespace('Ikm')->group(function () {
 
 	Route::get('ikm/cetak/{id}', 'SurveyPage@cetak')->name('ikm.cetak');
 
+	Route::get('ikm/survey/closed', function(){
+		return view('ikm.closed');
+	})->name('ikm.closed');
+
 });
 
 

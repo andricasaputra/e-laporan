@@ -19,7 +19,7 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             
-            return redirect(route('welcome'))->with('warning', 'Anda tidak mempunyai hak akses ke halaman ini!');
+            return redirect(route('welcome'));
         }
 
         return $next($request);

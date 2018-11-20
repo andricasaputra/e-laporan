@@ -72,7 +72,7 @@ class Responden extends Model
     {
         return $this->answer()
           ->selectRaw('sum(nilai) as aggregate')
-          ->groupBy('question_id');
+          ->groupBy('responden_id');
     }
 
     public function getSumRatingAttribute()

@@ -14,7 +14,7 @@
           <li><a><i class="fa fa-line-chart"></i> Statistik <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li><a href="{{ route('intern.ikm.statistik.index') }}">Hasil Rekap IKM</a></li>
-              <li><a href="#">Grafik</a></li>
+              <li><a href="{{ route('intern.ikm.grafik.index') }}">Grafik</a></li>
             </ul>
           </li>
           @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)

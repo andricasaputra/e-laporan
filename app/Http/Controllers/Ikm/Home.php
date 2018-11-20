@@ -1,23 +1,19 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Http\Controllers\Ikm;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Ikm\Jadwal;
-use App\Models\Ikm\Question;
-use App\Models\Ikm\Layanan;
-use App\Models\Ikm\Umur;
-use App\Models\Ikm\Pendidikan;
-use App\Models\Ikm\Pekerjaan;
-use App\Models\Ikm\Responden;
-use App\Models\Ikm\Result;
-use App\Models\Ikm\Answer;
 use DataTables;
+use App\Models\Ikm\Answer;
+use App\Models\Ikm\Result;
+use Illuminate\Http\Request;
+use App\Models\Ikm\Responden;
+use App\Http\Controllers\Controller;
 
 class Home extends Controller
 {
-    public function api($year)
+    public function api(int $year)
     {
         $responden = Responden::with([
                 'layanan', 
@@ -52,7 +48,7 @@ class Home extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function detailApi($id, $year)
+    public function detailApi(int $id, int $year)
     {
         $result = Result::with([
             'responden', 
@@ -69,7 +65,7 @@ class Home extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($year = null)
+    public function index(int $year = null)
     {
         $tahun = !isset($year) ? date('Y') : $year ;
 
@@ -92,7 +88,7 @@ class Home extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $year)
+    public function show(int $id, int $year)
     {
         $responden = Responden::find($id);
         return view('intern.ikm.home.show')->with(compact('responden'))
@@ -105,7 +101,7 @@ class Home extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $responden  = Responden::find($id);
         $jawaban    = Answer::all();
@@ -123,7 +119,7 @@ class Home extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         
         $responden = Responden::find($id);

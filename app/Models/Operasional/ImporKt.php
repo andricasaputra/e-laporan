@@ -5,11 +5,11 @@ namespace App\Models\Operasional;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\TanggalController as Tanggal;
 
-class ImporKt extends Model
+class ImporKt extends Model implements ModelInterface
 {
-    protected $table = 'impor_kt', 
-    		  $guarded = ['id'],
-    		  $hidden = ['id', 'user_id', 'wilker_id', 'role_id', 'no', 'created_at', 'updated_at']; 
+    protected $table 	= 'impor_kt', 
+    		  $guarded 	= ['id'],
+    		  $hidden 	= ['id', 'user_id', 'wilker_id', 'role_id', 'no', 'created_at', 'updated_at']; 
 
     public function getBulanAttribute($value)
     {

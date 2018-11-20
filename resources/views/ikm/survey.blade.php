@@ -1,3 +1,13 @@
+@if($is_open === null)
+
+<script>
+  window.location = '{{ route('ikm.closed') }}';
+</script>
+
+<?php exit; ?>
+
+@endif
+
 @extends('layouts.app')
 
 @section('link')

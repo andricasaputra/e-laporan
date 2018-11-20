@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -27,20 +27,5 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
-    protected function authenticated(Request $request, $user)
-    {
-        /*if($user->role_id == 1 && $user->bagian == '-') {
-
-            return redirect(route('welcome.admin'));
-
-        } else {
-
-            return redirect(route('welcome'));
-            
-        }*/
-
-        return redirect(route('welcome'));
-    }
-
+    
 }

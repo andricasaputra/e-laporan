@@ -11,13 +11,18 @@ class Jadwal extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $hidden = ['id','start_date', 'end_date', 'is_open', 'created_at', 'updated_at'];
 
-    public function getStartDateAttribute($value)
-    {
-        return Tanggal::tanggalIndo($value);
-    }
+    // public function getStartDateAttribute($value)
+    // {
+    //     return Tanggal::tanggalIndo($value);
+    // }
 
-    public function getEndDateAttribute($value)
+    // public function getEndDateAttribute($value)
+    // {
+    //     return Tanggal::tanggalIndo($value);
+    // }
+
+    public function result()
     {
-        return Tanggal::tanggalIndo($value);
+        return $this->hasMany(Result::class, 'ikm_id');
     }
 }
