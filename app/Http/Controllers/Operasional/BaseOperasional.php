@@ -47,7 +47,7 @@ class BaseOperasional extends Controller
 
     }
 
-    protected function checkActiveUserIdAndRequestUserId(int $user_id) : int
+    protected function checkActiveUserIdAndRequestUserId(int $user_id)
     {
         if ($this->setActiveUser()->id !== $user_id) {
 

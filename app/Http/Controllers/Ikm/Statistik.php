@@ -159,6 +159,12 @@ class Statistik extends Controller
 	    	$query->where('is_open', 1);
 		}])->first();
 
+        if (is_null($result_id)) {
+            
+            return $id = 1;
+
+        }
+
 		$id = $result_id->ikm->id;
 
 		return $id;

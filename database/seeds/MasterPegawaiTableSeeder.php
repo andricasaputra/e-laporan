@@ -14,7 +14,7 @@ class MasterPegawaiTableSeeder extends Seeder
     {
         DB::table('master_pegawai')->insert([
             'nama' => 'Superadmin',
-            'nip' => '0',
+            'nip' => NULL,
             'jenis_karantina' => NULL,
             'golongan_id' => NULL,
             'jabatan_id' => NULL,

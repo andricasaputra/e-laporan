@@ -97,18 +97,18 @@
 
 			<h1><?php echo $messages; ?></h1>
 
-			<h2>Tidak ada survey yang tersedia - silahkan hubungi admin setempat</h2>
+			<h2>Survey ini tidak tersedia untuk sementara waktu</h2>
 
 			<hr>
 
 			<h3>Kenapa saya melihat ini?</h3>
 
 			<p>
-				Kemungkinan ini dikarenakan kami belum membuka survey apapun sekarang. Jika anda merasa kurang paham, silahkan menghubungi petugas dibagian deskfront/admin setempat untuk bantuan selanjutnya.
+				Kemungkinan ini dikarenakan kami belum membuka survey apapun untuk saat ini. Jika anda merasa kurang mengerti tentang isi pesan pada halaman ini, silahkan menghubungi petugas dibagian deskfront/admin setempat untuk bantuan lebih lanjut.
 			</p>
 
 			<p>
-				Silahkan klik link berikut untuk kembali ke halaman depan <a href="{{{ URL::to('/') }}}">Klik disini</a>?
+				Klik link berikut ini untuk kembali ke halaman utama <a href="{{ URL::to('/') }}">Klik disini</a>?
 			</p>
 		</div>
 	</div>

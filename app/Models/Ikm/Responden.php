@@ -29,6 +29,7 @@ class Responden extends Model
         return $this->hasMany(Result::class);
     }
 
+    /*Ini Cara Lama ketika kolom ikm_id belum ditambahkan ke table responden*/
     public function ikm()
     {   
         /*This hasManyThrough relation query = this query
@@ -36,6 +37,12 @@ class Responden extends Model
 
         return $this->hasManyThrough(Jadwal::class, Result::class, 'responden_id', 'id', 'id', 'ikm_id')
         ->groupBy('ikm_result.responden_id');
+    }
+
+    /*Ini Cara yang Baru - kolom ikm_id sudah ditambahkan ke table responden untuk mempermudah pembacaan relasi*/
+    public function jadwal()
+    {   
+        return $this->belongsTo(Jadwal::class, 'ikm_id');
     }
 
     public function question()

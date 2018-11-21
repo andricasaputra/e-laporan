@@ -17,7 +17,6 @@ $(document).ready(function(){
 
   swiper.on('slideChange', function () {
     let activeIndex = swiper.activeIndex;
-    /*console.log(activeIndex)*/
     $('#counter').html(`
       <span style="font-size: 17pt; color:#4d4d4d"> ${activeIndex}/${swiperLength} </span>
       `);
@@ -67,9 +66,9 @@ $(document).ready(function(){
 
   });
 
-  $('input[type="radio"]').change(function(){
+  $('input[type="radio"]').on('click', function(){
 
-      $(this).addClass('checked');
+      $(this).toggleClass('checked');
 
       let value = $(this).val();
 
@@ -83,7 +82,17 @@ $(document).ready(function(){
 
       }
 
-      if ($('input[type="radio"].checked').length == swiperLength) {
+      if ($('input[type="radio"].checked').length >= swiperLength) {
+
+        if (swiper.activeIndex !== swiperLength) {
+
+          setTimeout(function () {
+
+            swiper.slideTo(swiperLength); 
+
+           }, 1200);          
+
+        }
 
         setTimeout(function () {
 
@@ -93,7 +102,7 @@ $(document).ready(function(){
 
           `)
 
-         }, 1500);
+         }, 1600);
 
 
         window.setTimeout(function() {
@@ -111,8 +120,8 @@ $(document).ready(function(){
 
     e.preventDefault();
 
-    if ($('input[type="radio"].checked').length == swiperLength){
-
+    if ($('input[type="radio"].checked').length >= swiperLength){
+  
       $.ajax({
 
          url : 'survey',

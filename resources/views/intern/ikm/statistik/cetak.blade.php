@@ -1,3 +1,12 @@
+@if($datas['table_body']->kepala === null)
+
+<script>
+	window.location = '{{ route('intern.ikm.statistik.index') }}'
+</script>
+
+<?php exit; ?>
+@endif
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -56,6 +56,7 @@ class SurveyPage extends Controller
 
         $responden = Responden::create([
 
+            'ikm_id' => $request->ikm_id,
             'layanan_id' => $request->jenis_layanan,
             'jenis_kelamin' => $request->jenis_kelamin,
             'umur_id' => $request->umur,

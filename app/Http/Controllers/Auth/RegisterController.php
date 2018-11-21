@@ -60,7 +60,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'wilker' => 'required|string',
-            'nip' => 'required|max:18|unique:master_pegawai',
+            'nip' => 'max:18',
             'role' => 'required|string',
             'nama' => 'required|string',
             'username' => 'required|string|max:255|unique:users',
@@ -82,7 +82,8 @@ class RegisterController extends Controller
             'jenis_karantina' => $data['jenis_karantina'],
             'golongan_id' => $data['golongan'],
             'jabatan_id' => $data['jabatan'],
-            'wilker_id' => $data['wilker']
+            'wilker_id' => $data['wilker'],
+            'wilker_id_2' => $data['wilker_2']
         ]);
 
         $master->user()->create([

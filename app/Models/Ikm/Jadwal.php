@@ -25,4 +25,10 @@ class Jadwal extends Model
     {
         return $this->hasMany(Result::class, 'ikm_id');
     }
+
+    /*Ini Cara yang Baru - kolom ikm_id sudah ditambahkan ke table responden untuk mempermudah pembacaan relasi*/
+    public function responden()
+    {   
+        return $this->hasMany(Responden::class, 'ikm_id');
+    }
 }

@@ -109,6 +109,12 @@
 	<div class="page-title">
 	  <div class="title_left">
 	    <h3>Statistik & Grafik {{ $ikm_ket->keterangan }}</h3>
+	    <h5>
+	    	Periode Survey : 
+	    	{{ date('d-M-Y', strtotime($ikm_ket->start_date)) }} 
+	    	s/d 
+	    	{{ date('d-M-Y', strtotime($ikm_ket->end_date)) }}
+	    </h5>
 	  </div>
 	</div>
 </div>
@@ -117,7 +123,7 @@
 
 <div class="col-md-12">
 	<div class="row" style="margin-bottom: 1%">
-		<div class="col-sm-4">
+		<div class="col-sm-4 col-sm-12 col-xs-12">
 			<div class="row">
 				<label for="select_ikm">Pilih IKM</label>
 				<select name="select_ikm" id="select_ikm" class="form-control">
@@ -130,7 +136,7 @@
 		 </div>
 	</div>
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-3 col-sm-12 col-xs-12">
 			<div class="x_panel">
 			  <div class="x_content">
 			  	<div class="row">
@@ -139,21 +145,18 @@
 						<div class="card card-default" >
 						  <div class="card-body" style="margin: 70px 0">
 						  	<div class="card-6-6">
-						  		<h2 style="font-size: 50pt"></h2>
+						  		<h1 style="font-size: 50pt"></h1>
 						  	</div>
 						  	<i class="fa fa-check-circle" style="font-size: 30pt"></i>
 						  </div>
 						</div>
 					</div>
-			  		<div class="col-md-4">
-			  			
-			  		</div>
 			  	</div>
 			  </div>
 			</div>
 		</div>
 
-		<div class="col-md-6">
+		<div class="col-md-3 col-sm-12 col-xs-12">
 			<div class="x_panel">
 			  <div class="x_content">
 			  	<div class="row">
@@ -162,173 +165,61 @@
 						<div class="card card-default" >
 						  <div class="card-body" style="margin: 70px 0">
 						  	<div class="card-6-6">
-						  		<h2 style="font-size: 50pt"></h2>
+						  		<h1 style="font-size: 50pt"></h1>
 						  	</div>
 						  	<i class="fa fa-line-chart" style="font-size: 30pt"></i>
 						  </div>
 						</div>
 					</div>
-			  		<div class="col-md-4">
-			  			
-			  		</div>
 			  	</div>
+			  </div>
+			</div>
+		</div>
 
+		<div class="col-md-3 col-sm-12 col-xs-12">
+			<div class="x_panel">
+			  <div class="x_content">
+			  	<div class="row">
+			  		<div class="col-md-12 text-center" id="layanan_kh">
+						<h2></h2>
+						<div class="card card-default" >
+						  <div class="card-body" style="margin: 70px 0">
+						  	<div class="card-6-6">
+						  		<h1 style="font-size: 50pt"></h1>
+						  	</div>
+						  	<i class="fa fa-paw" style="font-size: 30pt"></i>
+						  </div>
+						</div>
+					</div>
+			  	</div>
+			  </div>
+			</div>
+		</div>
+
+		<div class="col-md-3 col-sm-12 col-xs-12">
+			<div class="x_panel">
+			  <div class="x_content">
+			  	<div class="row">
+			  		<div class="col-md-12 text-center" id="layanan_kt">
+						<h2></h2>
+						<div class="card card-default" >
+						  <div class="card-body" style="margin: 70px 0">
+						  	<div class="card-6-6">
+						  		<h1 style="font-size: 50pt"></h1>
+						  	</div>
+						  	<i class="fa fa-leaf" style="font-size: 30pt"></i>
+						  </div>
+						</div>
+					</div>
+			  	</div>
 			  </div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="clearfix"></div>
-
-<div class="col-md-12 col-sm-12 col-xs-12">
-	<div class="x_panel">
-	  <div class="x_content">
-	  	<div class="row">
-	  		<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-	  	</div>
-	  </div>
-	</div>
-</div>
-
-
+@include('intern.ikm.grafik.chart')
 
 @endsection
 
-@section('script')
-
-	<script src="{{ asset('js/highcharts.js') }}"></script>
-
-    <script>
-
-    	let url = '{{ route('api.grafik', $id) }}';
-
-    	$('#select_ikm').on('change', function(){
-
-			let id = $(this).val();
-
-			if(id != ''){
-
-				window.location = '{{ route('intern.ikm.grafik.index') }}/'+ id
-
-			}
-		});
-
-    	$.ajax({
-
-    		'url' : url
-
-    	}).done(function(response){
-
-    		let arr_nilai_ikm = [];
-
-    		let xAxis = [];
-
-    		let data = [];
-
-    		$.each(response, function(key, value){
-
-	    		arr_nilai_ikm.push(parseFloat(value.nrr_perunsur));
-
-    			xAxis.push(value.unsur_pelayanan);
-
-    			data.push(parseFloat(value.rata_nrr));
-
-    		});
-
-    		/*Sum Function*/
-    		function getSum(total, num) {
-
-		    	return total + num;
-
-			}
-
-			/*Nilai IKM Total*/
-			let total = arr_nilai_ikm.reduce(getSum);
-
-			let nilai_ikm = total * 25;
-
-			if(nilai_ikm < 75){
-
-				$('#nilai_ikm').css({
-					'backgroundColor': '#b30000',
-					'color': '#fff',
-				});
-
-			}else{
-
-				$('#nilai_ikm').css({
-					'backgroundColor': '#00cca3',
-					'color': '#fff'
-				});
-			}
-
-			$('#nilai_ikm h2').html(`
-				<p>IKM Unit Pelayanan</p>
-			`);
-
-			$('#nilai_ikm .card-body h2').html(`
-				${nilai_ikm.toFixed(3)}				
-			`);
-
-			/*Total responden*/
-
-			$('#total_responden').css({
-				'backgroundColor': '#b30000',
-				'color': '#fff'
-			});
-
-			$('#total_responden h2').html(`
-				<p>Total Responden</p>
-			`);
-
-			$('#total_responden .card-body h2').html(`
-				${response[0].total_responden}
-			`);
-
-			/*Chart IKM Rata-rata per unsur*/
-			Highcharts.chart('container', {
-			    chart: {
-			        type: 'spline'
-			    },
-			    title: {
-			        text: 'Rata-rata Nilai Unsur Pelayanan'
-			    },
-			    subtitle: {
-			        text: response[0].periode
-			    },
-			    xAxis: {
-			        categories: xAxis
-			    },
-			    yAxis: {
-			        title: {
-			            text: 'Nilai'
-			        }
-			    },
-			    tooltip: {
-			        crosshairs: true,
-			        shared: true
-			    },
-			    plotOptions: {
-			        spline: {
-			            marker: {
-			                radius: 4,
-			                lineColor: '#666666',
-			                lineWidth: 1
-			            }
-			        }
-			    },
-			    series: [{
-			        name: 'Nilai rata-rata',
-			        marker: {
-			            symbol: 'square'
-			        },
-			        data: data
-
-			    }]
-			});
-    	});
-
-    </script>
-
-@endsection
+@include('intern.ikm.grafik.script')
