@@ -274,8 +274,6 @@
 		     /*Bar Charts Function*/
 			function barColumnChart(container, data, type){
 
-				console.log(data)
-
 		      	let credits = false;
 
 			    let chart = {

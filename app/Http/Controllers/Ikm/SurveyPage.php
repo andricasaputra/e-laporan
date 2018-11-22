@@ -89,22 +89,34 @@ class SurveyPage extends Controller
         }
 
         return route('ikm.success', $responden->id);
-
     }
 
     public function success(int $id)
     {
         $responden = Responden::find($id);
+
+        if ($responden === null) {
+           return abort(404);
+        }
+
         return view('ikm.success')
         ->with('responden', $responden);
     }
 
     public function cetak(int $id)
     {
-        $responden = Responden::find($id);
-        $questions = Question::all();
+        $responden          = Responden::find($id);
+
+        if ($responden === null) {
+           return abort(404);
+        }
+
+        $answers            = $responden->answer;
+        $question_answer    = Question::with('question_answer')->get();
+
         return view('ikm.cetak')
         ->with('responden', $responden)
-        ->with('questions', $questions);
+        ->with('answers', $answers)
+        ->with('question_answer', $question_answer);
     }
 }

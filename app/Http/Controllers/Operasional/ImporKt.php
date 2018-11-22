@@ -133,7 +133,7 @@ class ImporKt extends BaseOperasional implements BaseOperasionalInterface
 
     public function api(int $year)
     {
-        $impor = Operasional::whereYear('bulan', $year);
+        $impor = Operasional::whereYear('bulan', $year)->with('wilker')->get();
 
         return Datatables::of($impor)->addIndexColumn()->make(true);
     }

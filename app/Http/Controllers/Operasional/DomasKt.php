@@ -133,7 +133,7 @@ class DomasKt extends BaseOperasional implements BaseOperasionalInterface
 
     public function api(int $year)
     {
-        $domas = Operasional::whereYear('bulan', $year);
+        $domas = Operasional::whereYear('bulan', $year)->with('wilker')->get();
 
         return Datatables::of($domas)->addIndexColumn()->make(true);
     }

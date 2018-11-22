@@ -58,7 +58,6 @@ class Grafik extends Statistik
 
         }
 
-
 		$data = [
          'data'         => $this->apiSource($id),
          'jenis_kelamin'=> ['Laki_laki' => $laki_laki, 'Perempuan' => $perempuan],

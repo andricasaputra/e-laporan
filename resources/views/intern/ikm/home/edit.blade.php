@@ -32,27 +32,36 @@
 	  		@csrf
 	  		@method('PUT')
 
-	  		@php $no = 1  @endphp
-
 	  		<input type="hidden" name="responden_id"  value="{{ $responden->id }}">
-	  		@for($i = 0; $i < count($responden->question); $i++)
+	  		
+	  		@php $no = 0 @endphp
 
-	  			<h4>{{ $no++ }} Pertanyaan : {{ $responden->question[$i]->question }}</h4>
+	  		@php $no2 = 0 @endphp
 
-	  			<div class="form-group">
+	  		@foreach($question_answer as $question)
+
+	  			Pertanyaan : <h4>{{ $question->question }}</h4>
+
+				<div class="form-group">
 
 		  			<label for="jawaban">Jawaban</label>
+
 	  				<select name="{{ $responden->id }}[]" class="form-control">
-		  				<option value="{{ $responden->answer[$i]->id }}">{{ $responden->answer[$i]->answer }}</option>
-		  				@foreach($jawaban as $j)
-		  					<option value="{{ $j->id }}">{{ $j->answer }}</option>
-		  				@endforeach
+
+		  				<option value="{{ $answers[$no++]->id }}">{{ $answers[$no2++]->answer }}</option>	
+
+		  				@foreach($question->question_answer as $j)
+
+							<option value="{{ $j->id }}">{{ $j->answer }}</option>
+
+						@endforeach	
+
 	  				</select>
 
 		  		</div>
 
-	  		@endfor
-		  	<br/>
+			@endforeach
+
 	  		<div class="pull-right">
 	  			<input type="submit" name="submit" value="Simpan" class="btn btn-warning">
 	  		</div>

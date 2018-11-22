@@ -5,7 +5,6 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Session\TokenMismatchException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -63,17 +62,6 @@ class Handler extends ExceptionHandler
 
         }
 
-        if ($exception instanceof HttpException) {
-
-            $statusCode = $exception->getStatusCode();
-
-            switch ($statusCode) {
-
-                case '404': return abort(404);
-
-            }
-
-        }
 
         return parent::render($request, $exception);
 

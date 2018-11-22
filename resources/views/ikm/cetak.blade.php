@@ -10,6 +10,7 @@
 
 		#document_print {
 
+			display: none;
     		font-family: Arial, Helvetica, sans-serif;
 
 		}
@@ -19,6 +20,11 @@
 			font-weight: bold;
 			margin-bottom: -1px
 
+		}
+
+		div.wrap{
+			width: 400px;
+			display: inline-block
 		}
 
 		@media print {
@@ -43,44 +49,64 @@
 			<h2>Badan Karantina Pertanian</h2>
 			<h3>Stasiun Karantina Pertanian Kelas I Sumbawa Besar</h3>
 			<p style="font-size: 14pt;margin-bottom: -1px">Jln. Pelabuhan Badas No. 01 Sumbawa Besar</p>
-			<p>stakabadas@gmail.com | www.skkp1sumbawabesar.org</p>
+			<p>stakabadas@gmail.com - (0371) 2629152 - www.skkp1sumbawabesar.org</p>
 			<hr size="1" style="border: solid 0.1px #000">
 		</div>
 		<div class="col-12 mt-5">
 			<b style="font-size: 18px;">Data Responden</b>
-			<table class="table table-bordered">
+			<table class="table table-bordered mt-2">
 				<tr>
 					<td>Jenis Layanan</td>
-					<td>{{ $responden->layanan->jenis_layanan }}</td>
+					<td><b>{{ $responden->layanan->jenis_layanan }}</b></td>
 				</tr>
 				<tr>
 					<td>Jenis Kelamin</td>
-					<td>{{ $responden->jenis_kelamin }}</td>
+					<td><b>{{ $responden->jenis_kelamin }}</b></td>
 				</tr>
 				<tr>
 					<td>Umur</td>
-					<td>{{ $responden->umur->umur }}</td>
+					<td><b>{{ $responden->umur->umur }}</b></td>
 				</tr>
 				<tr>
 					<td>Pendidikan Terakhir</td>
-					<td>{{ $responden->pendidikan->pendidikan }}</td>
+					<td><b>{{ $responden->pendidikan->pendidikan }}</b></td>
 				</tr>
 				<tr>
 					<td>Pekerjaan Utama</td>
-					<td>{{ $responden->pekerjaan->pekerjaan }}</td>
+					<td><b>{{ $responden->pekerjaan->pekerjaan }}</b></td>
 				</tr>
 			</table>
 			
 		</div>
 
-		<div class="col-12 mt-5">
+		<div class="col-12 mt-3">
 			<b style="font-size: 18px;">Pendapat Responden Tentang Kualitas Pelayanan</b>
-			<ol>
-				@php $no = 1 @endphp
-				@for($i = 0; $i < count($responden->question); $i++)
-		  			<h5 class="mb-3"><li> {{ $responden->question[$i]->question }} </li></h5>
-			  		<h5 class="mb-3"><b>{{ $responden->answer[$i]->answer }}</b></h5>
-	  			@endfor	
+			<ol class="mt-2">
+
+				@php $no = 0 @endphp
+
+				@foreach($question_answer as $question)
+
+					<h5 class="mb-3"><li> {{ $question->question }} </li></h5>
+
+						@php $answer = $answers[$no++]->answer @endphp
+
+		  				@foreach($question->question_answer as $key => $j)
+
+		  					@if($j->answer == $answer)
+
+		  						<div class="wrap" style="text-decoration: underline;"><h5><b>{{ $key + 1 }}. {{ $j->answer }}</b></h5></div>
+
+		  					@else
+
+		  						<div class="wrap"><h5>{{ $key + 1 }}. {{ $j->answer }}</h5></div>
+
+		  					@endif
+
+						@endforeach	
+
+				@endforeach
+				
 			</ol>
 		</div>
 

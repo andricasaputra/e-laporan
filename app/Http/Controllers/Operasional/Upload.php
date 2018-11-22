@@ -15,7 +15,8 @@ class Upload extends BaseOperasional
 	public $message, $message_type;
 	private $model, $request, $path, $type_karantina, $datas = [], $headings = [], $tanggal, $success = 0;
 	
-    public function __construct(ModelInterface $model, Request $request, string $path, string $type_karantina)
+    public function __construct(ModelOperasionalInterface $model, Request $request, 
+                                string $path, string $type_karantina)
     {
     	$this->model 			= $model;
 
@@ -45,8 +46,6 @@ class Upload extends BaseOperasional
     	$user_id        = 	$this->checkActiveUserIdAndRequestUserId((int) $this->request->user_id);
 
         $wilker_id      = 	$this->setUserWilkerId((int) $this->request->wilker_id);
-
-        $wilker_user    = 	$this->setUserWilker();
 
         /*set tanggal format Y-m-d*/
         foreach ($this->headings as $heading) :

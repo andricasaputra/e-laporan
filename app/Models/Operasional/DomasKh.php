@@ -2,10 +2,11 @@
 
 namespace App\Models\Operasional;
 
+use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\TanggalController as Tanggal;
 
-class DomasKh extends Model implements ModelInterface
+class DomasKh extends Model implements ModelOperasionalInterface
 {
     protected $table 	= 'domas_kh', 
     		  $guarded 	= ['id'],
@@ -19,5 +20,10 @@ class DomasKh extends Model implements ModelInterface
  	public function getBulanAttribute($value)
     {
         return Tanggal::bulanTahun($value);
+    }
+
+    public function wilker()
+    {
+    	return $this->belongsTo(Wilker::class);
     }
 }

@@ -66,7 +66,7 @@ $(document).ready(function(){
 
   });
 
-  $('input[type="radio"]').on('click', function(){
+  $('input[type="radio"]').on('change', function(){
 
       $(this).toggleClass('checked');
 

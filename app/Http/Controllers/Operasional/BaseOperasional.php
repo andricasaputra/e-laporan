@@ -69,11 +69,11 @@ class BaseOperasional extends Controller
 
     protected function setActiveUserWilker() : Collection 
     {
-        $wilker = $this->getUserRoleId() === 1 ||  $this->getUserRoleId() === 2
+        $wilker = $this->getUserRoleId() === 1 || $this->getUserRoleId() === 2
 
                 ? Wilker::where('nama_wilker', '!=', 'Kantor induk')->get()
 
-                : User::find($this->getUserId())->wilker->toArray();
+                : User::find($this->getUserId())->wilker;
 
         return $wilker;
     }
@@ -95,6 +95,7 @@ class BaseOperasional extends Controller
         return array(
              'no',
              'bulan',
+             'wilker',
              'no_permohonan',
              'no_aju',
              'tanggal_permohonan',
@@ -155,6 +156,7 @@ class BaseOperasional extends Controller
         return array(
             'no',
             'bulan',
+            'wilker',
             'no_permohonan',
             'no_aju',
             'tanggal_permohonan',
@@ -251,7 +253,7 @@ class BaseOperasional extends Controller
      *
      * @return bool
      */
-    protected function checkJenisKarantina(string $path, string $jenis_karantina)
+    protected function checkJenisKarantina(string $path, string $jenis_karantina) : bool
     {
         /*Get Format Laporan Untuk Dokel*/
         $tipe_karantina = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
@@ -263,7 +265,7 @@ class BaseOperasional extends Controller
         /*Cek isi file kosong atau tidak*/
         if(in_array(null, $tipe_karantina)){
 
-            return 'not our format';
+            return false;
 
         }
 

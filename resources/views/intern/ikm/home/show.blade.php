@@ -33,7 +33,7 @@
 	  </div>
 	  <div class="x_content">
 	  	<div id="info_responden"></div>
-	    <table id="adminShowIkm" class="table table-striped table-bordered text-center" width="100%">
+	    <table id="adminShowIkm" class="table table-striped text-center" width="100%">
 	      <thead>
 	        <tr>
 	          <th>No</th>
@@ -70,8 +70,13 @@
 
 	    $('#adminShowIkm').DataTable({
 
-            "processing": true,
+            "processing": false,
             "serverSide": true,
+            "paginate" : false,
+	        "lengthChange" : false,
+	        "order" : false,
+	        "searching": false,
+	        "bInfo": false,
             "ajax":{
                "url": url,
                "dataType": "JSON"

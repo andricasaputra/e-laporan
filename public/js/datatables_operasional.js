@@ -6,6 +6,7 @@ function datatablesOperasional(container, url, type){
 
     	{ "data": "DT_Row_Index", orderable: false, searchable: false},
         { "data" : "bulan" },
+        { "data" : "wilker.nama_wilker" },
 		{ "data" : "no_permohonan" },
 		{ "data" : "no_aju" },
 		{ "data" : "tanggal_permohonan" },
@@ -59,6 +60,7 @@ function datatablesOperasional(container, url, type){
 
     	{ "data": "DT_Row_Index", orderable: false, searchable: false},
         { "data" : "bulan" },
+        { "data" : "wilker.nama_wilker" },
         { "data" : "no_permohonan" },
         { "data" : "no_aju" },
         { "data" : "tanggal_permohonan" },

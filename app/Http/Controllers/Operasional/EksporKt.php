@@ -133,7 +133,7 @@ class EksporKt extends BaseOperasional implements BaseOperasionalInterface
 
     public function api(int $year)
     {
-        $ekspor = Operasional::whereYear('bulan', $year);
+        $ekspor = Operasional::whereYear('bulan', $year)->with('wilker')->get();
 
         return Datatables::of($ekspor)->addIndexColumn()->make(true);
     }

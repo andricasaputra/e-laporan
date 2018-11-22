@@ -31,20 +31,16 @@
                               <label for="wilker_id">Nama Wilker</label>
                               <select name="wilker_id" class="form-control">
                                
-                                @if(count($wilker) == 8)
+                                @if(count($wilker) > 0)
 
                                     <option disabled selected>Pilih Wilker</option>
 
-                                  @foreach($wilker as $w)
+                                    @foreach($wilker as $w)
 
-                                    <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
+                                      <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
 
-                                  @endforeach
-
-                                @else 
-
-                                    <option value="{{ $wilker['id'] }}">{{ $wilker['nama_wilker'] }}</option>
-
+                                    @endforeach
+                                  
                                 @endif
                                 
                               </select>

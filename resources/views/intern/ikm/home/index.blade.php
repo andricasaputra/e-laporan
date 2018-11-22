@@ -20,30 +20,15 @@
 	  <div class="x_content">
       <div class="row">
         
-        <div class="col-md-1">
+        <div class="col-md-2">
           <div class="form-group">
-            <label>Pilih Tahun</label>
-              <select class="form-control" name="year" id="year">
+            <label>Pilih Periode IKM</label>
+              <select class="form-control" name="ikm_id" id="ikm_id">
                
-                @if(last(request()->segments()) == 'home')
-
-                  <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
-
-                @endif
-
-                @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
-
-                  @if(last(request()->segments()) == $i)
-          
-                    <option value="{{ $i }}" selected>{{ $i }}</option>
-
-                  @else
-
-                    <option value="{{ $i }}">{{ $i }}</option>
-                    
-                  @endif
-
-                @endfor
+                <option disabled selected>-- Pilih Periode IKM --</option>
+                @foreach($ikm as $i)
+                  <option value="{{ $i->id }}">{{ $i->keterangan }}</option>
+                @endforeach
 
               </select>
               
@@ -112,15 +97,15 @@
     
       $(document).ready(function() {
 
-        $('#year').on('change', function(){
+        $('#ikm_id').on('change', function(){
 
-          let year = $(this).val();
+          let ikm_id = $(this).val();
 
-          window.location = '{{ route('intern.ikm.home.index') }}/' + year;
+          window.location = '{{ route('intern.ikm.home.index') }}/' + ikm_id;
 
         });
 
-        let url = '{{ route('api.ikm', $tahun) }}';
+        let url = '{{ route('api.ikm', $ikm_id) }}';
         let data = [
 
           { "data" : "DT_Row_Index", orderable: false, searchable: false},
@@ -173,15 +158,15 @@
     
       $(document).ready(function() {
 
-        $('#year').on('change', function(){
+        $('#ikm_id').on('change', function(){
 
-          let year = $(this).val();
+          let ikm_id = $(this).val();
 
-          window.location = '{{ route('intern.ikm.home.index') }}/' + year;
+          window.location = '{{ route('intern.ikm.home.index') }}/' + ikm_id;
 
         });
 
-        let url = '{{ route('api.ikm', $tahun) }}';
+        let url = '{{ route('api.ikm', $ikm_id) }}';
         let data = [
 
           { "data" : "DT_Row_Index", orderable: false, searchable: false},

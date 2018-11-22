@@ -36,7 +36,7 @@
 		</div>
 	  </div>
 	  <div class="x_content">
-	  	<table id="statistik" class="table table-bordered text-center">
+	  	<table id="statistik" class="table table-stripped text-center">
 	  		<thead>
 	  			<th>No</th>
 	  			<th>Pertanyaan</th>

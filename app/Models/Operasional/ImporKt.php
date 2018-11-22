@@ -2,10 +2,11 @@
 
 namespace App\Models\Operasional;
 
+use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\TanggalController as Tanggal;
 
-class ImporKt extends Model implements ModelInterface
+class ImporKt extends Model implements ModelOperasionalInterface
 {
     protected $table 	= 'impor_kt', 
     		  $guarded 	= ['id'],
@@ -14,5 +15,10 @@ class ImporKt extends Model implements ModelInterface
     public function getBulanAttribute($value)
     {
         return Tanggal::bulanTahun($value);
+    }
+
+    public function wilker()
+    {
+    	return $this->belongsTo(Wilker::class);
     }
 }

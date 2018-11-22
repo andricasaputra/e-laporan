@@ -2,7 +2,7 @@
 
 namespace App\Models\Operasional;
 
-interface ModelInterface
+interface ModelOperasionalInterface
 {
 	public function getBulanAttribute($value);
 }

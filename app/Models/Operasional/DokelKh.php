@@ -2,10 +2,11 @@
 
 namespace App\Models\Operasional;
 
+use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\TanggalController as Tanggal;
 
-class DokelKh extends Model implements ModelInterface
+class DokelKh extends Model implements ModelOperasionalInterface
 {
     protected $table 	= 'dokel_kh', 
     		  $guarded 	= ['id'],
@@ -16,4 +17,8 @@ class DokelKh extends Model implements ModelInterface
         return Tanggal::bulanTahun($value);
     }
 
+    public function wilker()
+    {
+    	return $this->belongsTo(Wilker::class);
+    }
 }

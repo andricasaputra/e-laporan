@@ -32,9 +32,9 @@ Route::namespace('Operasional')->group(function () {
 
 Route::namespace('Ikm')->group(function () {
 
-	Route::get('ikm/{tahun}', 'Home@api')->name('api.ikm');
+	Route::get('ikm/{ikm_id}', 'Home@api')->name('api.ikm');
 	
-	Route::get('ikm/detail/{id}/{tahun?}', 'Home@detailApi')->name('api.show');
+	Route::get('ikm/detail/{id}/{ikm_id?}', 'Home@detailApi')->name('api.show');
 
 	Route::get('statistik/ikm/{id?}', 'Statistik@api')->name('api.statistik');
 
