@@ -19,6 +19,8 @@ class DokelKt extends BaseOperasional implements BaseOperasionalInterface
 {
     public function sendToData(int $year = null) : View
     {
+        if(!isset($year)) $year = date('Y');
+
         $titles = $this->tableTitleKt();
 
         return view('intern.operasional.kt.data.tables.dokel')

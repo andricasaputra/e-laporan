@@ -17,6 +17,8 @@ class ImporKt extends BaseOperasional implements BaseOperasionalInterface
 {
     public function sendToData(int $year = null)
     {
+        if(!isset($year)) $year = date('Y');
+        
         $titles = $this->tableTitleKt();
 
         return view('intern.operasional.kt.data.tables.impor')

@@ -8,6 +8,7 @@ use App\Models\Wilker;
 use App\Models\Jabatan;
 use App\Models\Golongan;
 use Illuminate\Http\Request;
+use App\Events\RegisterPegawai;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\MasterPegawai as Master;
@@ -61,7 +62,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'wilker' => 'required|string',
             'nip' => 'max:18',
-            'role' => 'required|string',
+            'role' => 'required',
             'nama' => 'required|string',
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -76,7 +77,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $master = Master::create([
+        $pegawai = Master::create([
             'nama' => $data['nama'],
             'nip' => $data['nip'],
             'jenis_karantina' => $data['jenis_karantina'],
@@ -86,15 +87,7 @@ class RegisterController extends Controller
             'wilker_id_2' => $data['wilker_2']
         ]);
 
-        $master->user()->create([
-            'role_id' => $data['role'],
-            'username' => $data['username'],
-            'password' => Hash::make($data['password'])
-        ]);
-
-        return $master->profile()->create([
-            'nama' => $data['nama']
-        ]);
+        event(new RegisterPegawai($pegawai, $data));       
     }
 
 }

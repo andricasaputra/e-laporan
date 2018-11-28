@@ -49,19 +49,23 @@ class HomeMiddleware extends Controller
             
         }
 
-        if(Auth::user()->role_id === 1 || Auth::user()->role_id === 2):
+        $cek1 = Auth::user()->role->first()->id;
+
+        $cek2 = Auth::user()->pegawai->jenis_karantina;
+
+        if($cek1 === 1 || $cek1 === 2):
 
             $this->useMiddleware('admin');
 
             return redirect('intern/operasional/admin/home/');
 
-        elseif(Auth::user()->role_id === 3 && Auth::user()->pegawai->jenis_karantina == 'kt'):
+        elseif($cek1 === 3 && $cek2 == 'kt'):
            
             $this->useMiddleware('kt');
 
             return redirect('intern/operasional/kt/home/');
 
-        elseif(Auth::user()->role_id === 3 && Auth::user()->pegawai->jenis_karantina == 'kh'):
+        elseif($cek1 === 3 && $cek2 == 'kh'):
 
             $this->useMiddleware('kh');
 

@@ -14,16 +14,16 @@
           </a>
         </div>
 
-        @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+        @if (Auth::user()->role->first()->id == 1 || Auth::user()->role->first()->id == 2)
 
           @include('intern.inc.barside_kt')
           @include('intern.inc.barside_kh')
 
-        @elseif(Auth::user()->role_id != 1 && Auth::user()->pegawai->jenis_karantina == 'kt')
+        @elseif(Auth::user()->role->first()->id != 1 && Auth::user()->pegawai->jenis_karantina == 'kt')
 
           @include('intern.inc.barside_kt')
 
-        @elseif(Auth::user()->role_id != 1 && Auth::user()->pegawai->jenis_karantina == 'kh')
+        @elseif(Auth::user()->role->first()->id != 1 && Auth::user()->pegawai->jenis_karantina == 'kh')
 
           @include('intern.inc.barside_kh')
           

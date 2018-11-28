@@ -54,7 +54,7 @@
                     <label for="nama" class="col-md-4 col-form-label text-md-right">{{ __('Nama') }}</label>
 
                     <div class="col-md-6">
-                        <input id="nama" type="text" class="form-control{{ $errors->has('nama') ? ' is-invalid' : '' }}" name="nama" value="{{ $user->pegawai->nama }}" required autofocus>
+                        <input id="nama" type="text" class="form-control{{ $errors->has('nama') ? ' is-invalid' : '' }}" name="nama" value="{{ $user->pegawai->nama }}" required>
 
                         @if ($errors->has('nama'))
                             <span class="invalid-feedback" role="alert">
@@ -68,7 +68,7 @@
                     <label for="nip" class="col-md-4 col-form-label text-md-right">{{ __('NIP') }}</label>
 
                     <div class="col-md-6">
-                        <input id="nip" type="text" class="form-control{{ $errors->has('nip') ? ' is-invalid' : '' }}" name="nip" value="{{ $user->pegawai->nip }}" required autofocus>
+                        <input id="nip" type="text" class="form-control{{ $errors->has('nip') ? ' is-invalid' : '' }}" name="nip" value="{{ $user->pegawai->nip }}">
 
                         @if ($errors->has('nip'))
                             <span class="invalid-feedback" role="alert">
@@ -84,7 +84,7 @@
                     <div class="col-md-6">
                         @if(count($golongan) > 0)
 
-                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="golongan" required>
+                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="golongan" >
                                 @if($golongan_user !== NULL)
                                     <option value="{{ $golongan_user->id }}">{{ $golongan_user->golongan }}</option>
                                 @else
@@ -116,7 +116,7 @@
                     <div class="col-md-6">
                         @if(count($jabatan) > 0)
 
-                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="jabatan" required>
+                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="jabatan" >
                                 @if($jabatan_user !== NULL)
                                     <option value="{{ $jabatan_user->id }}">{{ $jabatan_user->jabatan }}</option>
                                 @else
@@ -165,18 +165,38 @@
                     <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
 
                     <div class="col-md-6">
-                        <select class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role">
-                            <option value="{{ $user->role->id }}">{{ $user->role->role }}</option>
-                            <option value="2">User</option>
-                            <option value="1">Admin</option>
-                        </select>
+                        
+                        @if(count($roles) > 0)
 
+                            @foreach($user->role as $user_role)
+
+                                <div class="form-check form-check-inline">
+                                  <label><input type="checkbox" name="role[]" value="{{$user_role->id}}" checked>{{$user_role->name}}</label>
+                                </div>
+ 
+                            @endforeach
+
+                            @foreach($roles->filter(function ($item) use ($user_role) {
+
+                                       return $item->id !== $user_role->id && $item->name !== $user_role->name;
+
+                                    }) as $role)
+
+                                <div class="form-check form-check-inline">
+                                  <label><input type="checkbox" name="role[]" value="{{$role->id}}">{{$role->name}}</label>
+                                </div>
+
+                            @endforeach
+
+                        @endif
+                        
                         @if ($errors->has('role'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('role') }}</strong>
                             </span>
                         @endif
                     </div>
+
                 </div>
 
                 <div class="form-group row">

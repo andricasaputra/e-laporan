@@ -13,6 +13,7 @@ class JabatanTableSeeder extends Seeder
     public function run()
     {
         DB::table('jabatan')->insert([
+            
             [
             	'jabatan' => 'Kepala UPT',
             	'klasifikasi' => 'nonjf'

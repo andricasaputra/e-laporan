@@ -8,13 +8,13 @@ class Role extends Model
 {
 	protected $guarded = ['id', 'created_at', 'updated_at'];
 
-	public function getRoleAttribute($value)
+	public function getNameAttribute($value)
 	{
 		return ucfirst($value);
 	}
 	
     public function user()
     {
-    	return $this->belongsTo(User::class);
+    	return $this->belongsToMany(User::class, 'role_users');
     }
 }

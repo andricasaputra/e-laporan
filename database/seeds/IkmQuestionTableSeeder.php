@@ -12,7 +12,7 @@ class IkmQuestionTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('ikm_question')->insert([
+        DB::connection('mysql2')->table('ikm_question')->insert([
 
         	[
         		'question' => 'Bagaimana pendapat saudara tentang kesesuaian persyaratan pelayanan dengan jenis pelayanannya?'

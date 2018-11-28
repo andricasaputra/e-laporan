@@ -17,6 +17,8 @@ class DomasKh extends BaseOperasional implements BaseOperasionalInterface
 {
     public function sendToData(int $year = null)
     {
+        if(!isset($year)) $year = date('Y');
+        
         $titles = $this->tableTitleKh();
 
         return view('intern.operasional.kh.data.tables.domas')

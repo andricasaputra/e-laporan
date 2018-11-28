@@ -13,7 +13,7 @@ class CreateIkmPendidikanTable extends Migration
      */
     public function up()
     {
-        Schema::create('ikm_pendidikan', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_pendidikan', function (Blueprint $table) {
             $table->increments('id');
             $table->string('pendidikan');
             $table->timestamps();

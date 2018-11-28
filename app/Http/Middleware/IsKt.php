@@ -17,15 +17,17 @@ class IsKt
     
     public function handle($request, Closure $next)
     {
+        $cek = Auth::user()->pegawai->jenis_karantina;
+
         if (Auth::user()) {
 
-            if (Auth::user()->pegawai->jenis_karantina == NULL || Auth::user()->pegawai->jenis_karantina == 'kt') {
+            if ($cek === NULL || $cek === '-' || $cek === 'kt' ) {
 
                 return $next($request);
 
-            }  
+            }   
                 
-         }
+        }
 
         return redirect(route('login'));
     }

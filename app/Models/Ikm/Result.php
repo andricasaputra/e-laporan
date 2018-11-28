@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Result extends Model
 {
-    protected $table    = 'ikm_result';
-    protected $guarded  = ['id', 'created_at', 'updated_at'];
-    protected $hidden   = ['ikm_id', 'id', 'question_id', 'answer_id', 'updated_at'];
+    protected $connection   = 'mysql2';
+    protected $table        = 'ikm_result';
+    protected $guarded      = ['id', 'created_at', 'updated_at'];
+    protected $hidden       = ['ikm_id', 'id', 'question_id', 'answer_id', 'updated_at'];
 
     public function ikm()
     {

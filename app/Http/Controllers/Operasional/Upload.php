@@ -4,16 +4,21 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Operasional;
 
+use App\Models\User;
+use App\Models\Wilker;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
-use App\Models\Operasional\ModelInterface;
+use App\Events\DataOperasionalUploadedEvent;
 use Maatwebsite\Excel\Collections\RowCollection;
+use App\Models\Operasional\ModelOperasionalInterface;
+use App\Http\Controllers\TanggalController as Tanggal;
 
 class Upload extends BaseOperasional
 {
 	public $message, $message_type;
-	private $model, $request, $path, $type_karantina, $datas = [], $headings = [], $tanggal, $success = 0;
+	private $model, $request, $path, $type_karantina, $datas = [], $headings = [], $tanggal, $success = 0,
+            $wilker, $users_to_notify, $notify_message, $link_notify;
 	
     public function __construct(ModelOperasionalInterface $model, Request $request, 
                                 string $path, string $type_karantina)
@@ -27,6 +32,7 @@ class Upload extends BaseOperasional
     	$this->type_karantina 	= strtolower($type_karantina);
     }
 
+    /*Main upload method but the real upload going to delegate to uploadKt or uploadKh method*/
     public function uploadData() : ?Upload
     {
     	/*Ambil Bulan Dan Tahun Pada Laporan Di Row 3*/
@@ -48,6 +54,7 @@ class Upload extends BaseOperasional
         $wilker_id      = 	$this->setUserWilkerId((int) $this->request->wilker_id);
 
         /*set tanggal format Y-m-d*/
+
         foreach ($this->headings as $heading) :
 
             $lowereing  	= strtolower($heading);
@@ -108,6 +115,7 @@ class Upload extends BaseOperasional
         return $this->message($this->message_type, $this->message);
     }
 
+    /*Upload Laporan Tipe Karantina Tumbuhan*/
     private function uploadKt(RowCollection $datas, int $user_id, int $wilker_id) : int
     {
     	foreach ($datas as $key => $value) :
@@ -187,9 +195,16 @@ class Upload extends BaseOperasional
 
 	    endforeach;
 
+        /*Set Notifications Properties*/
+        $this->setNotificationsProperties($wilker_id);
+        
+        /*Call Event to Notify*/
+        $this->eventNotifyHandler();
+
 	    return $this->success;
     }
 
+    /*Upload Laporan Tipe Karantina Hewan*/
     private function uploadKh(RowCollection $datas, int $user_id, int $wilker_id) : int
     {
     	foreach ($datas as $key => $value) :
@@ -199,7 +214,7 @@ class Upload extends BaseOperasional
 	        $model->wilker_id = $wilker_id;
             $model->user_id = $user_id;
             $model->no = $value->no;
-            $model->bulan = $tanggal_laporan[0]; 
+            $model->bulan = $this->tanggal;
             $model->no_permohonan = $value->no_permohonan; 
             $model->no_aju = $value->no_aju; 
             $model->tanggal_permohonan = $value->tanggal_permohonan; 
@@ -271,11 +286,69 @@ class Upload extends BaseOperasional
 
 	    endforeach;
 
+        /*Set Notifications Properties*/
+        $this->setNotificationsProperties($wilker_id);
+        
+        /*Call Event to Notify*/
+        $this->eventNotifyHandler();
+
 	    return $this->success;
     }
 
+    /*set flash message to given to users*/
     private function message(string $message_type, string $message) : ?Session
     {
     	return Session::flash("$message_type", "$message");
+    }
+
+    /*Set needed properties for notifications*/
+    private function setNotificationsProperties(int $wilker_id)
+    {
+        $this->wilker           =   Wilker::find($wilker_id);
+
+        $wilker                 =   $this->wilker;
+
+        $this->users_to_notify  =   User::with(['wilker' => function($query) use ($wilker){
+
+                                        $query->where('wilker.id', '!=', $wilker->id);
+
+                                    }])->get();
+
+        switch ($this->request->jenis_permohonan) {
+            case 'Domestik Keluar':
+                $jenis_permohonan = 'dokel';
+                break;
+            case 'Domestik Masuk':
+                $jenis_permohonan = 'domas';
+                break;
+            case 'Ekspor':
+                $jenis_permohonan = 'ekspor';
+                break;
+            default:
+                $jenis_permohonan = 'impor';
+                break;
+        }
+
+        if ($this->type_karantina === 'kt' ) {
+
+            $this->notify_message   =   'Laporan Operasional '.$this->request->jenis_permohonan.' Karantina Tumbuhan '. $this->wilker->nama_wilker .' Bulan '. Tanggal::bulan( (int) date('m', strtotime($this->tanggal)) ) .' Baru Saja Diupload';
+
+            $this->link_notify  =  route('kt.view.page.'. $jenis_permohonan);
+
+        }else{
+
+            $this->notify_message   =   'Laporan Operasional '.$this->request->jenis_permohonan.' Karantina Hewan '. $this->wilker->nama_wilker .' Bulan '. Tanggal::bulan( (int) date('m', strtotime($this->tanggal)) ) .' Baru Saja Diupload';
+
+            $this->link_notify  =  route('kh.view.page.'. $jenis_permohonan);
+
+        }
+
+    }
+
+    /*Call the event notifications*/
+    private function eventNotifyHandler()
+    {
+        event(new DataOperasionalUploadedEvent( $this->users_to_notify, $this->wilker->nama_wilker, 
+                                                $this->tanggal, $this->notify_message, $this->link_notify ));
     }
 }

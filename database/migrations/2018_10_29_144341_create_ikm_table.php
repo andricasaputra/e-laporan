@@ -13,7 +13,7 @@ class CreateIkmTable extends Migration
      */
     public function up()
     {
-        Schema::create('ikm', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm', function (Blueprint $table) {
             $table->increments('id');
             $table->date('start_date');
             $table->date('end_date');

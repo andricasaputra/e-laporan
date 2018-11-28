@@ -13,7 +13,7 @@ class CreateIkmAnswerQuestionTable extends Migration
      */
     public function up()
     {
-        Schema::create('ikm_answer_question', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_answer_question', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('question_id')->unsigned();
             $table->integer('answer_id')->unsigned();

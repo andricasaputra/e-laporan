@@ -12,7 +12,7 @@ class IkmAnswerQuestionTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('ikm_answer_question')->insert([
+        DB::connection('mysql2')->table('ikm_answer_question')->insert([
 
         	[
         		'question_id' => '2',

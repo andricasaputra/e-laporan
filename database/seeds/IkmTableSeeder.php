@@ -12,21 +12,21 @@ class IkmTableSeeder extends Seeder
      */
     public function run()
     {
-    	$now = \Carbon::now();
+    	$now       = \Carbon::now();
 
-    	$start1 = \Carbon::create(null, 01, 01);
+    	$start1    = \Carbon::create(null, 01, 01);
 
-    	$end1 = \Carbon::create(null, 06, 30);
+    	$end1      = \Carbon::create(null, 06, 30);
 
-    	$start2 = \Carbon::create(null, 07, 01);
+    	$start2    = \Carbon::create(null, 07, 01);
 
-    	$end2 = \Carbon::create(null, 12, 31);
+    	$end2      = \Carbon::create(null, 12, 31);
 
-		$is_open1 =  $now->between($start1, $end1) ? 1 : NULL;
+		$is_open1  =  $now->between($start1, $end1) ? 1 : NULL;
 
-		$is_open2 =  $now->between($start2, $end2) ? 1 : NULL;
+		$is_open2  =  $now->between($start2, $end2) ? 1 : NULL;
 
-        DB::table('ikm')->insert([
+        DB::connection('mysql2')->table('ikm')->insert([
 
         	[
 	        	'start_date' => $start1,

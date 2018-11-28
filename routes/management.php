@@ -9,7 +9,7 @@
 /*Users Manajemen*/
 Route::resource('users', 'UserController')->only([
 
-	'index', 'edit', 'update'
+	'index', 'edit', 'update', 'destroy'
 
 ])->parameters([
 

@@ -205,7 +205,7 @@ class TanggalController
 
     }
 
-    public static function bulan(string $bln) : string
+    public static function bulan($bln) : string
     {
         $bulan = $bln;
 

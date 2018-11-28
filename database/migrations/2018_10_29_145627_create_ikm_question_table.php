@@ -13,7 +13,7 @@ class CreateIkmQuestionTable extends Migration
      */
     public function up()
     {
-        Schema::create('ikm_question', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_question', function (Blueprint $table) {
             $table->increments('id');
             $table->text('question');
             $table->timestamps();

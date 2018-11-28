@@ -13,7 +13,7 @@ class CreateIkmPekerjaanTable extends Migration
      */
     public function up()
     {
-        Schema::create('ikm_pekerjaan', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_pekerjaan', function (Blueprint $table) {
             $table->increments('id');
             $table->string('pekerjaan');
             $table->timestamps();

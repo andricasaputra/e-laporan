@@ -9,6 +9,8 @@ use App\Models\Wilker;
 use App\Models\Jabatan;
 use App\Models\Golongan;
 use Illuminate\Http\Request;
+use App\Events\DeletePegawai;
+use App\Events\UpdatePegawai;
 use Illuminate\Support\Facades\Hash;
 use App\Models\MasterPegawai as Master;
 
@@ -18,7 +20,6 @@ class UserController extends Controller
     {
         return view('auth.showusers');
     }
-
 
     public function edit(int $id)
     {
@@ -45,7 +46,7 @@ class UserController extends Controller
 
             'wilker'            => 'required|string',
             'jenis_karantina'   => 'required|string',
-            'role'              => 'required|string',
+            'role'              => 'required',
             'nama'              => 'required|string',
             'username'          => 'required|string',
             'password'          => 'required|string|min:6|confirmed',
@@ -63,27 +64,34 @@ class UserController extends Controller
             'wilker_id' => $request->wilker
         ]);
 
-        $master->user()->update([
-            'role_id' => $request->role,
-            'username' => $request->username,
-            'password' => Hash::make($request->password)
-        ]);
-
-        $master->profile()->update([
-            'nama' => $request->nama
-        ]);
+        event(new UpdatePegawai($master, $request));
 
         return redirect(route('users.index'))->with('success', 'Data User Berhasil Diubah');
     }
 
+    public function destroy(Request $request)
+    {
+        $user = User::find($request->id);
+
+        event(new DeletePegawai($user, $user->pegawai));
+
+        /*Delete pegawai from master pegawai*/
+        $user->pegawai()->delete();
+
+        return redirect(route('users.index'))->with('success', 'Data User Berhasil Dihapus');
+    }
+
     public function api()
     {
-        $users = User::with('pegawai');
+        $users = User::with('pegawai')->where('id', '!=', 1);
  
-        return Datatables::of($users)
+        return Datatables::of($users)->addIndexColumn()
             ->addColumn('action', function($users){
 
-                return '<a href="'. route('users.edit', $users->pegawai->id) .'" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>';
+                return '
+                <a href="'. route('users.edit', $users->pegawai->id) .'" class="btn btn-primary"><i class="fa fa-edit"></i> Edit
+                </a> 
+                <a href="#" data-id = "'.$users->pegawai->id.'"  class="btn btn-danger" id="deleteUser"><i class="fa fa-trash"></i> Delete</a>';
 
             })->rawColumns(['action'])->make(true);
     }

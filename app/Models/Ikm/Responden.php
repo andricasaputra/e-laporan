@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Responden extends Model
 {
-    protected $table    = 'ikm_responden';
-    protected $guarded  = ['id', 'created_at', 'updated_at'];
-    protected $hidden   = ['layanan_id', 'pendidikan_id', 'umur_id', 'pekerjaan_id', 'updated_at'];
+    protected $connection   = 'mysql2';
+    protected $table        = 'ikm_responden';
+    protected $guarded      = ['id', 'created_at', 'updated_at'];
+    protected $hidden       = ['layanan_id', 'pendidikan_id', 'umur_id', 'pekerjaan_id', 'updated_at'];
 
     public function getJenisKelaminAttribute($value)
     {

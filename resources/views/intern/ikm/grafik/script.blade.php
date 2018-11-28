@@ -22,7 +22,6 @@
     		'url' : url
 
     	}).done(function(response){
-
 			let umur = {
 
 				title : '',
@@ -193,13 +192,13 @@
 
     		$('#layanan_kh h2').html(`
 
-    			Responden ${Object.keys(response.layanan)[0]}
+    			Responden Karantina Hewan
 
     		`);
 
     		$('#layanan_kh h1').html(`
 
-    			${Object.values(response.layanan)[0]}
+    			${typeof(Object.values(response.layanan)[0]) == "undefined" ? 0 : Object.values(response.layanan)[0]}
 
     		`);
 
@@ -212,13 +211,13 @@
 
     		$('#layanan_kt h2').html(`
 
-    			Responden ${Object.keys(response.layanan)[1]}
+    			Responden Karantina Tumbuhan
 
     		`);
 
     		$('#layanan_kt h1').html(`
 
-    			${Object.values(response.layanan)[1]}
+    			${typeof(Object.values(response.layanan)[1]) == "undefined" ? 0 : Object.values(response.layanan)[1]}
 
     		`);
 

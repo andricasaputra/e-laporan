@@ -27,6 +27,8 @@
 
                             <input type="hidden" name="user_id" value="{{ $user->id }}">
 
+                            <input type="hidden" name="jenis_permohonan" value="Domestik Keluar">
+
                             <div class="form-group">
                               <label for="wilker_id">Nama Wilker</label>
                               <select name="wilker_id" class="form-control">

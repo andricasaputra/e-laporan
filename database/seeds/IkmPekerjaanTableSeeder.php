@@ -12,7 +12,7 @@ class IkmPekerjaanTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('ikm_pekerjaan')->insert([
+        DB::connection('mysql2')->table('ikm_pekerjaan')->insert([
 
         	['pekerjaan' => 'PNS/TNI/POLRI'],
         	['pekerjaan' => 'Pegawai Swasta'],

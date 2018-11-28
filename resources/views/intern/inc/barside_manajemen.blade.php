@@ -20,7 +20,6 @@
             Register User
           </a>
         </div>
-
       </nav>
     </div>
   </nav>

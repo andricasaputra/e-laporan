@@ -14,11 +14,24 @@ Route::get('/login', function () {
 
 Auth::routes();
 
-Route::middleware('auth')->get('intern/welcome', function() {
+Route::group([ 'middleware' => 'auth' ], function () {
 
-	return view('intern.welcome');
+	Route::get('intern/welcome', 'WelcomeController@index')->name('welcome');
 
-})->name('welcome');
+	Route::namespace('Notifications')->group(function () {
+
+		Route::post('intern/notification/{id?}/{notify_id?}', 'DataOperasionalNotificationsController@notifications')
+		->name('mark.as.read');
+
+		Route::get('intern/show_all_notifications', 'DataOperasionalNotificationsController@showAllNotifications')
+		->name('show.all.notifications');
+	    
+	    Route::get('intern/mapnotify', 'DataOperasionalNotificationsController@mapNotifications')
+	    ->name('map.notifications');
+
+	});
+
+});
 
 /*
 |
@@ -65,6 +78,8 @@ Route::namespace('Ikm')->group(function () {
 	})->name('ikm.closed');
 
 });
+
+
 
 
 

@@ -13,11 +13,7 @@ class HomeKh extends Controller
 {
     public function show($year = null)
     {
-        if(!isset($year)) {
-
-           $year = date('Y');
-
-        }
+        if(!isset($year)) $year = date('Y');
 
         return view('intern.operasional.kh.home')
         ->with('datas', $this->dataOperasional($year));

@@ -15,8 +15,6 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('role_id')->unsigned();
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('restrict');
             $table->integer('pegawai_id')->unsigned()->nullable();
             $table->foreign('pegawai_id')->references('id')->on('master_pegawai')->onDelete('restrict');
             $table->string('username')->unique();

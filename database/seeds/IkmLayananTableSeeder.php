@@ -12,7 +12,7 @@ class IkmLayananTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('ikm_layanan')->insert([
+        DB::connection('mysql2')->table('ikm_layanan')->insert([
 
         	['jenis_layanan' => 'Karantina Hewan'],
         	['jenis_layanan' => 'Karantina Tumbuhan'],

@@ -12,7 +12,7 @@ class IkmUmurTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('ikm_umur')->insert([
+        DB::connection('mysql2')->table('ikm_umur')->insert([
 
         	[
         		'umur' => 'Dibawah 21 Tahun'

@@ -42,3 +42,9 @@ Route::namespace('Ikm')->group(function () {
 
 });
 
+Route::namespace('Notifications')->group(function () {
+
+	Route::get('notifications/data_operasional/{user_id}', 'DataOperasionalNotificationsController@operasionalApi')
+	->name('api.notifications.perasional');
+
+});

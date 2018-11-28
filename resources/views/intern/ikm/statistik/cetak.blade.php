@@ -1,6 +1,7 @@
 @if($datas['table_body']->kepala === null)
 
 <script>
+	alert('Mohon setting terlebih dahulu pejabat yang berwenang menandatangani Hasil Laporan IKM ini');
 	window.location = '{{ route('intern.ikm.statistik.index') }}'
 </script>
 

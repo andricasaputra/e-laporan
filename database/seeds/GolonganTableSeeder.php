@@ -13,6 +13,7 @@ class GolonganTableSeeder extends Seeder
     public function run()
     {
         DB::table('golongan')->insert([
+            
             [
             	'pangkat' => 'Juru Muda',
             	'golongan' => 'I/a'

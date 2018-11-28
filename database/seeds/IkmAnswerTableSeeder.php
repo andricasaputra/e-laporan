@@ -12,7 +12,7 @@ class IkmAnswerTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('ikm_answer')->insert([
+        DB::connection('mysql2')->table('ikm_answer')->insert([
 
         	[
         		'answer' => 'Tidak sesuai',

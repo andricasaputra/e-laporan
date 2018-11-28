@@ -20,7 +20,7 @@
   
   <title>@yield('title', config('app.name'))</title>
   
-  <link rel="manifest" href="{{ asset('manifest.json') }}">
+{{--   <link rel="manifest" href="{{ asset('manifest.json') }}"> --}}
   <link rel="icon" type="image/png" href="{{ asset('images/favicon-32x32.png') }}" sizes="32x32">
   <link rel="icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
   <link rel="apple-touch-icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
@@ -45,14 +45,42 @@
     <header class="mdc-toolbar mdc-elevation--z4 mdc-toolbar--fixed">
       <div class="mdc-toolbar__row">
         <section class="mdc-toolbar__section mdc-toolbar__section--align-end" role="toolbar">
-          <div class="mdc-menu-anchor mr-1" style="margin-right: 5% !important; color: #fff; cursor: pointer;">
-              <a ref="{{ route('logout') }}" onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
-                <i class="fa fa-sign-out fa-fw"></i> Logout
-              </a>
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                  @csrf
-              </form>
+          <div class="mdc-menu-anchor dropdown-notifications">
+            <a href="#" class="mdc-toolbar__icon toggle mdc-ripple-surface" data-toggle="dropdown" toggle-dropdown="notification-menu" data-mdc-auto-init="MDCRipple">
+              <i class="material-icons">notifications</i>
+              <span class="dropdown-count" data-count="0"></span>
+            </a>
+            <div class="mdc-simple-menu mdc-simple-menu--right" tabindex="-1" id="notification-menu">
+              <ul class="mdc-simple-menu__items mdc-list" id="main_notifications" role="menu" aria-hidden="true">
+                <li class="mdc-list-item" role="menuitem" tabindex="0">
+                  Tidak ada pemberitahuan terbaru
+                </li>
+              </ul>
+              <ul class="mdc-simple-menu__items mdc-list text-center" role="menu" aria-hidden="true">
+                <li class="" role="menuitem" tabindex="0">
+                  <a href="{{ route('show.all.notifications') }}" style="font-size: 10pt; color: #000">Lihat semua permberitahuan</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="mdc-menu-anchor mr-1">
+            <a href="#" class="mdc-toolbar__icon toggle mdc-ripple-surface" data-toggle="dropdown" toggle-dropdown="logout-menu" data-mdc-auto-init="MDCRipple">
+              <i class="material-icons">more_vert</i>
+            </a>
+            <div class="mdc-simple-menu mdc-simple-menu--right" tabindex="-1" id="logout-menu">
+                <ul class="mdc-simple-menu__items mdc-list" role="menu" aria-hidden="true">
+                  <li class="mdc-list-item" role="menuitem" tabindex="0">
+                      <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                        <i class="fa fa-sign-out fa-fw"></i> Logout
+                      </a>
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                          @csrf
+                      </form>
+                  </li>
+                </ul>
+            </div>
+          </div>
         </section>
       </div>
     </header>
@@ -69,8 +97,47 @@
   <!-- body wrapper -->
   <!-- plugins:js -->
   <script src="{{asset('js/material-components-web.min.js')}}"></script>
-  <script src="{{asset('js/main.js')}}"></script>
+  <script src="{{asset('js/jquery.min.js')}}"></script>
+  <script src="{{asset('js/material.js')}}"></script>
+  {{-- <script src="{{asset('js/main.js')}}"></script> --}}
   <!-- End custom js for this page-->
+
+  <script src="{{ asset('js/pusher.min.js') }}"></script>
+
+  <script type="text/javascript">
+
+      $('.mdc-toolbar__icon').click(function(){
+
+        $('#main_notifications').load('{{route('map.notifications')}}')
+
+      });
+
+      $.ajax({
+
+        url : '{{ route('api.notifications.perasional', $user->id) }}'
+
+      }).done(function(response){
+
+          $('.dropdown-count').html(response.length);
+
+          let pusher = new Pusher('59c93649c71d44e27a0a', {
+            cluster: 'ap1',
+            encrypted: true
+          });
+
+          // Subscribe to the channel we specified in our Laravel Event
+          let channel = pusher.subscribe('laporan-uploaded');
+
+          // Bind a function to a Event (the full Laravel class)
+          channel.bind('laporan-bulanan', function(data) {
+
+            $('.dropdown-count').html(response.length + 1);
+          
+          });
+        
+      });
+     
+  </script>
 </body>
 
 </html>

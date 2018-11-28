@@ -174,19 +174,19 @@
                 </div>
 
                 <div class="form-group row">
+
                     <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
 
                     <div class="col-md-6">
                         @if(count($roles) > 0)
 
-                            <select class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role">
-                                <option disabled selected>-- Pilih Role --</option>
                                 @foreach($roles as $role)
 
-                                    <option value="{{$role->id}}">{{$role->role}}</option>
+                                    <div class="form-check form-check-inline">
+                                      <label><input type="checkbox" name="role[]" value="{{$role->id}}">{{$role->name}}</label>
+                                    </div>
 
                                 @endforeach
-                            </select>
 
                         @endif
                         

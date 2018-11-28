@@ -15,8 +15,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        'App\Events\RegisterPegawai' => [
+            'App\Listeners\UserAccountRegister',
+            'App\Listeners\CreateUserProfile',
+        ],
+        'App\Events\UpdatePegawai' => [
+            'App\Listeners\UserAccountUpdate',
+            'App\Listeners\UpdateUserProfile',
+        ],
+        'App\Events\DeletePegawai' => [
+            'App\Listeners\UserAccountDelete',
+            'App\Listeners\DeleteUserProfile',
+        ],
+        'App\Events\DataOperasionalUploadedEvent' => [
+            'App\Listeners\DataOperasionalUploadedListener',
         ],
     ];
 

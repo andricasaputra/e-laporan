@@ -13,7 +13,7 @@ class CreateIkmLayananTable extends Migration
      */
     public function up()
     {
-        Schema::create('ikm_layanan', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_layanan', function (Blueprint $table) {
             $table->increments('id');
             $table->string('jenis_layanan');
             $table->timestamps();

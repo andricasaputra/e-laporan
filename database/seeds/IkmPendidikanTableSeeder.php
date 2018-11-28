@@ -12,7 +12,7 @@ class IkmPendidikanTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('ikm_pendidikan')->insert([
+        DB::connection('mysql2')->table('ikm_pendidikan')->insert([
 
         	['pendidikan' => 'SD'],
         	['pendidikan' => 'SLTP'],

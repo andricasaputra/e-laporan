@@ -13,7 +13,7 @@ class CreateIkmUmurTable extends Migration
      */
     public function up()
     {
-        Schema::create('ikm_umur', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_umur', function (Blueprint $table) {
             $table->increments('id');
             $table->string('umur');
             $table->timestamps();

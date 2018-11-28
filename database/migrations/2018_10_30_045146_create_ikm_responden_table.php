@@ -13,7 +13,7 @@ class CreateIkmRespondenTable extends Migration
      */
     public function up()
     {
-        Schema::create('ikm_responden', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_responden', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ikm_id')->unsigned();
             $table->integer('layanan_id')->unsigned();
