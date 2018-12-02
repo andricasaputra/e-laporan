@@ -57,7 +57,7 @@ class HomeMiddleware extends Controller
 
             $this->useMiddleware('admin');
 
-            return redirect('intern/operasional/admin/home/');
+            return redirect('intern/operasional/home/');
 
         elseif($cek1 === 3 && $cek2 == 'kt'):
            

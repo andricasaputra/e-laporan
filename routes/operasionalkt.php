@@ -1,5 +1,8 @@
 <?php
 
+Route::get('ktoperasional', 'HomeKt@showMenu')
+->name('showmenu.operasional.kt');
+
 Route::get('home/{year?}', 'HomeKt@show')
 ->name('show.operasional.kt');
 
@@ -43,7 +46,7 @@ Route::post('impor/importdata', 'ImporKt@imports')
 ->name('kt.upload.proses.impor');
 
 /*Export Routes*/
-Route::get('download/domas', function () {
+/*Route::get('download/domas', function () {
 	return view('operasional.kt.download.domas');
 })->name('kt.download.page.domas');
 
@@ -57,7 +60,7 @@ Route::get('download/ekspor', function () {
 
 Route::get('download/impor', function () {
     return view('operasional.kt.download.impor');
-})->name('kt.download.page.impor'); 
+})->name('kt.download.page.impor'); */
 
 Route::post('dokel/exportdata/{tahun}/{bulan?}', 'DokelKt@exports')
 ->name('kt.download.proses.dokel');

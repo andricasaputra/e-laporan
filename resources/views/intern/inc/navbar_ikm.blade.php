@@ -1,3 +1,77 @@
+<style>
+
+  div.notifications-menu{
+    width: 550px !important;
+  }
+
+  ul#on-mobile{
+    display: none !important;
+  }
+
+  .badge-container{
+    position: relative; 
+    float: right; 
+    margin-bottom: -24px; 
+    z-index: 1; 
+    margin-top: -10px
+  }
+
+  .bell-icon-container{
+    position: relative; 
+    font-size: 17pt; 
+    margin-right: 10px; 
+  }
+
+  .badge-danger{
+    background-color: red;
+    color: #fff;
+    font-size: 8pt
+  }
+
+  #main_notifications{
+    height: 800px;
+    overflow-y: scroll;
+  }
+
+  /* width */
+  #main_notifications::-webkit-scrollbar {
+      width: 6px;
+  }
+
+  /* Track */
+  #main_notifications::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  #main_notifications::-webkit-scrollbar-thumb {
+      background: #999999; 
+      border-radius: 30px
+  }
+
+  /* Handle on hover */
+  #main_notifications::-webkit-scrollbar-thumb:hover {
+      background: #555; 
+  }
+
+  @media only screen and (max-width:  700px){
+
+    div.notifications-menu{
+      width: 300px !important;
+      padding: 20px
+    }
+
+    div.notifications-menu ul#main_notifications{
+      display: none !important;
+    }
+
+    ul#on-mobile{
+      display: block !important;
+    }
+
+  }
+</style>
+
 <div class="col-md-3 left_col menu_fixed">
   <div class="left_col scroll-view">
     <div class="navbar nav_title" style="border: 0;">
@@ -87,7 +161,24 @@
             </li>
           </ul>
         </li>
-
+        <li class="nav-item dropdown">
+          <a href="" id="btnNotifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div  class="badge-container">
+              <span class="badge badge-pill badge-danger dropdown-count"></span>
+            </div>
+            <div  class="bell-icon-container">
+              <i class="fa fa-bell"></i>
+            </div>
+          </a>
+          <div class="dropdown-menu notifications-menu">
+            <ul id="main_notifications" class="dropdown-item" role="menu" aria-hidden="true" style="list-style: none; background-color: #fff;"></ul>
+            <ul id="on-mobile">
+               <li>
+                 <a href="{{ route('show.all.notifications') }}">Lihat semua pemberitahuan</a>
+               </li>
+            </ul>
+          </div>
+        </li>
       </ul>
     </nav>
   </div>

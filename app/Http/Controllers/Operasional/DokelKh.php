@@ -135,7 +135,7 @@ class DokelKh extends BaseOperasional implements BaseOperasionalInterface
 
     public function api(int $year)
     {
-        $dokel = Operasional::whereYear('bulan', $year);
+        $dokel = Operasional::whereYear('bulan', $year)->with('wilker')->get();
 
         return Datatables::of($dokel)->addIndexColumn()->make(true);
     }

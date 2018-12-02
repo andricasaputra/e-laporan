@@ -113,6 +113,10 @@
     <script src="{{asset('intern/build/js/custom.min.js')}}"></script>
     <script src="{{asset('intern/build/js/mywebadmin.js')}}"></script>
 
+    <script src="{{ asset('js/pusher.min.js') }}"></script>
+
+    @include('intern.inc.notifications_script')
+
     @yield('script')
 
     @yield('chart-script')

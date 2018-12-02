@@ -7,21 +7,19 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class DataOperasionalUploaded extends Notification implements ShouldQueue
+class DataOperasionalUploaded extends Notification implements ShouldQueue, NotificationsInterface
 {
     use Queueable;
 
-    public $wilker, $tanggal, $message, $link;
+    public $message, $link;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($wilker, $tanggal, $message, $link)
+    public function __construct($message = null, $link = null)
     {
-        $this->wilker   = $wilker;
-        $this->tanggal  = $tanggal;
         $this->message  = $message;
         $this->link     = $link;
     }
@@ -47,10 +45,10 @@ class DataOperasionalUploaded extends Notification implements ShouldQueue
     {
         return [
 
-            'wilker' => $this->wilker,
-            'tanggal' => $this->tanggal,
             'message' => $this->message, 
             'link' => $this->link, 
+            'type' => 'E-Operasional'
+            
         ];
     }
 

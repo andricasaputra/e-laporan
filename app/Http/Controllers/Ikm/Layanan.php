@@ -16,6 +16,7 @@ class Layanan extends Controller
     public function index()
     {
         $layanan = Model::all();
+        
         return view('intern.ikm.layanan.index')->with('layanan', $layanan);
     }
 

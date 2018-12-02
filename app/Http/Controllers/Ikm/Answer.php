@@ -16,6 +16,7 @@ class Answer extends Controller
     public function index()
     {
         $answers = Jawaban::all();
+        
         return view('intern.ikm.answer.index')->with('answers', $answers);
     }
 

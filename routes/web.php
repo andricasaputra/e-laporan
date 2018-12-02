@@ -1,49 +1,51 @@
 <?php
 
-Route::get('/', function () {
+/*Route::domain('e-office.skp1sumbawabesar.org')->group(function () {*/
 
-    return redirect(route('ikm.home'));
+    Route::get('/', 'LandingPageController@indexEoffice');
 
-});
+    Route::get('/login', 'LandingPageController@login');
 
-Route::get('/login', function () {
+    Auth::routes();
 
-    return redirect(route('login'));
-    
-});
+    Route::middleware('auth')->group(function () {
 
-Auth::routes();
+        Route::get('intern/welcome', 'WelcomeController@index')->name('welcome');
 
-Route::group([ 'middleware' => 'auth' ], function () {
+        Route::namespace('Notifications')->group(function () {
 
-	Route::get('intern/welcome', 'WelcomeController@index')->name('welcome');
+            Route::post('intern/notification/{id?}/{notify_id?}', 'MainNotificationController@readNotifications')
+            ->name('mark.as.read');
 
-	Route::namespace('Notifications')->group(function () {
+            Route::post('intern/mark_as_read_all', 'MainNotificationController@deleteNotifications')
+            ->name('mark.all.as.read');
 
-		Route::post('intern/notification/{id?}/{notify_id?}', 'DataOperasionalNotificationsController@notifications')
-		->name('mark.as.read');
+            Route::get('intern/show_all_notifications', 'MainNotificationController@showAllNotifications')
+            ->name('show.all.notifications');
+            
+            Route::get('intern/mapnotify', 'MainNotificationController@mapNotifications')
+            ->name('map.notifications');
 
-		Route::get('intern/show_all_notifications', 'DataOperasionalNotificationsController@showAllNotifications')
-		->name('show.all.notifications');
-	    
-	    Route::get('intern/mapnotify', 'DataOperasionalNotificationsController@mapNotifications')
-	    ->name('map.notifications');
+            Route::post('intern/notification_delete', 'MainNotificationController@deleteNotifications')
+            ->name('delete.all.notifications');
 
-	});
+        });
 
-});
+    });
 
-/*
-|
-|Redirect User Ke E-Operasional Sesuai Role dan Bagian (KH/KT)
-|
-*/
+    /*
+    |
+    |Redirect User Ke E-Operasional Sesuai Role dan Bagian (KH/KT)
+    |
+    */
 
-Route::namespace('Operasional')->group(function () {
+    Route::namespace('Operasional')->group(function () {
 
-	Route::get('intern/operasional', 'HomeMiddleware@operasional')->name('intern.operasional.home');
+        Route::get('intern/operasional', 'HomeMiddleware@operasional')->name('intern.operasional.home');
 
-});
+    });
+
+/*});*//*End Domain e-Office*/
 
 /*
 |
@@ -51,33 +53,29 @@ Route::namespace('Operasional')->group(function () {
 |
 */
 
-Route::namespace('Ikm')->group(function () {
+/*Route::domain('ikm.skp1sumbawabesar.org')->group(function () {*/
 
-	Route::get('ikm', function(){
+	Route::get('/', 'LandingPageController@indexEIkm');
 
-		return view('ikm.home');
+    Route::namespace('Ikm')->group(function(){
 
-	})->name('ikm.home');
+    	Route::get('home', 'SurveyPage@home')->name('ikm.home');
 
-	Route::get('ikm/faq', function(){
+	    Route::get('ikm/faq', 'SurveyPage@faq')->name('ikm.faq');
 
-		return view('ikm.faq');
+	    Route::get('ikm/survey', 'SurveyPage@index')->name('ikm.survey');
 
-	})->name('ikm.faq');
+	    Route::post('ikm/survey', 'SurveyPage@store')->name('ikm.store');
 
-	Route::get('ikm/survey', 'SurveyPage@index')->name('ikm.survey');
+	    Route::get('ikm/success/{id}', 'SurveyPage@success')->name('ikm.success');
 
-	Route::post('ikm/survey', 'SurveyPage@store')->name('ikm.store');
+	    Route::get('ikm/cetak/{id}', 'SurveyPage@cetak')->name('ikm.cetak');
 
-	Route::get('ikm/success/{id}', 'SurveyPage@success')->name('ikm.success');
+	    Route::get('ikm/survey/closed', 'SurveyPage@surveyClosed')->name('ikm.closed');
 
-	Route::get('ikm/cetak/{id}', 'SurveyPage@cetak')->name('ikm.cetak');
+    })
 
-	Route::get('ikm/survey/closed', function(){
-		return view('ikm.closed');
-	})->name('ikm.closed');
-
-});
+/*});*//*End Domain IKM*/
 
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Ikm\Jadwal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,7 +11,9 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-    	$user = User::find(Auth::user()->id);
-    	return view('intern.welcome')->with('user', $user);
+    	$user 	= User::find(Auth::user()->id);
+    	$ikm	= Jadwal::select('keterangan')->where('is_open', 1)->first();
+
+    	return view('intern.welcome')->with(compact('user', 'ikm'));
     }
 }

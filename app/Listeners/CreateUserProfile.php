@@ -26,6 +26,7 @@ class CreateUserProfile
      */
     public function handle(RegisterPegawai $event)
     {
+        /*create user profile's*/
         $event->pegawai->profile()->create([
             'nama' => $event->data['nama']
         ]);

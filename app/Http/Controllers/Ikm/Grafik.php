@@ -18,8 +18,9 @@ class Grafik extends Statistik
 			$id = $this->getId();
 		}
 
-    	$ikm = Jadwal::select('id', 'keterangan')->get();
-    	$ikm_ket = Jadwal::select('keterangan', 'start_date', 'end_date')->whereId($id)->first();
+    	$ikm       = Jadwal::select('id', 'keterangan')->get();
+    	$ikm_ket   = Jadwal::select('keterangan', 'start_date', 'end_date')->whereId($id)->first();
+        
     	return view('intern.ikm.grafik.index')
     	->with(compact('ikm'))
     	->with('id', $id)
@@ -34,14 +35,9 @@ class Grafik extends Statistik
 			$id = $this->getId();
 		}
 
-        $laki_laki  = Responden::select('jenis_kelamin')
-                        ->where('ikm_id', $id)
-                        ->where('jenis_kelamin', 1)
-                        ->get()->count();
-        $perempuan  = Responden::select('jenis_kelamin')
-                        ->where('ikm_id', $id)
-                        ->where('jenis_kelamin', 2)
-                        ->get()->count();
+        $laki_laki  = $this->getJenisKelamin($id, 1);
+
+        $perempuan  = $this->getJenisKelamin($id, 2);
 
         $datas      = Responden::where('ikm_id', $id)
                         ->with(['pendidikan', 'layanan', 'umur', 'pekerjaan'])->get();
@@ -68,5 +64,15 @@ class Grafik extends Statistik
         ];
 
         return collect($data);
+    }
+
+    private function getJenisKelamin(int $id, int $jenis_kelamin_id)
+    {   
+       $responden = Responden::select('jenis_kelamin')
+                    ->where('ikm_id', $id)
+                    ->where('jenis_kelamin', $jenis_kelamin_id)
+                    ->get()->count();     
+
+       return $responden;
     }
 }

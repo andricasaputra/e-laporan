@@ -17,6 +17,7 @@ class Jadwal extends Controller
     public function index()
     {
         $settingikm = Model::all();
+        
         return view('intern.ikm.settingikm.index')->with('settingikm', $settingikm);
     }
 
@@ -66,8 +67,10 @@ class Jadwal extends Controller
         $cek = Model::where('id', $id)->first();
 
         if (strtotime($cek->end_date) < strtotime(date('Y-m-d'))) {
+
             return redirect(route('intern.ikm.settingikm.index'))
             ->with('warning', 'IKM ini sudah kadaluarsa');
+
         }
 
         $cek = Model::where('is_open', 1)->get();
@@ -76,6 +79,7 @@ class Jadwal extends Controller
 
             return redirect(route('intern.ikm.settingikm.index'))
             ->with('warning', 'Hanya diperbolehkan 1 survey IKM saja yang aktif');
+
         }
 
        $ikm = Model::find($id);
@@ -149,13 +153,17 @@ class Jadwal extends Controller
         $jadwal = Model::find($id);
 
         if ($jadwal->is_open === 1) {
+
             return redirect(route('intern.ikm.settingikm.index'))
             ->with('warning', 'Tidak diperbolehkan menghapus survey yang sedang berlangsung');
+
         }
 
         if(count($jadwal->result) !== 0){
+
             return redirect(route('intern.ikm.settingikm.index'))
             ->with('warning', 'IKM ini sudah terisi oleh beberapa responden dan tidak dapat dihapus');
+
         }
 
         Model::destroy($id);

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Ikm;
 
+use App\Models\User;
 use App\Models\Ikm\Umur;
 use App\Models\Ikm\Jadwal;
 use App\Models\Ikm\Layanan;
@@ -12,10 +13,12 @@ use App\Models\Ikm\Question;
 use App\Models\Ikm\Pekerjaan;
 use App\Models\Ikm\Responden;
 use App\Models\Ikm\Pendidikan;
+use App\Events\NewIkmSurveyEvent;
 use App\Http\Controllers\Controller;
 
 class SurveyPage extends Controller
 {
+    private $request;
     /**
      * Display a listing of the resource.
      *
@@ -41,6 +44,21 @@ class SurveyPage extends Controller
         ));  
     }
 
+    public function home()
+    {
+        return view('ikm.home');
+    }
+
+    public function faq()
+    {
+        return view('ikm.faq');
+    }
+
+    public function surveyClosed()
+    {
+        return view('ikm.closed');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -53,6 +71,8 @@ class SurveyPage extends Controller
             'jenis_layanan' => 'required',
 
         ]);
+
+        $this->request = $request;
 
         $responden = Responden::create([
 
@@ -88,6 +108,8 @@ class SurveyPage extends Controller
             
         }
 
+        $this->setNotification();
+
         return route('ikm.success', $responden->id);
     }
 
@@ -105,7 +127,7 @@ class SurveyPage extends Controller
 
     public function cetak(int $id)
     {
-        $responden          = Responden::find($id);
+        $responden = Responden::find($id);
 
         if ($responden === null) {
            return abort(404);
@@ -118,5 +140,19 @@ class SurveyPage extends Controller
         ->with('responden', $responden)
         ->with('answers', $answers)
         ->with('question_answer', $question_answer);
+    }
+
+    public function setNotification()
+    {
+        $users_to_notify    = User::with(['role' => function($query){
+
+                                $query->whereIn('role_id', [1,2,3]);
+
+                            }])->get();
+
+        $link               = route('intern.ikm.home.index');
+
+        new NewIkmSurveyEvent( $users_to_notify, $this->request->ikm_id, $this->request->jenis_layanan, $link );
+        
     }
 }

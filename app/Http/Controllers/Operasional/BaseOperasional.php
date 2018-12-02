@@ -24,7 +24,7 @@ class BaseOperasional extends Controller
 
     private function getUserRoleId() : int
     {
-        return Auth::user()->role_id;
+        return Auth::user()->role()->first()->id;
     }
 
     protected function setUserWilkerId(int $wilker_id) : int
@@ -352,7 +352,7 @@ class BaseOperasional extends Controller
         $wilker_laporan_clue = substr($this->checkUserWilker($path), -10, 8);
 
         /*Cek Wilker Dari User Yang Mengupload*/
-        if(strpos($user, $wilker_laporan_clue) === false && Auth::user()->role_id !== 1 && Auth::user()->role_id !== 2){
+        if(strpos($user, $wilker_laporan_clue) === false && $this->getUserRoleId() !== 1 && $this->getUserRoleId() !== 2){
 
             Session::flash('warning','Laporan Yang Anda Unggah Tidak Sesuai Dengan Wilker Anda!');
 

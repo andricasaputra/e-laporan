@@ -91,7 +91,9 @@
 
 @section('script')
 
-  @if(Auth::user()->role_id == 1)
+  <?php $cek = Auth::user()->role->first()->id; ?>
+
+  @if($cek  === 1 || $cek  === 2 || $cek  === 3)
 
     <script>
     

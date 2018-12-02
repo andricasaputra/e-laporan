@@ -30,6 +30,7 @@ class Questions extends Controller
     public function create()
     {
         $answers = Jawaban::all();
+        
         return view('intern.ikm.question.create')->with('answers', $answers);
     }
 

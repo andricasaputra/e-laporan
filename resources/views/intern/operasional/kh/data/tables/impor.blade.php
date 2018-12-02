@@ -21,7 +21,7 @@
 
 <main class="content-wrapper">
   <div class="container-fluid">
-   <div class="row">
+    <div class="row">
       <div class="col-md-2 offset-md-1 mb-3">
         <form action="{{ route('view.select.year') }}" method="POST">
           @csrf

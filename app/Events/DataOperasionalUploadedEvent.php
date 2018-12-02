@@ -8,9 +8,9 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Notifications\DataOperasionalUploaded as Notifications;
 
-class DataOperasionalUploadedEvent implements ShouldBroadcast
+class DataOperasionalUploadedEvent implements NotificationsEventInterface
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -28,20 +28,8 @@ class DataOperasionalUploadedEvent implements ShouldBroadcast
         $this->users    = $users;
         $this->message  = $message;
         $this->link     = $link;
+
+        event( new MainNotificationsEvent(new Notifications(), $this) );
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return ['laporan-uploaded'];
-    }
-
-    public function broadcastAs() 
-    {
-        return 'laporan-bulanan';
-    }
 }

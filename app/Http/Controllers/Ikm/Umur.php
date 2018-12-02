@@ -16,6 +16,7 @@ class Umur extends Controller
     public function index()
     {
         $umur = Model::all();
+        
         return view('intern.ikm.umur.index')->with('umur', $umur);
     }
 

@@ -16,6 +16,7 @@ class Pendidikan extends Controller
     public function index()
     {
         $pendidikan = Model::all();
+        
         return view('intern.ikm.pendidikan.index')->with('pendidikan', $pendidikan);
     }
 

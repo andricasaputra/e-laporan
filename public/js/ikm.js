@@ -128,6 +128,11 @@ $(document).ready(function(){
 
          type :'POST',
 
+         headers: {
+
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+
          data : new FormData (this),
 
          contentType : false,
@@ -138,7 +143,7 @@ $(document).ready(function(){
 
          success : function(response){
 
-          window.location = response;
+            window.location = response; 
           
          } 
 

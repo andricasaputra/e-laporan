@@ -89,6 +89,12 @@ class Upload extends BaseOperasional
 
                     }       
 
+                /*Error PNBP Tidak Cocok dengan Data Sertifikat*/
+                }elseif($this->success == -1){
+
+                    $this->message_type = 'warning';
+                    $this->message = 'Ketidaksesuaian data antara Dokumen Sertifikat dan Total PNBP ditemukan!, Total PNBP Tidak Boleh 0 pada Dokumen Sertifikat Yang dipakai';
+
                 /*Error tidak terduga / bad connection??*/
                 }else{
 
@@ -116,9 +122,16 @@ class Upload extends BaseOperasional
     }
 
     /*Upload Laporan Tipe Karantina Tumbuhan*/
-    private function uploadKt(RowCollection $datas, int $user_id, int $wilker_id) : int
+    private function uploadKt(RowCollection $datas, int $user_id, int $wilker_id)
     {
     	foreach ($datas as $key => $value) :
+            
+            if ($this->cekTotalPnbp('kt', $value->dok_pelepasan, $value->total_pnbp) === false) {
+
+                $this->success = -1;
+
+                return false;
+            }
 
 	        $model = new $this->model;
 
@@ -205,9 +218,16 @@ class Upload extends BaseOperasional
     }
 
     /*Upload Laporan Tipe Karantina Hewan*/
-    private function uploadKh(RowCollection $datas, int $user_id, int $wilker_id) : int
+    private function uploadKh(RowCollection $datas, int $user_id, int $wilker_id)
     {
     	foreach ($datas as $key => $value) :
+
+            if ($this->cekTotalPnbp('kh', $value->dok_pelepasan, $value->total_pnbp) === false) {
+
+                $this->success = -1;
+
+                return false;
+            }
 
 	        $model = new $this->model;
 
@@ -295,6 +315,48 @@ class Upload extends BaseOperasional
 	    return $this->success;
     }
 
+    /*
+    |Untuk Cek Kesesuaian Total PNBP Dengan Jenis Dokumen Karantina
+    |Kasus yang sering terjadi ketika export data dari IQFAST notifikasi sukses belum keluar,
+    |Tetapi laporan excel sudah dibuka, ini mengakibatkan semua total pnbp pada laporan menjadi 0
+    */
+    private function cekTotalPnbp($type_karantina, $dokumen_pelepasan, $total_pnbp)
+    {
+        if($type_karantina === 'kt'){
+
+            if ($dokumen_pelepasan == 'KT12' || 
+                $dokumen_pelepasan == 'KT10' || 
+                $dokumen_pelepasan == 'KT9') {
+
+                if ($total_pnbp == 0.0) {
+
+                    return false;
+                }
+
+            }
+
+            return true;
+
+        }else{
+
+            if ($dokumen_pelepasan == 'KH11' || 
+                $dokumen_pelepasan == 'KH12' || 
+                $dokumen_pelepasan == 'KH13' || 
+                $dokumen_pelepasan == 'KH14') {
+
+                if ($total_pnbp == 0.0) {
+
+                    return false;
+
+                }
+
+            }
+
+            return true;
+
+        }
+    }
+
     /*set flash message to given to users*/
     private function message(string $message_type, string $message) : ?Session
     {
@@ -329,15 +391,13 @@ class Upload extends BaseOperasional
                 break;
         }
 
-        if ($this->type_karantina === 'kt' ) {
+         $this->notify_message   =   "Laporan Operasional {$this->request->jenis_permohonan} Karantina Tumbuhan  Bulan " .Tanggal::bulan( (int) date('m', strtotime($this->tanggal)) ). " Sudah Terikirim";
 
-            $this->notify_message   =   'Laporan Operasional '.$this->request->jenis_permohonan.' Karantina Tumbuhan '. $this->wilker->nama_wilker .' Bulan '. Tanggal::bulan( (int) date('m', strtotime($this->tanggal)) ) .' Baru Saja Diupload';
+        if ($this->type_karantina === 'kt' ) {
 
             $this->link_notify  =  route('kt.view.page.'. $jenis_permohonan);
 
         }else{
-
-            $this->notify_message   =   'Laporan Operasional '.$this->request->jenis_permohonan.' Karantina Hewan '. $this->wilker->nama_wilker .' Bulan '. Tanggal::bulan( (int) date('m', strtotime($this->tanggal)) ) .' Baru Saja Diupload';
 
             $this->link_notify  =  route('kh.view.page.'. $jenis_permohonan);
 
@@ -345,10 +405,10 @@ class Upload extends BaseOperasional
 
     }
 
-    /*Call the event notifications*/
+    /*Fire the event notifications*/
     private function eventNotifyHandler()
     {
-        event(new DataOperasionalUploadedEvent( $this->users_to_notify, $this->wilker->nama_wilker, 
-                                                $this->tanggal, $this->notify_message, $this->link_notify ));
+       new DataOperasionalUploadedEvent( $this->users_to_notify, $this->wilker->nama_wilker, 
+                                                $this->tanggal, $this->notify_message, $this->link_notify );
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
+/*use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
 
 Route::get('users', 'UserController@api')->name('api.user');
 
@@ -32,7 +32,7 @@ Route::namespace('Operasional')->group(function () {
 
 Route::namespace('Ikm')->group(function () {
 
-	Route::get('ikm/{ikm_id}', 'Home@api')->name('api.ikm');
+	Route::get('ikm/{ikm_id?}', 'Home@api')->name('api.ikm');
 	
 	Route::get('ikm/detail/{id}/{ikm_id?}', 'Home@detailApi')->name('api.show');
 
@@ -44,7 +44,7 @@ Route::namespace('Ikm')->group(function () {
 
 Route::namespace('Notifications')->group(function () {
 
-	Route::get('notifications/data_operasional/{user_id}', 'DataOperasionalNotificationsController@operasionalApi')
-	->name('api.notifications.perasional');
+	Route::get('notifications/all/{user_id}', 'MainNotificationController@mainApiNotifications')
+	->name('api.notifications');
 
 });

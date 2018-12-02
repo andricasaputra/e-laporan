@@ -20,7 +20,7 @@ class IsAdmin
 
             $cek = Auth::user()->role->first()->id;
 
-            if ($cek === 1 || $cek  === 2) {
+            if ($cek  === 2 || $cek  === 3) {
 
                 return $next($request);
                 

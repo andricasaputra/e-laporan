@@ -11,6 +11,11 @@ use App\Http\Controllers\Controller;
 
 class HomeKt extends Controller
 {
+    public function showMenu()
+    {
+        return view('intern.operasional.kt.menu');
+    }
+
     public function show($year = null)
     {
         if(!isset($year)) $year = date('Y');

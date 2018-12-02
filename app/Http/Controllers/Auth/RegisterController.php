@@ -43,6 +43,7 @@ class RegisterController extends Controller
         $wilker     = Wilker::all();
         $jabatan    = Jabatan::all();
         $golongan   = Golongan::all();
+        
         return view('auth.register')
         ->with('roles', $roles)
         ->with('wilker', $wilker)

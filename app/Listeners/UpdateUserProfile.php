@@ -26,6 +26,7 @@ class UpdateUserProfile
      */
     public function handle(UpdatePegawai $event)
     {
+        /*update user profile's*/
         $event->pegawai->profile()->update([
             'nama' => $event->request->nama
         ]);

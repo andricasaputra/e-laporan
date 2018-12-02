@@ -15,3 +15,7 @@ diupload
 6.
 jenis permohonan (domas, dokel, ekspor, impor) harus sesuai dengan jenis permohonan
 pada masing2 halaman (misalnya si user sedang berada pada halaman upload dokel tetapi dokumen yang di upload ternyata domas maka si user akan mendapatkan pesan error)
+7.
+Kasus yang sering terjadi ketika export data dari IQFAST notifikasi sukses belum keluar,
+Tetapi laporan excel sudah dibuka, ini mengakibatkan semua total pnbp pada laporan menjadi 0 maka export data 
+akan gagal. contoh Dokumen pelepasan KT 12 tetapi total pnbp 0 -> ini kesalahan ketika export data dari iqfast

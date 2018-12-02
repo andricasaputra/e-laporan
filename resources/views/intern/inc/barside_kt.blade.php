@@ -1,4 +1,10 @@
-<div class="mdc-list-item mdc-drawer-item"  data-toggle="expansionPanel" target-panel="ui-sub-menu-kt-show">
+<div class="mdc-list-item mdc-drawer-item">
+  <a class="mdc-drawer-link" href="{{ route('showmenu.operasional.kt') }}">
+    <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">desktop_mac</i>
+    Data Operasional KT
+  </a>
+</div>
+{{-- <div class="mdc-list-item mdc-drawer-item"  data-toggle="expansionPanel" target-panel="ui-sub-menu-kt-show">
   <a class="mdc-drawer-link" href="#">
     <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">desktop_mac</i>
     Data Operasional KT
@@ -59,7 +65,7 @@
       </div>
     </nav>
   </div>
-</div>
+</div> --}}
 
 {{-- <div class="mdc-list-item mdc-drawer-item"  data-toggle="expansionPanel" target-panel="ui-sub-menu-kt-2">
   <a class="mdc-drawer-link" href="#">

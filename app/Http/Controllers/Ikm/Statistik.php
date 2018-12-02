@@ -15,6 +15,9 @@ use App\Http\Controllers\Controller;
 
 class Statistik extends Controller
 {
+    const NRR = 0.111;
+    protected $total_nrr, $total_responden;
+
     public function api(int $id = null)
     {
     	if (!isset($id)) {
@@ -28,7 +31,9 @@ class Statistik extends Controller
     public function index(int $id = null)
     {
     	if(!isset($id)){
+
     		$id = $this->getId();
+
     	}
 
     	$questions =  Question::all();
@@ -121,20 +126,20 @@ class Statistik extends Controller
     	
     	foreach($result as $res):
 
-    		$nrr = $res->sum('answer.nilai');
+    		$this->total_nrr = $res->sum('answer.nilai');
 
-    		$total_responden = $res->count();
+    		$this->total_responden = $res->count();
 
 			foreach($res->take(1) as $r):
 
 			 	$data[] = [
 
-			 		'total_responden' => $total_responden,
+			 		'total_responden' => $this->total_responden,
 		  			'questions' => $r->question->question,
 		  			'unsur_pelayanan' => 'U'.$no++.' - '.$this->getUnsur($no2++),
-		  			'nrr' => $nrr ,
-		  			'rata_nrr' => number_format((float)$nrr  / $total_responden, 3, '.', ''),
-		  			'nrr_perunsur' => number_format((float)$nrr  / $total_responden * 0.111, 3, '.', ''),
+		  			'nrr' => $this->total_nrr ,
+		  			'rata_nrr' => number_format((float) $this->total_nrr  / $this->total_responden, 3, '.', ''),
+		  			'nrr_perunsur' => number_format((float) $this->total_nrr  / $this->total_responden * self::NRR , 3, '.', ''),
                     'periode' => $r->ikm->keterangan,
 
 	  			];
@@ -156,8 +161,10 @@ class Statistik extends Controller
     protected function getId() : int
     {
     	$result_id = Result::with(['ikm' => function ($query) {
-	    	$query->where('is_open', 1);
-		}])->first();
+            
+            $query->where('is_open', 1);
+            
+        }])->first();
 
         if (is_null($result_id)) {
             
@@ -165,9 +172,15 @@ class Statistik extends Controller
 
         }
 
-		$id = $result_id->ikm->id;
+        if (is_null($result_id->ikm)) {
+            
+            return $id = 1;
 
-		return $id;
+        }
+
+        $id = $result_id->ikm->id;
+
+        return $id;
 	}
 
 	protected function getUnsur(int $no) : string

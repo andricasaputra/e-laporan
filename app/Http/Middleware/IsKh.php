@@ -13,15 +13,14 @@ class IsKh
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
-     */
-    
+     */ 
     public function handle($request, Closure $next)
     {
         $cek = Auth::user()->pegawai->jenis_karantina;
 
         if (Auth::user()) {
 
-            if ($cek === NULL || $cek === '-' || $cek === 'kh' ) {
+            if ($cek === NULL || $cek === 'str' || $cek === 'kh' ) {
 
                 return $next($request);
 

@@ -15,8 +15,14 @@ use App\Http\Controllers\Controller;
 
 class Home extends Controller
 {
-    public function api(int $ikm_id)
+    public function api(int $ikm_id = null)
     {
+        if (!isset($ikm_id)) {
+
+           $ikm_id = 1;
+           
+        }
+
         $responden = Responden::with([
                 'layanan', 
                 'umur',
@@ -156,6 +162,14 @@ class Home extends Controller
 
     private function setIkmId()
     {
-        return Jadwal::select('id')->where('is_open', 1)->first();
+        $ikm_id = Jadwal::select('id')->where('is_open', 1)->first();
+
+        if ($ikm_id === null) {
+            
+            $ikm_id = 1;
+
+        }
+
+        return $ikm_id;
     }
 }

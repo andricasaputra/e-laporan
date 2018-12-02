@@ -42,7 +42,7 @@ Route::post('impor/importdata', 'ImporKh@imports')
 ->name('kh.upload.proses.impor');
 
 /*Export Routes*/
-Route::get('download/domas', function () {
+/*Route::get('download/domas', function () {
 	return view('operasional.kh.download.domas');
 })->name('kh.download.page.domas');
 
@@ -56,7 +56,7 @@ Route::get('download/ekspor', function () {
 
 Route::get('download/impor', function () {
     return view('operasional.kh.download.impor');
-})->name('kh.download.page.impor'); 
+})->name('kh.download.page.impor'); */
 
 Route::post('dokel/exportdata/{tahun}/{bulan?}', 'DokelKh@exports')
 ->name('kh.download.proses.dokel');

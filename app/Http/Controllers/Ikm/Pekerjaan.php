@@ -16,6 +16,7 @@ class Pekerjaan extends Controller
     public function index()
     {
         $pekerjaan = Model::all();
+        
         return view('intern.ikm.pekerjaan.index')->with('pekerjaan', $pekerjaan);
     }
 

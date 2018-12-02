@@ -35,7 +35,6 @@ class UserAccountUpdate
         $user = $event->pegawai->user;
 
         /*update user role*/
-        
         $user->role()->sync($event->request->role);
 
     }

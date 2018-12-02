@@ -198,7 +198,7 @@
 
     		$('#layanan_kh h1').html(`
 
-    			${typeof(Object.values(response.layanan)[0]) == "undefined" ? 0 : Object.values(response.layanan)[0]}
+    			${typeof(Object.values(response.layanan)[1]) == "undefined" ? 0 : Object.values(response.layanan)[1]}
 
     		`);
 
@@ -217,8 +217,8 @@
 
     		$('#layanan_kt h1').html(`
 
-    			${typeof(Object.values(response.layanan)[1]) == "undefined" ? 0 : Object.values(response.layanan)[1]}
-
+    			${typeof(Object.values(response.layanan)[0]) == "undefined" ? 0 : Object.values(response.layanan)[0]}
+    			
     		`);
 
     		/*Pie Charts Function*/

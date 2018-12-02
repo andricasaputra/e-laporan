@@ -27,8 +27,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\UserAccountDelete',
             'App\Listeners\DeleteUserProfile',
         ],
-        'App\Events\DataOperasionalUploadedEvent' => [
-            'App\Listeners\DataOperasionalUploadedListener',
+        'App\Events\MainNotificationsEvent' => [
+            'App\Listeners\MainNotificationsListener',
         ],
     ];
 
