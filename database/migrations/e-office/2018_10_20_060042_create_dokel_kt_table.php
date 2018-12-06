@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEksporKtTable extends Migration
+class CreateDokelKtTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateEksporKtTable extends Migration
      */
     public function up()
     {
-        Schema::create('ekspor_kt', function (Blueprint $table) {
+        Schema::create('dokel_kt', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('wilker_id')->unsigned();
             $table->foreign('wilker_id')->references('id')->on('wilker');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('no')->default(0)->nullable();
             $table->date('bulan')->index()->nullable();
+            $table->integer('no')->default(0)->nullable();            
             $table->string('no_permohonan')->nullable();
             $table->string('no_aju')->index()->nullable();
             $table->date('tanggal_permohonan')->index()->nullable();
@@ -33,10 +33,10 @@ class CreateEksporKtTable extends Migration
             $table->string('jumlah_kemasan')->default('-')->nullable();
             $table->string('kota_asal')->nullable();
             $table->string('asal')->nullable();
-            $table->string('kota_tujuan')->index()->nullable();
+            $table->string('kota_tuju')->index()->nullable();
             $table->string('tujuan')->index()->nullable();
             $table->string('port_asal')->nullable();
-            $table->string('port_tujuan')->index()->nullable();
+            $table->string('port_tuju')->index()->nullable();
             $table->string('moda_alat_angkut_terakhir')->nullable();
             $table->string('tipe_alat_angkut_terakhir')->nullable();
             $table->string('nama_alat_angkut_terakhir')->nullable();
@@ -65,7 +65,7 @@ class CreateEksporKtTable extends Migration
             $table->integer('no_seri')->index()->nullable();
             $table->text('dokumen_pendukung')->nullable();
             $table->text('kontainer')->nullable();
-            $table->integer('biaya_perjalanan_dinas')->default(0)->nullable();
+            $table->integer('biaya_perjadin')->default(0)->nullable();
             $table->integer('total_pnbp')->default(0)->index()->nullable();
             $table->timestamps();
         });
@@ -78,6 +78,6 @@ class CreateEksporKtTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ekspor_kt');
+        Schema::dropIfExists('dokel_kt');
     }
 }

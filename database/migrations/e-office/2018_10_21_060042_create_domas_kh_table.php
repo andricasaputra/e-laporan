@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDokelKhTable extends Migration
+class CreateDomasKhTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateDokelKhTable extends Migration
      */
     public function up()
     {
-        Schema::create('dokel_kh', function (Blueprint $table) {
+        Schema::create('domas_kh', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('wilker_id')->unsigned();
             $table->foreign('wilker_id')->references('id')->on('wilker');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('no')->default(0)->nullable();
             $table->date('bulan')->index()->nullable();
+            $table->integer('no')->default(0)->nullable();  
             $table->string('no_permohonan')->nullable();
             $table->string('no_aju')->index()->nullable();
             $table->date('tanggal_permohonan')->index()->nullable();
@@ -67,7 +67,7 @@ class CreateDokelKhTable extends Migration
             $table->integer('no_seri')->index()->nullable();
             $table->text('dokumen_pendukung')->nullable();
             $table->text('kontainer')->nullable();
-            $table->integer('biaya_perjalanan_dinas')->default(0)->nullable();
+            $table->integer('biaya_perjadin')->default(0)->nullable();
             $table->integer('total_pnbp')->default(0)->index()->nullable();
             $table->timestamps();  
         });
@@ -80,6 +80,6 @@ class CreateDokelKhTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dokel_kh');
+        Schema::dropIfExists('domas_kh');
     }
 }

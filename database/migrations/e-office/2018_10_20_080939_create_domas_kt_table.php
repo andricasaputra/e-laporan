@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEksporKhTable extends Migration
+class CreateDomasKtTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateEksporKhTable extends Migration
      */
     public function up()
     {
-        Schema::create('ekspor_kh', function (Blueprint $table) {
+        Schema::create('domas_kt', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('wilker_id')->unsigned();
             $table->foreign('wilker_id')->references('id')->on('wilker');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('no')->default(0)->nullable();
             $table->date('bulan')->index()->nullable();
+            $table->integer('no')->default(0)->nullable();  
             $table->string('no_permohonan')->nullable();
             $table->string('no_aju')->index()->nullable();
             $table->date('tanggal_permohonan')->index()->nullable();
@@ -41,22 +41,20 @@ class CreateEksporKhTable extends Migration
             $table->string('tipe_alat_angkut_terakhir')->nullable();
             $table->string('nama_alat_angkut_terakhir')->nullable();
             $table->string('status_internal')->nullable();
+            $table->string('lokasi_mp')->nullable();
+            $table->string('tempat_produksi')->nullable();
+            $table->string('nama_tempat_pelaksanaan')->nullable();
             $table->string('peruntukan')->nullable();
-            $table->string('jenis_mp')->nullable();
-            $table->string('kelas_mp')->nullable();
-            $table->string('kode_hs')->nullable();
-            $table->string('nama_mp')->nullable();
-            $table->string('nama_latin')->nullable();
-            $table->integer('jumlah')->default(0)->nullable();
-            $table->string('satuan')->nullable();
-            $table->integer('jantan')->default(0)->nullable();
-            $table->integer('betina')->default(0)->nullable();
-            $table->integer('netto')->default(0)->nullable();
-            $table->string('sat_netto')->nullable();
-            $table->integer('bruto')->default(0)->nullable();
+            $table->string('golongan')->nullable();
+            $table->integer('kode_hs')->nullable();
+            $table->string('nama_komoditas')->index()->nullable();
+            $table->string('nama_komoditas_en')->nullable();
+            $table->integer('volume_netto')->default(0)->index()->nullable();
+            $table->string('sat_netto')->index()->nullable();
+            $table->integer('volume_bruto')->default(0)->nullable();
             $table->string('sat_bruto')->nullable();
-            $table->string('keterangan')->default('-')->nullable();
-            $table->string('breed')->default('-')->nullable();
+            $table->integer('volume_lain')->default(0)->nullable();
+            $table->string('sat_lain')->nullable();
             $table->integer('volumeP1')->default(0)->nullable();
             $table->integer('nettoP1')->default(0)->nullable();
             $table->integer('volumeP8')->default(0)->nullable();
@@ -67,9 +65,9 @@ class CreateEksporKhTable extends Migration
             $table->integer('no_seri')->index()->nullable();
             $table->text('dokumen_pendukung')->nullable();
             $table->text('kontainer')->nullable();
-            $table->integer('biaya_perjalanan_dinas')->default(0)->nullable();
+            $table->integer('biaya_perjadin')->default(0)->nullable();
             $table->integer('total_pnbp')->default(0)->index()->nullable();
-            $table->timestamps();  
+            $table->timestamps();
         });
     }
 
@@ -80,6 +78,6 @@ class CreateEksporKhTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ekspor_kh');
+        Schema::dropIfExists('domas_kt');
     }
 }

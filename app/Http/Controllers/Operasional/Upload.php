@@ -16,9 +16,21 @@ use App\Http\Controllers\TanggalController as Tanggal;
 
 class Upload extends BaseOperasional
 {
-	public $message, $message_type;
-	private $model, $request, $path, $type_karantina, $datas = [], $headings = [], $tanggal, $success = 0,
-            $wilker, $users_to_notify, $notify_message, $link_notify;
+	private $model;
+    private $request;
+    private $path;
+    private $type_karantina;
+    private $datas = [];
+    private $headings = [];
+    private $credentials;
+    private $tanggal;
+    private $success = 0;
+    private $wilker;
+    private $users_to_notify;
+    private $notify_message;
+    private $link_notify;
+    public  $message;
+    public  $message_type;
 	
     public function __construct(ModelOperasionalInterface $model, Request $request, 
                                 string $path, string $type_karantina)
@@ -49,60 +61,39 @@ class Upload extends BaseOperasional
 
 					        })->get();
 
+        /*Set User ID Berdasarkan User yang mengupload laporan*/
     	$user_id        = 	$this->checkActiveUserIdAndRequestUserId((int) $this->request->user_id);
 
+        /*Set Wilker ID Berdasarkan User yang mengupload laporan*/
         $wilker_id      = 	$this->setUserWilkerId((int) $this->request->wilker_id);
 
         /*set tanggal format Y-m-d*/
-
         foreach ($this->headings as $heading) :
 
             $lowereing  	= strtolower($heading);
             $getContent 	= explode(' ', $lowereing);
             $bulan      	= $getContent[2];
             $tahun      	= $getContent[6];
-            $this->tanggal 	= $tahun.'-'.$bulan.'-01';
+            $this->tanggal 	= "{$tahun}-{$bulan}-01";
 
         endforeach;
+
+        /*Set Credentials user untuk keperluan merge insert ke database*/
+        $this->credentials = [
+
+            "wilker_id" => $wilker_id,
+            "user_id" => $user_id,
+            "bulan" => $this->tanggal
+
+        ];
 
     	/*Jika semua validasi berhasil & jika file tidak kosong maka insert ke database*/
         if (!empty($this->datas) && $this->datas->count() > 0) :
 
-        		/*Upload proccess start berdasarkan type karantina & model*/
-                $this->type_karantina === 'kt'
-            		? $this->uploadKt($this->datas, $user_id, $wilker_id)
-            		: $this->uploadKh($this->datas, $user_id, $wilker_id);
+    		/*Upload proccess start berdasarkan type karantina & model*/
+            $this->type_karantina === 'kt' ? $this->uploadKt() : $this->uploadKh(); 
 
-                /*Jika data berhasil di insert ke database*/ 
-                if ($this->success > 0) {
-
-                    /*Jika data berhasil di insert ke database tetapi file sudah pernah diupload tampilkan pesan*/ 
-                    if ($this->success == 1) {
-                    
-                    	$this->message_type = 'success';
-                        $this->message = 'File Sudah Pernah Diunggah, Tidak Ada Data Untuk Diperbarui!';
-
-                    }else{
-
-                    	$this->message_type = 'success';
-                        $this->message = 'Data Berhasil Diimport!';
-
-                    }       
-
-                /*Error PNBP Tidak Cocok dengan Data Sertifikat*/
-                }elseif($this->success == -1){
-
-                    $this->message_type = 'warning';
-                    $this->message = 'Ketidaksesuaian data antara Dokumen Sertifikat dan Total PNBP ditemukan!, Total PNBP Tidak Boleh 0 pada Dokumen Sertifikat Yang dipakai';
-
-                /*Error tidak terduga / bad connection??*/
-                }else{
-
-                	$this->message_type = 'warning';
-                    $this->message = 'Gagal Import Data!';
-
-                }
-
+        /*File laporan yang diupload benar tetapi data nihil*/
         else:
 
             $model = new $this->model;
@@ -118,14 +109,22 @@ class Upload extends BaseOperasional
 
         endif;
 
-        return $this->message($this->message_type, $this->message);
+        /*Set Notifications Properties*/
+        $this->setNotificationsProperties($wilker_id);
+
+        /*Call Event to Notify*/
+        $this->eventNotifyHandler();
+
+        /*berikan feedback pesan kepada user setelah upload laporan*/
+        return $this->setMessageType()->message($this->message_type, $this->message);
     }
 
     /*Upload Laporan Tipe Karantina Tumbuhan*/
-    private function uploadKt(RowCollection $datas, int $user_id, int $wilker_id)
+    private function uploadKt()
     {
-    	foreach ($datas as $key => $value) :
+    	foreach ($this->datas as $key => $value) :
             
+            /*Cek Total PNBP Berdasarkan Jenis Dokumen Karantinanya*/
             if ($this->cekTotalPnbp('kt', $value->dok_pelepasan, $value->total_pnbp) === false) {
 
                 $this->success = -1;
@@ -133,59 +132,14 @@ class Upload extends BaseOperasional
                 return false;
             }
 
-	        $model = new $this->model;
+            /*Merge data dari laporan dengan credentials user*/
+            $datas = $value->map(function($singledata){
 
-	        $model->wilker_id = $wilker_id;
-	        $model->user_id = $user_id;
-	        $model->no = $value->no;
-	        $model->bulan = $this->tanggal;
-	        $model->no_permohonan = $value->no_permohonan;
-	        $model->no_aju = $value->no_aju;
-	        $model->tanggal_permohonan = $value->tanggal_permohonan;
-	        $model->jenis_permohonan = $value->jenis_permohonan;
-	        $model->nama_pemohon = $value->nama_pemohon;
-	        $model->nama_pengirim = $value->nama_pengirim;
-	        $model->alamat_pengirim = $value->alamat_pengirim;
-	        $model->nama_penerima = $value->nama_penerima;
-	        $model->alamat_penerima = $value->alamat_penerima;
-	        $model->jumlah_kemasan = $value->jumlah_kemasan;
-	        $model->kota_asal = $value->kota_asal;
-	        $model->asal = $value->asal;
-	        $model->kota_tujuan = $value->kota_tuju;
-	        $model->tujuan = $value->tujuan;
-	        $model->port_asal = $value->port_asal;
-	        $model->port_tujuan = $value->port_tuju;
-	        $model->moda_alat_angkut_terakhir = $value->moda_alat_angkut_terakhir;
-	        $model->tipe_alat_angkut_terakhir = $value->tipe_alat_angkut_terakhir;
-	        $model->nama_alat_angkut_terakhir = $value->nama_alat_angkut_terakhir;
-	        $model->status_internal = $value->status_internal;
-	        $model->lokasi_mp = $value->lokasi_mp;
-	        $model->tempat_produksi = $value->tempat_produksi;
-	        $model->nama_tempat_pelaksanaan = $value->nama_tempat_pelaksanaan;
-	        $model->peruntukan = $value->peruntukan;
-	        $model->golongan = $value->golongan;
-	        $model->kode_hs = $value->kode_hs;
-	        $model->nama_komoditas = $value->nama_komoditas;
-	        $model->nama_komoditas_en = $value->nama_komoditas_en;
-	        $model->volume_netto = $value->volume_netto;
-	        $model->sat_netto = $value->sat_netto;
-	        $model->volume_bruto = $value->volume_bruto;
-	        $model->sat_bruto = $value->sat_bruto;
-	        $model->volume_lain = $value->volume_lain;
-	        $model->sat_lain = $value->sat_lain;
-	        $model->volumeP1 = $value->volumep1;
-	        $model->nettoP1 = $value->nettop1;
-	        $model->volumeP8 = $value->volumep8;
-	        $model->nettoP8 = $value->nettop8;
-	        $model->dok_pelepasan = $value->dok_pelepasan;
-	        $model->nomor_dok_pelepasan = $value->nomor_dok_pelepasan;
-	        $model->tanggal_pelepasan = $value->tanggal_pelepasan;
-	        $model->no_seri = $value->no_seri;
-	        $model->dokumen_pendukung = $value->dokumen_pendukung;
-	        $model->kontainer = $value->kontainer;
-	        $model->biaya_perjalanan_dinas = $value->biaya_perjadin;
-	        $model->total_pnbp = $value->total_pnbp;
+                return $singledata;
 
+            })->merge($this->credentials)->all();
+        
+            /*Cek kembali apakah data sudah pernah diupload atau belum, Jika sudah lakukan update*/
 	        $cek = $this->model::where('nomor_dok_pelepasan', $value->nomor_dok_pelepasan)
 	        ->where('no_seri', $value->no_seri)
 	        ->where('tanggal_pelepasan', $value->tanggal_pelepasan)
@@ -193,126 +147,70 @@ class Upload extends BaseOperasional
 
 	        /*Jika data yang sama atau file yang sama sudah pernah diupload maka data jangan dimasukkan ke dalam database*/ 
 
+            /*Update data*/
 	        if ($cek !== null) {
 
-	            $this->success = 1;
+	            $this->model->whereId($cek->id)->update($datas);
 
-	            continue;
+                $this->success = 1;
 
+            /*Insert data*/
 	        }else{
 
-	            $model->save();
+                $this->model->create($datas);
 
 	            $this->success = 2;
+                
 	        }
 
 	    endforeach;
-
-        /*Set Notifications Properties*/
-        $this->setNotificationsProperties($wilker_id);
-        
-        /*Call Event to Notify*/
-        $this->eventNotifyHandler();
 
 	    return $this->success;
     }
 
     /*Upload Laporan Tipe Karantina Hewan*/
-    private function uploadKh(RowCollection $datas, int $user_id, int $wilker_id)
+    private function uploadKh()
     {
-    	foreach ($datas as $key => $value) :
-
-            if ($this->cekTotalPnbp('kh', $value->dok_pelepasan, $value->total_pnbp) === false) {
+    	foreach ($this->datas as $key => $value) :
+            
+            /*Cek Total PNBP Berdasarkan Jenis Dokumen Karantinanya*/
+            if ($this->cekTotalPnbp('kt', $value->dok_pelepasan, $value->total_pnbp) === false) {
 
                 $this->success = -1;
 
                 return false;
             }
 
-	        $model = new $this->model;
+            $datas = $value->map(function($singledata){
 
-	        $model->wilker_id = $wilker_id;
-            $model->user_id = $user_id;
-            $model->no = $value->no;
-            $model->bulan = $this->tanggal;
-            $model->no_permohonan = $value->no_permohonan; 
-            $model->no_aju = $value->no_aju; 
-            $model->tanggal_permohonan = $value->tanggal_permohonan; 
-            $model->jenis_permohonan = $value->jenis_permohonan; 
-            $model->nama_pemohon = $value->nama_pemohon; 
-            $model->nama_pengirim = $value->nama_pengirim; 
-            $model->alamat_pengirim = $value->alamat_pengirim; 
-            $model->nama_penerima = $value->nama_penerima; 
-            $model->alamat_penerima = $value->alamat_penerima; 
-            $model->jumlah_kemasan = $value->jumlah_kemasan; 
-            $model->kota_asal = $value->kota_asal; 
-            $model->asal = $value->asal; 
-            $model->kota_tuju = $value->kota_tuju; 
-            $model->tujuan = $value->tujuan; 
-            $model->port_asal = $value->port_asal; 
-            $model->port_tuju = $value->port_tuju; 
-            $model->moda_alat_angkut_terakhir = $value->moda_alat_angkut_terakhir; 
-            $model->tipe_alat_angkut_terakhir = $value->tipe_alat_angkut_terakhir; 
-            $model->nama_alat_angkut_terakhir = $value->nama_alat_angkut_terakhir; 
-            $model->status_internal = $value->status_internal; 
-            $model->peruntukan = $value->peruntukan; 
-            $model->jenis_mp = $value->jenis_mp; 
-            $model->kelas_mp = $value->kelas_mp; 
-            $model->kode_hs = $value->kode_hs; 
-            $model->nama_mp = $value->nama_mp; 
-            $model->nama_latin = $value->nama_latin; 
-            $model->jumlah = $value->jumlah; 
-            $model->satuan = $value->satuan; 
-            $model->jantan = $value->jantan; 
-            $model->betina = $value->betina; 
-            $model->netto = $value->netto; 
-            $model->sat_netto = $value->sat_netto; 
-            $model->bruto = $value->bruto; 
-            $model->sat_bruto = $value->sat_bruto; 
-            $model->keterangan = $value->keterangan; 
-            $model->breed = $value->breed; 
-            $model->volumeP1 = $value->volumeP1; 
-            $model->nettoP1 = $value->nettoP1; 
-            $model->volumeP8 = $value->volumeP8; 
-            $model->nettoP8 = $value->nettoP8; 
-            $model->dok_pelepasan = $value->dok_pelepasan; 
-            $model->nomor_dok_pelepasan = $value->nomor_dok_pelepasan; 
-            $model->tanggal_pelepasan = $value->tanggal_pelepasan; 
-            $model->no_seri = $value->no_seri; 
-            $model->dokumen_pendukung = $value->dokumen_pendukung; 
-            $model->kontainer = $value->kontainer; 
-            $model->biaya_perjalanan_dinas = $value->biaya_perjalanan_dinas; 
-            $model->total_pnbp = $value->total_pnbp; 
+                return $singledata;
 
-	        $cek = $this->model::where('nomor_dok_pelepasan', $value->nomor_dok_pelepasan)
-	        ->where('no_seri', $value->no_seri)
-	        ->where('tanggal_pelepasan', $value->tanggal_pelepasan)
-	        ->where('no_permohonan', $value->no_permohonan)->first();
-
-	        /*Jika data yang sama atau file yang sama sudah pernah diupload maka data jangan dimasukkan ke dalam database*/ 
-
-	        if ($cek !== null) {
-
-	            $this->success = 1;
-
-	            continue;
-
-	        }else{
-
-	            $model->save();
-
-	            $this->success = 2;
-	        }
-
-	    endforeach;
-
-        /*Set Notifications Properties*/
-        $this->setNotificationsProperties($wilker_id);
+            })->merge($this->credentials)->all();
         
-        /*Call Event to Notify*/
-        $this->eventNotifyHandler();
+            $cek = $this->model::where('nomor_dok_pelepasan', $value->nomor_dok_pelepasan)
+            ->where('no_seri', $value->no_seri)
+            ->where('tanggal_pelepasan', $value->tanggal_pelepasan)
+            ->where('no_permohonan', $value->no_permohonan)->first();
 
-	    return $this->success;
+            /*Jika data yang sama atau file yang sama sudah pernah diupload maka data jangan dimasukkan ke dalam database*/ 
+
+            if ($cek !== null) {
+
+                $this->model->whereId($cek->id)->update($datas);
+
+                $this->success = 1;
+
+            }else{
+
+                $this->model->create($datas);
+
+                $this->success = 2;
+                
+            }
+
+        endforeach;
+
+        return $this->success;
     }
 
     /*
@@ -328,7 +226,7 @@ class Upload extends BaseOperasional
                 $dokumen_pelepasan == 'KT10' || 
                 $dokumen_pelepasan == 'KT9') {
 
-                if ($total_pnbp == 0.0) {
+                if ($total_pnbp == 0.0 || $total_pnbp == 0) {
 
                     return false;
                 }
@@ -344,7 +242,7 @@ class Upload extends BaseOperasional
                 $dokumen_pelepasan == 'KH13' || 
                 $dokumen_pelepasan == 'KH14') {
 
-                if ($total_pnbp == 0.0) {
+                if ($total_pnbp == 0.0 || $total_pnbp == 0) {
 
                     return false;
 
@@ -357,26 +255,61 @@ class Upload extends BaseOperasional
         }
     }
 
-    /*set flash message to given to users*/
+    /*Set tipe-tipe pesan yang ingin ditampilkan kepada user*/
+    private function setMessageType()
+    {
+        /*Jika data berhasil di insert ke database*/ 
+        if ($this->success > 0) {
+
+            /*Jika data berhasil di insert ke database tetapi file sudah pernah diupload tampilkan pesan*/ 
+            if ($this->success == 1) {
+            
+                $this->message_type = 'success';
+                $this->message = 'Data Berhasil Diperbarui!';
+
+            }else{
+
+                $this->message_type = 'success';
+                $this->message = 'Data Berhasil Diimport!';
+
+            }       
+
+        /*Error PNBP Tidak Cocok dengan Data Sertifikat*/
+        }elseif($this->success == -1){
+
+            $this->message_type = 'warning';
+            $this->message = 'Ketidaksesuaian data antara Dokumen Sertifikat dan Total PNBP ditemukan!, Total PNBP Tidak Boleh 0 pada Dokumen Sertifikat Yang dipakai';
+
+        /*Error tidak terduga / bad connection??*/
+        }else{
+
+            $this->message_type = 'warning';
+            $this->message = 'Gagal Import Data!';
+
+        }
+
+        return $this;
+    }
+
+    /*set flash message*/
     private function message(string $message_type, string $message) : ?Session
     {
     	return Session::flash("$message_type", "$message");
     }
 
-    /*Set needed properties for notifications*/
+    /*set property2 untuk kebutuhan notifikasi*/
     private function setNotificationsProperties(int $wilker_id)
     {
         $this->wilker           =   Wilker::find($wilker_id);
 
-        $wilker                 =   $this->wilker;
+        $this->users_to_notify  =   User::with(['wilker' => function($query){
 
-        $this->users_to_notify  =   User::with(['wilker' => function($query) use ($wilker){
-
-                                        $query->where('wilker.id', '!=', $wilker->id);
+                                        $query->where('wilker.id', '!=', $this->wilker->id);
 
                                     }])->get();
 
         switch ($this->request->jenis_permohonan) {
+
             case 'Domestik Keluar':
                 $jenis_permohonan = 'dokel';
                 break;
@@ -389,26 +322,23 @@ class Upload extends BaseOperasional
             default:
                 $jenis_permohonan = 'impor';
                 break;
-        }
-
-         $this->notify_message   =   "Laporan Operasional {$this->request->jenis_permohonan} Karantina Tumbuhan  Bulan " .Tanggal::bulan( (int) date('m', strtotime($this->tanggal)) ). " Sudah Terikirim";
-
-        if ($this->type_karantina === 'kt' ) {
-
-            $this->link_notify  =  route('kt.view.page.'. $jenis_permohonan);
-
-        }else{
-
-            $this->link_notify  =  route('kh.view.page.'. $jenis_permohonan);
 
         }
+
+        $jenis_karantina = $this->type_karantina === 'kt' ? 'Karantina Tumbuhan' : 'Karantina Hewan';
+
+        $this->notify_message   =   "Laporan Operasional {$this->request->jenis_permohonan} {$jenis_karantina} Bulan " .Tanggal::bulan( (int) date('m', strtotime($this->tanggal)) ). " Sudah Terikirim";
+
+        $this->link_notify  =   $this->type_karantina === 'kt' 
+                                ? route('kt.view.page.'. $jenis_permohonan)
+                                : route('kh.view.page.'. $jenis_permohonan);
 
     }
 
-    /*Fire the event notifications*/
+    /*Panggil event notifikasi*/
     private function eventNotifyHandler()
     {
        new DataOperasionalUploadedEvent( $this->users_to_notify, $this->wilker->nama_wilker, 
-                                                $this->tanggal, $this->notify_message, $this->link_notify );
+                                         $this->tanggal, $this->notify_message, $this->link_notify );
     }
 }

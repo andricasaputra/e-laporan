@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIkmAnswerTable extends Migration
+class CreateIkmUmurTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateIkmAnswerTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql2')->create('ikm_answer', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_umur', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('answer')->unique();
-            $table->integer('nilai')->default(1);
+            $table->string('umur');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateIkmAnswerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ikm_answer');
+        Schema::connection('mysql2')->dropIfExists('ikm_umur');
     }
 }

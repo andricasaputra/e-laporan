@@ -37,6 +37,6 @@ class CreateIkmRespondenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ikm_responden');
+        Schema::connection('mysql2')->dropIfExists('ikm_responden');
     }
 }

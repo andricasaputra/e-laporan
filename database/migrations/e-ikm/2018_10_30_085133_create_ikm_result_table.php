@@ -34,6 +34,6 @@ class CreateIkmResultTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ikm_result');
+        Schema::connection('mysql2')->dropIfExists('ikm_result');
     }
 }

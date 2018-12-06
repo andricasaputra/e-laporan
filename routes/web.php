@@ -73,7 +73,7 @@
 
 	    Route::get('ikm/survey/closed', 'SurveyPage@surveyClosed')->name('ikm.closed');
 
-    })
+    });
 
 /*});*//*End Domain IKM*/
 

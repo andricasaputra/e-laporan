@@ -9,7 +9,7 @@ use App\Http\Controllers\TanggalController as Tanggal;
 class DokelKh extends Model implements ModelOperasionalInterface
 {
     protected $table 	= 'dokel_kh', 
-    		  $guarded 	= ['id'],
+    		  $guarded 	= ['id', 'created_at', 'updated_at'],
  			  $hidden 	= ['id', 'user_id', 'wilker_id', 'role_id', 'no', 'created_at', 'updated_at'];
 
  	public function getBulanAttribute($value)

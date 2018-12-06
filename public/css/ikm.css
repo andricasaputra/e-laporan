@@ -13,6 +13,7 @@ body {
 
 select{
     cursor: pointer;
+    text-indent: 5px;
 }
 
 .radio label,.radio-inline label{

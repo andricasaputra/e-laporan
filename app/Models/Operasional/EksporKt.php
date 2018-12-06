@@ -9,7 +9,7 @@ use App\Http\Controllers\TanggalController as Tanggal;
 class EksporKt extends Model implements ModelOperasionalInterface
 {
     protected $table 	= 'ekspor_kt', 
-    		  $guarded 	= ['id'],
+    		  $guarded 	= ['id', 'created_at', 'updated_at'],
     		  $hidden 	= ['id', 'user_id', 'wilker_id', 'role_id', 'no', 'created_at', 'updated_at'];
 
     public function getBulanAttribute($value)

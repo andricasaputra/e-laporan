@@ -33,10 +33,6 @@ class UserAccountRegister
         ]);
 
         /*insert new user role*/
-        foreach($event->data['role'] as $role):
-
-            $user->role()->attach($role);
-
-        endforeach;
+        $user->role()->attach($event->data['role']);
     }
 }

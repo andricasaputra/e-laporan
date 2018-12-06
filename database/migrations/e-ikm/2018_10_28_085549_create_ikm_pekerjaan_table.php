@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIkmTable extends Migration
+class CreateIkmPekerjaanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateIkmTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql2')->create('ikm', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_pekerjaan', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->integer('is_open')->nullable()->default(NULL);
-            $table->string('keterangan')->nullable()->default(NULL);
+            $table->string('pekerjaan');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateIkmTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ikm');
+        Schema::connection('mysql2')->dropIfExists('ikm_pekerjaan');
     }
 }

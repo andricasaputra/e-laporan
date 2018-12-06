@@ -62,7 +62,7 @@ class BaseOperasional extends Controller
 
     protected function setActiveUser() : User
     {
-        $user = User::where('id', $this->getUserId())->first();
+        $user = User::whereId($this->getUserId())->first();
 
         return $user;
     }
@@ -79,7 +79,7 @@ class BaseOperasional extends Controller
     }
 
     /*Menangkap URL Request Kemudian Di Redirect*/
-    protected function selectAnotherYear(Request $request) : string
+    protected function selectAnotherYear(Request $request)
     {
         return redirect($request->year);
     }

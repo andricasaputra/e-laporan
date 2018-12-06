@@ -4,19 +4,18 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIkmAnswerQuestionTable extends Migration
+class CreateIkmQuestionTable extends Migration
 {
     /**
-     * Run the migrations pivot tables.
+     * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::connection('mysql2')->create('ikm_answer_question', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_question', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('question_id')->unsigned();
-            $table->integer('answer_id')->unsigned();
+            $table->text('question');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateIkmAnswerQuestionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ikm_answer_question');
+        Schema::connection('mysql2')->dropIfExists('ikm_question');
     }
 }

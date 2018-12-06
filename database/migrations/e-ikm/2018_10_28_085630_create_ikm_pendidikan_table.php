@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIkmQuestionTable extends Migration
+class CreateIkmPendidikanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateIkmQuestionTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql2')->create('ikm_question', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('ikm_pendidikan', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('question');
+            $table->string('pendidikan');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateIkmQuestionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ikm_question');
+        Schema::connection('mysql2')->dropIfExists('ikm_pendidikan');
     }
 }

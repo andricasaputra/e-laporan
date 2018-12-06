@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use Notification;
 use App\Events\MainNotificationsEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -26,12 +27,8 @@ class MainNotificationsListener
      */
     public function handle(MainNotificationsEvent $event)
     {
-        foreach ($event->users as $user) {
-
-            $user->notify(
-               new $event->class_to_notify($event->message, $event->link)
-            );
-
-        }
+        Notification::send(
+            $event->users, new $event->class_to_notify($event->message, $event->link)
+        );
     }
 }
