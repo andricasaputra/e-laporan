@@ -4,7 +4,22 @@
 
 @section('barside')
 
-  @include('intern.inc.barside')
+  @include('intern.inc.barside_operasional')
+
+@endsection
+
+@section('page-breadcrumb')
+
+<h4 class="page-title">Data Operasional Karantina Tumbuhan</h4>
+<div class="d-flex align-items-center">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('showmenu.operasional.kt') }}">Menu</a></li>
+            <li class="breadcrumb-item" aria-current="page">Data Operasional Karantina Tumbuhan</li>
+        </ol>
+    </nav>
+</div>
 
 @endsection
 

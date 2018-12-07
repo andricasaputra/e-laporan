@@ -2,67 +2,79 @@
 
 @section('barside')
 
-  @include('intern.inc.barside')
+  @include('intern.inc.barside_operasional')
+
+@endsection
+
+@section('page-breadcrumb')
+
+<h4 class="page-title">Upload Data Operasional Impor Karantina Hewan</h4>
+<div class="d-flex align-items-center">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('showmenu.operasional.kh') }}">Menu</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('kh.homeupload') }}">Upload</a></li>
+            <li class="breadcrumb-item" aria-current="page">Impor</li>
+        </ol>
+    </nav>
+</div>
 
 @endsection
 
 @section('content')
 
-<main class="content-wrapper">
-  <div class="mdc-layout-grid">
-    <div class="mdc-layout-grid__inner">
-      <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-          <div class="mdc-card">
-            <div class="mdc-layout-grid__inner">
-              <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-7">
-                <section class="purchase__card_section">
-                    
-                    @include('intern.inc.message')
+<div class="row">
+  <div class="col-md-6 offset-md-2 col-sm-12">
 
-                    <h4>Upload Impor Karantina Hewan</h4>
-                    <div class="col-md-12">
-                      <div class="row">
-                        <form action="{{ route('kh.upload.proses.impor') }}" method="post" enctype="multipart/form-data">
-                            @csrf
+    @include('intern.inc.message')
 
-                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+    <div class="card text-center">
+      <div class="card-body">
+        <h4>Upload Impor Karantina Hewan</h4>
+        <form action="{{ route('kh.upload.proses.impor') }}" method="post" enctype="multipart/form-data">
+            @csrf
 
-                            <input type="hidden" name="jenis_permohonan" value="Impor">
+            <input type="hidden" name="user_id" value="{{ $user->id }}">
 
-                            <div class="form-group">
-                              <label for="wilker_id">Nama Wilker</label>
-                              <select name="wilker_id" class="form-control">
-                               
-                                @if(count($wilker) > 0)
+            <input type="hidden" name="jenis_permohonan" value="Impor">
 
-                                    <option disabled selected>Pilih Wilker</option>
+            <div class="form-group">
+              <label for="wilker_id">Nama Wilker</label>
+              <select name="wilker_id" class="form-control">
+               
+                @if(count($wilker) > 0)
 
-                                    @foreach($wilker as $w)
+                    <option disabled selected>Pilih Wilker</option>
 
-                                      <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
+                    @foreach($wilker as $w)
 
-                                    @endforeach
-                                  
-                                @endif
-                                
-                              </select>
-                            </div>
+                      <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
 
-                            <div class="form-group">
-                              <label for="filenya">Pilih File Laporan</label>
-                              <input type="file" name="filenya" class="form-control">
-                            </div>
-                            <input type="submit" name="Import" class="btn btn-success" value="Upload">
-                        </form>
-                      </div>
-                    </div>
-                </section>
-              </div>
+                    @endforeach
+                  
+                @endif
+                
+              </select>
             </div>
-          </div>
-        </div>
+
+            <div class="form-group">
+              <label for="filenya">Pilih File Laporan</label>
+              <input type="file" name="filenya" class="form-control">
+            </div>
+            <input type="submit" name="Import" class="btn btn-success" value="Upload">
+        </form>
+      </div>
     </div>
-  </div>
-</main>
+    <div class="col">
+      <div class="text-center">
+        <a href="{{ route('kh.homeupload') }}" class="btn btn-default"><i class="fa fa-angle-double-left"></i> Kembali</a>
+      </div>
+    </div>
+  </div>  
+
+  @include('intern.operasional.rules.rule')
+
+</div>
 
 @endsection

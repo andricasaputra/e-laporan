@@ -133,45 +133,50 @@ class OldUpload extends BaseOperasional
     /*Upload Laporan Tipe Karantina Tumbuhan*/
     private function uploadKt()
     {
-     
-        // if ($this->cekTotalPnbp('kt', $value->dok_pelepasan, $value->total_pnbp) === false) {
+        foreach ($this->datas as $key => $value) :
+            
+            /*Cek Total PNBP Berdasarkan Jenis Dokumen Karantinanya*/
+            if ($this->cekTotalPnbp('kt', $value->dok_pelepasan, $value->total_pnbp) === false) {
 
-        //     $this->success = -1;
+                $this->success = -1;
 
-        //     return false;
-        // }
+                return false;
+            }
 
-        $datas = $this->datas->map(function($singledata){
+            /*Merge data dari laporan dengan credentials user*/
+            $datas = $value->map(function($singledata){
 
-            return $singledata->prepend($this->request->wilker_id, 'wilker_id')
-                    ->prepend($this->request->user_id, 'user_id')
-                    ->prepend($this->tanggal, 'bulan')
-                    ->put('created_at' , \Carbon::now())
-                    ->put('updated_at' , \Carbon::now())
-                    ->all();
+                return $singledata;
 
-        })->all();
-        
+            })->merge($this->credentials)->all();
 
-        // $cek = $this->model::where('nomor_dok_pelepasan', $value->nomor_dok_pelepasan)
-        // ->where('no_seri', $value->no_seri)
-        // ->where('tanggal_pelepasan', $value->tanggal_pelepasan)
-        // ->where('no_permohonan', $value->no_permohonan)->first();
+            /*Cek kembali apakah data sudah pernah diupload atau belum, Jika sudah lakukan update*/
+            $cek = $this->model::where('nomor_dok_pelepasan', $value->nomor_dok_pelepasan)
+            ->where('no_seri', $value->no_seri)
+            ->where('tanggal_pelepasan', $value->tanggal_pelepasan)
+            ->where('no_permohonan', $value->no_permohonan)->first();
 
-        /*Jika data yang sama atau file yang sama sudah pernah diupload maka data jangan dimasukkan ke dalam database*/ 
+            /*Jika data yang sama atau file yang sama sudah pernah diupload maka data jangan dimasukkan ke dalam database*/ 
 
-        $this->model->insert($datas);
+            /*Update data*/
+            if ($cek !== null) {
 
-        $this->success = 2;
+                $this->model->whereId($cek->id)->update($datas);
 
+                $this->success = 1;
 
-        // /*Set Notifications Properties*/
-        // $this->setNotificationsProperties($this->credentials['wilker_id']);
+            /*Insert data*/
+            }else{
 
-        // /*Call Event to Notify*/
-        // $this->eventNotifyHandler();
+                $this->model->create($datas);
 
-	    return $this->success;
+                $this->success = 2;
+                
+            }
+
+        endforeach;
+
+        return $this->success;
     }
 
     /*Upload Laporan Tipe Karantina Hewan*/

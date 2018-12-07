@@ -22,7 +22,6 @@ class Upload extends BaseOperasional
     private $type_karantina;
     private $datas = [];
     private $headings = [];
-    private $credentials;
     private $tanggal;
     private $success = 0;
     private $wilker;
@@ -59,6 +58,8 @@ class Upload extends BaseOperasional
             
 					            config(['excel.import.startRow' => 7]);
 
+                                return $reader->ignoreEmpty(false);
+
 					        })->get();
 
         /*Set User ID Berdasarkan User yang mengupload laporan*/
@@ -78,20 +79,11 @@ class Upload extends BaseOperasional
 
         endforeach;
 
-        /*Set Credentials user untuk keperluan merge insert ke database*/
-        $this->credentials = [
-
-            "wilker_id" => $wilker_id,
-            "user_id" => $user_id,
-            "bulan" => $this->tanggal
-
-        ];
-
     	/*Jika semua validasi berhasil & jika file tidak kosong maka insert ke database*/
         if (!empty($this->datas) && $this->datas->count() > 0) :
 
-    		/*Upload proccess start berdasarkan type karantina & model*/
-            $this->type_karantina === 'kt' ? $this->uploadKt() : $this->uploadKh(); 
+    		/*Run Upload Proccess*/
+            $this->uploadProccess(); 
 
         /*File laporan yang diupload benar tetapi data nihil*/
         else:
@@ -104,155 +96,85 @@ class Upload extends BaseOperasional
 
             $model->save();
 
-            $this->message_type = 'success';
-            $this->message = 'Data Berhasil Diimport!';
+            $this->success = 1;
 
         endif;
-
-        /*Set Notifications Properties*/
-        $this->setNotificationsProperties($wilker_id);
-
-        /*Call Event to Notify*/
-        $this->eventNotifyHandler();
 
         /*berikan feedback pesan kepada user setelah upload laporan*/
         return $this->setMessageType()->message($this->message_type, $this->message);
     }
 
     /*Upload Laporan Tipe Karantina Tumbuhan*/
-    private function uploadKt()
+    private function uploadProccess()
     {
-    	foreach ($this->datas as $key => $value) :
-            
-            /*Cek Total PNBP Berdasarkan Jenis Dokumen Karantinanya*/
-            if ($this->cekTotalPnbp('kt', $value->dok_pelepasan, $value->total_pnbp) === false) {
+    	$datas = $this->datas->map(function($singledata){
 
-                $this->success = -1;
+           return $singledata->prepend($this->request->wilker_id, 'wilker_id')
+                    ->prepend($this->request->user_id, 'user_id')
+                    ->prepend($this->tanggal, 'bulan')
+                    ->put('created_at', \Carbon::now())
+                    ->all();
 
-                return false;
-            }
+        });
 
-            /*Merge data dari laporan dengan credentials user*/
-            $datas = $value->map(function($singledata){
+        /*Pengecekan PNBP Berdasarkan Type Karantina & Dokumen Pelepasan*/
+        if ($this->type_karantina === 'kt') {
 
-                return $singledata;
-
-            })->merge($this->credentials)->all();
-        
-            /*Cek kembali apakah data sudah pernah diupload atau belum, Jika sudah lakukan update*/
-	        $cek = $this->model::where('nomor_dok_pelepasan', $value->nomor_dok_pelepasan)
-	        ->where('no_seri', $value->no_seri)
-	        ->where('tanggal_pelepasan', $value->tanggal_pelepasan)
-	        ->where('no_permohonan', $value->no_permohonan)->first();
-
-	        /*Jika data yang sama atau file yang sama sudah pernah diupload maka data jangan dimasukkan ke dalam database*/ 
-
-            /*Update data*/
-	        if ($cek !== null) {
-
-	            $this->model->whereId($cek->id)->update($datas);
-
-                $this->success = 1;
-
-            /*Insert data*/
-	        }else{
-
-                $this->model->create($datas);
-
-	            $this->success = 2;
-                
-	        }
-
-	    endforeach;
-
-	    return $this->success;
-    }
-
-    /*Upload Laporan Tipe Karantina Hewan*/
-    private function uploadKh()
-    {
-    	foreach ($this->datas as $key => $value) :
-            
-            /*Cek Total PNBP Berdasarkan Jenis Dokumen Karantinanya*/
-            if ($this->cekTotalPnbp('kt', $value->dok_pelepasan, $value->total_pnbp) === false) {
-
-                $this->success = -1;
-
-                return false;
-            }
-
-            $datas = $value->map(function($singledata){
-
-                return $singledata;
-
-            })->merge($this->credentials)->all();
-        
-            $cek = $this->model::where('nomor_dok_pelepasan', $value->nomor_dok_pelepasan)
-            ->where('no_seri', $value->no_seri)
-            ->where('tanggal_pelepasan', $value->tanggal_pelepasan)
-            ->where('no_permohonan', $value->no_permohonan)->first();
-
-            /*Jika data yang sama atau file yang sama sudah pernah diupload maka data jangan dimasukkan ke dalam database*/ 
-
-            if ($cek !== null) {
-
-                $this->model->whereId($cek->id)->update($datas);
-
-                $this->success = 1;
-
-            }else{
-
-                $this->model->create($datas);
-
-                $this->success = 2;
-                
-            }
-
-        endforeach;
-
-        return $this->success;
-    }
-
-    /*
-    |Untuk Cek Kesesuaian Total PNBP Dengan Jenis Dokumen Karantina
-    |Kasus yang sering terjadi ketika export data dari IQFAST notifikasi sukses belum keluar,
-    |Tetapi laporan excel sudah dibuka, ini mengakibatkan semua total pnbp pada laporan menjadi 0
-    */
-    private function cekTotalPnbp($type_karantina, $dokumen_pelepasan, $total_pnbp)
-    {
-        if($type_karantina === 'kt'){
-
-            if ($dokumen_pelepasan == 'KT12' || 
-                $dokumen_pelepasan == 'KT10' || 
-                $dokumen_pelepasan == 'KT9') {
-
-                if ($total_pnbp == 0.0 || $total_pnbp == 0) {
-
-                    return false;
-                }
-
-            }
-
-            return true;
+            $cekPnbp = $datas->whereIn('dok_pelepasan', ['KT9', 'KT10', 'KT12'])->where('total_pnbp', 0.0)->first();
 
         }else{
 
-            if ($dokumen_pelepasan == 'KH11' || 
-                $dokumen_pelepasan == 'KH12' || 
-                $dokumen_pelepasan == 'KH13' || 
-                $dokumen_pelepasan == 'KH14') {
+            $cekPnbp = $datas->whereIn('dok_pelepasan', ['KH11', 'KH12', 'KH13', 'KH14'])->where('total_pnbp', 0.0)->first();
 
-                if ($total_pnbp == 0.0 || $total_pnbp == 0) {
+        }
+        
+        if (!is_null($cekPnbp) || $cekPnbp !== null) {
+            
+            $this->success = -1;
 
-                    return false;
+            return false;
+        }
 
-                }
+        /*Pengecekan Laporan Bulanan Sudah Pernah Diupload atau belum, jika sudah lakukan update, jika belum insert baru*/
+        $no_permohonan      = $datas->whereNotIn('no_permohonan', ['IDEM'])->pluck('no_permohonan')->all();
+
+        $forinsertOrUpdate  = $this->model::select('no_permohonan')
+                                ->whereNotIn('no_permohonan', ['IDEM'])
+                                ->whereIn('no_permohonan', $no_permohonan)->get();
+
+        if ($forinsertOrUpdate === null || count($forinsertOrUpdate) === 0) {
+
+            $insertOrUpdate = $this->model->insert($datas->all()); 
+
+        }else{
+
+            foreach ($datas as $key => $value) {
+
+               $this->model->whereNotIn('no_permohonan', ['IDEM'])
+               ->where('no_permohonan', $value['no_permohonan'])
+               ->where('kode_hs', $value['kode_hs'])
+               ->update($value);
 
             }
 
-            return true;
+            $insertOrUpdate = false;
 
         }
+
+        /*Set success untuk menampilkan pesan kepada user setelah upload*/
+        $insertOrUpdate === true ? $this->success = 1 : $this->success = 2;
+
+        /*Kirim notifikasi kepada user setelah upload*/
+        if ($insertOrUpdate) {
+
+            /*Set Notifications Properties*/
+            $this->setNotificationsProperties((int) $this->request->wilker_id);
+
+            /*Call Event to Notify*/
+            $this->eventNotifyHandler();
+            
+        }
+
     }
 
     /*Set tipe-tipe pesan yang ingin ditampilkan kepada user*/
@@ -265,12 +187,12 @@ class Upload extends BaseOperasional
             if ($this->success == 1) {
             
                 $this->message_type = 'success';
-                $this->message = 'Data Berhasil Diperbarui!';
+                $this->message = 'Data Berhasil Diimport!';
 
             }else{
 
                 $this->message_type = 'success';
-                $this->message = 'Data Berhasil Diimport!';
+                $this->message = 'Data Berhasil Diperbarui!'; 
 
             }       
 

@@ -11,6 +11,16 @@ use App\Http\Controllers\Controller;
 
 class HomeKh extends Controller
 {
+    public function showMenu()
+    {
+        return view('intern.operasional.kh.menu');
+    }
+
+    public function homeUpload()
+    {
+        return view('intern.operasional.kh.upload.home_upload');
+    }
+
     public function show($year = null)
     {
         if(!isset($year)) $year = date('Y');

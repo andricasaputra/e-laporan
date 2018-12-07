@@ -16,6 +16,11 @@ class HomeKt extends Controller
         return view('intern.operasional.kt.menu');
     }
 
+    public function homeUpload()
+    {
+        return view('intern.operasional.kt.upload.home_upload');
+    }
+
     public function show($year = null)
     {
         if(!isset($year)) $year = date('Y');

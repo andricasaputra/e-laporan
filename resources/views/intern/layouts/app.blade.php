@@ -48,6 +48,10 @@
           .user-pic{
             display: block;
           }
+
+          .logo-e-operasional{
+            width: 80%
+          }
         }
 
         .badge-container{
@@ -208,7 +212,7 @@
             
           @else
 
-            @include('intern.inc.barside')
+            @include('intern.inc.barside_operasional')
 
           @endif
 
@@ -223,15 +227,7 @@
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-5">
-                        <h4 class="page-title">Starter Page</h4>
-                        <div class="d-flex align-items-center">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Library</li>
-                                </ol>
-                            </nav>
-                        </div>
+                        @yield('page-breadcrumb')
                     </div>
                 </div>
             </div>
@@ -248,6 +244,10 @@
                 <div class="row">
                     <div class="col-12">
                         @yield('content')
+                        <br />
+                        <div class="text-center mt-4">
+                          <img src="{{ asset('images/e-operasional_logo.png') }}" class="logo-e-operasional" width="600">
+                        </div>
                     </div>
                 </div>
                 <!-- ============================================================== -->

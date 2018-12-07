@@ -4,7 +4,21 @@
 
 @section('barside')
 
-  @include('intern.inc.barside')
+  @include('intern.inc.barside_operasional')
+
+@endsection
+
+@section('page-breadcrumb')
+
+<h4 class="page-title">Ringkasan Data</h4>
+<div class="d-flex align-items-center">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ringkasan Data</li>
+        </ol>
+    </nav>
+</div>
 
 @endsection
 

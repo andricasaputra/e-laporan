@@ -13,6 +13,9 @@ Route::middleware('kt')->prefix('kt')->group(function () {
 	Route::get('ktoperasional', 'HomeKt@showMenu')
 	->name('showmenu.operasional.kt');
 
+	Route::get('home_upload', 'HomeKt@homeUpload')
+	->name('kt.homeupload');
+
 	Route::get('home/{year?}', 'HomeKt@show')
 	->name('show.operasional.kt');
 
@@ -84,7 +87,6 @@ Route::middleware('kt')->prefix('kt')->group(function () {
 	Route::post('impor/exportdata', 'ImporKt@exports')
 	->name('kt.download.proses.impor');
 
-
 });
 
 /*KH Prefix*/
@@ -92,6 +94,12 @@ Route::middleware('kh')->prefix('kh')->group(function () {
 
 	Route::get('home/{year?}', 'HomeKh@show')
 	->name('show.operasional.kh');
+
+	Route::get('khoperasional', 'HomeKh@showMenu')
+	->name('showmenu.operasional.kh');
+
+	Route::get('home_upload', 'HomeKh@homeUpload')
+	->name('kh.homeupload');
 
 	/*View Page*/
 	Route::get('viewdata/dokel/{year?}', 'DokelKh@sendToData')

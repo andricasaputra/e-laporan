@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title', 'Menu Operasional KT')
+@section('title', 'Menu Operasional KH')
 
 @section('barside')
 
@@ -10,7 +10,7 @@
 
 @section('page-breadcrumb')
 
-<h4 class="page-title">Menu Operasional Karantina Tumbuhan</h4>
+<h4 class="page-title">Menu Operasional Karantina Hewan</h4>
 <div class="d-flex align-items-center">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -39,7 +39,7 @@
   }
 
   .fa-upload{
-    background-color: #2962FF;
+    background-color: #7460EE;
     color: #fff
   }
 
@@ -47,7 +47,7 @@
     background-color: #F24656;
     color: #fff
   }
-
+  
 </style>
 
 <div class="row">
@@ -61,10 +61,10 @@
         <h4 class="card-text">
           Data Operasional
         </h4>
-        <p>Karantina Tumbuhan</p>
+        <p>Karantina Hewan</p>  
       </div>
       <div class="card-footer bg-transparent">
-        <a href="{{ route('show.operasional.kt') }}" class="btn btn-default">Masuk</a>
+        <a href="{{ route('show.operasional.kh') }}" class="btn btn-primary">Masuk</a>
       </div>
     </div>
   </div>  
@@ -78,10 +78,10 @@
         <h4 class="card-text">
           Upload Laporan Operasional
         </h4>
-        <p>Karantina Tumbuhan</p>
+        <p>Karantina Hewan</p>
       </div>
       <div class="card-footer bg-transparent">
-        <a href="{{ route('kt.homeupload') }}" class="btn btn-default">Masuk</a>
+        <a href="{{ route('kh.homeupload') }}" class="btn btn-primary">Masuk</a>
       </div>
     </div>
   </div> 
@@ -95,10 +95,10 @@
         <h4 class="card-text">
           Donwload Laporan Operasional
         </h4>
-        <p>Karantina Tumbuhan</p>
+        <p>Karantina Hewan</p>
       </div>
       <div class="card-footer bg-transparent">
-        <a href="#" class="btn btn-default">Masuk</a>
+        <a href="#" class="btn btn-primary">Masuk</a>
       </div>
     </div>
   </div> 

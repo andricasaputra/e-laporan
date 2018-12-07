@@ -46,7 +46,7 @@
                 </li>
                 @if (Auth::user()->role->first()->id == 1 || Auth::user()->role->first()->id == 2 || Auth::user()->pegawai->jenis_karantina == 'kh')
                     <li class="sidebar-item"> 
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('show.operasional.kh') }}" aria-expanded="false"><i class="mdi mdi-account-network"></i><span class="hide-menu">Operasional KH</span>
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('showmenu.operasional.kh') }}" aria-expanded="false"><i class="mdi mdi-account-network"></i><span class="hide-menu">Operasional KH</span>
                         </a>
                     </li>
                 @endif

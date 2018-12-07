@@ -4,7 +4,7 @@
 
 @section('barside')
 
-  @include('intern.inc.barside')
+  @include('intern.inc.barside_operasional')
 
 @endsection
 		
