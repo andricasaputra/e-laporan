@@ -2,16 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use App\Models\Role;
-use App\Models\Wilker;
-use App\Models\Jabatan;
-use App\Models\Golongan;
 use Illuminate\Http\Request;
-use App\Events\RegisterPegawai;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Models\MasterPegawai as Master;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -39,16 +32,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $roles      = Role::where('id', '!=', 1)->get();
-        $wilker     = Wilker::all();
-        $jabatan    = Jabatan::all();
-        $golongan   = Golongan::all();
-        
-        return view('auth.register')
-        ->with('roles', $roles)
-        ->with('wilker', $wilker)
-        ->with('jabatan', $jabatan)
-        ->with('golongan', $golongan);
+        //
     }
 
 
@@ -60,14 +44,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'wilker' => 'required',
-            'nip' => 'max:18',
-            'role' => 'required',
-            'nama' => 'required|string',
-            'username' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+        //
     }
 
     /**
@@ -78,15 +55,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $pegawai = Master::create([
-            'nama' => $data['nama'],
-            'nip' => $data['nip'],
-            'jenis_karantina' => $data['jenis_karantina'],
-            'golongan_id' => $data['golongan'],
-            'jabatan_id' => $data['jabatan']
-        ]);
-
-        event(new RegisterPegawai($pegawai, $data));       
+        //    
     }
 
 }

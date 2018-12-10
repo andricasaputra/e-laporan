@@ -28,7 +28,9 @@ class UpdateUserProfile
     {
         /*update user profile's*/
         $event->pegawai->profile()->update([
+
             'nama' => $event->request->nama
+            
         ]);
     }
 }

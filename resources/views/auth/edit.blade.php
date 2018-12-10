@@ -29,7 +29,7 @@
 
                     <div class="col-md-6"> 
 
-                        <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="wilker[]" multiple required>
+                        <select class="form-control" name="wilker[]" multiple required>
 
                             @foreach($user->wilker as $wil)
 
@@ -39,15 +39,17 @@
 
                             @php  $w = $user->wilker  @endphp
 
-                            @foreach($wilkers->filter(function ($item) use ($w) {
+                            @foreach(
+                                $wilkers->filter(function ($item) use ($w) {
 
                                        if(!in_array($item->id,(array) $w)):
 
                                         return $item->id !== $w->first()->id;
 
                                        endif;
-
-                            }) as $wilker)
+                                }) 
+                                
+                            as $wilker)
 
                                 <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
 
@@ -64,10 +66,11 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="nama" class="col-md-4 col-form-label text-md-right">{{ __('Nama') }}</label>
+                    <label for="nama" class="col-md-4 col-form-label text-md-right">Nama</label>
 
                     <div class="col-md-6">
-                        <input id="nama" type="text" class="form-control{{ $errors->has('nama') ? ' is-invalid' : '' }}" name="nama" value="{{ $user->pegawai->nama }}" required>
+
+                        <input id="nama" type="text" class="form-control" name="nama" value="{{ $user->pegawai->nama }}" required>
 
                         @if ($errors->has('nama'))
                             <span class="invalid-feedback" role="alert">
@@ -78,10 +81,11 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="nip" class="col-md-4 col-form-label text-md-right">{{ __('NIP') }}</label>
+                    <label for="nip" class="col-md-4 col-form-label text-md-right">NIP</label>
 
                     <div class="col-md-6">
-                        <input id="nip" type="text" class="form-control{{ $errors->has('nip') ? ' is-invalid' : '' }}" name="nip" value="{{ $user->pegawai->nip }}">
+
+                        <input id="nip" type="text" class="form-control" name="nip" value="{{ $user->pegawai->nip }}">
 
                         @if ($errors->has('nip'))
                             <span class="invalid-feedback" role="alert">
@@ -92,25 +96,34 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="pangkat" class="col-md-4 col-form-label text-md-right">{{ __('Pangkat') }}</label>
+                    <label for="pangkat" class="col-md-4 col-form-label text-md-right">Pangkat</label>
 
                     <div class="col-md-6">
-                        @if(count($golongan) > 0)
 
-                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="golongan" >
-                                @if($golongan_user !== NULL)
-                                    <option value="{{ $golongan_user->id }}">{{ $golongan_user->golongan }}</option>
+                        @if(count($relations->golongan) > 0)
+
+                            <select class="form-control" name="golongan">
+
+                                @if($relations->golongan->first() !== NULL)
+
+                                    <option value="{{ $relations->golongan->first()->id }}">
+                                        {{ $relations->golongan->first()->golongan }}
+                                    </option>
+
                                 @else
+
                                     <option value="" disabled selected>-- Pilih Pangkat/Golongan --</option>
+
                                 @endif
                                 
-                                @foreach($golongan as $g)
+                                @foreach($relations->golongan as $g)
 
                                     <option value="{{$g->id}}">{{$g->pangkat}} - {{$g->golongan}}</option>
 
                                 @endforeach
 
                                     <option value=""></option>
+
                             </select>
 
                         @endif
@@ -120,28 +133,36 @@
                                 <strong>{{ $errors->first('pangkat') }}</strong>
                             </span>
                         @endif
+
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="jabatan" class="col-md-4 col-form-label text-md-right">{{ __('Jabatan') }}</label>
+                    <label for="jabatan" class="col-md-4 col-form-label text-md-right">Jabatan</label>
 
                     <div class="col-md-6">
-                        @if(count($jabatan) > 0)
+                        @if(count($relations->jabatan) > 0)
 
-                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="jabatan" >
-                                @if($jabatan_user !== NULL)
-                                    <option value="{{ $jabatan_user->id }}">{{ $jabatan_user->jabatan }}</option>
+                            <select class="form-control" name="jabatan" >
+
+                                @if($relations->jabatan->first() !== NULL)
+
+                                    <option value="{{ $relations->jabatan->first()->id }}">{{ $relations->jabatan->first()->jabatan }}</option>
+
                                 @else
+
                                     <option value="" disabled selected>-- Pilih Jabatan --</option>
+
                                 @endif
                                 
-                                @foreach($jabatan as $j)
+                                @foreach($relations->jabatan as $j)
 
                                     <option value="{{$j->id}}">{{$j->jabatan}}</option>
 
                                 @endforeach
+
                                     <option value=""></option>
+
                             </select>
 
                         @endif
@@ -155,15 +176,22 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="jenis_karantina" class="col-md-4 col-form-label text-md-right">{{ __('Jenis Karantina') }}</label>
+                    <label for="jenis_karantina" class="col-md-4 col-form-label text-md-right">Jenis Karantina</label>
 
                     <div class="col-md-6">
-                        <select class="form-control{{ $errors->has('jenis_karantina') ? ' is-invalid' : '' }}" name="jenis_karantina">
-                            <option value="{{ $user->pegawai->jenis_karantina }}"> {{ $user->pegawai->jenis_karantina }} </option>
+                        <select class="form-control" name="jenis_karantina">
+
+                            <option value="{{ $user->pegawai->jenis_karantina }}"> 
+
+                                {{ $user->pegawai->jenis_karantina }} 
+
+                            </option>
+
                             <option value="kh">Karantina Hewan</option>
                             <option value="kt">Karantina Tumbuhan</option>
                             <option value="fu">Fungsional Umum</option>
                             <option value="-"></option>
+
                         </select>
 
                         @if ($errors->has('jenis_karantina'))
@@ -175,7 +203,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
+                    <label for="role" class="col-md-4 col-form-label text-md-right">Role</label>
 
                     <div class="col-md-6">
                         
@@ -184,16 +212,22 @@
                             @foreach($user->role as $user_role)
 
                                 <div class="form-check form-check-inline">
-                                  <label><input type="checkbox" name="role[]" value="{{$user_role->id}}" checked>{{$user_role->name}}</label>
+                                    <label><input type="checkbox" name="role[]" value="{{$user_role->id}}" checked>
+                                        {{$user_role->name}}
+                                    </label>
                                 </div>
  
                             @endforeach
 
-                            @foreach($roles->filter(function ($item) use ($user_role) {
+                            @foreach(
+
+                                $roles->filter(function ($item) use ($user_role) {
 
                                        return $item->id !== $user_role->id && $item->name !== $user_role->name;
 
-                                    }) as $role)
+                                    }) 
+
+                            as $role)
 
                                 <div class="form-check form-check-inline">
                                   <label><input type="checkbox" name="role[]" value="{{$role->id}}">{{$role->name}}</label>
@@ -213,10 +247,11 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
+                    <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
 
                     <div class="col-md-6">
-                        <input id="username" type="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ $user->username }}" required>
+
+                        <input id="username" type="username" class="form-control" name="username" value="{{ $user->username }}" required>
 
                         @if ($errors->has('username'))
                             <span class="invalid-feedback" role="alert">
@@ -228,10 +263,11 @@
 
             
                 <div class="form-group row">
-                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password Baru') }}</label>
+                    <label for="password" class="col-md-4 col-form-label text-md-right">Password Baru</label>
 
                     <div class="col-md-6">
-                        <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+
+                        <input id="password" type="password" class="form-control" name="password" required>
 
                         @if ($errors->has('password'))
                             <span class="invalid-feedback" role="alert">
@@ -242,7 +278,8 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+
+                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Konfirmasi Password</label>
 
                     <div class="col-md-6">
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
@@ -252,7 +289,7 @@
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" class="btn btn-primary">
-                            {{ __('Edit') }}
+                            Edit
                         </button>
                     </div>
                 </div>

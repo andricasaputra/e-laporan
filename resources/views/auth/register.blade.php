@@ -26,11 +26,11 @@
                     <label for="wilker" class="col-md-4 col-form-label text-md-right">Wilker (Tekan Ctrl untuk memilih lebih dari 1 wilker)</label>
 
                     <div class="col-md-6"> 
-                        @if(count($wilker) > 0)
+                        @if(count($wilkers) > 0)
 
-                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="wilker[]" multiple required>
+                            <select class="form-control{{ $errors->has('wilkers') ? ' is-invalid' : '' }}" name="wilker[]" multiple required>
                                 <option disabled selected>-- Pilih Wilker --</option>
-                                @foreach($wilker as $w)
+                                @foreach($wilkers as $w)
 
                                     <option value="{{$w->id}}">{{$w->nama_wilker}}</option>
 
@@ -39,9 +39,9 @@
 
                         @endif
 
-                        @if ($errors->has('wilker'))
+                        @if ($errors->has('wilkers'))
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('wilker') }}</strong>
+                                <strong>{{ $errors->first('wilkers') }}</strong>
                             </span>
                         @endif
                     </div>

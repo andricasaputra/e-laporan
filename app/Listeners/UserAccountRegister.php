@@ -28,14 +28,16 @@ class UserAccountRegister
     public function handle(RegisterPegawai $event)
     {
         $user = $event->pegawai->user()->create([
-            'username' => $event->data['username'],
-            'password' => Hash::make($event->data['password'])
+
+            'username' => $event->request->username,
+            'password' => Hash::make($event->request->password)
+            
         ]);
 
         /*insert new user wilker*/
-        $user->wilker()->attach($event->data['wilker']);
+        $user->wilker()->attach($event->request->wilker);
 
         /*insert new user role*/
-        $user->role()->attach($event->data['role']);
+        $user->role()->attach($event->request->role);
     }
 }

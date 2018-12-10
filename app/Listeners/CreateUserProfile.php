@@ -28,7 +28,9 @@ class CreateUserProfile
     {
         /*create user profile's*/
         $event->pegawai->profile()->create([
-            'nama' => $event->data['nama']
+
+            'nama' => $event->request->nama
+            
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use Illuminate\Http\Request;
 use App\Models\MasterPegawai; 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -16,16 +17,16 @@ class RegisterPegawai
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $pegawai;
-    public $data;
+    public $request;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(MasterPegawai $pegawai, array $data)
+    public function __construct(MasterPegawai $pegawai, Request $request)
     {
         $this->pegawai = $pegawai;
-        $this->data = $data;
+        $this->request = $request;
     }
 }
