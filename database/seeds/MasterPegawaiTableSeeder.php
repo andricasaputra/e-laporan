@@ -20,7 +20,6 @@ class MasterPegawaiTableSeeder extends Seeder
                 'jenis_karantina' => NULL,
                 'golongan_id' => NULL,
                 'jabatan_id' => NULL,
-                'wilker_id' => 1,
                 'is_active' => 1
             ],
             [
@@ -29,7 +28,6 @@ class MasterPegawaiTableSeeder extends Seeder
                 'jenis_karantina' => NULL,
                 'golongan_id' => NULL,
                 'jabatan_id' => NULL,
-                'wilker_id' => 1,
                 'is_active' => 1
             ],
             

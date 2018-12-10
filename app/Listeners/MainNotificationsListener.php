@@ -28,7 +28,7 @@ class MainNotificationsListener
     public function handle(MainNotificationsEvent $event)
     {
         Notification::send(
-            $event->users, new $event->class_to_notify($event->message, $event->link)
+            $event->users, new $event->classToNotify($event->message, $event->link)
         );
     }
 }

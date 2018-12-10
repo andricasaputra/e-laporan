@@ -32,6 +32,9 @@ class UserAccountRegister
             'password' => Hash::make($event->data['password'])
         ]);
 
+        /*insert new user wilker*/
+        $user->wilker()->attach($event->data['wilker']);
+
         /*insert new user role*/
         $user->role()->attach($event->data['role']);
     }

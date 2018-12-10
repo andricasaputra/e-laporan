@@ -20,39 +20,32 @@ class Statistik extends Controller
 
     public function api(int $id = null)
     {
-    	if (!isset($id)) {
-
-			$id = $this->getId();
-		}
+    	$id = $id ?? $this->getId();
 
     	return Datatables::of($this->apiSource($id))->addIndexColumn(1)->make(true);
     }
 
     public function index(int $id = null)
     {
-    	if(!isset($id)){
-
-    		$id = $this->getId();
-
-    	}
+    	$id        = $id ?? $this->getId();
 
     	$questions =  Question::all();
-    	$ikm = Jadwal::select('id', 'keterangan')->get();
-    	$ikm_ket = Jadwal::select('keterangan')->whereId($id)->first();
+
+    	$ikm       = Jadwal::select('id', 'keterangan')->get();
+
+    	$ikm_ket   = Jadwal::select('keterangan')->whereId($id)->first();
+
     	return view('intern.ikm.statistik.index')
-    	->with('result', $this->getRataRataNilai())
-    	->with('questions', $questions)
-    	->with('ikm', $ikm)
-    	->with('ikm_ket', $ikm_ket)
-    	->with('id', $id);
+    	           ->with('result', $this->getRataRataNilai())
+    	           ->with('questions', $questions)
+    	           ->with('ikm', $ikm)
+    	           ->with('ikm_ket', $ikm_ket)
+    	           ->with('id', $id);
     }
 
     public function cetakRekap(int $id)
     {
-    	if(!isset($id)){
-
-    		$id = $this->getId();
-    	}
+    	$id    = $id ?? $this->getId();
 
     	$datas = [
 
@@ -66,25 +59,30 @@ class Statistik extends Controller
     	];
 
     	$datas = collect($datas)->map(function($result){
+
 			return (object) $result;
+
 		});
 
     	$pdf = PDF::loadView('intern.ikm.statistik.cetak', compact('datas'));
+
 		return $pdf->stream('ikm.pdf');
     }
 
     protected function setCetakTableHeader() : array
     {
-    	$questions = Question::all();
+    	$questions     = Question::all();
 
-    	$data = [];
+    	$data          = [];
 
-    	$data[] = 'No Responden';
+    	$data[]        = 'No Responden';
 
-    	$no = 1;
+    	$no            = 1;
 
     	foreach ($questions as $question) {
+
     		$data[] = 'U'.$no++;
+
     	}
 
     	return $data;
@@ -92,11 +90,11 @@ class Statistik extends Controller
 
     protected function setCetakTableBody(int $id) : array
     {
-    	$result = Result::with(['answer:ikm_answer.id,nilai'])->where('ikm_id', $id)->get();
+    	$result    = Result::with(['answer:ikm_answer.id,nilai'])->where('ikm_id', $id)->get();
 
-    	$result = $result->groupBy('responden_id');
+    	$result    = $result->groupBy('responden_id');
 
-    	$data = [];
+    	$data      = [];
 
     	foreach ($result as $res) {
 
@@ -109,20 +107,17 @@ class Statistik extends Controller
 
     protected function apiSource(int $id = null) : array
     {
-		if (!isset($id)) {
-
-			$id = $this->getId();
-		}
+		$id       = $id ?? $this->getId();
     		
-    	$result = Result::with(['answer:ikm_answer.id,nilai', 'question', 'ikm'])->where('ikm_id', $id)->get();
+    	$result   = Result::with(['answer:ikm_answer.id,nilai', 'question', 'ikm'])->where('ikm_id', $id)->get();
 
-    	$result = $result->groupBy('question_id');
+    	$result   = $result->groupBy('question_id');
 
-    	$data = [];
+    	$data     = [];
 
-    	$no = 1;
+    	$no       = 1;
 
-    	$no2 = 1;
+    	$no2      = 1;
     	
     	foreach($result as $res):
 
@@ -160,27 +155,17 @@ class Statistik extends Controller
 
     protected function getId() : int
     {
-    	$result_id = Result::with(['ikm' => function ($query) {
+    	$result_id     =   Result::with(['ikm' => function ($query) {
             
-            $query->where('is_open', 1);
-            
-        }])->first();
+                                $query->where('is_open', 1);
+                            
+                            }])->first();
 
-        if (is_null($result_id)) {
-            
-            return $id = 1;
+        if (is_null($result_id)) return 1;
 
-        }
+        if (is_null($result_id->ikm))  return 1;
 
-        if (is_null($result_id->ikm)) {
-            
-            return $id = 1;
-
-        }
-
-        $id = $result_id->ikm->id;
-
-        return $id;
+        return $result_id->ikm->id;
 	}
 
 	protected function getUnsur(int $no) : string

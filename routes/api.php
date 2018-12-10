@@ -1,12 +1,6 @@
 <?php
 
-/*use Illuminate\Http\Request;
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
-
-Route::get('users', 'UserController@api')->name('api.user');
+Route::post('users', 'UserController@api')->name('api.user');
 
 Route::namespace('Operasional')->group(function () {
 
@@ -26,13 +20,17 @@ Route::namespace('Operasional')->group(function () {
 
 	Route::post('kh/impor/{year}', 'ImporKh@api')->name('api.kh.impor');
 
-	Route::get('data/{year}/{month?}', 'HomeAdmin@dataOperasional');
+	Route::post('data/{year}/{month?}', 'HomeAdmin@dataOperasional')->name('api.data.operasional');
+
+	Route::post('kt/log_operasional/{year?}/{wilker?}', 'HomeKt@logApi')->name('api.kt.log_operasional');
+
+	Route::post('kh/log_operasional/{year?}/{wilker?}', 'HomeKh@logApi')->name('api.kh.log_operasional');
 
 });
 
 Route::namespace('Ikm')->group(function () {
 
-	Route::get('ikm/{ikm_id?}', 'Home@api')->name('api.ikm');
+	Route::post('ikm/{ikm_id?}', 'Home@api')->name('api.ikm');
 	
 	Route::get('ikm/detail/{id}/{ikm_id?}', 'Home@detailApi')->name('api.show');
 
@@ -44,7 +42,7 @@ Route::namespace('Ikm')->group(function () {
 
 Route::namespace('Notifications')->group(function () {
 
-	Route::get('notifications/all/{user_id}', 'MainNotificationController@mainApiNotifications')
+	Route::post('notifications/all/{user_id}', 'MainNotificationController@mainApiNotifications')
 	->name('api.notifications');
 
 });

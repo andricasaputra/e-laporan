@@ -53,23 +53,29 @@ class HomeMiddleware extends Controller
 
         $cek2 = Auth::user()->pegawai->jenis_karantina;
 
-        if($cek1 === 1 || $cek1 === 2):
+        if($cek1 === 1 || $cek1 === 2 || $cek1 === 3):
 
             $this->useMiddleware('admin');
 
             return redirect('intern/operasional/home/');
 
-        elseif($cek1 === 3 && $cek2 == 'kt'):
+        elseif($cek1 === 4 && $cek2 == 'kt'):
            
             $this->useMiddleware('kt');
 
-            return redirect('intern/operasional/kt/home/');
+            return redirect('intern/operasional/home/');
 
-        elseif($cek1 === 3 && $cek2 == 'kh'):
+        elseif($cek1 === 4 && $cek2 == 'kh'):
 
             $this->useMiddleware('kh');
 
-            return redirect('intern/operasional/kh/home/');
+            return redirect('intern/operasional/home/');
+
+        elseif($cek1 === 4 && $cek2 !== 'kh' && $cek2 !== 'kt'):
+
+            $this->useMiddleware('guest');
+
+            return redirect('intern/operasional/home/');
 
         else:
 

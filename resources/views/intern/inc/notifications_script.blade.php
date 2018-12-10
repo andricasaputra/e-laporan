@@ -18,7 +18,9 @@
 
 	$.ajax({
 
-		url : '{{ route('api.notifications', Auth::user()->id) }}'
+		url : '{{ route('api.notifications', Auth::user()->id) }}',
+		type : 'POST',
+		dataType : 'JSON'
 
 		}).done(function(response){
 

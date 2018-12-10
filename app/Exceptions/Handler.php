@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -59,6 +60,12 @@ class Handler extends ExceptionHandler
 
             return redirect(route('login'))
             ->with('warning', 'Harap Login Terlebih Dahulu');
+
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+
+            return back()->with('warning', 'Terjadi Kesalahan Laporan Tidak Dapat Ditarik Kembali :(');
 
         }
 

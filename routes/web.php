@@ -55,7 +55,7 @@
 
 /*Route::domain('ikm.skp1sumbawabesar.org')->group(function () {*/
 
-	Route::get('/', 'LandingPageController@indexEIkm');
+	Route::get('/ikm', 'LandingPageController@indexEIkm');
 
     Route::namespace('Ikm')->group(function(){
 
@@ -67,9 +67,9 @@
 
 	    Route::post('ikm/survey', 'SurveyPage@store')->name('ikm.store');
 
-	    Route::get('ikm/success/{id}', 'SurveyPage@success')->name('ikm.success');
+	    Route::get('ikm/success/{responden}', 'SurveyPage@success')->name('ikm.success');
 
-	    Route::get('ikm/cetak/{id}', 'SurveyPage@cetak')->name('ikm.cetak');
+	    Route::get('ikm/cetak/{responden}', 'SurveyPage@cetak')->name('ikm.cetak');
 
 	    Route::get('ikm/survey/closed', 'SurveyPage@surveyClosed')->name('ikm.closed');
 

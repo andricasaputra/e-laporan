@@ -19,7 +19,7 @@
 
     	$.ajax({
 
-    		'url' : url
+    		url : url,
 
     	}).done(function(response){
 			let umur = {

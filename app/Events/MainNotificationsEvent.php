@@ -16,19 +16,19 @@ class MainNotificationsEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $class_to_notify, $message, $users, $link;
+    public $classToNotify, $message, $users, $link;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(NotificationsInterface $class_to_notify, NotificationsEventInterface $notifications)
+    public function __construct(NotificationsInterface $classToNotify, NotificationsEventInterface $notifications)
     {
-        $this->class_to_notify      = $class_to_notify;
-        $this->users                = $notifications->users;
-        $this->message              = $notifications->message;
-        $this->link                 = $notifications->link;
+        $this->classToNotify = $classToNotify;
+        $this->users         = $notifications->users;
+        $this->message       = $notifications->message;
+        $this->link          = $notifications->link;
     }
 
     /**

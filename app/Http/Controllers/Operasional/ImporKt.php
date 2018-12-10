@@ -17,13 +17,13 @@ class ImporKt extends BaseOperasional implements BaseOperasionalInterface
 {
     public function sendToData(int $year = null)
     {
-        if(!isset($year)) $year = date('Y');
+        $year   = $year ?? date('Y');
         
         $titles = $this->tableTitleKt();
 
         return view('intern.operasional.kt.data.tables.impor')
-        ->with('titles', $titles)
-        ->with('tahun', $year);
+                ->with('titles', $titles)
+                ->with('tahun', $year);
     }
 	/**
      *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
@@ -32,13 +32,13 @@ class ImporKt extends BaseOperasional implements BaseOperasionalInterface
      */
     public function sendToUpload()
     {
-        $user = $this->setActiveUser();
+        $user   = $this->setActiveUser();
 
         $wilker = $this->setActiveUserWilker();
 
         return view('intern.operasional.kt.upload.impor')
-        ->with('user', $user)
-        ->with('wilker', $wilker);
+                ->with('user', $user)
+                ->with('wilker', $wilker);
     }
 
     /**
@@ -55,34 +55,24 @@ class ImporKt extends BaseOperasional implements BaseOperasionalInterface
 
         ]);
 
-        $user_id        = $this->checkActiveUserIdAndRequestUserId((int) $request->user_id);
+        if (! $request->hasFile('filenya')) {
 
-        $wilker_id      = $this->setUserWilkerId((int) $request->wilker_id);
+             Session::flash('warning','Harap Pilih File Untuk Diimport Terlebih Dahulu!');
 
-        $wilker_user    = $this->setUserWilker();
-
-        if($request->hasFile('filenya')){
-
-            $path = $request->file('filenya')->getRealPath();
-
-            /*Filter Data Sebelum Insert Database*/
-            if($this->checkingData($path, 'operasional_karantina_tumbuhan', 'impor', $wilker_user) === false){
-
-                return redirect()->back();
-
-            }
- 
-            /*Delegate Upload Process to Upload Class*/
-            $upload     = new Upload(new Operasional, $request, $path, 'kt');
-
-            $process    = $upload->uploadData();
-
-        /*Jika file ksoong tampilkan pesan error*/    
-        }else{
-
-            Session::flash('warning','Harap Pilih File Untuk Diimport Terlebih Dahulu!');
-
+             return redirect()->back();
         }
+
+        $path = $request->file('filenya')->getRealPath();
+
+        $this->setDataProperty($request, new Operasional);
+
+        /*Filter Data Sebelum Insert Database*/
+        if ($this->checkingData() === false) return redirect()->back();
+
+        /*Delegate Upload Process to Upload Class*/
+        $upload     = new Upload(new Operasional, $request, $path, 'kt');
+
+        $process    = $upload->uploadData();
 
         return redirect()->back();
 

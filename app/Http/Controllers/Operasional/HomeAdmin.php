@@ -21,7 +21,7 @@ class HomeAdmin extends Controller
 {
     public function show(int $year = null, string $month = null)
     {
-    	$year = isset($year) ? $year : date('Y');
+    	$year = $year ?? date('Y');
 
     	return view('intern.operasional.home')
     	->with('datas', $this->dataOperasional($year, $month));

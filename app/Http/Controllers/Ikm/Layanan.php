@@ -51,7 +51,7 @@ class Layanan extends Controller
         ]);
 
         return redirect(route('intern.ikm.layanan.index'))
-        ->with('success', 'Data Berhasil Ditambah');
+                ->with('success', 'Data Berhasil Ditambah');
     }
 
 
@@ -61,10 +61,8 @@ class Layanan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(Model $layanan)
     {
-        $layanan = Model::find($id);
-
         return view('intern.ikm.layanan.edit')->with('layanan', $layanan);
     }
 
@@ -75,7 +73,7 @@ class Layanan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Model $layanan)
     {
         $request->validate([
 
@@ -83,14 +81,14 @@ class Layanan extends Controller
 
         ]);
 
-        Model::find($id)->update([
+        $layanan->update([
 
             'jenis_layanan' => $request->layanan
 
         ]);
 
         return redirect(route('intern.ikm.layanan.index'))
-        ->with('success', 'Data Berhasil Diubah');
+                ->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -99,11 +97,11 @@ class Layanan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(Model $layanan)
     {
-        Model::destroy($id);
+        $layanan->delete();
 
         return redirect(route('intern.ikm.layanan.index'))
-        ->with('success', 'Data Berhasil Dihapus');
+                ->with('success', 'Data Berhasil Dihapus');
     }
 }

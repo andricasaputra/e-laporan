@@ -5,7 +5,7 @@ Route::prefix('admin')->group(function () {
 	Route::get('home/{tahun?}', 'Home@index')
 	->name('intern.ikm.home.index');
 
-	Route::get('ikm/show/{id}/{tahun?}', 'Home@show')
+	Route::get('ikm/show/{responden}/{tahun?}', 'Home@show')
 	->name('intern.ikm.home.show');
 
 	Route::get('ikm/statistik/{id?}', 'Statistik@index')
@@ -21,7 +21,7 @@ Route::prefix('admin')->group(function () {
 
 		Route::resource('home', 'Home', [
 	    	'names' => 'intern.ikm.home'
-		])->except(['index', 'show', 'store']);
+		])->parameters(['home' => 'responden'])->except(['index', 'show', 'store']);
 
 		Route::resource('answer', 'Answer', [
 	    	'names' => 'intern.ikm.answer'     
@@ -51,7 +51,7 @@ Route::prefix('admin')->group(function () {
 	    	'names' => 'intern.ikm.settingikm'     
 		])->except(['show']);
 
-		Route::post('show/{id}', 'Jadwal@show')->name('intern.ikm.settingikm.show');
+		Route::post('show/{jadwal}', 'Jadwal@show')->name('intern.ikm.settingikm.show');
 
 	});
 

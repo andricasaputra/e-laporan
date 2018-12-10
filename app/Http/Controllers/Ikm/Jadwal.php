@@ -41,11 +41,13 @@ class Jadwal extends Controller
     {
         $request->validate([
 
-            'start_date' => 'required|unique:ikm',
-            'end_date' => 'required|unique:ikm',
-            'keterangan' => 'required|min:8|unique:ikm'
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'keterangan' => 'required|min:8'
 
         ]);
+
+
 
         $is_open = $this->IsOpen($request->start_date, $request->end_date);
 
@@ -59,17 +61,17 @@ class Jadwal extends Controller
         ]);
 
         return redirect(route('intern.ikm.settingikm.index'))
-        ->with('success', 'Data Berhasil Ditambah');
+                ->with('success', 'Data Berhasil Ditambah');
     }
 
-    public function show(Request $request, int $id)
+    public function show(Request $request, Model $jadwal)
     {
-        $cek = Model::where('id', $id)->first();
+        $cek = Model::where('id', $jadwal->id)->first();
 
         if (strtotime($cek->end_date) < strtotime(date('Y-m-d'))) {
 
             return redirect(route('intern.ikm.settingikm.index'))
-            ->with('warning', 'IKM ini sudah kadaluarsa');
+                    ->with('warning', 'IKM ini sudah kadaluarsa');
 
         }
 
@@ -78,21 +80,19 @@ class Jadwal extends Controller
         if (count($cek) === 1 && $request->submit === 'Open') {
 
             return redirect(route('intern.ikm.settingikm.index'))
-            ->with('warning', 'Hanya diperbolehkan 1 survey IKM saja yang aktif');
+                    ->with('warning', 'Hanya diperbolehkan 1 survey IKM saja yang aktif');
 
         }
 
-       $ikm = Model::find($id);
-
-        if ($ikm->is_open === '') {
+        if ($jadwal->is_open === '') {
 
             $request->is_open = NULL;
 
         }
 
-        $ikm->is_open = $request->is_open;
+        $jadwal->is_open = $request->is_open;
 
-        $ikm->save();
+        $jadwal->save();
 
         return redirect(route('intern.ikm.settingikm.index'));
  
@@ -104,11 +104,9 @@ class Jadwal extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(Model $jadwal)
     {
-        $settingikm = Model::find($id);
-
-        return view('intern.ikm.settingikm.edit')->with('settingikm', $settingikm);
+        return view('intern.ikm.settingikm.edit')->with('settingikm', $jadwal);
     }
 
     /**
@@ -118,7 +116,7 @@ class Jadwal extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Model $jadwal)
     {
         $request->validate([
 
@@ -127,9 +125,21 @@ class Jadwal extends Controller
 
         ]);
 
+        $cek = Model::where('start_date', $request->start_date)
+                ->where('end_date', $request->end_date)
+                ->where('keterangan', $request->keterangan)->first();
+
+
+        if (! is_null($cek)) {
+
+            return redirect(route('intern.ikm.settingikm.index'))
+                    ->with('warning', 'Data Jadwal IKM Tidak Boleh Ganda');
+
+        }
+
        	$is_open = $this->IsOpen($request->start_date, $request->end_date);
 
-        Model::find($id)->update([
+        $jadwal->update([
 
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -139,7 +149,7 @@ class Jadwal extends Controller
         ]);
 
         return redirect(route('intern.ikm.settingikm.index'))
-        ->with('success', 'Data Berhasil Diubah');
+                ->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -148,28 +158,26 @@ class Jadwal extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(Model $jadwal)
     {
-        $jadwal = Model::find($id);
-
         if ($jadwal->is_open === 1) {
 
             return redirect(route('intern.ikm.settingikm.index'))
-            ->with('warning', 'Tidak diperbolehkan menghapus survey yang sedang berlangsung');
+                    ->with('warning', 'Tidak diperbolehkan menghapus survey yang sedang berlangsung');
 
         }
 
         if(count($jadwal->result) !== 0){
 
             return redirect(route('intern.ikm.settingikm.index'))
-            ->with('warning', 'IKM ini sudah terisi oleh beberapa responden dan tidak dapat dihapus');
+                    ->with('warning', 'IKM ini sudah terisi oleh beberapa responden dan tidak dapat dihapus');
 
         }
 
-        Model::destroy($id);
+        $jadwal->delete();
 
         return redirect(route('intern.ikm.settingikm.index'))
-        ->with('success', 'Data Berhasil Dihapus');
+                ->with('success', 'Data Berhasil Dihapus');
     }
 
     private function IsOpen($start_date, $end_date)

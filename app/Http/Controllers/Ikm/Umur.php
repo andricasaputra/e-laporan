@@ -17,7 +17,7 @@ class Umur extends Controller
     {
         $umur = Model::all();
         
-        return view('intern.ikm.umur.index')->with('umur', $umur);
+        return view('intern.ikm.umur.index')->with(compact('umur'));
     }
 
     /**
@@ -38,20 +38,12 @@ class Umur extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $request->validate(['umur' => 'required']);
 
-            'umur' => 'required'
-
-        ]);
-
-        Model::create([
-
-            'umur' => $request->umur
-
-        ]);
+        Model::create(['umur' => $request->umur]);
 
         return redirect(route('intern.ikm.umur.index'))
-        ->with('success', 'Data Berhasil Ditambah');
+                ->with('success', 'Data Berhasil Ditambah');
     }
 
 
@@ -61,11 +53,9 @@ class Umur extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(Model $umur)
     {
-        $umur = Model::find($id);
-
-        return view('intern.ikm.umur.edit')->with('umur', $umur);
+        return view('intern.ikm.umur.edit')->with(compact('umur'));
     }
 
     /**
@@ -75,22 +65,14 @@ class Umur extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Model $umur)
     {
-        $request->validate([
+        $request->validate(['umur' => 'required']);
 
-            'umur' => 'required'
-
-        ]);
-
-        Model::find($id)->update([
-
-            'umur' => $request->umur
-
-        ]);
+        $umur->update(['umur' => $request->umur]);
 
         return redirect(route('intern.ikm.umur.index'))
-        ->with('success', 'Data Berhasil Diubah');
+                ->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -99,11 +81,11 @@ class Umur extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(Model $umur)
     {
-        Model::destroy($id);
+        $umur->delete();
 
         return redirect(route('intern.ikm.umur.index'))
-        ->with('success', 'Data Berhasil Dihapus');
+                ->with('success', 'Data Berhasil Dihapus');
     }
 }

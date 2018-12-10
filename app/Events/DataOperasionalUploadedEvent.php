@@ -6,6 +6,7 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
+use App\Http\Controllers\Operasional\Upload;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use App\Notifications\DataOperasionalUploaded as Notifications;
@@ -14,22 +15,25 @@ class DataOperasionalUploadedEvent implements NotificationsEventInterface
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $wilker, $message, $users, $tanggal, $link;
+    public $wilker, $message, $users, $tanggal, $link, $table;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($users, $wilker, $tanggal, $message, $link)
+    public function __construct(Upload $data)
     {
-        $this->tanggal  = $tanggal;
-        $this->wilker   = $wilker;
-        $this->users    = $users;
-        $this->message  = $message;
-        $this->link     = $link;
+        $this->tanggal  = $data->tanggal;
+        $this->wilker   = $data->wilker;
+        $this->users    = $data->usersToNotify;
+        $this->message  = $data->notifyMessage;
+        $this->link     = $data->linkNotify;
+        $this->table    = $data->table;
 
         event( new MainNotificationsEvent(new Notifications(), $this) );
+
+        event( new LogInfoOperasionalEvent($this) );
     }
 
 }

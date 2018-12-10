@@ -49,16 +49,18 @@
   }
 </style>
 
-    <div class="row">
-      <div class="col-sm-12 mb-4">
-        <div class="card">
-          <div class="card-body welcome">
-            Selamat Datang <b>{{ Auth::user()->pegawai->nama }}</b>
-          </div>
+  <div class="row">
+    <div class="col-sm-12 mb-4">
+      <div class="card">
+        <div class="card-body welcome">
+          Selamat Datang <b>{{ Auth::user()->pegawai->nama }}</b>
         </div>
+      </div>
     </div>
-    
-    @include('intern.inc.message')
+  
+    <div class="col-md-12">
+      @include('intern.inc.message')
+    </div>  
 
     <div class="col-md-6 col-sm-12 mb-4">
       <div class="card">

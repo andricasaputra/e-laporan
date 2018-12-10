@@ -71,7 +71,7 @@
       	<h3>Apakah Anda Yakin Ingin Meghapus Data Ini?</h3><br>
         <form action="{{route('intern.ikm.home.destroy', 'delete')}}" method="post">
 
-	  		@csrf
+	  		  @csrf
         	@method('DELETE')
 
         	<input type="hidden" name="id" id="ikmId">
@@ -107,7 +107,7 @@
 
         });
 
-        let url = '{{ route('api.ikm', $ikm_id) }}';
+        let url = '{{ route('api.ikm', $ikmId) }}';
         let data = [
 
           { "data" : "DT_Row_Index", orderable: false, searchable: false},
@@ -130,13 +130,14 @@
               "serverSide": true,
               "ajax":{
                  "url": url,
+                 "method": "POST",
                  "dataType": "JSON"
               },
               "columns": data,
-        "columnDefs": [{
-            "defaultContent": "-",
-            "targets": "_all"
-        }]
+              "columnDefs": [{
+                  "defaultContent": "-",
+                  "targets": "_all"
+              }]
 
           });
 
@@ -168,7 +169,7 @@
 
         });
 
-        let url = '{{ route('api.ikm', $ikm_id) }}';
+        let url = '{{ route('api.ikm', $ikmId) }}';
         let data = [
 
           { "data" : "DT_Row_Index", orderable: false, searchable: false},
@@ -191,13 +192,14 @@
               "serverSide": true,
               "ajax":{
                  "url": url,
+                 "method": "POST",
                  "dataType": "JSON"
               },
               "columns": data,
-        "columnDefs": [{
-            "defaultContent": "-",
-            "targets": "_all"
-        }]
+              "columnDefs": [{
+                  "defaultContent": "-",
+                  "targets": "_all"
+              }]
 
           });
 

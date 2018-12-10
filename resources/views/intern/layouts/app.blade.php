@@ -18,7 +18,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="msapplication-starturl" content="/login">
   
-    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    {{-- <link rel="manifest" href="{{ asset('manifest.json') }}"> --}}
     <link rel="icon" type="image/png" href="{{ asset('images/favicon-32x32.png') }}" sizes="32x32">
     <link rel="icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
     <link rel="apple-touch-icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
@@ -37,7 +37,13 @@
     <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
 
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800">
+    <link rel="stylesheet" href="{{ asset('css/icons/themify-icons/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/icons/material-design-iconic-font/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/icons/weather-icons/css/weather-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
 
     <style type="text/css">
         .user-pic{
@@ -202,7 +208,7 @@
         <!-- ============================================================== -->
         @if(Auth::check())
 
-          @if(Route::current()->getName() == 'users.index')
+          @if(Route::current()->getName() == 'users.index' || Route::current()->getName() == 'register' || Route::current()->getName() == 'users.edit')
 
             @if(Auth::user()->role->first()->id === 1 || Auth::user()->role->first()->id === 2)
 

@@ -18,7 +18,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="msapplication-starturl" content="/login">
   
-  <title>@yield('title', config('app.name'))</title>
+  <title> @yield('title', config('app.name')) </title>
   
 {{--   <link rel="manifest" href="{{ asset('manifest.json') }}"> --}}
   <link rel="icon" type="image/png" href="{{ asset('images/favicon-32x32.png') }}" sizes="32x32">

@@ -24,6 +24,10 @@ class IsAdmin
 
                 return $next($request);
                 
+            }else{
+
+                return redirect(route('welcome'))->with('warning', "Maaf anda tidak mempunyai hak akses ke halaman ini");
+
             }
 
         }

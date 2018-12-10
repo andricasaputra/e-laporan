@@ -30,6 +30,13 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\MainNotificationsEvent' => [
             'App\Listeners\MainNotificationsListener',
         ],
+        'App\Events\LogInfoOperasionalEvent' => [
+            'App\Listeners\LogInfoOperasionalListener',
+        ],
+        'App\Events\OperasionalRollbackEvent' => [
+            'App\Listeners\OperasionalRollbackListener',
+        ],
+
     ];
 
     /**

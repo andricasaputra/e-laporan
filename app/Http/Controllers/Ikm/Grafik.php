@@ -13,27 +13,21 @@ class Grafik extends Statistik
 {
     public function index(int $id = null) : View
     {
-    	if (!isset($id)) {
-
-			$id = $this->getId();
-		}
+    	$id = $id ?? $this->getId();
 
     	$ikm       = Jadwal::select('id', 'keterangan')->get();
     	$ikm_ket   = Jadwal::select('keterangan', 'start_date', 'end_date')->whereId($id)->first();
         
     	return view('intern.ikm.grafik.index')
-    	->with(compact('ikm'))
-    	->with('id', $id)
-    	->with('ikm_ket', $ikm_ket);
+    	           ->with(compact('ikm'))
+    	           ->with('id', $id)
+    	           ->with('ikm_ket', $ikm_ket);
     }
 
     /*create JSON chart data*/
     public function chartApi(int $id = null) : Collection
     {
-    	if (!isset($id)) {
-
-			$id = $this->getId();
-		}
+    	$id = $id ?? $this->getId();
 
         $laki_laki  = $this->getJenisKelamin($id, 1);
 
@@ -68,11 +62,9 @@ class Grafik extends Statistik
 
     private function getJenisKelamin(int $id, int $jenis_kelamin_id)
     {   
-       $responden = Responden::select('jenis_kelamin')
+       return Responden::select('jenis_kelamin')
                     ->where('ikm_id', $id)
                     ->where('jenis_kelamin', $jenis_kelamin_id)
                     ->get()->count();     
-
-       return $responden;
     }
 }

@@ -40,7 +40,7 @@ class User extends Authenticatable
 
     public function wilker()
     {
-        return $this->hasManyThrough(Wilker::class, MasterPegawai::class, 'id', 'id', 'id', 'wilker_id');
+        return $this->belongsToMany(Wilker::class, 'wilker_users');
     }
 
     public function golongan()

@@ -4,32 +4,35 @@
 Route::post('viewdata', 'BaseOperasional@selectAnotherYear')
 ->name('view.select.year');
 
-Route::get('home/{year?}/{month?}', 'HomeAdmin@show')
+Route::get('home/{tahun?}/{month?}', 'HomeAdmin@show')
 ->name('show.operasional');
 
 /*KT Prefix*/
 Route::middleware('kt')->prefix('kt')->group(function () {
 
+	Route::get('data_operasional/{tahun?}', 'HomeKt@show')
+	->name('show.operasional.kt');
+
 	Route::get('ktoperasional', 'HomeKt@showMenu')
 	->name('showmenu.operasional.kt');
 
-	Route::get('home_upload', 'HomeKt@homeUpload')
+	Route::get('home_upload/{tahun?}', 'HomeKt@homeUpload')
 	->name('kt.homeupload');
 
-	Route::get('home/{year?}', 'HomeKt@show')
-	->name('show.operasional.kt');
+	Route::delete('home/rollback/{id}', 'HomeKt@destroy')
+	->name('rollback.operasional.kt');
 
 	/*View Page*/
-	Route::get('viewdata/dokel/{year?}', 'DokelKt@sendToData')
+	Route::get('viewdata/dokel/{tahun?}', 'DokelKt@sendToData')
 	->name('kt.view.page.dokel');
 
-	Route::get('viewdata/domas/{year?}', 'DomasKt@sendToData')
+	Route::get('viewdata/domas/{tahun?}', 'DomasKt@sendToData')
 	->name('kt.view.page.domas');
 
-	Route::get('viewdata/ekspor/{year?}', 'EksporKt@sendToData')
+	Route::get('viewdata/ekspor/{tahun?}', 'EksporKt@sendToData')
 	->name('kt.view.page.ekspor');
 
-	Route::get('viewdata/impor/{year?}', 'ImporKt@sendToData')
+	Route::get('viewdata/impor/{tahun?}', 'ImporKt@sendToData')
 	->name('kt.view.page.impor');
 
 	/*KT Upload Routes*/
@@ -92,26 +95,29 @@ Route::middleware('kt')->prefix('kt')->group(function () {
 /*KH Prefix*/
 Route::middleware('kh')->prefix('kh')->group(function () {
 
-	Route::get('home/{year?}', 'HomeKh@show')
+	Route::get('data_operasional/{tahun?}', 'HomeKh@show')
 	->name('show.operasional.kh');
 
 	Route::get('khoperasional', 'HomeKh@showMenu')
 	->name('showmenu.operasional.kh');
 
-	Route::get('home_upload', 'HomeKh@homeUpload')
+	Route::get('home_upload/{tahun?}/{wilker?}', 'HomeKh@homeUpload')
 	->name('kh.homeupload');
 
+	Route::delete('home/rollback/{id}', 'HomeKh@destroy')
+	->name('rollback.operasional.kh');
+
 	/*View Page*/
-	Route::get('viewdata/dokel/{year?}', 'DokelKh@sendToData')
+	Route::get('viewdata/dokel/{tahun?}', 'DokelKh@sendToData')
 	->name('kh.view.page.dokel');
 
-	Route::get('viewdata/domas/{year?}', 'DomasKh@sendToData')
+	Route::get('viewdata/domas/{tahun?}', 'DomasKh@sendToData')
 	->name('kh.view.page.domas');
 
-	Route::get('viewdata/ekspor/{year?}', 'EksporKh@sendToData')
+	Route::get('viewdata/ekspor/{tahun?}', 'EksporKh@sendToData')
 	->name('kh.view.page.ekspor');
 
-	Route::get('viewdata/impor/{year?}', 'ImporKh@sendToData')
+	Route::get('viewdata/impor/{tahun?}', 'ImporKh@sendToData')
 	->name('kh.view.page.impor');
 
 	/*KH Upload Routes*/

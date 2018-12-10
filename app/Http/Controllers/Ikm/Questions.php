@@ -19,7 +19,7 @@ class Questions extends Controller
         $question = Pertanyaan::all();
 
         return view('intern.ikm.question.index')
-        ->with('questions', $question);
+                ->with('questions', $question);
     }
 
     /**
@@ -66,16 +66,14 @@ class Questions extends Controller
         ]);
 
         return redirect(route('intern.ikm.question.index'))
-        ->with('success', 'Berhasil Tambah pertanyaan!');
+                ->with('success', 'Berhasil Tambah pertanyaan!');
     }
 
-    public function show(int $id)
+    public function show(Pertanyaan $question)
     {
-        $question = Pertanyaan::find($id);
-
         return view('intern.ikm.question.show')
-        ->with('question', $question)
-        ->with('answers', $question->answer);
+                ->with('question', $question)
+                ->with('answers', $question->answer()->orderBy('nilai', 'asc')->get());
     }
 
     /**
@@ -84,14 +82,13 @@ class Questions extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(Pertanyaan $question)
     {
-        $question = Pertanyaan::find($id);
         $answers = Jawaban::all();
 
         return view('intern.ikm.question.edit')
-        ->with('question', $question)
-        ->with('answers', $answers);
+                ->with('question', $question)
+                ->with('answers', $answers);
     }
 
     /**
@@ -101,10 +98,8 @@ class Questions extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Pertanyaan $question)
     {
-        $question = Pertanyaan::find($id);
-
         $question->question = $request->pertanyaan;
 
         $question->save();
@@ -117,7 +112,7 @@ class Questions extends Controller
         ]);
 
         return redirect(route('intern.ikm.question.index'))
-        ->with('success', 'Berhasil Tambah pertanyaan!');
+                ->with('success', 'Berhasil Tambah pertanyaan!');
     }
 
     /**
@@ -126,15 +121,13 @@ class Questions extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(Pertanyaan $question)
     {
-        $question = Pertanyaan::find($id);
-
         $question->answer()->detach();
 
         $question->delete();
 
         return redirect(route('intern.ikm.question.index'))
-        ->with('success', 'Data Berhasil Dihapus!');
+                ->with('success', 'Data Berhasil Dihapus!');
     }
 }

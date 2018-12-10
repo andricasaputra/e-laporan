@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Notifications;
+namespace App\Traits;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;

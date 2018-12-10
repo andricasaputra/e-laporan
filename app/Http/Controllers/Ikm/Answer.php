@@ -40,7 +40,7 @@ class Answer extends Controller
     {
         $request->validate([
 
-            'answer' => 'required|unique:ikm_answer|min:4|max:30',
+            'answer' => 'required|min:4|max:30',
             'nilai' => 'required'
 
         ]);
@@ -52,7 +52,7 @@ class Answer extends Controller
         $answer->save();
 
         return redirect(route('intern.ikm.answer.index'))
-        ->with('success', 'Berhasil Tambah Jawaban!');
+                ->with('success', 'Berhasil Tambah Jawaban!');
     }
 
     /**
@@ -61,10 +61,8 @@ class Answer extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(Jawaban $answer)
     {
-        $answer = Jawaban::find($id);
-
         return view('intern.ikm.answer.edit')->with('answer', $answer);
     }
 
@@ -75,7 +73,7 @@ class Answer extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Jawaban $answer)
     {
         $request->validate([
 
@@ -84,14 +82,12 @@ class Answer extends Controller
 
         ]);
 
-        $answer = Jawaban::find($id);
-
         $answer->answer = $request->jawaban;
 
         $answer->save();
 
         return redirect(route('intern.ikm.answer.index'))
-        ->with('success', 'Berhasil Ubah Jawaban!');
+                ->with('success', 'Berhasil Ubah Jawaban!');
     }
 
     /**
@@ -100,13 +96,11 @@ class Answer extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(Jawaban $answer)
     {
-        $answer = Jawaban::find($id);
-
         $answer->delete();
 
         return redirect(route('intern.ikm.answer.index'))
-        ->with('success', 'Data Berhasil Dihapus!');
+                ->with('success', 'Data Berhasil Dihapus!');
     }
 }

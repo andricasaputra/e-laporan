@@ -29,7 +29,7 @@ class MasterPegawai extends Model
 
     public function golongan()
     {
-        return $this->hasOne(Golongan::class, 'golongan_id');
+        return $this->hasOne(Golongan::class, 'id');
     }
 
     public function jabatan()

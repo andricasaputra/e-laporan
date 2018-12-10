@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Notifications;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Traits\ActiveUserTrait;
 use App\Http\Controllers\Controller;
 
 class MainNotificationController extends Controller

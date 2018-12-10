@@ -84,6 +84,7 @@
             "serverSide": true,
             "ajax":{
                "url": "{{ route('api.user') }}",
+               "method" : "POST",
                "dataType": "json"
             },
             "columns": [

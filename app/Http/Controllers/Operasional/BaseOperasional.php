@@ -6,244 +6,134 @@ namespace App\Http\Controllers\Operasional;
 
 use App\Models\User;
 use App\Models\Wilker;
+use App\Traits\UsersTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
+use App\Traits\TableOperasionalProperty;
 use Illuminate\Database\Eloquent\Collection;
+use App\Models\Operasional\ModelOperasionalInterface;
 
 ini_set('max_execution_time', '200');
 
 class BaseOperasional extends Controller
 {
-    private function getUserId() : int
-    {
-        return Auth::user()->id;
-    }
+    use UsersTrait, TableOperasionalProperty;
 
-    private function getUserRoleId() : int
-    {
-        return Auth::user()->role()->first()->id;
-    }
-
-    protected function setUserWilkerId(int $wilker_id) : int
-    {
-        return $wilker_id;
-    }
-
-    protected function setUserWilker() : string
-    {
-        $wilker_user = User::find($this->getUserId())->wilker->first();
-
-        $wilker_user = $wilker_user->nama_wilker;
-
-        if (strpos($wilker_user, '.') !== false) {
-
-            $wilker_user = str_replace('.', ' ', $wilker_user);
-        }
-
-        return str_replace(' ', '', $wilker_user);
-
-    }
-
-    protected function checkActiveUserIdAndRequestUserId(int $user_id)
-    {
-        if ($this->setActiveUser()->id !== $user_id) {
-
-            Session::flash('warning','Unautorizhed User Detected!');
-
-            return false;
-
-        }
-
-        return $user_id;
-    }
-
-    protected function setActiveUser() : User
-    {
-        $user = User::whereId($this->getUserId())->first();
-
-        return $user;
-    }
-
-    protected function setActiveUserWilker() : Collection 
-    {
-        $wilker = $this->getUserRoleId() === 1 || $this->getUserRoleId() === 2
-
-                ? Wilker::where('nama_wilker', '!=', 'Kantor induk')->get()
-
-                : User::find($this->getUserId())->wilker;
-
-        return $wilker;
-    }
-
-    /*Menangkap URL Request Kemudian Di Redirect*/
-    protected function selectAnotherYear(Request $request)
-    {
-        return redirect($request->year);
-    }
+    private $tableName;
+    private $userId; 
+    private $wilkerUser = []; 
+    private $wilkerName;
+    private $wilkerNameClue; 
+    private $jenisPermohonan;
+    private $jenisKarantina;
+    private $laporanPath;
+    protected $message;
+    protected $messageType;
 
     /**
-     *Digunakan mencetak semua table kt head pada masing2 class turunan
-     *dan kemuadian masing2 child class mengoper ke view yang diperlukan 
+     *Set data property untuk diolah lebih lanjut
      *
-     * @return array
+     * @return string
      */
-    protected function tableTitleKt() : array
+    protected function setDataProperty(Request $request, ModelOperasionalInterface $model)
     {
-        return array(
-             'no',
-             'bulan',
-             'wilker',
-             'no_permohonan',
-             'no_aju',
-             'tanggal_permohonan',
-             'jenis_permohonan',
-             'nama_pemohon',
-             'nama_pengirim',
-             'alamat_pengirim',
-             'nama_penerima',
-             'alamat_penerima',
-             'jumlah_kemasan',
-             'kota_asal',
-             'asal',
-             'kota_tujuan',
-             'tujuan',
-             'port_asal',
-             'port_tujuan',
-             'moda_alat_angkut_terakhir',
-             'tipe_alat_angkut_terakhir',
-             'nama_alat_angkut_terakhir',
-             'status_internal',
-             'lokasi_mp',
-             'tempat_produksi',
-             'nama_tempat_pelaksanaan',
-             'peruntukan',
-             'golongan',
-             'kode_hs',
-             'nama_komoditas',
-             'nama_komoditas_en',
-             'volume_netto',
-             'sat_netto',
-             'volume_bruto',
-             'sat_bruto',
-             'volume_lain',
-             'sat_lain',
-             'volumeP1',
-             'nettoP1',
-             'volumeP8',
-             'nettoP8',
-             'dok_pelepasan',
-             'nomor_dok_pelepasan',
-             'tanggal_pelepasan',
-             'no_seri',
-             'dokumen_pendukung',
-             'kontainer',
-             'biaya_perjalanan_dinas',
-             'total_pnbp'
-        );
+
+        $this->tableName        = $model->getTable();
+
+        $this->userId           = $this->checkActiveUserIdAndRequestUserId((int) $request->user_id);
+
+        $this->wilkerId         = $this->setUserWilkerId((int) $request->wilker_id);
+
+        $this->wilkerName       = $this->cleanWilkerString($this->getUserWilkerName((int) $request->wilker_id));
+
+        $this->wilkerUser       = $this->setUserWilker();
+
+        $this->laporanPath      = $request->file('filenya')->getRealPath();
+
+        $this->wilkerNameClue   = substr($this->checkUserWilker(), -10, 8);
+
+        $this->getJenisPermohonan();
+
     }
 
     /**
-     *Digunakan mencetak semua table kh head pada masing2 class turunan
-     *dan kemuadian masing2 child class mengoper ke view yang diperlukan
-     * 
-     * @return array
+     *Set jenis permohonan & karantina berdasarkan model yang masuk pada setDataProperty()
+     *
+     * @return string
      */
-    protected function tableTitleKh() : array
+    protected function getJenisPermohonan()
     {
-        return array(
-            'no',
-            'bulan',
-            'wilker',
-            'no_permohonan',
-            'no_aju',
-            'tanggal_permohonan',
-            'jenis_permohonan',
-            'nama_pemohon',
-            'nama_pengirim',
-            'alamat_pengirim',
-            'nama_penerima',
-            'alamat_penerima',
-            'jumlah_kemasan',
-            'kota_asal',
-            'asal',
-            'kota_tuju',
-            'tujuan',
-            'port_asal',
-            'port_tuju',
-            'moda_alat_angkut_terakhir',
-            'tipe_alat_angkut_terakhir',
-            'nama_alat_angkut_terakhir',
-            'status_internal',
-            'peruntukan',
-            'jenis_mp',
-            'kelas_mp',
-            'kode_hs',
-            'nama_mp',
-            'nama_latin',
-            'jumlah',
-            'satuan',
-            'jantan',
-            'betina',
-            'netto',
-            'sat_netto',
-            'bruto',
-            'sat_bruto',
-            'keterangan',
-            'breed',
-            'volumeP1',
-            'nettoP1',
-            'volumeP8',
-            'nettoP8',
-            'dok_pelepasan',
-            'nomor_dok_pelepasan',
-            'tanggal_pelepasan',
-            'no_seri',
-            'dokumen_pendukung',
-            'kontainer',
-            'biaya_perjalanan_dinas',
-            'total_pnbp'
-        );
+        switch ($this->tableName) :
+
+            case 'dokel_kt':
+                $this->jenisPermohonan = 'domestik keluar';
+                $this->jenisKarantina  = 'operasional_karantina_tumbuhan';
+                break;
+            case 'domas_kt':
+                $this->jenisPermohonan = 'domestik masuk';
+                $this->jenisKarantina  = 'operasional_karantina_tumbuhan';
+                break;
+            case 'ekspor_kt':
+                $this->jenisPermohonan = 'ekspor';
+                $this->jenisKarantina  = 'operasional_karantina_tumbuhan';
+                break;
+            case 'impor_kt':
+                $this->jenisPermohonan = 'impor';
+                $this->jenisKarantina  = 'operasional_karantina_tumbuhan';
+                break;
+            case 'dokel_kh':
+                $this->jenisPermohonan = 'domestik keluar';
+                $this->jenisKarantina  = 'operasional_karantina_hewan';
+                break;
+            case 'domas_kh':
+                $this->jenisPermohonan = 'domestik masuk';
+                $this->jenisKarantina  = 'operasional_karantina_hewan';
+                break;
+            case 'ekspor_kh':
+                $this->jenisPermohonan = 'ekspor';
+                $this->jenisKarantina  = 'operasional_karantina_hewan';
+                break;
+            case 'impor_kh':
+                $this->jenisPermohonan = 'impor';
+                $this->jenisKarantina  = 'operasional_karantina_hewan';
+                break;
+            default:
+                $this->jenisPermohonan = 'Data Operasional Tidak Ditemukan';
+                $this->jenisKarantina  = 'No Clue';
+                break;
+            
+        endswitch;
+
     }
+
     /**
      *Digunakan untuk pengecekan wilker pada laporan excel 
      *Apakah sesuai atau tidak dengan wilker user yang mengupload 
      *
      * @return string
      */
-    protected function checkUserWilker(string $path) : string
+    protected function checkUserWilker() : string
     {
-        /*Get Format Laporan Untuk Domas*/
-        $user_wilker = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
-
-            config(['excel.import.startRow' => 1]);
-
-        })->first()->toArray();
-
         /*Cek isi file kosong atau tidak*/
-        if(in_array(null, $user_wilker)){
+        if(in_array(null, $this->getLaporanClue(1))){
 
             return 'not our format';
 
         }
 
-        foreach ($user_wilker as $key => $value) {
+        foreach ($this->getLaporanClue(1) as $key => $value) {
 
             /*Get Wilker By Dokumen Yang Diupload*/
+
             $x      = explode(":", $value);
 
             $wilker = trim($x[2]);
 
-            if (strpos($wilker, '.') !== false) {
-
-                $wilker = str_replace('.', ' ', $wilker);
-            }   
-
-            $wilker = str_replace(' ', '', $wilker);
+            return $this->cleanWilkerString($wilker);
             
-            return strtolower(trim($wilker));
         }
 
     }
@@ -253,33 +143,26 @@ class BaseOperasional extends Controller
      *
      * @return bool
      */
-    protected function checkJenisKarantina(string $path, string $jenis_karantina) : bool
+    protected function checkJenisKarantina() : bool
     {
-        /*Get Format Laporan Untuk Dokel*/
-        $tipe_karantina = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
-
-            config(['excel.import.startRow' => 1]);
-
-        })->first()->toArray();
-
         /*Cek isi file kosong atau tidak*/
-        if(in_array(null, $tipe_karantina)){
+        if(in_array(null, $this->getLaporanClue(1))){
 
             return false;
 
         }
 
-        foreach ($tipe_karantina as $key => $value) {
+        foreach ($this->getLaporanClue(1) as $key => $value) {
 
             /*Cek dari value Kosong atau tidak*/
-            if ($value == null || strpos($key, $jenis_karantina) === false) {
+            if ($value == null || strpos($key, $this->jenisKarantina) === false) {
 
                 return false;
 
             }
 
             /*Cek Jika File Yang Diunggah File KH */
-            return strpos($key, $jenis_karantina) !== false ? true : false;
+            return strpos($key, $this->jenisKarantina) !== false ? true : false;
         }
 
     }
@@ -289,17 +172,10 @@ class BaseOperasional extends Controller
      *
      * @return bool
      */
-    protected function checkJenisPermohonan(string $path, string $jenis_permohonan)
+    protected function checkJenisPermohonan()
     {
-        /*Get Format Laporan Untuk Dokel*/
-        $tipe_permohonan = Excel::selectSheetsByIndex(0)->load($path, function($reader) {
-
-            config(['excel.import.startRow' => 2]);
-
-        })->first()->toArray();
-
         /*set here*/
-        foreach ($tipe_permohonan as $tipe) {
+        foreach ($this->getLaporanClue(2) as $tipe) :
 
             $lowereing  = strtolower($tipe);
 
@@ -307,11 +183,42 @@ class BaseOperasional extends Controller
 
             $tipe       = trim($getContent[1]);
 
-        }
+        endforeach;
 
         /*Cek Jika File Yang Diunggah Domestik Keluar */
 
-        return $tipe == $jenis_permohonan ?: false;
+        return $tipe == $this->jenisPermohonan ?: false;
+    }
+
+    /**
+     *Menghapus titik beserta koma pada string
+     *
+     * @return string
+     */
+    protected function cleanWilkerString(string $value) : string
+    {   
+        if (strpos($value, '.') !== false) {
+
+            $value = str_replace('.', ' ', $value);
+        }   
+
+        $value = str_replace(' ', '', $value);
+        
+        return strtolower(trim($value));
+    }
+
+    /**
+     *Mengambil data dari laporan yang diupload sesuai row yang diinginkan
+     *
+     * @return array
+     */
+    protected function getLaporanClue(int $row) : array
+    {
+        return  Excel::selectSheetsByIndex(0)->load($this->laporanPath, function($reader) use ($row) {
+
+                    config(['excel.import.startRow' => $row]);
+
+                })->first()->toArray();
     }
 
     /**
@@ -321,46 +228,88 @@ class BaseOperasional extends Controller
      *
      * @return bool
      */
-    protected function checkingData(string $path, string $jenis_karantina, string $jenis_permohonan, string $user) : bool
+    protected function checkingData() : bool
     {
         /*Cek Format Laporan*/
-        if ($this->checkJenisKarantina($path, $jenis_karantina) === 'not our format') {
+        if ($this->checkJenisKarantina() === 'not our format') {
 
-            Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Merupakan Format Laporan Bulanan Dari IQFAST!');
+            $this->messageType = "warning";
+
+            $this->message = "Format Laporan Yang Anda Unggah Bukan Merupakan Format Laporan Bulanan Dari IQFAST!";
+
+            $this->flashMessage();
 
             return false;
         }
 
         /*Cek Jenis Karantina*/
-        if($this->checkJenisKarantina($path, $jenis_karantina) === false){
+        if($this->checkJenisKarantina() === false) {
 
-            Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Kegiatan ' . ucwords(str_replace('_', ' ', $jenis_karantina)).' !');
+            $this->messageType = "warning";
+
+            $this->message = "Format Laporan Yang Anda Unggah Bukan Kegiatan ". ucwords(str_replace('_', ' ', $this->jenisKarantina)) ." !";
+
+            $this->flashMessage();
 
             return false;
 
         }
 
         /*Cek Jenis Permohonan*/
-        if ($this->checkJenisPermohonan($path, $jenis_permohonan) === false) {
+        if ($this->checkJenisPermohonan() === false) {
 
-            Session::flash('warning','Format Laporan Yang Anda Unggah Bukan Kegiatan ' . ucwords($jenis_permohonan) .' !');
+            $this->messageType = "warning";
+
+            $this->message = "Format Laporan Yang Anda Unggah Bukan Kegiatan" .ucwords($this->jenisPermohonan). " !";
+
+            $this->flashMessage();
 
             return false;
 
         }
 
-        $wilker_laporan_clue = substr($this->checkUserWilker($path), -10, 8);
+        /*Cek Wilker User dengan wilker yang diupload pada laporan, harus sesuai*/
+        if ($this->getUserRoleId() !== 1 && $this->getUserRoleId() !== 2) {
 
-        /*Cek Wilker Dari User Yang Mengupload*/
-        if(strpos($user, $wilker_laporan_clue) === false && $this->getUserRoleId() !== 1 && $this->getUserRoleId() !== 2){
+            if(strpos(strtolower($this->wilkerName), $this->wilkerNameClue) === false){
 
-            Session::flash('warning','Laporan Yang Anda Unggah Tidak Sesuai Dengan Wilker Anda!');
+                $this->messageType = "warning";
 
-            return false;
+                $this->message = "Laporan Yang Anda Unggah Tidak Sesuai Dengan Wilker Anda!";
+
+                $this->flashMessage();
+
+                return false;
+            }
+
+            if( strpos($this->wilkerUser[0], $this->wilkerNameClue) === false &&
+                strpos($this->wilkerUser[1], $this->wilkerNameClue) === false ){
+
+                $this->messageType = "warning";
+
+                $this->message = "Laporan Yang Anda Unggah Tidak Sesuai Dengan Wilker Anda!";
+
+                $this->flashMessage();
+
+                return false;
+            }
+
         }
-
+        
         return true;
 
+    }
+
+    /*set flash message*/
+    protected function flashMessage() : ?Session
+    {
+        return Session::flash("$this->messageType", "$this->message");
+    }
+
+    /*Menangkap URL Request Kemudian Di Redirect*/
+    protected function selectAnotherYear(Request $request)
+    {
+        return redirect($request->year);
     }
 
 }

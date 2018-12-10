@@ -23,12 +23,12 @@
                 @csrf
 
                 <div class="form-group row">
-                    <label for="wilker" class="col-md-4 col-form-label text-md-right">Wilker</label>
+                    <label for="wilker" class="col-md-4 col-form-label text-md-right">Wilker (Tekan Ctrl untuk memilih lebih dari 1 wilker)</label>
 
                     <div class="col-md-6"> 
                         @if(count($wilker) > 0)
 
-                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="wilker" required>
+                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="wilker[]" multiple required>
                                 <option disabled selected>-- Pilih Wilker --</option>
                                 @foreach($wilker as $w)
 
@@ -42,31 +42,6 @@
                         @if ($errors->has('wilker'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('wilker') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="wilker_2" class="col-md-4 col-form-label text-md-right">Wilker II</label>
-
-                    <div class="col-md-6"> 
-                        @if(count($wilker) > 0)
-
-                            <select class="form-control{{ $errors->has('wilker_2') ? ' is-invalid' : '' }}" name="wilker_2">
-                                <option selected value="">-- Pilih Wilker Lainnya Dari User (optional) --</option>
-                                @foreach($wilker as $w)
-
-                                    <option value="{{$w->id}}">{{$w->nama_wilker}}</option>
-
-                                @endforeach
-                            </select>
-
-                        @endif
-
-                        @if ($errors->has('wilker_2'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('wilker_2') }}</strong>
                             </span>
                         @endif
                     </div>

@@ -145,13 +145,12 @@
           <ul class="dropdown-menu dropdown-usermenu pull-right">
             <li>
               <a href="{{ route('welcome') }}">
-                <i class="fa fa-home pull-right"></i> Go To Home
+                <i class="fa fa-home pull-right"></i> Ke Halaman Utama
               </a>
             </li>
             <li>
               <a  href="{{ route('logout') }}"
-                 onclick="event.preventDefault();
-                               document.getElementById('logout-form').submit();">
+                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                   <i class="fa fa-sign-out pull-right"></i>Log Out
               </a>
 

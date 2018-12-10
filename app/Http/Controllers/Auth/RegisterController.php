@@ -61,7 +61,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'wilker' => 'required|string',
+            'wilker' => 'required',
             'nip' => 'max:18',
             'role' => 'required',
             'nama' => 'required|string',
@@ -83,9 +83,7 @@ class RegisterController extends Controller
             'nip' => $data['nip'],
             'jenis_karantina' => $data['jenis_karantina'],
             'golongan_id' => $data['golongan'],
-            'jabatan_id' => $data['jabatan'],
-            'wilker_id' => $data['wilker'],
-            'wilker_id_2' => $data['wilker_2']
+            'jabatan_id' => $data['jabatan']
         ]);
 
         event(new RegisterPegawai($pegawai, $data));       

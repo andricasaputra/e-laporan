@@ -26,6 +26,9 @@ class UserAccountDelete
      */
     public function handle(DeletePegawai $event)
     {
+        /*delete user wilker*/
+        $event->user->wilker()->detach();
+
         /*delete user role*/
         $event->user->role()->detach();
 

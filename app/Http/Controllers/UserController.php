@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function edit(int $id)
     {
-        $user       = User::with(['pegawai', 'role'])->find($id);
+        $user       = User::with(['pegawai', 'role', 'wilker', 'golongan', 'jabatan'])->find($id);
         $roles      = Role::where('id', '!=', 1)->get();
         $wilkers    = Wilker::all();
         $jabatan    = Jabatan::all();
@@ -31,7 +31,6 @@ class UserController extends Controller
 
         return view('auth.edit')
         ->with('user', $user)
-        ->with('wilker_user', $user->wilker->first())
         ->with('golongan_user', $user->golongan->first())
         ->with('jabatan_user', $user->jabatan->first())
         ->with('roles', $roles)
@@ -44,7 +43,7 @@ class UserController extends Controller
     {
         $request->validate([
 
-            'wilker'            => 'required|string',
+            'wilker'            => 'required',
             'jenis_karantina'   => 'required|string',
             'role'              => 'required',
             'nama'              => 'required|string',
@@ -60,8 +59,7 @@ class UserController extends Controller
             'nip' => $request->nip,
             'jenis_karantina' => $request->jenis_karantina,
             'golongan_id' => $request->golongan,
-            'jabatan_id' => $request->jabatan,
-            'wilker_id' => $request->wilker
+            'jabatan_id' => $request->jabatan
         ]);
 
         event(new UpdatePegawai($master, $request));
@@ -71,7 +69,7 @@ class UserController extends Controller
 
     public function destroy(Request $request)
     {
-        $user = User::find($request->id);
+        $user = User::where('pegawai_id', $request->id)->first();
 
         event(new DeletePegawai($user, $user->pegawai));
 

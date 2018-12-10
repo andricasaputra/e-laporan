@@ -74,7 +74,10 @@
 		});
 
 		$('#statistik').DataTable({
-	        "ajax": url,
+			"ajax":{
+	            "url": url,
+	            "dataType": "JSON"
+            },
 	        "paginate" : false,
 	        "lengthChange" : false,
 	        "order" : false,
@@ -96,7 +99,7 @@
 
 	   $.ajax({
 
-	   	"url" : url
+	   	url : url
 
 	   }).done(function(response){
 

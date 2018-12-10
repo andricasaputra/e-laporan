@@ -51,7 +51,7 @@ class Pendidikan extends Controller
         ]);
 
         return redirect(route('intern.ikm.pendidikan.index'))
-        ->with('success', 'Data Berhasil Ditambah');
+                ->with('success', 'Data Berhasil Ditambah');
     }
 
 
@@ -61,10 +61,8 @@ class Pendidikan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(Model $pendidikan)
     {
-        $pendidikan = Model::find($id);
-
         return view('intern.ikm.pendidikan.edit')->with('pendidikan', $pendidikan);
     }
 
@@ -75,7 +73,7 @@ class Pendidikan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Model $pendidikan)
     {
         $request->validate([
 
@@ -83,14 +81,14 @@ class Pendidikan extends Controller
 
         ]);
 
-        Model::find($id)->update([
+        $pendidikan->update([
 
             'pendidikan' => $request->pendidikan
 
         ]);
 
         return redirect(route('intern.ikm.pendidikan.index'))
-        ->with('success', 'Data Berhasil Diubah');
+                ->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -99,11 +97,11 @@ class Pendidikan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(Model $pendidikan)
     {
-        Model::destroy($id);
+        $pendidikan->delete();
 
         return redirect(route('intern.ikm.pendidikan.index'))
-        ->with('success', 'Data Berhasil Dihapus');
+                ->with('success', 'Data Berhasil Dihapus');
     }
 }

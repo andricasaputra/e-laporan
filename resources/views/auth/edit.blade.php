@@ -29,17 +29,30 @@
 
                     <div class="col-md-6"> 
 
-                        <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="wilker" required>
-                                <option value="{{ $wilker_user->id }}">{{ $wilker_user->nama_wilker }}</option>
-                                @if(count($wilkers) > 0)
+                        <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="wilker[]" multiple required>
 
-                                    @foreach($wilkers as $wil)
+                            @foreach($user->wilker as $wil)
 
-                                        <option value="{{ $wil->id }}">{{ $wil->nama_wilker }}</option>
+                                <option value="{{ $wil->id }}" selected>{{ $wil->nama_wilker }}</option>
 
-                                    @endforeach
+                            @endforeach
 
-                                @endif
+                            @php  $w = $user->wilker  @endphp
+
+                            @foreach($wilkers->filter(function ($item) use ($w) {
+
+                                       if(!in_array($item->id,(array) $w)):
+
+                                        return $item->id !== $w->first()->id;
+
+                                       endif;
+
+                            }) as $wilker)
+
+                                <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
+
+                            @endforeach
+                                
                         </select>
 
                         @if ($errors->has('wilker'))
