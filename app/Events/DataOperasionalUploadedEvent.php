@@ -5,11 +5,13 @@ namespace App\Events;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use App\Http\Controllers\Operasional\Upload;
+use Illuminate\Broadcasting\PresenceChannel;
+use App\Contracts\NotificationsEventInterface;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use App\Notifications\DataOperasionalUploaded as Notifications;
+use App\Http\Controllers\Operasional\UploadController as Upload;
 
 class DataOperasionalUploadedEvent implements NotificationsEventInterface
 {

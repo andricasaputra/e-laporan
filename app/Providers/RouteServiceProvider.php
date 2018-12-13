@@ -67,7 +67,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web', 'auth')
              ->prefix('intern')
-             ->namespace($this->namespace . '\\Operasional')
+             ->namespace($this->namespace . '\Operasional')
              ->group(function(){
                 Route::prefix('operasional')->group(base_path('routes/operasional.php'));
              });
@@ -78,7 +78,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web', 'auth')
              ->prefix('intern')
-             ->namespace($this->namespace . '\\Ikm')
+             ->namespace($this->namespace . '\Ikm')
              ->group(function(){
                 Route::prefix('ikm')->group(base_path('routes/ikm.php'));
              });

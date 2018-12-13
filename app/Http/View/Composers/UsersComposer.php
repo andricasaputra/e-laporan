@@ -44,7 +44,5 @@ class UsersComposer
         $view->with('jabatan', Jabatan::all());
 
         $view->with('golongan', Golongan::all());
-
-        $view->with('user', $this->users); 
     }
 }

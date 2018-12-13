@@ -83,17 +83,17 @@
 	        "order" : false,
 	        "searching": false,
 	        "bInfo": false,
-	        "pageLength" : {{ $result->count() }},
+	        "pageLength" : 15,
 	        "language": {
 			    "zeroRecords": "Data tidak ditemukan"
 			},
 	        "columns": [
 	            { "data": "DT_Row_Index" },
-	            { "data": "questions" },
-	            { "data": "unsur_pelayanan" },
-	            { "data": "nrr" },
-	            { "data": "rata_nrr" },
-	            { "data": "nrr_perunsur" }
+	            { "data": "allQuestions" },
+	            { "data": "unsurPelayanan" },
+	            { "data": "totalNilai" },
+	            { "data": "rataRataNrr" },
+	            { "data": "rataRataPerUnsurPelayanan" }
 	        ]
 	    });
 
@@ -107,7 +107,7 @@
 
 	   	$.each(response.data, function(key, value){
 
-	   		sum.push(parseFloat(value.nrr_perunsur));
+	   		sum.push(parseFloat(value.rataRataPerUnsurPelayanan));
 
 	   	});
 	   
@@ -119,18 +119,18 @@
 
 		let total = sum.reduce(getSum);
 
-		let unsur_pelayanan = total * 25;
+		let unsurPelayanan = total * 25;
 
 		let kriteria = '';
 
 		switch(true) {
-	        case unsur_pelayanan > 88.31:
+	        case unsurPelayanan > 88.31:
 	            kriteria = '<span style="color: #009900">A (Sangat Baik)</span>';
 	            break;
-	        case unsur_pelayanan > 76.61:
+	        case unsurPelayanan > 76.61:
 	            kriteria = '<span style="color: #009900">B (Baik)</span>';
 	            break;
-	        case unsur_pelayanan > 65.00:
+	        case unsurPelayanan > 65.00:
 	            kriteria = '<span style="color: #cc2900">C (Kurang Baik)</span>';
 	            break;
 	        default: 
@@ -142,7 +142,7 @@
 
    			<h4><b>- Total NRR Tertimbang Per Unsur Pelayanan :  ${total.toFixed(3)}<sup>*</sup>  </b></h4>
    			<hr>
-   			<h3><b>- IKM Unit Pelayanan :  ${unsur_pelayanan.toFixed(3)}<sup>**</sup> <i>${kriteria}</i> </b></h3>
+   			<h3><b>- IKM Unit Pelayanan :  ${unsurPelayanan.toFixed(3)}<sup>**</sup> <i>${kriteria}</i> </b></h3>
    			<hr>
    			<h5>Keterangan : </h5>
    			<table class="table">

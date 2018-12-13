@@ -4,7 +4,7 @@
 
     <script>
 
-    	let url = '{{ route('api.grafik', $id) }}';
+    	let url = '{{ route('api.grafik', $keterangan->id) }}';
 
     	$('#select_ikm').on('change', function(){
 
@@ -22,6 +22,7 @@
     		url : url,
 
     	}).done(function(response){
+
 			let umur = {
 
 				title : '',
@@ -46,7 +47,7 @@
 			let rata_rata = {
 
 				title : 'Rata-rata Nilai Per Unsur Pelayanan',
-				subtitle : response.data[0].periode,
+				subtitle : response.data[1].keterangan,
 				series_name : 'Nilai rata-rata',
 				data : [],
 				xAxis : []
@@ -56,7 +57,7 @@
 			let jenis_kelamin = {
 
 				title : 'Jumlah Responden Berdasarkan Jenis Kelamin',
-				subtitle : response.data[0].periode,
+				subtitle : response.data[1].keterangan,
 				series_name : 'Responden',
 				data : [
 					response.jenis_kelamin.Laki_laki,
@@ -71,11 +72,11 @@
 			/*Set Chart Datas Rata - rata Perunsur*/
     		$.each(response.data, function(key, value){
 
-				arr_nilai_ikm.push(parseFloat(value.nrr_perunsur));
+				arr_nilai_ikm.push(parseFloat(value.rataRataPerUnsurPelayanan));
 
     			rata_rata.xAxis.push(value.unsur_pelayanan);
 
-    			rata_rata.data.push(parseFloat(value.rata_nrr));
+    			rata_rata.data.push(parseFloat(value.rataRataNrr));
 
     		});
 
@@ -90,7 +91,7 @@
 
 		        });
 
-		        umur.title = `Data Responden ${response.data[0].periode} Berdasarkan Umur`;
+		        umur.title = `Data Responden ${response.data[1].keterangan} Berdasarkan Umur`;
 
 			});
 
@@ -104,7 +105,7 @@
 
 		        });
 
-		        pendidikan.title = `Data Responden ${response.data[0].periode} Berdasarkan Pendidikan`;
+		        pendidikan.title = `Data Responden ${response.data[1].keterangan} Berdasarkan Pendidikan`;
 
 			});
 
@@ -118,7 +119,7 @@
 
 		        });
 
-		        pekerjaan.title = `Data Responden ${response.data[0].periode} Berdasarkan Pekerjaan`;
+		        pekerjaan.title = `Data Responden ${response.data[1].keterangan} Berdasarkan Pekerjaan`;
 
 			});
 
@@ -180,7 +181,7 @@
 			`);
 
 			$('#total_responden .card-body h1').html(`
-				${response.data[0].total_responden}
+				${response.data[1].totalResponden}
 			`);
 
 			/*Layanan Kh*/

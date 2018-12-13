@@ -12,15 +12,16 @@
 		min-height: 310px
 	}
 </style>
+
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="page-title">
 	  <div class="title_left">
-	    <h3>Statistik & Grafik {{ $ikm_ket->keterangan }}</h3>
+	    <h3>Statistik & Grafik {{ $keterangan->ikm_ket->keterangan }}</h3>
 	    <h5>
 	    	Periode Survey : 
-	    	{{ date('d-M-Y', strtotime($ikm_ket->start_date)) }} 
+	    	{{ date('d-M-Y', strtotime($keterangan->ikm_ket->start_date)) }} 
 	    	s/d 
-	    	{{ date('d-M-Y', strtotime($ikm_ket->end_date)) }}
+	    	{{ date('d-M-Y', strtotime($keterangan->ikm_ket->end_date)) }}
 	    </h5>
 	  </div>
 	</div>
@@ -35,7 +36,7 @@
 				<label for="select_ikm">Pilih IKM</label>
 				<select name="select_ikm" id="select_ikm" class="form-control">
 					<option disabled selected>-- Pilih Periode IKM --</option>
-					@foreach($ikm as $i)
+					@foreach($keterangan->ikm as $i)
 						<option value="{{ $i->id }}">{{ $i->keterangan }}</option>
 					@endforeach
 				</select>

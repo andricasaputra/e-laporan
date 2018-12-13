@@ -8,9 +8,10 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
+use App\Contracts\NotificationsEventInterface;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use App\Notifications\IkmSurvey as Notifications;
+use Illuminate\Broadcasting\InteractsWithSockets;
 
 class NewIkmSurveyEvent implements NotificationsEventInterface
 {

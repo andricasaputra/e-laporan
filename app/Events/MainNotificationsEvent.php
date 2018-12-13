@@ -4,10 +4,10 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
-use App\Events\NotificationsEventInterface; /*This is the event to call notification*/
+use App\Contracts\NotificationsInterface;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
-use App\Notifications\NotificationsInterface;/*This is the notification*/
+use App\Contracts\NotificationsEventInterface;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;

@@ -1,11 +1,14 @@
 @if($datas['table_body']->kepala === null)
 
 <script>
+
 	alert('Mohon setting terlebih dahulu pejabat yang berwenang menandatangani Hasil Laporan IKM ini');
 	window.location = '{{ route('intern.ikm.statistik.index') }}'
+
 </script>
 
-<?php exit; ?>
+@php exit; @endphp
+
 @endif
 
 <!DOCTYPE html>
@@ -71,9 +74,11 @@
 		}
 	</style>
 </head>
+
 <body>
-	
+
 	<h3>{{ strtoupper('Pengolahan Indeks Kepuasan Masyarakat Per Responden dan unsur pelayanannya') }}</h3>
+
 	<table class="head">
 		<tr>
 			<td style="width: 200px">Unit Pelayanan</td>
@@ -91,6 +96,7 @@
 			<td>(0371) 2629152</td>
 		</tr>
 	</table>
+
 	<table class="main">
 		<thead>
 			<tr>
@@ -100,7 +106,9 @@
 			</tr>
 		</thead>
 		<tbody>
+
 			@php $no = 1 @endphp
+			
 			@foreach($datas['table_body']->nilai as $body)
 				<tr>
 					<td>{{ $no++ }}</td>
@@ -112,26 +120,26 @@
 			<tr>
 				<td>{{ 'NRR Per Unsur' }}</td>
 				@foreach($datas['table_body']->nrr as $body)
-					<td>{{ $body['nrr'] }}</td>
+					<td>{{ $body['rataRataNrr'] }}</td>
 				@endforeach
 			</tr>
 			<tr>
 				<td>{{ 'NRR Per Unsur' }}</td>
 				@foreach($datas['table_body']->nrr as $body)
-					<td>{{ number_format((float)$body['rata_nrr'], 3, '.', '') }}</td>
+					<td>{{ number_format((float)$body['rataRataNrr'], 3, '.', '') }}</td>
 				@endforeach
 			</tr>
 			<tr>
 				<td>{{ 'NRR Tertimbang Per Unsur' }}</td>
 				@foreach($datas['table_body']->nrr as $body)
-					<td>{{ number_format((float)$body['nrr_perunsur'], 3, '.', '') }}</td>
+					<td>{{ number_format((float)$body['rataRataPerUnsurPelayanan'], 3, '.', '') }}</td>
 				@endforeach
 			</tr>
 			<tr>
 				<td>{{ 'Jumlah NRR IKM Tertimbang' }}<sup>*)</sup></td>
 				@php $arr = []  @endphp
 				@foreach($datas['table_body']->nrr as $body)
-					@php $arr[] = $body['nrr_perunsur']  @endphp
+					@php $arr[] = $body['rataRataPerUnsurPelayanan']  @endphp
 					@if(count($arr) == 9)
 						<td style="border-left: none;">{{ number_format((float)array_sum($arr), 3, '.', '') }}</td>
 					@else
@@ -143,7 +151,7 @@
 				<td><b>{{ 'IKM Unit Pelayanan' }}<sup>**)</sup></b></td>
 				@php $arr = []  @endphp
 				@foreach($datas['table_body']->nrr as $body)
-					@php $arr[] = $body['nrr_perunsur']  @endphp
+					@php $arr[] = $body['rataRataPerUnsurPelayanan']  @endphp
 					@if(count($arr) == 9)
 						<td style="border-left: none;"><b>{{ number_format((float)array_sum($arr) * 25, 3, '.', '') }}</b></td>
 					@else
@@ -194,38 +202,29 @@
 			</tr>
 		</table>
 	</div>
+
 	<div class="right-ket">
 		<table>
+
 			<thead>
 				<tr>
-					<th>No</th>
 					<th>Unsur Pelayanan</th>
 					<th>Nilai Rata-rata</th>
 				</tr>
 			</thead>
 			<tbody>
-				
 				@foreach($datas['table_body']->nrr as $body)
-
 					<tr>
-
-						@php 
-
-						$x = explode('-', $body['unsur_pelayanan']);
-
-						@endphp
-						
-						<td>{{ $x[0] }}</td>
-						<td>{{ $x[1] }}</td>
-						<td style="text-align: center;">{{ $body['rata_nrr'] }}</td>
-
-						</tr>
-
+						<td>{{ ($body['unsurPelayanan']) }}</td>
+						<td style="text-align: center;">{{ $body['rataRataNrr'] }}</td>
+					</tr>
 				@endforeach
 			</tbody>
 		</table>
 	</div>
+
 	<div class="clear">&nbsp;</div>
+
 	<div class="left-ket">
 		<table>
 			<tr>
@@ -233,7 +232,7 @@
 				<td>:</td>
 				@php $arr = []  @endphp
 				@foreach($datas['table_body']->nrr as $body)
-					@php $arr[] = $body['nrr_perunsur']  @endphp
+					@php $arr[] = $body['rataRataPerUnsurPelayanan']  @endphp
 				@endforeach
 				<td><b>{{ array_sum($arr) * 25 }}</b></td>
 			</tr>
@@ -264,6 +263,7 @@
 			</tr>
 		</table>
 	</div>
+
 	<div class="right-ket">
 		<table style="border: none; margin-left: 70px">
 			<tr>
@@ -279,4 +279,5 @@
 	</div>
 
 </body>
+
 </html>

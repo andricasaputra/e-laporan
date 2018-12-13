@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class WelcomeController extends Controller
 {
-    public function index()
+    public function __invoke()
     {
-    	$user 	= User::find(Auth::user()->id);
+    	$user 	= Auth::user();
+
     	$ikm	= Jadwal::select('keterangan')->where('is_open', 1)->first();
 
     	return view('intern.welcome')->with(compact('user', 'ikm'));

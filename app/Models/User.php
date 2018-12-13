@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,6 +27,15 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token', 'created_at', 'updated_at'
+    ];
+
+    /**
+     * The attributes for eager loading relations.
+     *
+     * @var array
+     */
+    protected $with = [
+        'pegawai', 'golongan', 'jabatan'
     ];
 
     public function pegawai()
@@ -57,5 +67,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Operasional\DokelKt');
     }
-    
+
+    public function scopePegawaiDetail($query, $pegawaiId)
+    {
+        return $query->where('pegawai_id', $pegawaiId['id']);
+    }
+
 }

@@ -10,7 +10,7 @@
 
     Route::middleware('auth')->group(function () {
 
-        Route::get('intern/welcome', 'WelcomeController@index')->name('welcome');
+        Route::get('intern/welcome', WelcomeController::class)->name('welcome');
 
         Route::namespace('Notifications')->group(function () {
 
@@ -59,19 +59,19 @@
 
     Route::namespace('Ikm')->group(function(){
 
-    	Route::get('home', 'SurveyPage@home')->name('ikm.home');
+    	Route::get('home', 'SurveyPageController@home')->name('ikm.home');
 
-	    Route::get('ikm/faq', 'SurveyPage@faq')->name('ikm.faq');
+	    Route::get('ikm/faq', 'SurveyPageController@faq')->name('ikm.faq');
 
-	    Route::get('ikm/survey', 'SurveyPage@index')->name('ikm.survey');
+	    Route::get('ikm/survey', 'SurveyPageController@index')->name('ikm.survey');
 
-	    Route::post('ikm/survey', 'SurveyPage@store')->name('ikm.store');
+	    Route::post('ikm/survey', 'SurveyPageController@store')->name('ikm.store');
 
-	    Route::get('ikm/success/{responden}', 'SurveyPage@success')->name('ikm.success');
+	    Route::get('ikm/success/{responden}', 'SurveyPageController@success')->name('ikm.success');
 
-	    Route::get('ikm/cetak/{responden}', 'SurveyPage@cetak')->name('ikm.cetak');
+	    Route::get('ikm/cetak/{responden}', 'SurveyPageController@cetak')->name('ikm.cetak');
 
-	    Route::get('ikm/survey/closed', 'SurveyPage@surveyClosed')->name('ikm.closed');
+	    Route::get('ikm/survey/closed', 'SurveyPageController@surveyClosed')->name('ikm.closed');
 
     });
 

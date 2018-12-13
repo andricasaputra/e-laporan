@@ -3,11 +3,8 @@
 namespace App\Providers;
 
 use Carbon;
-use Illuminate\Http\Request;
-use App\Models\MasterPegawai;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use App\Observers\MasterPegawaiObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
 
         Carbon::setLocale(config('app.locale'));
 
-        MasterPegawai::observe(MasterPegawaiObserver::class);
+        \App\Models\MasterPegawai::observe(\App\Observers\UsersObserver::class);
     }
 
     /**
@@ -32,6 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        
     }
 }

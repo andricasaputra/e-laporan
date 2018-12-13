@@ -43,7 +43,7 @@
               @endfor
             </select>
           </div>
-          <button type="submit">Pilih</button>
+          <button type="submit" class="btn btn-primary">Pilih</button>
         </form>
       </div>
       <div class="col-md-10 offset-md-1 card">

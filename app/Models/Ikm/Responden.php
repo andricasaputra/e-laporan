@@ -10,6 +10,7 @@ class Responden extends Model
     protected $table        = 'ikm_responden';
     protected $guarded      = ['id', 'created_at', 'updated_at'];
     protected $hidden       = ['layanan_id', 'pendidikan_id', 'umur_id', 'pekerjaan_id', 'updated_at'];
+    protected $with         = ['pendidikan', 'layanan', 'umur', 'pekerjaan'];
 
     public function getJenisKelaminAttribute($value)
     {
@@ -75,23 +76,5 @@ class Responden extends Model
     {
     	return $this->belongsTo(Pekerjaan::class);
     }
-
-    public function sumRating()
-    {
-        return $this->answer()
-          ->selectRaw('sum(nilai) as aggregate')
-          ->groupBy('responden_id');
-    }
-
-    public function getSumRatingAttribute()
-    {
-        if ( ! array_key_exists('sumRating', $this->relations)) {
-           $this->load('sumRating');
-        }
-
-        $relation = $this->getRelation('sumRating')->first();
-
-        return ($relation) ? $relation->aggregate : null;
-    }
-
+    
 }

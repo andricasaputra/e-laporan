@@ -100,29 +100,21 @@
 
                     <div class="col-md-6">
 
-                        @if(count($relations->golongan) > 0)
+                        @if(count($user->golongan) > 0)
 
-                            <select class="form-control" name="golongan">
+                            <select class="form-control" name="golongan_id">
 
-                                @if($relations->golongan->first() !== NULL)
+                                <option value="{{ $user->golongan->first()->id }}" selected>
+                                    {{ $user->golongan->first()->golongan }}
+                                </option>
 
-                                    <option value="{{ $relations->golongan->first()->id }}">
-                                        {{ $relations->golongan->first()->golongan }}
-                                    </option>
-
-                                @else
-
-                                    <option value="" disabled selected>-- Pilih Pangkat/Golongan --</option>
-
-                                @endif
-                                
-                                @foreach($relations->golongan as $g)
+                                @foreach($golongan as $g)
 
                                     <option value="{{$g->id}}">{{$g->pangkat}} - {{$g->golongan}}</option>
 
                                 @endforeach
 
-                                    <option value=""></option>
+                                <option value=""></option>
 
                             </select>
 
@@ -141,27 +133,21 @@
                     <label for="jabatan" class="col-md-4 col-form-label text-md-right">Jabatan</label>
 
                     <div class="col-md-6">
-                        @if(count($relations->jabatan) > 0)
+                        @if(count($user->jabatan) > 0)
 
-                            <select class="form-control" name="jabatan" >
+                            <select class="form-control" name="jabatan_id">
 
-                                @if($relations->jabatan->first() !== NULL)
+                                <option value="{{ $user->jabatan->first()->id }}" selected>
+                                    {{ $user->jabatan->first()->jabatan }}
+                                </option>
 
-                                    <option value="{{ $relations->jabatan->first()->id }}">{{ $relations->jabatan->first()->jabatan }}</option>
-
-                                @else
-
-                                    <option value="" disabled selected>-- Pilih Jabatan --</option>
-
-                                @endif
-                                
-                                @foreach($relations->jabatan as $j)
+                                @foreach($jabatan as $j)
 
                                     <option value="{{$j->id}}">{{$j->jabatan}}</option>
 
                                 @endforeach
 
-                                    <option value=""></option>
+                                <option value=""></option>      
 
                             </select>
 

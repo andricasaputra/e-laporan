@@ -4,6 +4,7 @@ namespace App\Models\Operasional;
 
 use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
+use App\Contracts\ModelOperasionalInterface;
 use App\Http\Controllers\TanggalController as Tanggal;
 
 class ImporKh extends Model implements ModelOperasionalInterface

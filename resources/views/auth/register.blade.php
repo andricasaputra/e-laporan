@@ -81,7 +81,7 @@
                     <div class="col-md-6">
                         @if(count($golongan) > 0)
 
-                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="golongan" required>
+                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="golongan_id" required>
                                 <option value="" disabled selected>-- Pilih Pangkat/Golongan --</option>
                                 @foreach($golongan as $g)
 
@@ -108,7 +108,7 @@
                     <div class="col-md-6">
                         @if(count($jabatan) > 0)
 
-                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="jabatan" required>
+                            <select class="form-control{{ $errors->has('wilker') ? ' is-invalid' : '' }}" name="jabatan_id" required>
                                 <option value="" disabled selected>-- Pilih Jabatan --</option>
                                 @foreach($jabatan as $j)
 
