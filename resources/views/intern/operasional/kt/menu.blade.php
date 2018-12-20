@@ -64,7 +64,7 @@
         <p>Karantina Tumbuhan</p>
       </div>
       <div class="card-footer bg-transparent">
-        <a href="{{ route('show.operasional.kt') }}" class="btn btn-default">Masuk</a>
+        <a href="{{ route('showmenu.data.operasional.kt') }}" class="btn btn-default">Masuk</a>
       </div>
     </div>
   </div>  

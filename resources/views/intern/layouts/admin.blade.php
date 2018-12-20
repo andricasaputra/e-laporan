@@ -53,6 +53,25 @@
         .alert-success:nth-of-type(1), .alert-danger:nth-of-type(1){
             margin-top: 5%;
         }
+
+        #loader {
+          position:   fixed;
+          z-index:    1000;
+          top:        0;
+          left:       0;
+          height:     100%;
+          width:      100%;
+          background: rgba( 255, 255, 255, .8 ) 
+                      url('../../../../images/preloader.gif') 
+                      50% 50% 
+                      no-repeat;
+        }
+
+        div#loader {
+          overflow: hidden;   
+          display: block;
+        }
+
     </style>
   </head>
 
@@ -71,14 +90,19 @@
         @endif
 
         <!-- page content -->
-        <div class="right_col" role="main">
-          <div class="">
+        <div id="page-content" class="right_col" role="main">
+
             <div class="row">
+
               @include('intern.inc.message')
+
               @yield('content')
+
             </div>
-          </div>
+
         </div>
+
+        <div id="loader"></div>
         <!-- /page content -->
 
         <!-- footer content -->
@@ -113,6 +137,22 @@
     <script src="{{asset('intern/build/js/mywebadmin.js')}}"></script>
 
     <script src="{{ asset('js/pusher.min.js') }}"></script>
+
+    <script>
+        $('div#loader').hide();
+
+        $(window).on('load', function(){
+
+            $('div#loader').show();
+
+        });
+
+        setTimeout(function(){
+
+            $('div#loader').fadeOut('fast');
+                
+        }, 2000);
+    </script>
 
     @include('intern.inc.notifications_script')
 

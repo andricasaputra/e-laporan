@@ -5,6 +5,22 @@
 @section('barside.title', 'IKM Sumbawa')
 
 @section('content')
+
+<style>
+
+  div.give-padding{
+    display: none;
+  }
+
+  @media only screen and (max-width: 700px){
+    div.give-padding{
+      display: block;
+      margin-bottom: 10px
+    }
+  }
+  
+</style>
+
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<div class="page-title">
 	  <div class="title_left">
@@ -34,6 +50,20 @@
               
             </div>
 
+        </div>
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+          <div class="form-group pull-right">
+              <a href="{{ route('intern.ikm.statistik.index') }}" class="btn btn-primary">
+                <i class="fa fa-area-chart"></i> Rekapitulasi IKM
+              </a>
+              <div class="give-padding"></div>
+              <a href="{{ route('intern.ikm.home.masscetak', $ikmId) }}" class="btn btn-primary" target="_blank">
+                <i class="fa fa-print"></i> Cetak Rekapitulasi Responden
+              </a>
+          </div>
         </div>
       </div>
 	    <table id="adminHomeIkm" class="table table-striped table-bordered text-center" width="100%">

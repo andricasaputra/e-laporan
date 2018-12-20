@@ -10,6 +10,7 @@ class Question extends Model
     protected $table 	    = 'ikm_question';
     protected $guarded 	    = ['id', 'created_at', 'updated_at'];
     protected $hidden 	    = ['id', 'answer_id', 'created_at', 'updated_at'];
+    protected $with         = ['question_answer'];
 
     public function answer()
     {
@@ -19,5 +20,10 @@ class Question extends Model
     public function question_answer()
     {
     	return $this->belongsToMany(Answer::class, 'ikm_answer_question');
+    }
+
+    public function scopeWithAnswer($query)
+    {
+        return $query->with(['answer' => function($q){ $q->orderBy('nilai', 'asc'); }]);
     }
 }

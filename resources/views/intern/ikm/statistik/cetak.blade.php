@@ -11,75 +11,76 @@
 
 @endif
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Rekapitulasi Indeks Kepuasan Masyarakat</title>
-	<style>
-		body{
-			font-family: Arial, sans-serif;
-		}
 
-		h3{
-			text-align: center;
-			font-weight: normal;
-		}
+<style>
+	body{
+		font-family: Arial, sans-serif;
+	}
 
-		table.head{
-			margin: auto;
-		}
+	h3{
+		text-align: center;
+		font-weight: normal;
+	}
 
-		table.head th, table.head td{
-			border: none;
-			text-align: left;
-			font-size: 11pt;
-		}
+	table.head{
+		margin: auto;
+	}
 
-		table.main{
-			width: 100%;
-			border-collapse: collapse;
-			text-align: center;
-			font-size: 9pt;
-			margin: 3% 0;
-		}
+	table.head th, table.head td{
+		border: none;
+		text-align: left;
+		font-size: 11pt;
+	}
 
-		table.main th, table.main td{
-			border: solid 1px black;
-			padding: 10px 5px;
-		}
+	table.main{
+		width: 100%;
+		border-collapse: collapse;
+		text-align: center;
+		font-size: 9pt;
+		margin: 3% 0;
+	}
 
-		table.main th{
-			background-color: #eee;
-		}
+	table.main th, table.main td{
+		border: solid 1px black;
+		padding: 10px 11px;
+	}
 
-		div.left-ket{
-			width: 50%;
-			float: left;
-			font-size: 8pt
-		}
+	table.main th{
+		background-color: #eee;
+	}
 
-		div.right-ket{
-			width: 50%;
-			float: right;
-			font-size: 8pt;
-		}
+	div.left-ket{
+		width: 50%;
+		position: relative;
+		float: left;
+		font-size: 8pt
+	}
 
-		div.right-ket > table{
-			border: solid 1px #000;
-		}
+	div.right-ket{
+		width: 50%;
+		position: relative;
+		margin-left: 50%;
+		margin-top: -120px;
+		float: right;
+		font-size: 8pt;
+	}
 
-		div.clear{
-			margin-bottom: 3%;
-			clear: both;
-		}
-	</style>
-</head>
+	div.right-ket > table{
+		border: solid 1px #000;
+	}
 
-<body>
+	div.clear{
+		margin-bottom: 3%;
+		clear: both;
+	}
+</style>
+
+
+<page backtop="7mm" backbottom="7mm" backleft="10mm" backright="10mm">
 
 	<h3>{{ strtoupper('Pengolahan Indeks Kepuasan Masyarakat Per Responden dan unsur pelayanannya') }}</h3>
 
-	<table class="head">
+	<table class="head" style="width: 100%">
 		<tr>
 			<td style="width: 200px">Unit Pelayanan</td>
 			<td style="width: 40px">:</td>
@@ -193,7 +194,7 @@
 			<tr>
 				<td>NRR Per Unsur</td>
 				<td>:</td>
-				<td>JUmlah nilai per unsur dibagi jumlah kuisioner terisi</td>
+				<td>JUmlah nilai per unsur dibagi jumlah <br> kuisioner terisi</td>
 			</tr>
 			<tr>
 				<td>NRR tertimbang per unsur</td>
@@ -278,6 +279,5 @@
 		</table>
 	</div>
 
-</body>
 
-</html>
+</page>

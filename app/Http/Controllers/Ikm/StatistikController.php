@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Ikm;
 
-use PDF;
 use App\Http\Controllers\Controller;
 use App\Http\View\Composers\Ikm\StatistikComposer;
 use App\Repositories\Ikm\StatistikRepository as Statistiks;
@@ -32,11 +31,11 @@ class StatistikController extends Controller
 
     public function index(int $id = null)
     {
-    	$this->id = $id ?? $this->repository->default();
+    	  $this->id = $id ?? $this->repository->default();
 
         $this->compose->compose();
 
-    	return view('intern.ikm.statistik.index');
+    	  return view('intern.ikm.statistik.index');
     }
 
     public function api(int $id = null)
@@ -48,16 +47,18 @@ class StatistikController extends Controller
 
     public function apiSource()
     {
-  		return $this->repository->apiSource($this->id);
+  		  return $this->repository->apiSource($this->id);
     }
 
     public function cetakRekap(int $id)
     {
         $datas = $this->repository->cetakRekap($id);
 
-        $pdf = PDF::loadView('intern.ikm.statistik.cetak', compact('datas'));
+        app('PDF')->pdf->setTitle('Rekapitulasi Survey Kepuasan Masyarakat');
 
-        return $pdf->stream('ikm.pdf');
+        app('PDF')->writeHTML(view('intern.ikm.statistik.cetak', compact('datas')));
+
+        return app('PDF')->output('Rekapitulasi Survey Kepuasan Masyarakat.pdf');
     }
 
 }

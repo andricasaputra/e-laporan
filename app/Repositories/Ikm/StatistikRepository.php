@@ -2,12 +2,11 @@
 
 namespace App\Repositories\Ikm;
 
-use DataTables;
-use Barryvdh\DomPDF\PDF;
 use App\Models\Ikm\Result;
 use App\Traits\Repository;
 use App\Models\Ikm\Question;
 use App\Models\MasterPegawai;
+use Spipu\Html2Pdf\Html2Pdf as PDF;
 use App\Contracts\RepositoryInterface;
 
 class StatistikRepository implements RepositoryInterface
@@ -20,7 +19,9 @@ class StatistikRepository implements RepositoryInterface
 
     public function api($id)
     {
-    	return Datatables::of($this->apiSource($id))->addIndexColumn(1)->make(true);
+    	return app('DataTables')::of($this->apiSource($id))
+    			->addIndexColumn(1)
+    			->make(true);
     }
 
     public function apiSource($id)
@@ -112,7 +113,11 @@ class StatistikRepository implements RepositoryInterface
 
     public function default()
     {
-    	$id = Result::with(['ikm' => function ($query) { $query->where('is_open', 1); }])->first();
+    	$id 	= 	Result::with(['ikm' => function ($query) { 
+
+			    		$query->where('is_open', 1); 
+			    		
+			    	}])->first();
 
         if (is_null($id)) return 1;
 
@@ -160,12 +165,13 @@ class StatistikRepository implements RepositoryInterface
     {
     	$datas = [
 
-    		'table_header' => $this->setCetakTableHeader(),
-    		'table_body' => [
+    		'table_header' 	=> $this->setCetakTableHeader(),
 
-    			'nilai' => $this->setCetakTableBody($id),
-    			'nrr' => $this->apiSource($id),
-    			'kepala' => MasterPegawai::whereJabatanId(1)->first()
+    		'table_body' 	=> [
+
+    			'nilai' 	=> $this->setCetakTableBody($id),
+    			'nrr' 		=> $this->apiSource($id),
+    			'kepala' 	=> MasterPegawai::whereJabatanId(1)->first()
     		]
 
     	];

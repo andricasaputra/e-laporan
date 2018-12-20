@@ -66,6 +66,10 @@ $(document).ready(function(){
 
   });
 
+  $('#btnSubmit').hide();
+
+  $("#message").hide();
+
   $('input[type="radio"]').on('change', function(){
 
       $(this).toggleClass('checked');
@@ -82,102 +86,89 @@ $(document).ready(function(){
 
       }
 
-      if ($('input[type="radio"].checked').length >= swiperLength) {
+      if (swiperLength === swiper.activeIndex) {
 
-        if (swiper.activeIndex !== swiperLength) {
+        if ($('input[type="radio"].checked').length < swiper.activeIndex) {
 
-          setTimeout(function () {
+            unComplete();
 
-            swiper.slideTo(swiperLength); 
+        }else{
 
-           }, 1200);          
-
+            complete();
+            
         }
 
-        setTimeout(function () {
+      }else if ($('input[type="radio"].checked').length === swiperLength) {
 
-          $('#message').html(`
-
-            <div class="alert alert-primary"><span style="font-size: 12pt;">Silahkan Tekan Tombol Kirim</span style="font-size: 10pt;"></div>
-
-          `)
-
-         }, 1600);
-
-
-        window.setTimeout(function() {
-          $(".alert").fadeTo(500, 0).slideUp(500, function() {
-              $(this).hide();
-          });
-        }, 4000);
-
-      }
+        complete();
+        
+      }  
 
   });
 
+  function unComplete()
+  {
+    $("#message").fadeIn('slow').css({
 
-  $('#formsubmit').on('submit', function(e){
+        "position" : "absolute",
+        "z-index" : "10",
+        "border-radius" : "50%"
 
-    e.preventDefault();
+      }).html(`
 
-    if ($('input[type="radio"].checked').length >= swiperLength){
-  
-      $.ajax({
+        <div class="alert alert-danger" style="border-radius: 50%"><span style="font-size: 12pt;">Terdapat Pertanyaan Yang Belum Terisi, mohon Periksa kembali Jawaban Anda</span style="font-size: 10pt;"></div>
 
-         url : 'survey',
+    `);
 
-         type :'POST',
+    setTimeout(function () {
 
-         headers: {
+      swiper.slideTo(1); 
 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         },
+     }, 1200); 
 
-         data : new FormData (this),
+  }
 
-         contentType : false,
+  function complete()
+  {
 
-         cache : false,
+    setTimeout(function () {
 
-         processData : false,
+      swiper.slideTo(swiperLength); 
 
-         success : function(response){
+    }, 1200); 
 
-            window.location = response; 
-          
-         } 
 
-      });
+    setTimeout(function() {
 
-    }else{
+      $('#btnSubmit').fadeIn();
 
-      swiper.slideTo(0);  
+    }, 1500);
 
-      /*let blank = $('.swiper-slide').parent().find('.uncheck').length;
+    $("#message").fadeIn('slow').css({
 
-      let nonBlank = $('input[type="radio"].checked').length;*/
+        "position" : "absolute",
+        "z-index" : "10",
+        "border-radius" : "50%"
 
-      /*$('.swiper-slide').length - blank - 1 */
+      }).html(`
 
-      /*if(blank > nonBlank){
-
-          swiper.slideTo($('.swiper-slide').length - blank - 1);
-
-      }else{
-
-          swiper.slideTo($('.swiper-slide').length - blank + nonBlank - 1);
-      }*/ 
-
-      $('#message').empty();
-
-      $('#message').append(`
-
-        <div class='alert alert-danger'><b>Data yang anda isi belum lengkap, mohon periksa kembali pertanyaan yang belum terisi</b></div>
+        <div class="alert alert-primary" style="border-radius: 50%"><span style="font-size: 12pt;">Silahkan Tekan Tombol Kirim</span style="font-size: 10pt;"></div>
 
       `);
-    }
+    
 
-  });
-  
+      window.setTimeout(function() {
+
+        $(".alert").fadeTo(500, 0).slideUp(500, function() {
+
+            $(this).hide();
+
+        });
+
+    }, 4000);
+
+
+  }
+
   
 });/*End ready*/

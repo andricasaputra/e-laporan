@@ -8,6 +8,9 @@ Route::prefix('admin')->group(function () {
 	Route::get('ikm/show/{responden}/{tahun?}', 'HomeController@show')
 	->name('intern.ikm.home.show');
 
+	Route::get('ikm/cetak_multiple/{ikmId}', 'HomeController@cetakMultiple')
+	->name('intern.ikm.home.masscetak');
+
 	Route::get('ikm/statistik/{id?}', 'StatistikController@index')
 	->name('intern.ikm.statistik.index');
 

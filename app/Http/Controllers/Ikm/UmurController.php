@@ -17,7 +17,8 @@ class UmurController extends Controller
     {
         $umur = Model::all();
         
-        return view('intern.ikm.umur.index')->with(compact('umur'));
+        return view('intern.ikm.umur.index')
+                ->with(compact('umur'));
     }
 
     /**
@@ -55,7 +56,8 @@ class UmurController extends Controller
      */
     public function edit(Model $umur)
     {
-        return view('intern.ikm.umur.edit')->with(compact('umur'));
+        return view('intern.ikm.umur.edit')
+                ->with(compact('umur'));
     }
 
     /**

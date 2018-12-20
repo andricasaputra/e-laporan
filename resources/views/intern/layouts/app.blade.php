@@ -45,63 +45,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
 
-    <style type="text/css">
-        .user-pic{
-          display: none;
-        }
-
-        @media only screen and (max-width: 765px){
-          .user-pic{
-            display: block;
-          }
-
-          .logo-e-operasional{
-            width: 80%
-          }
-        }
-
-        .badge-container{
-          position: relative; 
-          float: right; 
-          margin-bottom: -24px; 
-          z-index: 1; 
-          margin-top: 10px
-        }
-
-        .bell-icon-container{
-          position: relative; 
-          font-size: 17pt; 
-          color: #fff; 
-          margin-right: 10px; 
-          margin-top: 20px
-        }
-
-        #main_notifications{
-          height: 800px;
-          overflow-y: scroll;
-        }
-
-        /* width */
-        #main_notifications::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        /* Track */
-        #main_notifications::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-         
-        /* Handle */
-        #main_notifications::-webkit-scrollbar-thumb {
-            background: #999999; 
-            border-radius: 30px
-        }
-
-        /* Handle on hover */
-        #main_notifications::-webkit-scrollbar-thumb:hover {
-            background: #555; 
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/custom-operasional.css') }}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -187,10 +131,16 @@
                       <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ asset('images/users/1.jpg') }}" alt="user" class="rounded-circle" width="31"></a>
                           <div class="dropdown-menu dropdown-menu-right user-dd animated">
-                              <a class="dropdown-item" href="{{ route('welcome') }}"><i class="ti-home m-r-5 m-l-5"></i> Ke Halman Utama</a>
-                              <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
+                              <a class="dropdown-item" href="{{ route('welcome') }}">
+                                <i class="ti-home m-r-5 m-l-5"></i> Ke Halman Utama
+                              </a>
+                              <a class="dropdown-item" href="javascript:void(0)">
+                                <i class="ti-user m-r-5 m-l-5"></i> My Profile
+                              </a>
                               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                  document.getElementById('logout-form').submit();"><i class="fa fa-sign-out-alt m-r-5 m-l-5"></i> Logout</a>
+                                  document.getElementById('logout-form').submit();">
+                                  <i class="fa fa fa-power-off m-r-5 m-l-5"></i> Logout
+                              </a>
                               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                   @csrf
                               </form>
@@ -208,9 +158,12 @@
         <!-- ============================================================== -->
         @if(Auth::check())
 
-          @if(Route::current()->getName() == 'users.index' || Route::current()->getName() == 'register' || Route::current()->getName() == 'users.edit')
+          @if(Route::current()->getName() == 'users.index' || 
+              Route::current()->getName() == 'register' || 
+              Route::current()->getName() == 'users.edit')
 
-            @if(Auth::user()->role->first()->id === 1 || Auth::user()->role->first()->id === 2)
+            @if(Auth::user()->role->first()->id === 1 || 
+                Auth::user()->role->first()->id === 2)
 
               @include('intern.inc.barside_manajemen')
 
@@ -249,13 +202,21 @@
                 <!-- ============================================================== -->
                 <div class="row">
                     <div class="col-12">
+
+                        @include('inc.message')
+
                         @yield('content')
+
                         <br />
+
                         <div class="text-center mt-4">
                           <img src="{{ asset('images/e-operasional_logo.png') }}" class="logo-e-operasional" width="600">
                         </div>
+
                     </div>
                 </div>
+
+                <div class="loader"></div>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -309,6 +270,16 @@
     <script src="{{ asset('js/datatables_operasional.js') }}"></script>
 
     <script src="{{ asset('js/pusher.min.js') }}"></script>
+
+    <script>
+
+      $('.form-loader').submit(function(e){
+
+        $(".container-fluid").addClass("loading");
+        
+      });
+
+    </script>
 
     @include('intern.inc.notifications_script')
 

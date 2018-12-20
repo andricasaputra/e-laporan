@@ -3,14 +3,15 @@
 namespace App\Contracts;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UploadOperasionalRequest as Validation;
 
 interface BaseOperasionalInterface
 {
-	public function sendToData(int $year);
+	public function tableDetailFrekuensiView(Request $request);
 
-	public function sendToUpload();
+	public function uploadPageView();
 
-	public function imports(Request $request);
+	public function imports(Validation $request);
 	
 	public function exports();
 }

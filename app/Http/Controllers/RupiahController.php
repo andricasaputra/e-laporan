@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 class RupiahController extends Controller
 {
-   public static function rp(int $rupiah)
+   public static function rp($rupiah)
    {
    		$rupiah = "Rp " . number_format($rupiah , 2 , "," , "."); 
 

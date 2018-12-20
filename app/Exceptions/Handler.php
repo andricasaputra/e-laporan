@@ -65,7 +65,7 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof ModelNotFoundException) {
 
-            return back()->with('warning', 'Terjadi Kesalahan Laporan Tidak Dapat Ditarik Kembali :(');
+            return back()->with('warning', 'Mohon Maaf Terjadi Kesalahan Pada Server :(');
 
         }
 

@@ -25,6 +25,8 @@ class IsKh
                 return $next($request);
 
             }   
+
+            return back()->with('warning', 'Anda Tidak Mempunyai Hak Akses Ke Halaman Ini!');
                 
         }
 

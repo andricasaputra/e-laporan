@@ -11,6 +11,7 @@ class Jadwal extends Model
 	protected $table        = 'ikm';
     protected $guarded      = ['id', 'created_at', 'updated_at'];
     protected $hidden       = ['id','start_date', 'end_date', 'is_open', 'created_at', 'updated_at'];
+    // protected $with         = ['responden'];
 
     public function result()
     {
@@ -21,5 +22,10 @@ class Jadwal extends Model
     public function responden()
     {   
         return $this->hasMany(Responden::class, 'ikm_id');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_open', 1)->where('is_open', '!=', NULL);
     }
 }

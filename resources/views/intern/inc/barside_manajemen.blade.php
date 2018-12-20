@@ -23,16 +23,12 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Userdd">
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> My Balance</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-arrow-left m-r-5 m-l-5"></i>   
+                                <a class="dropdown-item" href="{{ route('welcome') }}"><i class="fa fa-arrow-left m-r-5 m-l-5"></i>   
                                     Ke Halaman Utama
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout
+                                    document.getElementById('logout-form').submit();"><i class="fa fa-power-off"></i> Logout
                                 </a>
                             </div>
                         </div>

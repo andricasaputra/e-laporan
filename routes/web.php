@@ -8,30 +8,7 @@
 
     Auth::routes();
 
-    Route::middleware('auth')->group(function () {
-
-        Route::get('intern/welcome', WelcomeController::class)->name('welcome');
-
-        Route::namespace('Notifications')->group(function () {
-
-            Route::post('intern/notification/{id?}/{notify_id?}', 'MainNotificationController@readNotifications')
-            ->name('mark.as.read');
-
-            Route::post('intern/mark_as_read_all', 'MainNotificationController@deleteNotifications')
-            ->name('mark.all.as.read');
-
-            Route::get('intern/show_all_notifications', 'MainNotificationController@showAllNotifications')
-            ->name('show.all.notifications');
-            
-            Route::get('intern/mapnotify', 'MainNotificationController@mapNotifications')
-            ->name('map.notifications');
-
-            Route::post('intern/notification_delete', 'MainNotificationController@deleteNotifications')
-            ->name('delete.all.notifications');
-
-        });
-
-    });
+    Route::get('intern/welcome', WelcomeController::class)->middleware('auth')->name('welcome');
 
     /*
     |

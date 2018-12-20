@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title','Operasional - Data Domestik Masuk')	
+@section('title','Operasional - Data Domestik Keluar')
 
 @section('barside')
 
@@ -29,30 +29,30 @@
             <label>Tahun</label>
             <select class="form-control" name="year">
               @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
-              
+
                 @if($i == $tahun)
 
-                  <option value="{{ route('kt.view.page.impor', $i) }}" selected>{{ $i }}</option>
+                  <option value="{{ route('kh.view.page.detail.frekuensi.dokel', $i) }}" selected>{{ $i }}</option>
 
                 @else
 
-                  <option value="{{ route('kt.view.page.impor', $i) }}">{{ $i }}</option>
+                  <option value="{{ route('kh.view.page.detail.frekuensi.dokel', $i) }}">{{ $i }}</option>
 
                 @endif
                 
               @endfor
             </select>
           </div>
-          <button type="submit" class="btn btn-default">Pilih</button>
+          <button type="submit" class="btn btn-primary">Pilih</button>
         </form>
       </div>
       <div class="col-md-10 offset-md-1 card">
           @include('intern.inc.message')
           <div class="card-header">
-            Data Impor Karantina Tumbuhan Tahun {{ $tahun }}
+            Data Domestik Keluar Karantina Hewan Tahun {{ $tahun }}
           </div>
           <div class="card-body">
-             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="imporkt">
+             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="dokelkh">
               <thead>
               	@foreach($titles as $title)
               		<th>{{ ucwords(str_replace('_', ' ', $title)) }}</th>
@@ -70,11 +70,11 @@
 @section('script')
 
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
 
-    	datatablesOperasional($('#imporkt'), '{{ route('api.kt.impor', $tahun) }}', 'kt');
-    	
-    });
+	    datatablesOperasional($('#dokelkh'), '{{ route('api.kh.detail.frekuensi.dokel', $tahun) }}', 'kh');
+
+  	});
   </script>
 
 @endsection

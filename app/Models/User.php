@@ -73,4 +73,22 @@ class User extends Authenticatable
         return $query->where('pegawai_id', $pegawaiId['id']);
     }
 
+    public function scopeUserToNotify($query)
+    {
+        return  $query->with(['role' => function ($query) { 
+
+                    $query->whereIn('role_id', [1, 2, 3]);
+                     
+                }]);
+    }
+
+    public function scopeSendNotify($query, $wilker_id)
+    {
+        return  $query->with(['wilker' => function($query) use ($wilker_id) {
+
+                    $query->where('wilker.id', '!=', $wilker_id);
+
+                }]);
+    }
+
 }

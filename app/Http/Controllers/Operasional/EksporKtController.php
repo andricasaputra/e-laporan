@@ -4,43 +4,36 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Operasional;
 
-use DataTables;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Session;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\EksporKt as Operasional;
+use App\Http\Requests\UploadOperasionalRequest as Request;
 use App\Http\Controllers\Operasional\UploadController as Upload;
 
 ini_set('max_execution_time', '200');
 
 class EksporKtController extends BaseOperasionalController implements BaseOperasionalInterface
 {
-    public function sendToData(int $year = null)
-    {
-        $year   = $year ?? date('Y');
-        
-        $titles = $this->tableTitleKt();
-
-        return view('intern.operasional.kt.data.tables.ekspor')
-                ->with('titles', $titles)
-                ->with('tahun', $year);
-    }
     /**
-     *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
+     * Untuk Halaman Detail Laporan 
      *
-     * @return to View
+     * @param Illuminate\Http\Request $request
+     * @return to view
      */
-    public function sendToUpload()
+    public function tableDetailFrekuensiView(Request $request)
     {
-        $user   = $this->setActiveUser();
+        return view('intern.operasional.kt.data.statistik.detail.frekuensi.ekspor');
+    }
 
-        $wilker = $this->setActiveUserWilker();
-
-        return view('intern.operasional.kt.upload.ekspor')
-                ->with('user', $user)
-                ->with('wilker', $wilker);
+    /**
+     * Untuk Halaman Rekapitulasi Laporan 
+     *
+     * @param Illuminate\Http\Request $request
+     * @return to view
+     */
+    public function rekapitulasiTableDetail(Request $request)
+    {
+        return view('intern.operasional.kt.data.rekapitulasi.ekspor_rekapitulasi');
     }
 
     /**
@@ -50,34 +43,22 @@ class EksporKtController extends BaseOperasionalController implements BaseOperas
      */
     public function imports(Request $request) 
     {
-        $request->validate([
-
-            'wilker_id' => 'required',
-            'filenya' => 'mimes:xls,xlsx'
-
-        ]);
-
         if (! $request->hasFile('filenya')) {
 
-             Session::flash('warning','Harap Pilih File Untuk Diimport Terlebih Dahulu!');
+             session()->flash('warning','Harap Pilih File Untuk Diimport Terlebih Dahulu!');
 
-             return redirect()->back();
+             return back();
         }
-
-        $path = $request->file('filenya')->getRealPath();
 
         $this->setDataProperty($request, new Operasional);
 
         /*Filter Data Sebelum Insert Database*/
-        if ($this->checkingData() === false) return redirect()->back();
+        if ($this->checkingData() === false) return back();
 
         /*Delegate Upload Process to Upload Class*/
-        $upload     = new Upload(new Operasional, $request, $path, 'kt');
+        (new Upload( new Operasional, $request ))->uploadData();
 
-        $process    = $upload->uploadData();
-
-        return redirect()->back();
-
+        return back();
     }
 
     /**
@@ -121,7 +102,7 @@ class EksporKtController extends BaseOperasionalController implements BaseOperas
             });
         })->download('xlsx');
         
-        \Session::flash('success','Data Berhasil Didownload!');
+        session()->flash('success','Data Berhasil Didownload!');
   
     }
 
@@ -129,6 +110,6 @@ class EksporKtController extends BaseOperasionalController implements BaseOperas
     {
         $ekspor = Operasional::whereYear('bulan', $year)->with('wilker')->get();
 
-        return Datatables::of($ekspor)->addIndexColumn()->make(true);
+        return app('DataTables')::of($ekspor)->addIndexColumn()->make(true);
     }
 }

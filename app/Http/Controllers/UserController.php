@@ -9,20 +9,20 @@ use App\Http\Requests\UserForm;
 use App\Models\MasterPegawai as Master;
 use App\Repositories\UserRepository as Users;
 
-/*
-|--------------------------------------------------------------------------
-| Class Info
-|--------------------------------------------------------------------------
-|
-| * Use Repository -> App\UserRepository
-| * Use View Composer -> App\ViewServiceProvider
-| * Use Form Request to handle request -> App\Http\Request\UserForm
-| * Use Class Observer to delegate some Events -> App\Observers\UserObserver
-|
-*/
-
 class UserController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Class Info
+    |--------------------------------------------------------------------------
+    |
+    | * Use Repository -> App\UserRepository
+    | * Use View Composer -> App\ViewServiceProvider
+    | * Use Form Request to handle request -> App\Http\Request\UserForm
+    | * Use Class Observer to delegate some Events -> App\Observers\UserObserver
+    |
+    */
+    
     /**
      * For keep repository instance on the bag
      *

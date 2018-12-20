@@ -17,7 +17,8 @@ class PekerjaanController extends Controller
     {
         $pekerjaan = Model::all();
         
-        return view('intern.ikm.pekerjaan.index')->with('pekerjaan', $pekerjaan);
+        return view('intern.ikm.pekerjaan.index')
+                ->with('pekerjaan', $pekerjaan);
     }
 
     /**
@@ -63,7 +64,8 @@ class PekerjaanController extends Controller
      */
     public function edit(Model $pekerjaan)
     {
-        return view('intern.ikm.pekerjaan.edit')->with('pekerjaan', $pekerjaan);
+        return view('intern.ikm.pekerjaan.edit')
+                ->with('pekerjaan', $pekerjaan);
     }
 
     /**

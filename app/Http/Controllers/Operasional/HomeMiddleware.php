@@ -13,7 +13,7 @@ class HomeMiddleware extends Controller
      * 
      * @return string
      */
-    private static $use_middleware;
+    private static $shouldUseMiddleware;
 
     /**
      * Create a new controller instance.
@@ -22,18 +22,18 @@ class HomeMiddleware extends Controller
      */
     public function __construct()
     {
-        return $this->middleware(self::$use_middleware);
+        return $this->middleware(static::$shouldUseMiddleware);
     }
 
     /**
      *Set What Middleware to use if user authenticated 
-     *and send it to static property $use_middleware
+     *and send it to static property $shouldUseMiddleware
      *
      * @return void 
      */
-    private function useMiddleware($middleware = 'admin')
+    private static function useMiddleware($middleware = 'admin')
     {
-        return self::$use_middleware = $middleware;
+        return static::$shouldUseMiddleware = $middleware;
     }
 
     /**
@@ -55,32 +55,27 @@ class HomeMiddleware extends Controller
 
         if($cek1 === 1 || $cek1 === 2 || $cek1 === 3):
 
-            $this->useMiddleware('admin');
-
-            return redirect('intern/operasional/home/');
+            static::useMiddleware('admin');
 
         elseif($cek1 === 4 && $cek2 == 'kt'):
            
-            $this->useMiddleware('kt');
-
-            return redirect('intern/operasional/home/');
+            static::useMiddleware('kt');
 
         elseif($cek1 === 4 && $cek2 == 'kh'):
 
-            $this->useMiddleware('kh');
-
-            return redirect('intern/operasional/home/');
+            static::useMiddleware('kh');
 
         elseif($cek1 === 4 && $cek2 !== 'kh' && $cek2 !== 'kt'):
 
-            $this->useMiddleware('guest');
-
-            return redirect('intern/operasional/home/');
+            static::useMiddleware('guest');
 
         else:
 
-            return redirect(route('welcome'))->with('warning', 'Maaf anda tidak mempunyai hak akses ke halaman ini');
+            return redirect(route('welcome'))
+                    ->with('warning', 'Maaf anda tidak mempunyai hak akses ke halaman ini');
 
-        endif;   
+        endif; 
+
+        return redirect('intern/operasional/home/');  
     }
 }

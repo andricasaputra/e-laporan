@@ -41,9 +41,15 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapIkmRoutes();
 
-        $this->mapOperasionalRoutes();
+        $this->mapMainOperasionalRoutes();
+
+        $this->mapOperasionalKhRoutes();
+
+        $this->mapOperasionalKtRoutes();
 
         $this->mapAplicationManagementRoutes();
+
+        $this->mapNotificationsRoutes();
 
         //
     }
@@ -63,7 +69,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
 
-    protected function mapOperasionalRoutes()
+    protected function mapMainOperasionalRoutes()
     {
         Route::middleware('web', 'auth')
              ->prefix('intern')
@@ -73,6 +79,25 @@ class RouteServiceProvider extends ServiceProvider
              });
     }
 
+    protected function mapOperasionalKhRoutes()
+    {
+        Route::middleware('web', 'auth')
+             ->prefix('kh')
+             ->namespace($this->namespace . '\Operasional')
+             ->group(function(){
+                Route::prefix('operasional')->group(base_path('routes/operasionalkh.php'));
+             });
+    }
+
+    protected function mapOperasionalKtRoutes()
+    {
+        Route::middleware('web', 'auth')
+             ->prefix('kt')
+             ->namespace($this->namespace . '\Operasional')
+             ->group(function(){
+                Route::prefix('operasional')->group(base_path('routes/operasionalkt.php'));
+             });
+    }
 
     protected function mapIkmRoutes()
     {
@@ -90,6 +115,14 @@ class RouteServiceProvider extends ServiceProvider
              ->prefix('intern')
              ->namespace($this->namespace)
              ->group(base_path('routes/management.php'));
+    }
+
+    protected function mapNotificationsRoutes()
+    {
+        Route::middleware('web', 'auth')
+             ->prefix('intern')
+             ->namespace($this->namespace . '\Notifications')
+             ->group(base_path('routes/notifications.php'));
     }
 
     /**

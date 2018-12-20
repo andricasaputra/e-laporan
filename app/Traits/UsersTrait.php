@@ -9,27 +9,27 @@ use Illuminate\Database\Eloquent\Collection;
 
 trait UsersTrait
 {
-	public function getUserId() : int
+	public function getUserId()
     {
         return Auth::user()->id;
     }
 
-    public function getUserRoleId() : int
+    public function getUserRoleId()
     {
         return Auth::user()->role()->first()->id;
     }
 
-    public function setUserWilkerId(int $wilker_id) : int
+    public function setUserWilkerId(int $wilker_id)
     {
         return $wilker_id;
     }
 
-    public function getUserWilkerName(int $wilker_id) : string
+    public function getUserWilkerName(int $wilker_id)
     {
         return Wilker::find($wilker_id)->nama_wilker;
     }
 
-    public function setUserWilker() : array
+    public function setUserWilker()
     {
         $wilker_user = User::find($this->getUserId())->wilker->all();
 
@@ -60,14 +60,14 @@ trait UsersTrait
         return $user_id;
     }
 
-    public function setActiveUser() : User
+    public function setActiveUser()
     {
         $user = User::whereId($this->getUserId())->first();
 
         return $user;
     }
 
-    public function setActiveUserWilker() : Collection 
+    public function setActiveUserWilker()
     {
         $wilker = $this->getUserRoleId() === 1 || $this->getUserRoleId() === 2
 

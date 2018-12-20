@@ -2,136 +2,159 @@
 
 namespace App\Http\Controllers\Operasional;
 
-use DataTables;
 use App\Models\Wilker;
 use Illuminate\Http\Request;
-use App\Models\Operasional\LogInfo;
-use App\Models\Operasional\DokelKt;
-use App\Models\Operasional\DomasKt;
-use App\Models\Operasional\ImporKt;
-use App\Models\Operasional\EksporKt;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Events\OperasionalRollbackEvent;
+use App\Repositories\Operasional\DataOperasionalKtRepository as Repository;
 
 class HomeKtController extends BaseOperasionalController
 {
+    use DataOperasionalKtTrait;
+
+    /**
+     * Untuk menyimpan instance dari object repository
+     *
+     * @var ObjectRepository
+     */
+    private $ktRepository;
+
+    /**
+     * Untuk menyimpan parameter tahun dari url
+     *
+     * @var int
+     */
+    private $year;
+
+    /**
+     * Untuk menyimpan parameter bulan dari url
+     *
+     * @var int / nullable
+     */
+    private $month = null;
+
+    /**
+     * Untuk menyimpan parameter wilker_id dari url
+     *
+     * @var int / nullable
+     */
+    private $wilker_id = null;
+
+    /**
+     * Untuk menyatukan semua parameter yang dibutuhkan oleh route menjadi 1
+     *
+     * @var array
+     */
+    public $params;
+
+    /**
+     * Untuk set semua property yang dibutuhkan maka perlu constructor
+     *
+     * @param DataOperasionalKtRepository $repository, Request $request
+     * @return void
+     */
+    public function __construct(Repository $repository, Request $request)
+    {
+        $this->ktRepository = $repository;
+
+        $this->year         = $request->route()->parameter('year') ?? date('Y');
+
+        $this->month        = $request->route()->parameter('month');
+
+        $this->wilker_id    = $request->route()->parameter('wilker_id');
+
+        $this->params       = [$this->year, $this->month, $this->wilker_id];
+
+        $this->ktRepository->setDateAndWilker($this->year, $this->month, $this->wilker_id);
+    }
+
+    /**
+     * Untuk set menu di halaman home kt
+     *
+     * @return view -> page show menu (data, upload, download)
+     */
     public function showMenu()
     {
         return view('intern.operasional.kt.menu');
     }
 
+    /**
+     * Untuk set menu di halaman Data Operasional kt
+     *
+     * @return view -> page show menu data operasionla
+     */
+    public function showMenuDataOperasional()
+    {
+        return view('intern.operasional.kt.data.menu');
+    }
+
+    /**
+     * Halaman upload
+     *
+     * @param int $ year nullable
+     * @return view -> page upload (domas, dokel, ekspor, impor)
+     */
     public function homeUpload(int $year = null)
     {
-        $year           = $year ?? date('Y');
-
-        $all_wilker     = $this->setActiveUserWilker();
-
-        $wilker         = Auth::user()->wilker->first();
-
-        return view('intern.operasional.kt.upload.home_upload')->with(compact('all_wilker', 'wilker' ,'year'));
+        return view('intern.operasional.kt.upload.home_upload');
     }
 
-    public function show($year = null)
+    /**
+     * Halaman Utama untuk data - data opersional dari Karantina Hewan
+     *
+     * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
+     */
+    public function homeRekapitulasi()
     {
-        $year = $year ?? date('Y');
-
-        return view('intern.operasional.kt.home')
-        ->with('datas', $this->dataOperasional($year));
+        return view('intern.operasional.kt.data.rekapitulasi.home')
+                ->with('datas', $this->rekapitulasiDataOperasionalKt())
+                ->with('wilkers', Wilker::where('id', '!=', 1)->get());
     }
 
-    public function dataOperasional($year)
+    /**
+     * Halaman Utama untuk data - data opersional dari Karantina Hewan
+     *
+     * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
+     */
+    public function homeStatistik()
     {
-    	$data[$year] = [
-
-    		'tahun' => $year,
-    		'kt' => $this->dataKt($year)
-    		
-    	];
-
-    	return $data[$year];
+        return view('intern.operasional.kt.data.statistik.home')
+                ->with('datas', $this->statistikDataOperasionalKt())
+                ->with('wilkers', Wilker::where('id', '!=', 1)->get());
     }
 
-    public function dataKt($year)
+    /**
+     * Halaman Utama untuk data - data opersional dari Karantina Hewan
+     *
+     * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
+     */
+    public function statistikDetailFrekuensi()
     {
-
-    	$domas_kt 	= DomasKt::where('nomor_dok_pelepasan','!=', NULL)->whereYear('bulan', $year)->count();
-    	$dokel_kt 	= DokelKt::where('nomor_dok_pelepasan','!=', NULL)->whereYear('bulan', $year)->count();
-    	$ekspor_kt 	= EksporKt::where('nomor_dok_pelepasan','!=', NULL)->whereYear('bulan', $year)->count();
-    	$impor_kt 	= ImporKt::where('nomor_dok_pelepasan','!=', NULL)->whereYear('bulan', $year)->count();
-
-    	$datakt = [
-
-    		'Domestik Masuk Karantina Tumbuhan' => [
-    			'frekuensi' => $domas_kt,
-    			'link' => route('kt.view.page.domas', $year)
-    		],
-			'Domestik Keluar Karantina Tumbuhan' => [
-				'frekuensi' => $dokel_kt,
-				'link' => route('kt.view.page.dokel', $year)
-			],
-			'Ekspor Karantina Tumbuhan' => [
-				'frekuensi' => $ekspor_kt,
-				'link' => route('kt.view.page.ekspor', $year)
-			],
-			'Impor Karantina Tumbuhan' => [
-				'frekuensi' => $impor_kt,
-				'link' => route('kt.view.page.impor', $year)
-			]
-    	];
-
-    	return $datakt;
+        return view('intern.operasional.kt.data.statistik.detail.frekuensi.index');
     }
 
+    /**
+     * Untuk API Log Pengiriman Laporan
+     *
+     * @param int $year, $wilker_id 
+     * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
+     */
     public function logApi(int $year, int $wilker)
     {
-        $log = LogInfo::with(['wilker'])->where('wilker_id', $wilker)->whereYear('bulan', $year)
-                ->whereIn('type', ['dokel_kt', 'domas_kt', 'ekspor_kt', 'impor_kt'])
-                ->orderBy('id', 'desc')->get();
-
-        return Datatables::of($log)->addIndexColumn()
-         ->addColumn('action', function ($data) {
-
-            if (empty($data->rolledback_at) || $data->rolledback_at == "") {
-
-                if (\Carbon::now()->subDays(1) > $data->created_at) {
-
-                    $action = 'No action available';
-                    
-                }else{
-
-                    $action = '<a href="#" data-id = "'.$data->id.'" class="btn btn-danger" id="rollbackOperasionalBtn">
-                            <i class="fa fa-repeat fa-fw"></i> Rollback
-                        </a>';
-                }       
-
-            }else{
-
-               $action = 'No action available';
-
-            }
-
-            return $action;
-
-
-        })->make(true);
-
+        return $this->ktRepository->log($year, $wilker);
     }
 
+    /**
+     * Untuk Menghapus data laporan yang terkirim / rollback laporan
+     *
+     * @param request $request
+     * @return void
+     */
     public function destroy(Request $request)
     {
-        $log = LogInfo::find($request->id);
+        $this->ktRepository->rollback($request);
 
-        event(new OperasionalRollbackEvent($log));
-
-        $log->update([
-
-            "status" => 1,
-            "rolledback_at" => \Carbon::now()
-
-        ]);
-
-        return redirect(route('kt.homeupload'))->with('success', 'Laporan Operasional Berhasil Ditarik Kembali');
+        return redirect()->route('kt.homeupload')
+                ->with('success', 'Laporan Operasional Berhasil Ditarik Kembali');
     }
+    
 
 }

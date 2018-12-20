@@ -64,7 +64,7 @@
         <p>Karantina Hewan</p>  
       </div>
       <div class="card-footer bg-transparent">
-        <a href="{{ route('show.operasional.kh') }}" class="btn btn-primary">Masuk</a>
+        <a href="{{ route('showmenu.data.operasional.kh') }}" class="btn btn-primary">Masuk</a>
       </div>
     </div>
   </div>  
@@ -103,5 +103,6 @@
     </div>
   </div> 
 </div>
+
 
 @endsection

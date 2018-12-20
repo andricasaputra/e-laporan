@@ -12,6 +12,8 @@ class DataOperasionalNotificationsController extends MainNotificationController
     {
     	$user = User::find($user_id);
 
-    	return $user->unreadNotifications()->where('type', 'App\Notifications\DataOperasionalUploaded')->get();
+    	return $user->unreadNotifications()
+    				->where('type', 'App\Notifications\DataOperasionalUploaded')
+    				->get();
     }
 }

@@ -4,80 +4,73 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Operasional;
 
-use DataTables;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Session;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\ImporKh as Operasional;
+use App\Http\Requests\UploadOperasionalRequest as Validation;
 use App\Http\Controllers\Operasional\UploadController as Upload;
 
 ini_set('max_execution_time', '200');
 
 class ImporKhController extends BaseOperasionalController implements BaseOperasionalInterface
 {
-    public function sendToData(int $year = null)
-    {
-        $year   = $year ?? date('Y');
-        
-        $titles = $this->tableTitleKh();
-
-        return view('intern.operasional.kh.data.tables.impor')
-                ->with('titles', $titles)
-                ->with('tahun', $year);
-    }
     /**
-     *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
+     * Untuk Halaman Detail Laporan 
      *
-     * @return to View
+     * @param Illuminate\Http\Request $request
+     * @return to view
      */
-    public function sendToUpload()
+    public function tableDetailFrekuensiView(Request $request)
     {
-        $user   = $this->setActiveUser();
+        return view('intern.operasional.kh.data.statistik.detail.frekuensi.impor');
+    }
 
-        $wilker = $this->setActiveUserWilker();
-
-        return view('intern.operasional.kh.upload.impor')
-                ->with('user', $user)
-                ->with('wilker', $wilker);
+    /**
+     * Untuk Halaman Rekapitulasi Laporan 
+     *
+     * @param Illuminate\Http\Request $request
+     * @return to view
+     */
+    public function rekapitulasiTableDetail(Request $request)
+    {
+        return view('intern.operasional.kh.data.rekapitulasi.impor_rekapitulasi');
+    }
+    
+    /**
+     * Untuk Halaman Upload Laporan 
+     *
+     * @return to view
+     */
+    public function uploadPageView()
+    {
+        return view('intern.operasional.kh.upload.impor');
     }
 
     /**
      *Import valid data ke database 
      *
+     * @param App\Http\Requests\UploadOperasionalRequest $request
      * @return void
      */
-    public function imports(Request $request) 
+    public function imports(Validation $request) 
 	{
-        $request->validate([
-
-            'wilker_id' => 'required',
-            'filenya' => 'mimes:xls,xlsx'
-
-        ]);
-
         if (! $request->hasFile('filenya')) {
 
-             Session::flash('warning','Harap Pilih File Untuk Diimport Terlebih Dahulu!');
+             session()->flash('warning','Harap Pilih File Untuk Diimport Terlebih Dahulu!');
 
-             return redirect()->back();
+             return back();
         }
-
-        $path = $request->file('filenya')->getRealPath();
 
         $this->setDataProperty($request, new Operasional);
 
         /*Filter Data Sebelum Insert Database*/
-        if ($this->checkingData() === false) return redirect()->back();
+        if ($this->checkingData() === false) return back();
 
         /*Delegate Upload Process to Upload Class*/
-        $upload     = new Upload(new Operasional, $request, $path, 'kh');
+        (new Upload( new Operasional, $request ))->uploadData();
 
-        $process    = $upload->uploadData();
-
-        return redirect()->back();
-
+        return back();
 	}
 
     /**
@@ -113,7 +106,7 @@ class ImporKhController extends BaseOperasionalController implements BaseOperasi
 
         endif;
 
-        Session::flash('success','Data Berhasil Didownload!');
+        session()->flash('success','Data Berhasil Didownload!');
 
         return Excel::create('Datas', function($excel) use ($Datas) {
             $excel->sheet('Data Details', function($sheet) use ($Datas){
@@ -125,11 +118,17 @@ class ImporKhController extends BaseOperasionalController implements BaseOperasi
   
     }
 
+    /**
+     * API untuk detail tabel 
+     *
+     * @param int $year
+     * @return datatables JSON
+     */
     public function api(int $year)
     {
         $impor = Operasional::whereYear('bulan', $year)->with('wilker')->get();
 
-        return Datatables::of($impor)->addIndexColumn()->make(true);
+        return app('DataTables')::of($impor)->addIndexColumn()->make(true);
     }
 }
 

@@ -4,45 +4,38 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Operasional;
 
-use DataTables;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Session;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\DokelKt as Operasional;
+use App\Http\Requests\UploadOperasionalRequest as Request;
 use App\Http\Controllers\Operasional\UploadController as Upload;
 
 ini_set('max_execution_time', '200');
 
 class DokelKtController extends BaseOperasionalController implements BaseOperasionalInterface
 {
-    public function sendToData(int $year = null)
+    /**
+     * Untuk Halaman Detail Laporan 
+     *
+     * @param Illuminate\Http\Request $request
+     * @return to view
+     */
+    public function tableDetailFrekuensiView(Request $request)
     {
-        $year   = $year ?? date('Y');
-
-        $titles = $this->tableTitleKt();
-
-        return view('intern.operasional.kt.data.tables.dokel')
-                ->with('titles', $titles)
-                ->with('tahun', $year);
+        return view('intern.operasional.kt.data.statistik.detail.frekuensi.dokel');
     }
 
     /**
-     *Ambil Data User Yang Sedang Aktif Dan Kirim ke view 
+     * Untuk Halaman Rekapitulasi Laporan 
      *
-     * @return to View
+     * @param Illuminate\Http\Request $request
+     * @return to view
      */
-    public function sendToUpload()
+    public function rekapitulasiTableDetail(Request $request)
     {
-        $user   = $this->setActiveUser();
-
-        $wilker = $this->setActiveUserWilker();
-
-        return view('intern.operasional.kt.upload.dokel')
-                ->with('user', $user)
-                ->with('wilker', $wilker);
+        return view('intern.operasional.kt.data.rekapitulasi.dokel_rekapitulasi');
     }
+    
 
     /**
      *Import valid data ke database 
@@ -51,34 +44,22 @@ class DokelKtController extends BaseOperasionalController implements BaseOperasi
      */
     public function imports(Request $request)
 	{
-        $request->validate([
-
-            'wilker_id' => 'required',
-            'filenya' => 'mimes:xls,xlsx'
-
-        ]);
-
         if (! $request->hasFile('filenya')) {
 
-             Session::flash('warning','Harap Pilih File Untuk Diimport Terlebih Dahulu!');
+             session()->flash('warning','Harap Pilih File Untuk Diimport Terlebih Dahulu!');
 
-             return redirect()->back();
+             return back();
         }
-
-        $path = $request->file('filenya')->getRealPath();
 
         $this->setDataProperty($request, new Operasional);
 
         /*Filter Data Sebelum Insert Database*/
-        if ($this->checkingData() === false) return redirect()->back();
+        if ($this->checkingData() === false) return back();
 
         /*Delegate Upload Process to Upload Class*/
-        $upload     = new Upload(new Operasional, $request, $path, 'kt');
+        (new Upload( new Operasional, $request ))->uploadData();
 
-        $process    = $upload->uploadData();
-
-        return redirect()->back();
-
+        return back();
 	}
 
     /**
@@ -122,7 +103,7 @@ class DokelKtController extends BaseOperasionalController implements BaseOperasi
             });
         })->download('xlsx');
         
-        Session::flash('success','Data Berhasil Didownload!');
+        session()->flash('success','Data Berhasil Didownload!');
   
     }
 
@@ -130,7 +111,7 @@ class DokelKtController extends BaseOperasionalController implements BaseOperasi
     {
         $dokel = Operasional::whereYear('bulan', $year)->with('wilker')->get();
 
-        return Datatables::of($dokel)->addIndexColumn()->make(true);
+        return app('DataTables')::of($dokel)->addIndexColumn()->make(true);
     }
 }
 

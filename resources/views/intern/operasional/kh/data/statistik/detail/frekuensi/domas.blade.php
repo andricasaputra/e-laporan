@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title','Operasional - Data Domestik Masuk')		
+@section('title','Operasional - Data Domestik Masuk')	
 
 @section('barside')
 
@@ -29,30 +29,30 @@
             <label>Tahun</label>
             <select class="form-control" name="year">
               @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
-              
+
                 @if($i == $tahun)
 
-                  <option value="{{ route('kt.view.page.domas', $i) }}" selected>{{ $i }}</option>
+                  <option value="{{ route('kh.view.page.detail.frekuensi.domas', $i) }}" selected>{{ $i }}</option>
 
                 @else
 
-                  <option value="{{ route('kt.view.page.domas', $i) }}">{{ $i }}</option>
+                  <option value="{{ route('kh.view.page.detail.frekuensi.domas', $i) }}">{{ $i }}</option>
 
                 @endif
                 
               @endfor
             </select>
           </div>
-          <button type="submit" class="btn btn-default">Pilih</button>
+          <button type="submit" class="btn btn-primary">Pilih</button>
         </form>
       </div>
       <div class="col-md-10 offset-md-1 card">
           @include('intern.inc.message')
           <div class="card-header">
-            Data Domestik Masuk Karantina Tumbuhan Tahun {{ $tahun }}
+            Data Domestik Masuk Karantina Hewan Tahun {{ $tahun }}
           </div>
           <div class="card-body">
-             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="domaskt">
+             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="domaskh">
               <thead>
               	@foreach($titles as $title)
               		<th>{{ ucwords(str_replace('_', ' ', $title)) }}</th>
@@ -72,8 +72,8 @@
   <script>
     $(document).ready(function() {
 
-	    datatablesOperasional($('#domaskt'), '{{ route('api.kt.domas', $tahun) }}', 'kt');
-	    
+	    datatablesOperasional($('#domaskh'), '{{ route('api.kh.detail.frekuensi.domas', $tahun) }}', 'kh');
+
   	});
   </script>
 

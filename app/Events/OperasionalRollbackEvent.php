@@ -15,7 +15,7 @@ class OperasionalRollbackEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $data;
+    public $type, $bulan, $wilkerId;
 
     /**
      * Create a new event instance.

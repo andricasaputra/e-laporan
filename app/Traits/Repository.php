@@ -11,13 +11,13 @@ trait Repository
     }
 
     // create a new record in the database
-    public function create(array $data)
+    public function create($data)
     {
         return $this->model->create($data);
     }
 
     // update record in the database
-    public function update(array $data, $id)
+    public function update($data, $id)
     {
         $record = $this->find($id);
         return $record->update($data);

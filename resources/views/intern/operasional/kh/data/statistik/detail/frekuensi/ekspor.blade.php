@@ -32,11 +32,11 @@
 
                 @if($i == $tahun)
 
-                  <option value="{{ route('kh.view.page.ekspor', $i) }}" selected>{{ $i }}</option>
+                  <option value="{{ route('kh.view.page.detail.frekuensi.ekspor', $i) }}" selected>{{ $i }}</option>
 
                 @else
 
-                  <option value="{{ route('kh.view.page.ekspor', $i) }}">{{ $i }}</option>
+                  <option value="{{ route('kh.view.page.detail.frekuensi.ekspor', $i) }}">{{ $i }}</option>
 
                 @endif
                 
@@ -72,7 +72,7 @@
   <script>
     $(document).ready(function() {
 
-	    datatablesOperasional($('#eksporkh'), '{{ route('api.kh.ekspor', $tahun) }}', 'kh');
+	    datatablesOperasional($('#eksporkh'), '{{ route('api.kh.detail.frekuensi.ekspor', $tahun) }}', 'kh');
 
   	});
   </script>

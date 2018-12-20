@@ -16,7 +16,9 @@ class GrafikRepository extends StatistikRepository implements RepositoryInterfac
     {
         $this->id       = $id;
         $this->ikm      = Jadwal::select('id', 'keterangan')->get();
-        $this->ikm_ket  = Jadwal::select('keterangan', 'start_date', 'end_date')->whereId($id)->first();
+        $this->ikm_ket  = Jadwal::select('keterangan', 'start_date', 'end_date')
+                            ->whereId($id)
+                            ->first();
 
         return $this;
     }
@@ -98,8 +100,9 @@ class GrafikRepository extends StatistikRepository implements RepositoryInterfac
     private function getJenisKelamin(int $id, int $jenis_kelamin_id)
     {   
        return Responden::select('jenis_kelamin')
-                    ->where('ikm_id', $id)
-                    ->where('jenis_kelamin', $jenis_kelamin_id)
-                    ->get()->count();     
+                ->where('ikm_id', $id)
+                ->where('jenis_kelamin', $jenis_kelamin_id)
+                ->get()
+                ->count();     
     }
 }

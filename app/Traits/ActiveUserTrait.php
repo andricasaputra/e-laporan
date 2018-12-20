@@ -11,7 +11,8 @@ trait ActiveUserTrait
     {
     	$user = $this->activeUser();
 
-    	return view('intern.welcome')->with('user', $user);
+    	return view('intern.welcome')
+    			->with('user', $user);
     }
 
     public function activeUser()

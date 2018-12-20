@@ -23,7 +23,8 @@ class MainNotificationsEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(NotificationsInterface $classToNotify, NotificationsEventInterface $notifications)
+    public function __construct(NotificationsInterface $classToNotify, 
+                                NotificationsEventInterface $notifications)
     {
         $this->classToNotify = $classToNotify;
         $this->users         = $notifications->users;

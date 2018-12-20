@@ -26,11 +26,12 @@ class GrafikController
 
     public function index(int $id = null)
     {
-    	$this->id = $id ?? $this->repository->default();
+    	$this->id      = $id ?? $this->repository->default();
 
-    	$keterangan = $this->repository->getKeterangan($this->id);
+    	$keterangan    = $this->repository->getKeterangan($this->id);
         
-    	return view('intern.ikm.grafik.index')->with(compact('keterangan'));	           
+    	return view('intern.ikm.grafik.index')
+                ->with(compact('keterangan'));	           
     }
 
     /*create JSON chart data*/

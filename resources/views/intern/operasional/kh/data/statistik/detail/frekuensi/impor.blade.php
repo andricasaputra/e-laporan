@@ -1,13 +1,13 @@
 @extends('intern.layouts.app')
 
-@section('title','Operasional - Data Domestik Masuk')	
+@section('title','Operasional - Data Domestik Masuk')
 
 @section('barside')
 
   @include('intern.inc.barside_operasional')
 
 @endsection
-    
+      
 @section('content')
 
 <style type="text/css">
@@ -29,30 +29,30 @@
             <label>Tahun</label>
             <select class="form-control" name="year">
               @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
-              
+
                 @if($i == $tahun)
 
-                  <option value="{{ route('kt.view.page.ekspor', $i) }}" selected>{{ $i }}</option>
+                  <option value="{{ route('kh.view.page.detail.frekuensi.impor', $i) }}" selected>{{ $i }}</option>
 
                 @else
 
-                  <option value="{{ route('kt.view.page.ekspor', $i) }}">{{ $i }}</option>
+                  <option value="{{ route('kh.view.page.detail.frekuensi.impor', $i) }}">{{ $i }}</option>
 
                 @endif
                 
               @endfor
             </select>
           </div>
-          <button type="submit" class="btn btn-default">Pilih</button>
+          <button type="submit" class="btn btn-primary">Pilih</button>
         </form>
       </div>
       <div class="col-md-10 offset-md-1 card">
           @include('intern.inc.message')
           <div class="card-header">
-            Data Ekspor Karantina Tumbuhan Tahun {{ $tahun }}
+            Data Impor Karantina Hewan Tahun {{ $tahun }}
           </div>
           <div class="card-body">
-             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="eksporkt">
+             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="imporkh">
               <thead>
               	@foreach($titles as $title)
               		<th>{{ ucwords(str_replace('_', ' ', $title)) }}</th>
@@ -70,11 +70,11 @@
 @section('script')
 
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
 
-    	datatablesOperasional($('#eksporkt'), '{{ route('api.kt.ekspor', $tahun) }}', 'kt');
-    	
-    });
+	    datatablesOperasional($('#imporkh'), '{{ route('api.kh.detail.frekuensi.impor', $tahun) }}', 'kh');
+
+  	});
   </script>
 
 @endsection

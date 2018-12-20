@@ -3,7 +3,7 @@
 
 		$("#main_notifications").html(`
 		  <div class="text-center">
-		    <img src="{{ asset('images/ajax-loader.gif') }}">
+		    <img src="{{ asset('images/loader.gif') }}">
 		    <br>
 		    sedang memuat pemberitahuan...
 		  </div>
@@ -31,10 +31,8 @@
 		    encrypted: true
 		  });
 
-		  // Subscribe to the channel we specified in our Laravel Event
 		  let channel = pusher.subscribe('all-notifiactions');
 
-		  // Bind a function to a Event (the full Laravel class)
 		  channel.bind('all-notifications-report', function(data) {
 
 		    $('.dropdown-count').html(response.length + 1);

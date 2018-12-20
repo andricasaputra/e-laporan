@@ -25,13 +25,16 @@ class UserRepository implements RepositoryInterface
 
         return Datatables::of($users)->addIndexColumn()
                 ->addColumn('action', function($users){
-
-                return '
-                    <a href="'. route('users.edit', $users->pegawai->id) .'" class="btn btn-primary"><i class="fa fa-edit"></i> Edit
-                    </a> 
-                    <a href="#" data-id = "'.$users->pegawai->id.'"  class="btn btn-danger" id="deleteUser"><i class="fa fa-trash"></i> Delete</a>';
-
-                })->rawColumns(['action'])->make(true);
+                    return '
+                        <a href="'. route('users.edit', $users->pegawai->id) .'" class="btn btn-primary">
+                            <i class="fa fa-edit"></i> Edit
+                        </a> 
+                        <a href="#" data-id = "'.$users->pegawai->id.'"  class="btn btn-danger" id="deleteUser">
+                            <i class="fa fa-trash"></i> Delete
+                        </a>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
     }
 
 }

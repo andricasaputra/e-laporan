@@ -18,7 +18,8 @@ class JadwalController extends Controller
     {
         $settingikm = Model::all();
         
-        return view('intern.ikm.settingikm.index')->with('settingikm', $settingikm);
+        return view('intern.ikm.settingikm.index')
+                ->with('settingikm', $settingikm);
     }
 
     /**
@@ -46,8 +47,6 @@ class JadwalController extends Controller
             'keterangan' => 'required|min:8'
 
         ]);
-
-
 
         $is_open = $this->IsOpen($request->start_date, $request->end_date);
 
@@ -106,7 +105,8 @@ class JadwalController extends Controller
      */
     public function edit(Model $jadwal)
     {
-        return view('intern.ikm.settingikm.edit')->with('settingikm', $jadwal);
+        return view('intern.ikm.settingikm.edit')
+                ->with('settingikm', $jadwal);
     }
 
     /**
@@ -126,8 +126,9 @@ class JadwalController extends Controller
         ]);
 
         $cek = Model::where('start_date', $request->start_date)
-                ->where('end_date', $request->end_date)
-                ->where('keterangan', $request->keterangan)->first();
+                    ->where('end_date', $request->end_date)
+                    ->where('keterangan', $request->keterangan)
+                    ->first();
 
 
         if (! is_null($cek)) {
@@ -182,11 +183,11 @@ class JadwalController extends Controller
 
     private function IsOpen($start_date, $end_date)
     {
-    	$now = Carbon::now();
+    	$now          = Carbon::now();
 
-		$start_date = Carbon::parse($start_date);
+		$start_date   = Carbon::parse($start_date);
 
-		$end_date = Carbon::parse($end_date);
+		$end_date     = Carbon::parse($end_date);
 
 		return $now->between($start_date, $end_date) ? 1 : NULL;
     }

@@ -32,7 +32,7 @@
     <div class="card text-center">
       <div class="card-body">
         <h4>Upload Impor Karantina Hewan</h4>
-        <form action="{{ route('kh.upload.proses.impor') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('kh.upload.proses.impor') }}" method="post" enctype="multipart/form-data" class="form-loader">
             @csrf
 
             <input type="hidden" name="user_id" value="{{ $user->id }}">

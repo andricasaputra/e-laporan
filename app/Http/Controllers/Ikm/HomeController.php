@@ -4,39 +4,27 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Ikm;
 
-use DataTables;
-use App\Models\Ikm\Jadwal;
 use App\Models\Ikm\Answer;
+use App\Models\Ikm\Jadwal;
 use App\Models\Ikm\Result;
 use App\Models\Ikm\Question;
 use Illuminate\Http\Request;
 use App\Models\Ikm\Responden;
 use App\Http\Controllers\Controller;
+use App\Repositories\Ikm\HomeRepository;
 
 class HomeController extends Controller
 {
+    private $repository;
+
+    public function __construct(HomeRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function api(int $ikmId = null)
     {
-        $ikmId = $ikmId ?? 1;
-
-        $responden  =   Responden::with([
-                            'layanan', 'umur', 'pekerjaan', 'pendidikan', 'ikm','answer'
-                        ])->where('ikm_id', $ikmId)->orderBy('created_at', 'desc')->get();
-
-        return  Datatables::of($responden)->addIndexColumn()
-                ->addColumn('action', function ($responden) use ($ikmId) {
-
-                    return '<a href="'.route('intern.ikm.home.edit', $responden->id).'" class="btn btn-xs btn-primary">
-                                <i class="glyphicon glyphicon-edit"></i> Edit
-                            </a>
-                            <a href="'.route('intern.ikm.home.show', [$responden->id, $ikmId]).'" class="btn btn-xs btn-success">
-                                <i class="glyphicon glyphicon-eye-open"></i> Detail
-                            </a>
-                            <a href="#" data-id = "'.$responden->id.'"  class="btn btn-danger btn-xs" id="deleteIkm">
-                                <i class="glyphicon glyphicon-trash"></i> Delete
-                            </a>';
-
-                })->make(true);
+        return $this->repository->api($ikmId);
     }
 
     /**
@@ -47,11 +35,7 @@ class HomeController extends Controller
      */
     public function detailApi(int $id, int $ikmId)
     {
-        $result =   Result::with([
-                        'responden', 'question', 'answer', 'ikm'
-                    ])->whereIn('responden_id', [$id])->where('ikm_id', $ikmId)->get();
-
-        return Datatables::of($result)->addIndexColumn()->make(true);
+        return $this->repository->detailApi($id, $ikmId);
     }
 
     /**
@@ -65,7 +49,8 @@ class HomeController extends Controller
 
         $ikm    = Jadwal::select('id', 'keterangan')->get();
 
-        return view('intern.ikm.home.index')->with(compact(['ikmId', 'ikm']));
+        return view('intern.ikm.home.index')
+                ->with(compact('ikmId', 'ikm'));
     }
 
     /**
@@ -76,8 +61,8 @@ class HomeController extends Controller
      */
     public function show(Responden $responden, int $year)
     {
-        return view('intern.ikm.home.show')->with(compact('responden'))
-                ->with(compact('year'));
+        return view('intern.ikm.home.show')
+                ->with(compact('responden', 'year'));
     }
 
     /**
@@ -89,12 +74,10 @@ class HomeController extends Controller
     public function edit(Responden $responden)
     {
         $answers            = $responden->answer;
-        $question_answer    = Question::with('question_answer')->get();
+        $question_answer    = Question::all();
 
         return view('intern.ikm.home.edit')
-                ->with('responden', $responden)
-                ->with('answers', $answers)
-                ->with('question_answer', $question_answer);
+                ->with(compact('responden', 'answers', 'question_answer'));
     }
 
     /**
@@ -106,22 +89,7 @@ class HomeController extends Controller
      */
     public function update(Request $request, Responden $responden)
     {
-        $answer =   $request->except([
-                        'responden_id','submit','_method','_token',
-                    ]);
-
-        $no = 0;
-
-        for ($i = 0; $i < count($answer[$responden->id]); $i++) { 
-
-            $result = Result::where('responden_id', $responden->id)
-                        ->where('answer_id', $responden->result[$i]->answer_id)->first();
-
-            $result->answer_id = $answer[$responden->id][$i];
-
-            $result->save();
-
-        }
+        $this->repository->update($request, $responden);
 
         return redirect(route('intern.ikm.home.index'))
                 ->with('success', 'Data Berhasil Diubah');
@@ -137,11 +105,27 @@ class HomeController extends Controller
     {
         Responden::find($request->id)->delete();
 
-        return redirect(route('intern.ikm.home.index'))->with('success', 'Data Berhasil Dihapus');
+        return redirect(route('intern.ikm.home.index'))
+                ->with('success', 'Data Berhasil Dihapus');
+    }
+
+    public function cetakMultiple(Jadwal $ikmId)
+    {
+        $datas              = $ikmId;
+
+        $question_answer    = Question::with('question_answer')->get();
+
+        app('PDF')->pdf->setTitle('Rekapitulasi Responden Survey Kepuasan Masyarakat');
+
+        app('PDF')->writeHTML(
+            view('intern.ikm.home.cetak_multiple', compact('datas', 'question_answer'))
+        );
+
+        return app('PDF')->output('Rekapitulasi Responden Survey Kepuasan Masyarakat.pdf');
     }
 
     private function setIkmId()
     {
-        return Jadwal::select('id')->where('is_open', 1)->first() ?? 1 ;
+        return Jadwal::active()->first() ?? 1;
     }
 }

@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class IkmNotificationsController extends MainNotificationController
 {
-    public function ikmApi($user_id)
+    public function ikmApi(User $user)
     {
-    	$user = User::find($user_id);
-
-    	return $user->unreadNotifications()->where('type', 'App\Notifications\NewSurveyIkm')->get();
+    	return $user->unreadNotifications()
+    				->where('type', 'App\Notifications\NewSurveyIkm')
+    				->get();
     }
 }

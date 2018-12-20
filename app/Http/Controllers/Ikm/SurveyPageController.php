@@ -5,20 +5,21 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Ikm;
 
 use App\Models\User;
-use App\Models\Ikm\Umur;
-use App\Models\Ikm\Jadwal;
-use App\Models\Ikm\Layanan;
-use Illuminate\Http\Request;
-use App\Models\Ikm\Question;
-use App\Models\Ikm\Pekerjaan;
 use App\Models\Ikm\Responden;
-use App\Models\Ikm\Pendidikan;
 use App\Events\NewIkmSurveyEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SurveyIkmForm;
+use App\Http\View\Composers\Ikm\SurveyPageComposer;
 
 class SurveyPageController extends Controller
 {
     private $request;
+    private $compose;
+
+    public function __construct()
+    {
+        $this->compose = SurveyPageComposer::construct($this);
+    }
     
     /**
      * Display a listing of the resource.
@@ -26,18 +27,10 @@ class SurveyPageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $is_open    = Jadwal::where('is_open', 1)->where('is_open', '!=', NULL)->first();
-        $questions  = Question::with(['answer' => function($query){
-                        $query->orderBy('nilai', 'asc');
-                      }])->get();
-        $layanan    = Layanan::all();
-        $umur       = Umur::all();
-        $pendidikan = Pendidikan::all();
-        $pekerjaan  = Pekerjaan::all();
+    { 
+        $this->compose->compose();
 
-        return view('ikm.survey')
-                ->with(compact('is_open', 'questions', 'layanan', 'umur', 'pendidikan', 'pekerjaan'));  
+        return view('ikm.survey');  
     }
 
     public function home()
@@ -55,92 +48,49 @@ class SurveyPageController extends Controller
         return view('ikm.closed');
     }
 
-    public function store(Request $request)
+    public function store(SurveyIkmForm $request)
     {
-        $request->validate([
+        $this->request = $request->all();
 
-            'jenis_layanan' => 'required',
-            'jenis_kelamin' => 'required',
-            'umur' => 'required',
-            'pendidikan' => 'required',
-            'pekerjaan' => 'required',
-            'jenis_layanan' => 'required',
-
-        ]);
-
-        $this->request = $request;
-
-        $responden = Responden::create([
-
-            'ikm_id' => $request->ikm_id,
-            'layanan_id' => $request->jenis_layanan,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'umur_id' => $request->umur,
-            'pendidikan_id' => $request->pendidikan,
-            'pekerjaan_id' => $request->pekerjaan,
-
-        ]);
-
-        $answer = $request->except([
-            'ikm_id',
-            'jenis_layanan',
-            'jenis_kelamin',
-            'umur',
-            'pendidikan',
-            'pekerjaan',
-            '_token'
-        ]);
-
-        foreach ($answer as $key => $value) {
-
-            $responden->result()->create([
-
-                'ikm_id' => $request->ikm_id,
-                'responden_id' => $responden->id,
-                'question_id' => $key,
-                'answer_id' => $value[0]
-
-            ]);
-            
-        }
-
+        $responden = $request->persistCreate();
+        
         $this->setNotification();
 
-        return route('ikm.success', $responden->id);
+        return redirect()->route('ikm.success', $responden);
     }
 
     public function success(Responden $responden)
     {
         if ($responden === null) return abort(404);
 
-        return view('ikm.success')
-                ->with('responden', $responden);
+        $this->compose->composeSuccess($responden);
+
+        return view('ikm.success');
     }
 
     public function cetak(Responden $responden)
     {
         if ($responden === null) return abort(404);
 
-        $answers            = $responden->answer;
-        $question_answer    = Question::with('question_answer')->get();
+        $this->compose->composeCetak($responden);
 
-        return view('ikm.cetak')
-                ->with('responden', $responden)
-                ->with('answers', $answers)
-                ->with('question_answer', $question_answer);
+        return view('ikm.cetak');             
+    }
+
+    public function userToNotify()
+    {
+        return User::userToNotify()->get();
     }
 
     public function setNotification()
     {
-        $users_to_notify    = User::with(['role' => function($query){
+        new NewIkmSurveyEvent( 
 
-                                $query->whereIn('role_id', [1,2,3]);
+            $this->userToNotify(), 
+            $this->request['ikm_id'], 
+            $this->request['layanan_id'], 
+            route('intern.ikm.home.index') 
 
-                            }])->get();
-
-        $link               = route('intern.ikm.home.index');
-
-        new NewIkmSurveyEvent( $users_to_notify, $this->request->ikm_id, $this->request->jenis_layanan, $link );
-        
+        );
     }
 }

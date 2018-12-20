@@ -1,13 +1,13 @@
 @extends('intern.layouts.app')
 
-@section('title','Operasional - Data Domestik Masuk')
+@section('title','Operasional - Data Domestik Keluar')
 
 @section('barside')
 
   @include('intern.inc.barside_operasional')
 
 @endsection
-      
+
 @section('content')
 
 <style type="text/css">
@@ -32,11 +32,11 @@
 
                 @if($i == $tahun)
 
-                  <option value="{{ route('kh.view.page.impor', $i) }}" selected>{{ $i }}</option>
+                  <option value="{{ route('kt.view.page.detail.frekuensi.dokel', $i) }}" selected>{{ $i }}</option>
 
                 @else
 
-                  <option value="{{ route('kh.view.page.impor', $i) }}">{{ $i }}</option>
+                  <option value="{{ route('kt.view.page.detail.frekuensi.dokel', $i) }}">{{ $i }}</option>
 
                 @endif
                 
@@ -49,10 +49,10 @@
       <div class="col-md-10 offset-md-1 card">
           @include('intern.inc.message')
           <div class="card-header">
-            Data Impor Karantina Hewan Tahun {{ $tahun }}
+            Data Domestik Keluar Karantina Hewan Tahun {{ $tahun }}
           </div>
           <div class="card-body">
-             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="imporkh">
+             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="dokelkt">
               <thead>
               	@foreach($titles as $title)
               		<th>{{ ucwords(str_replace('_', ' ', $title)) }}</th>
@@ -72,7 +72,7 @@
   <script>
     $(document).ready(function() {
 
-	    datatablesOperasional($('#imporkh'), '{{ route('api.kh.impor', $tahun) }}', 'kh');
+	    datatablesOperasional($('#dokelkt'), '{{ route('api.kt.detail.frekuensi.dokel', $tahun) }}', 'kt');
 
   	});
   </script>

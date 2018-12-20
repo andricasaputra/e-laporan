@@ -10,7 +10,7 @@ class Responden extends Model
     protected $table        = 'ikm_responden';
     protected $guarded      = ['id', 'created_at', 'updated_at'];
     protected $hidden       = ['layanan_id', 'pendidikan_id', 'umur_id', 'pekerjaan_id', 'updated_at'];
-    protected $with         = ['pendidikan', 'layanan', 'umur', 'pekerjaan'];
+    protected $with         = ['pendidikan', 'layanan', 'umur', 'pekerjaan', 'ikm', 'answer'];
 
     public function getJenisKelaminAttribute($value)
     {

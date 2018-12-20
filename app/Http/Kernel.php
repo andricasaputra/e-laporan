@@ -63,6 +63,5 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\IsAdmin::class,
         'kt' => \App\Http\Middleware\IsKt::class,
         'kh' => \App\Http\Middleware\IsKh::class,
-        'wilker' => \App\Http\Middleware\IsUserOnRightWilker::class,
     ];
 }

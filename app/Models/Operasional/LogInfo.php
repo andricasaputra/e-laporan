@@ -10,6 +10,7 @@ class LogInfo extends Model
 {
     protected $table 	= 'log_operasional';
     protected $guarded 	= ['id', 'created_at', 'updated_at'];
+    protected $with     = ['wilker'];
 
     public function wilker()
     {
@@ -80,11 +81,32 @@ class LogInfo extends Model
         		break;
         	
         	default:
-        		$value = $value;
+        		$value = "(". \Carbon::parse($value)->format('d-m-Y') .")";
         		break;
         }
 
         return $value;
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+       return \Carbon::parse($value)->format('d-m-Y');
+    }
+
+    public function scopeKarantinaTumbuhanType($query, $year, $wilker)
+    {
+        return $query->where('wilker_id', $wilker)
+                     ->whereYear('bulan', $year)
+                     ->whereIn('type', ['dokel_kt', 'domas_kt', 'ekspor_kt', 'impor_kt'])
+                     ->orderBy('bulan', 'desc');
+    }
+
+    public function scopeKarantinaHewanType($query, $year, $wilker)
+    {
+        return $query->where('wilker_id', $wilker)
+                     ->whereYear('bulan', $year)
+                     ->whereIn('type', ['dokel_kh', 'domas_kh', 'ekspor_kh', 'impor_kh'])
+                     ->orderBy('bulan', 'desc');
     }
 
 }

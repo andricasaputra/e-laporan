@@ -17,7 +17,8 @@ class PendidikanController extends Controller
     {
         $pendidikan = Model::all();
         
-        return view('intern.ikm.pendidikan.index')->with('pendidikan', $pendidikan);
+        return view('intern.ikm.pendidikan.index')
+                ->with('pendidikan', $pendidikan);
     }
 
     /**
@@ -63,7 +64,8 @@ class PendidikanController extends Controller
      */
     public function edit(Model $pendidikan)
     {
-        return view('intern.ikm.pendidikan.edit')->with('pendidikan', $pendidikan);
+        return view('intern.ikm.pendidikan.edit')
+                ->with('pendidikan', $pendidikan);
     }
 
     /**

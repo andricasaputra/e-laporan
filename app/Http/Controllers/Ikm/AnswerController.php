@@ -17,7 +17,8 @@ class AnswerController extends Controller
     {  
         $answers = Jawaban::all();
 
-        return view('intern.ikm.answer.index')->with(compact('answers'));
+        return view('intern.ikm.answer.index')
+                ->with(compact('answers'));
     }
 
     /**
@@ -63,7 +64,8 @@ class AnswerController extends Controller
      */
     public function edit(Jawaban $answer)
     {
-        return view('intern.ikm.answer.edit')->with('answer', $answer);
+        return view('intern.ikm.answer.edit')
+                ->with('answer', $answer);
     }
 
     /**

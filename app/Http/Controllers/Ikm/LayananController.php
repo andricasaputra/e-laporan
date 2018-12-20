@@ -17,7 +17,8 @@ class LayananController extends Controller
     {
         $layanan = Model::all();
         
-        return view('intern.ikm.layanan.index')->with('layanan', $layanan);
+        return view('intern.ikm.layanan.index')
+                ->with('layanan', $layanan);
     }
 
     /**
@@ -63,7 +64,8 @@ class LayananController extends Controller
      */
     public function edit(Model $layanan)
     {
-        return view('intern.ikm.layanan.edit')->with('layanan', $layanan);
+        return view('intern.ikm.layanan.edit')
+                ->with('layanan', $layanan);
     }
 
     /**

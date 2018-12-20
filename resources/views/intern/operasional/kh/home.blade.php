@@ -30,76 +30,233 @@
     width: 100%;
     margin-bottom: 5%;
   }
+
+  table tr th, table tr td:not(:nth-child(1)) {
+    text-align: center;
+  }
 </style>
 
-<main class="content-wrapper">
-    <div class="mdc-layout-grid">
-      <div class="mdc-layout-grid__inner">
-        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-          <div class="mdc-card">
-            <div class="mdc-layout-grid__inner">
-              <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-7">
-                <section class="purchase__card_section">
-                    Data Operasional Tahun {{ $datas['tahun'] }}
-                </section>
+@php use App\Http\Controllers\TanggalController as Tanggal; @endphp
+
+<div class="container-fluid">
+
+  <div class="col">
+    
+    @if($datas['bulan'] !== null)
+      <h3>
+        Data Operasional Karantina Hewan Bulan 
+        {{ Tanggal::bulan($datas['bulan']) }} Tahun {{ $datas['tahun'] }}
+        {{ $datas['wilker'] }}
+      </h3>
+    @else
+      <h3>Data Operasional Karantina Hewan Tahun {{ $datas['tahun'] }}</h3>
+    @endif
+
+    <form id="change_data">
+      <div class="row mb-3">
+        <div class="col-4">
+          <label for="year">Pilih Tahun</label>
+          <select class="form-control" name="year" id="year">
+            @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
+        
+              @if($i == $datas['tahun'])
+
+                <option value="{{ $i }}" selected>{{ $i }}</option>
+
+              @else
+
+                <option value="{{ $i }}">{{ $i }}</option>
+
+              @endif
+
+            @endfor
+          </select>
+        </div>
+
+        <div class="col-4">
+          <label for="month">Pilih Bulan</label>
+          <select class="form-control" name="month" id="month">
+            <option value="">Semua</option>
+            @for($i = 1; $i < 13 ; $i++)
+        
+              @if($i == $datas['bulan'])
+
+                <option value="{{ $i }}" selected>{{ Tanggal::bulan($i) }}</option>
+
+              @else
+
+                <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+
+              @endif
+
+            @endfor
+            
+          </select>
+        </div>
+
+        <div class="col-4">
+          <label for="wilker">Pilih Wilker</label>
+          <select class="form-control" name="wilker" id="wilker">
+
+            <option value="">Semua</option>
+
+            @foreach($wilkers as $wilker)
+
+              @if(isset($datas['wilker']) && $datas['wilker'] == $wilker->nama_wilker)
+
+              <option value="{{ $wilker->id }}" selected>{{ $wilker->nama_wilker }}</option>
+
+              @else
+
+              <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
+
+              @endif
+              
+            @endforeach
+
+          </select>
+        </div>
+
+        <div class="col-4 mt-3">
+         <button type="submit" class="btn btn-danger">Pilih</button>
+        </div>
+
+      </div>
+    </form>
+
+    <h3>Frekuensi <i class="fa fa-bar-chart" aria-hidden="true"></i></h3>
+
+    <hr>
+
+    <div class="row">
+      @foreach($datas['dataKh']['frekuensiPerKegiatan'] as $key => $data)
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <div class="row">
+                <div class="col-sm-12 card_body_welcome" style="min-height: 150px">
+                    <h4 class="card-title">{{ $key }}</h4>
+                    <hr>
+                    <small><i>Berdasarkan Sertifikasi</i></small>
+                    <h5 class="card-text mt-2"><i>Frekuensi : {{ $data['frekuensi'] }}</i></h5>
+                </div>
               </div>
+              <a href="{{ $data['link'] }}" class="btn btn-primary"><i class="fa fa-info-circle" aria-hidden="true"></i>  Detail</a>
             </div>
           </div>
+        </div>
+      @endforeach
+    </div>
+
+    <h3>Volume <i class="fa fa-area-chart" aria-hidden="true"></i></h3>
+
+    <hr>
+
+    <div class="row">
+      @foreach($datas['dataKh']['totalVolumeBySatuan'] as $key => $data)
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <div class="row">
+                <div class="col-sm-12 card_body_welcome" style="min-height: 150px">
+                    <h4 class="card-title">{{ $key }}</h4>
+                    <hr>
+                    <small><i>Berdasarkan Satuan</i></small>
+                    @if(count($data['volume']) > 0)
+                      @foreach($data['volume'] as $k => $volume)
+                      <h5 class="card-text mt-2">
+                        <i> Volume :  {{ $volume->sum('volume') }} {{ $k }}</i>
+                      </h5>
+                      @endforeach
+                    @else
+                      <h5 class="card-text mt-2">
+                        <i> Volume :  0</i>
+                      </h5>
+                    @endif
+                </div>
+              </div>
+              <a href="{{ $data['link'] }}" class="btn btn-default"><i class="fa fa-info-circle" aria-hidden="true"></i>  Detail</a>
+            </div>
+          </div>
+        </div>
+      @endforeach
+    </div>
+
+    <h3>PNBP <i class="fa fa-money" aria-hidden="true"></i></h3>
+
+    <hr>
+
+    <div class="row">
+      @foreach($datas['dataKh']['totalVolumeBySatuan'] as $key => $data)
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <div class="row">
+                <div class="col-sm-12 card_body_welcome" style="min-height: 150px">
+                    <h4 class="card-title">{{ $key }}</h4>
+                    <hr>
+                    <small><i>Berdasarkan Satuan</i></small>
+                    @if(count($data['volume']) > 0)
+                      @foreach($data['volume'] as $k => $volume)
+                      <h5 class="card-text mt-2">
+                        <i> Volume :  {{ $volume->sum('volume') }} {{ $k }}</i>
+                      </h5>
+                      @endforeach
+                    @else
+                      <h5 class="card-text mt-2">
+                        <i> Volume :  0</i>
+                      </h5>
+                    @endif
+                </div>
+              </div>
+              <a href="{{ $data['link'] }}" class="btn btn-warning" style="color: #000"><i class="fa fa-info-circle" aria-hidden="true"></i>  Detail</a>
+            </div>
+          </div>
+        </div>
+      @endforeach
+    </div>
+
+    <h3>Pemakaian Dokumen <i class="fa fa-book" aria-hidden="true"></i></h3>
+
+    <hr>
+
+    <div class="row">
+      @foreach($datas['dataKh']['totalVolumeBySatuan'] as $key => $data)
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <div class="row">
+                <div class="col-sm-12 card_body_welcome" style="min-height: 150px">
+                    <h4 class="card-title">{{ $key }}</h4>
+                    <hr>
+                    <small><i>Berdasarkan Satuan</i></small>
+                    @if(count($data['volume']) > 0)
+                      @foreach($data['volume'] as $k => $volume)
+                      <h5 class="card-text mt-2">
+                        <i> Volume :  {{ $volume->sum('volume') }} {{ $k }}</i>
+                      </h5>
+                      @endforeach
+                    @else
+                      <h5 class="card-text mt-2">
+                        <i> Volume :  0</i>
+                      </h5>
+                    @endif
+                </div>
+              </div>
+              <a href="{{ $data['link'] }}" class="btn btn-success"><i class="fa fa-info-circle" aria-hidden="true"></i>  Detail</a>
+            </div>
+          </div>
+        </div>
+      @endforeach
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="text-center">
+          <a href="{{ route('showmenu.operasional.kh') }}" class="btn btn-danger"><i class="fa fa-angle-double-left"></i> Kembali</a>
         </div>
       </div>
     </div>
-
-    <div class="container-fluid">
-
-      <div class="col">
-        
-        <div class="row mb-3">
-          <div class="col-md-2 col-sm-12">
-            <div class="form-group">
-              <label>Tahun</label>
-              <select class="form-control" name="year" id="year">
-                @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
-            
-                  @if($i == $datas['tahun'])
-
-                    <option value="{{ $i }}" selected>{{ $i }}</option>
-
-                  @else
-
-                    <option value="{{ $i }}">{{ $i }}</option>
-
-                  @endif
-
-                @endfor
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          @foreach($datas['kh'] as $key => $data)
-            <div class="col-sm-3">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-sm-12 card_body_welcome">
-                        <h4 class="card-title">{{ $key }}</h4>
-                        <small><i>Berdasarkan Sertifikasi</i></small>
-                        <h5 class="card-text"><i>Frekuensi : {{ $data['frekuensi'] }}</i></h5>
-                        <a href="{{ $data['link'] }}" class="btn btn-default btn-xs">Detail</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          @endforeach
-        </div>
-        
-      </div>
-
-    </div> {{-- end container --}}
-
-</main>
 
 @endsection
 
@@ -108,11 +265,29 @@
 <script>
   $(document).ready(function(){
 
-    $('#year').on('change', function() {
+    $('#change_data').on('submit', function(e){
 
-      let year = $(this).val();
+      e.preventDefault();
 
-      window.location = '{{ route('show.operasional.kh') }}/' + year;
+      let year = $('#year').val();
+
+      let month = $('#month').val();
+
+      let wilker = $('#wilker').val();
+
+      if (year != '' && month == '' && wilker == '') {
+
+        window.location = '{{ route('show.operasional.kh') }}/' + year;
+
+      } else if(year != '' && month != '' && wilker == '') {
+
+        window.location = '{{ route('show.operasional.kh') }}/' + year + '/' + month;
+
+      } else {
+
+        window.location = '{{ route('show.operasional.kh') }}/' + year + '/' + month + '/' + wilker;
+
+      }
 
     });
 

@@ -31,7 +31,8 @@ class QuestionsController extends Controller
     {
         $answers = Jawaban::all();
         
-        return view('intern.ikm.question.create')->with('answers', $answers);
+        return view('intern.ikm.question.create')
+                ->with('answers', $answers);
     }
 
     /**
@@ -59,10 +60,12 @@ class QuestionsController extends Controller
         ]);
 
         $question->answer()->attach([
+
             $request->jawaban_1,
             $request->jawaban_2,
             $request->jawaban_3,
             $request->jawaban_4
+
         ]);
 
         return redirect(route('intern.ikm.question.index'))
@@ -105,10 +108,12 @@ class QuestionsController extends Controller
         $question->save();
 
         $question->answer()->sync([
+
             $request->jawaban_1,
             $request->jawaban_2,
             $request->jawaban_3,
             $request->jawaban_4
+            
         ]);
 
         return redirect(route('intern.ikm.question.index'))

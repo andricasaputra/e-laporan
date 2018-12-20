@@ -29,7 +29,7 @@
   <section id="survey">
 
     <!-- Swiper -->
-    <form id="formsubmit">
+    <form method="POST" action="{{ route('ikm.store') }}">
 
       @csrf
 
@@ -40,11 +40,13 @@
             <h5 class="judul">{{ $is_open->keterangan }}</h5>
             <p class="judul">{{ Tanggal::tanggalIndo($is_open->start_date) }} s/d {{ Tanggal::tanggalIndo($is_open->end_date) }}</p>
             <hr>
-            <div id="message"></div>
           </div>
-          
+
+          <div class="col-md-12 align-items-center d-flex justify-content-center">
+            <div id="message" style="border-radius: 50%"></div>
+          </div>
+
           <div class="swiper-wrapper">  
-            
             <div class="swiper-slide">
               <div class="container">
                 <h5 class="mb-5 survey-questions">Data Responden</h5>
@@ -52,7 +54,7 @@
                 
                 <div class="survey-responden">
                     <div class="form-group">
-                      <select class="form-control" name="jenis_layanan" id="jenis_layanan" required="required">
+                      <select class="form-control" name="layanan_id" id="jenis_layanan" required="required">
                         <option disabled selected value="">- Jenis Layanan -</option>
                         @foreach($layanan as $l)
 
@@ -70,7 +72,7 @@
                         </select>
                       </div>
                       <div class="form-group col-md-6">
-                        <select class="form-control" name="umur" id="umur" required="required">
+                        <select class="form-control" name="umur_id" id="umur" required="required">
                           <option disabled selected value="">- Umur -</option>
                           @foreach($umur as $u)
 
@@ -82,7 +84,7 @@
                     </div>
                     <div class="form-row">
                       <div class="form-group col-md-6">
-                        <select class="form-control" name="pendidikan" id="pendidikan" required="required">
+                        <select class="form-control" name="pendidikan_id" id="pendidikan" required="required">
                           <option disabled selected value="">- Pendidikan Terakhir -</option>
                           @foreach($pendidikan as $p)
 
@@ -92,7 +94,7 @@
                         </select>
                       </div>
                       <div class="form-group col-md-6">
-                        <select class="form-control" name="pekerjaan" id="pekerjaan" required>
+                        <select class="form-control" name="pekerjaan_id" id="pekerjaan" required>
                           <option disabled selected value="">- Pekerjaan -</option>
                             @foreach($pekerjaan as $p)
 
@@ -135,10 +137,15 @@
                       </div>  
                     </div>
                 </div> 
+
                 @if(count($questions) == $no - 1)
-                  <div class="text-center"><button type="submit" class="mt-5 send_ikm">Kirim</button></div>
+
+                  <div class="text-center" id="btnSubmit"><button type="submit" class="mt-5 send_ikm">Kirim</button></div>
+
                   <br>
+
                 @endif
+                
               </div>
             </div>
             @endforeach

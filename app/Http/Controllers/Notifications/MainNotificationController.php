@@ -13,52 +13,45 @@ class MainNotificationController extends Controller
 
     public function readNotifications(Request $request)
     {
-        $user = $this->activeUser();
-        $user->notifications->where('id', $request->id)->where('notifiable_id', $request->notifiable_id)
-        ->first()->markAsRead();
+        $this->activeUser()->notifications->where('id', $request->id)
+                           ->where('notifiable_id', $request->notifiable_id)
+                           ->first()
+                           ->markAsRead();
 
         return redirect($request->redirect);
     }
 
     public function showAllNotifications()
     {
-        $user = $this->activeUser();
-
         return view('intern.notifications')
-        ->with('user', $user)
-        ->with('notifications', $user->notifications()->paginate(10));
+                    ->with('user', $this->activeUser())
+                    ->with('notifications', $this->activeUser()->notifications()->paginate(10));
     }
 
     public function mapNotifications()
     {
-        $user = $this->activeUser();
-        
-        return view('intern.mapnotifications')->with('user', $user)
-        ->with('notifications', $user->unreadNotifications);
+        return view('intern.mapnotifications')
+                    ->with('user', $this->activeUser())
+                    ->with('notifications', $this->activeUser()->unreadNotifications);
     }
 
-    public function mainApiNotifications(User $user_id)
+    public function mainApiNotifications(User $user)
     {
-    	$user = User::find($user_id)->first();
-
     	return $user->unreadNotifications;
     }
 
     public function markAsReadAllNotifications(Request $request)
     {
-        dd($request);
-        $user = $this->activeUser();
-        $user->unreadNotifications->markAsRead();
+        $this->activeUser()->unreadNotifications->markAsRead();
 
         return redirect(route('show.all.notifications'));
     }
 
     public function deleteNotifications(Request $request)
     {
-        $user = $this->activeUser();
+        $this->activeUser()->notifications()->delete();
 
-        $user->notifications()->delete();
-
-        return redirect(route('show.all.notifications'))->with('success', 'Semua Pemberitahuan Berhasil Dihapus!');
+        return redirect(route('show.all.notifications'))
+                ->with('success', 'Semua Pemberitahuan Berhasil Dihapus!');
     }
 }

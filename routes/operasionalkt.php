@@ -1,78 +1,126 @@
 <?php
 
-Route::get('ktoperasional', 'HomeKt@showMenu')
-->name('showmenu.operasional.kt');
+/*KT Prefix*/
 
-Route::get('home/{year?}', 'HomeKt@show')
-->name('show.operasional.kt');
+Route::get(
+	'ktoperasional', 'HomeKtController@showMenu'
+)->name('showmenu.operasional.kt');
 
-/*View Page*/
-Route::get('viewdata/dokel/{year?}', 'DokelKt@sendToData')
-->name('kt.view.page.dokel');
+/*Menu Data Operasional KT*/
+Route::get(
+	'ktoperasional/menu_operasional', 'HomeKtController@showMenuDataOperasional'
+)->name('showmenu.data.operasional.kt');
 
-Route::get('viewdata/domas/{year?}', 'DomasKt@sendToData')
-->name('kt.view.page.domas');
+/*Rekapitulasi Page*/
+Route::get(
+	'ktoperasional/menu_operasional/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKtController@homeRekapitulasi'
+)->name('show.rekapitulasi.operasional.kt');
 
-Route::get('viewdata/ekspor/{year?}', 'EksporKt@sendToData')
-->name('kt.view.page.ekspor');
+/*Statistik Page*/
+Route::get(
+	'ktoperasional/menu_operasional/statistik/{year?}/{month?}/{wilker_id?}', 'HomeKtController@homeStatistik'
+)->name('show.statistik.operasional.kt');
 
-Route::get('viewdata/impor/{year?}', 'ImporKt@sendToData')
-->name('kt.view.page.impor');
+/*View Page Rekapitulasi Detail*/
+Route::get(
+	'rekapitulasi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@rekapitulasiTableDetail'
+)->name('kt.view.rekapitulasi.dokel');
 
-/*KT Upload Routes*/
-Route::get('upload/domas', 'DomasKt@sendToUpload')
-->name('kt.upload.page.domas');
+Route::get(
+	'rekapitulasi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@rekapitulasiTableDetail'
+)->name('kt.view.rekapitulasi.domas');
 
-Route::get('upload/dokel', 'DokelKt@sendToUpload')
-->name('kt.upload.page.dokel'); 
+Route::get(
+	'rekapitulasi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@rekapitulasiTableDetail'
+)->name('kt.view.rekapitulasi.ekspor');
 
-Route::get('upload/ekspor', 'EksporKt@sendToUpload')
-->name('kt.upload.page.ekspor');
+Route::get(
+	'rekapitulasi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@rekapitulasiTableDetail'
+)->name('kt.view.rekapitulasi.impor');
 
-Route::get('upload/impor', 'ImporKt@sendToUpload')
-->name('kt.upload.page.impor'); 
+/*View Page Table Detail Frekuensi*/
+Route::get(
+	'statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.frekuensi.dokel');
 
-/*Proses Upload*/
-Route::post('dokel/importdata', 'DokelKt@imports')
-->name('kt.upload.proses.dokel');
+Route::get(
+	'statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.frekuensi.domas');
 
-Route::post('domas/importdata', 'DomasKt@imports')
-->name('kt.upload.proses.domas');
+Route::get(
+	'statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.frekuensi.ekspor');
 
-Route::post('ekspor/importdata', 'EksporKt@imports')
-->name('kt.upload.proses.ekspor');
+Route::get(
+	'statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.frekuensi.impor');
 
-Route::post('impor/importdata', 'ImporKt@imports')
-->name('kt.upload.proses.impor');
+Route::middleware('kt')->group(function(){
 
-/*Export Routes*/
-/*Route::get('download/domas', function () {
-	return view('operasional.kt.download.domas');
-})->name('kt.download.page.domas');
+	Route::get('home_upload/{tahun?}', 'HomeKtController@homeUpload')
+	->name('kt.homeupload');
 
-Route::get('download/dokel', function () {
-    return view('operasional.kt.download.dokel');
-})->name('kt.download.page.dokel'); 
+	Route::delete('home/rollback/{id}', 'HomeKtController@destroy')
+	->name('rollback.operasional.kt');
 
-Route::get('download/ekspor', function () {
-    return view('operasional.kt.download.ekspor');
-})->name('kt.download.page.ekspor'); 
+	/*KT Upload Routes*/
+	Route::get('upload/domas', 'DomasKtController@uploadPageView')
+	->name('kt.upload.page.domas');
 
-Route::get('download/impor', function () {
-    return view('operasional.kt.download.impor');
-})->name('kt.download.page.impor'); */
+	Route::get('upload/dokel', 'DokelKtController@uploadPageView')
+	->name('kt.upload.page.dokel'); 
 
-Route::post('dokel/exportdata/{tahun}/{bulan?}', 'DokelKt@exports')
-->name('kt.download.proses.dokel');
+	Route::get('upload/ekspor', 'EksporKtController@uploadPageView')
+	->name('kt.upload.page.ekspor');
 
-Route::post('domas/exportdata', 'DomasKt@exports')
-->name('kt.download.proses.domas');
+	Route::get('upload/impor', 'ImporKtController@uploadPageView')
+	->name('kt.upload.page.impor'); 
 
-Route::post('ekspor/exportdata', 'EksporKt@exports')
-->name('kt.download.proses.ekspor');
+	/*Proses Upload*/
+	Route::post('dokel/importdata', 'DokelKtController@imports')
+	->name('kt.upload.proses.dokel');
 
-Route::post('impor/exportdata', 'ImporKt@exports')
-->name('kt.download.proses.impor');
+	Route::post('domas/importdata', 'DomasKtController@imports')
+	->name('kt.upload.proses.domas');
+
+	Route::post('ekspor/importdata', 'EksporKtController@imports')
+	->name('kt.upload.proses.ekspor');
+
+	Route::post('impor/importdata', 'ImporKtController@imports')
+	->name('kt.upload.proses.impor');
+
+	/*Export Routes*/
+	// Route::get('download/domas', function () {
+	// 	return view('operasional.kt.download.domas');
+	// })->name('kt.download.page.domas');
+
+	// Route::get('download/dokel', function () {
+	//     return view('operasional.kt.download.dokel');
+	// })->name('kt.download.page.dokel'); 
+
+	// Route::get('download/ekspor', function () {
+	//     return view('operasional.kt.download.ekspor');
+	// })->name('kt.download.page.ekspor'); 
+
+	// Route::get('download/impor', function () {
+	//     return view('operasional.kt.download.impor');
+	// })->name('kt.download.page.impor'); 
+
+	// Route::post('dokel/exportdata/{tahun}/{bulan?}', 'DokelKtController@exports')
+	// ->name('kt.download.proses.dokel');
+
+	// Route::post('domas/exportdata', 'DomasKtController@exports')
+	// ->name('kt.download.proses.domas');
+
+	// Route::post('ekspor/exportdata', 'EksporKtController@exports')
+	// ->name('kt.download.proses.ekspor');
+
+	// Route::post('impor/exportdata', 'ImporKtController@exports')
+	// ->name('kt.download.proses.impor');
+
+});
+
+
 
 
 
