@@ -177,7 +177,31 @@ class JabatanTableSeeder extends Seeder
             [
             	'jabatan' => 'Pranata Humas Pelaksana',
             	'klasifikasi' => 'jft'
-            ]
+            ],
+            [
+                  'jabatan' => 'Calon POPT Pemula',
+                  'klasifikasi' => 'nonjft'
+            ],
+            [
+                  'jabatan' => 'Calon POPT Pelaksana',
+                  'klasifikasi' => 'nonjft'
+            ],
+            [
+                  'jabatan' => 'Calon POPT Pertama',
+                  'klasifikasi' => 'nonjft'
+            ],
+            [
+                  'jabatan' => 'Calon Paramedik Veteriner Pemula',
+                  'klasifikasi' => 'nonjft'
+            ],
+            [
+                  'jabatan' => 'Calon Paramedik Veteriner Pelaksana',
+                  'klasifikasi' => 'nonjft'
+            ],
+            [
+                  'jabatan' => 'Calon Medik Veteriner Pertama',
+                  'klasifikasi' => 'nonjft'
+            ],
         ]);
     }
 }

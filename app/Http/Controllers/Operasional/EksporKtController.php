@@ -4,10 +4,11 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Operasional;
 
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\EksporKt as Operasional;
-use App\Http\Requests\UploadOperasionalRequest as Request;
+use App\Http\Requests\UploadOperasionalRequest as Validation;
 use App\Http\Controllers\Operasional\UploadController as Upload;
 
 ini_set('max_execution_time', '200');
@@ -37,11 +38,21 @@ class EksporKtController extends BaseOperasionalController implements BaseOperas
     }
 
     /**
+     * Untuk Halaman Upload Laporan 
+     *
+     * @return to view
+     */
+    public function uploadPageView()
+    {
+        return view('intern.operasional.kt.upload.ekspor');
+    }
+
+    /**
      *Import valid data ke database 
      *
      * @return void
      */
-    public function imports(Request $request) 
+    public function imports(Validation $request) 
     {
         if (! $request->hasFile('filenya')) {
 

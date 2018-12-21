@@ -36,7 +36,12 @@
   }
 </style>
 
-@php use App\Http\Controllers\TanggalController as Tanggal; @endphp
+@php 
+
+use App\Http\Controllers\TanggalController as Tanggal; 
+use App\Http\Controllers\RupiahController as Rupiah; 
+
+@endphp
 
 <div class="container-fluid">
 
@@ -76,7 +81,7 @@
         <div class="col-md-4 col-sm-12">
           <label for="month">Pilih Bulan</label>
           <select class="form-control" name="month" id="month">
-            <option value="">Semua</option>
+            <option value="all">Semua</option>
             @for($i = 1; $i < 13 ; $i++)
         
               @if($i == $datas['bulan'])
@@ -197,7 +202,7 @@
                     <hr>
                     <small><i>Berdasarkan Jenis Permohonan</i></small>
                       <h5 class="card-text mt-2">
-                        <i>PNBP :  {{ $data['pnbp'] }}</i>
+                        <i>PNBP :  {{ Rupiah::rp($data['pnbp']) }}</i>
                       </h5>
                 </div>
               </div>

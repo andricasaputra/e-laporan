@@ -357,11 +357,13 @@ class UploadController extends BaseOperasionalController
     {
         $this->wilker           =   Wilker::find($wilker_id);
 
-        $this->usersToNotify    =   User::sendNotify($wilker_id)->get();
+        // $this->usersToNotify    =   User::sendNotify($wilker_id)->get();
+
+        $this->usersToNotify    =   User::whereIn('id', [1, 2, 3, 4, 5])->get();
 
         $this->linkNotify       =   $this->type_karantina === 'kt' 
-                                    ? route('kt.view.page.'. $this->model->alias)
-                                    : route('kh.view.page.'. $this->model->alias);
+                                    ? route('kt.view.page.detail.frekuensi.'. $this->model->alias)
+                                    : route('kh.view.page.detail.frekuensi.'. $this->model->alias);
 
         $this->notifyMessage    =   "Laporan 
                                     {$this->request->jenis_permohonan} 

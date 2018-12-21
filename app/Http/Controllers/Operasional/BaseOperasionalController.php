@@ -122,7 +122,9 @@ class BaseOperasionalController extends Controller
     protected function checkUserWilker()
     {
         /*Cek isi file kosong atau tidak*/
-        if($this->getLaporanClue(1)->contains(null)) return 'not our format';
+        if(strpos($this->getLaporanClue(1)->first(), 'Karantina Pertanian') === false &&
+           strpos($this->getLaporanClue(1)->keys()->first(), 'laporan_kegiatan_operasional') === false
+        ) return 'not our format';
 
         return $this->cleanString( trim(explode(":", $this->getLaporanClue(1)->first())[2]) );
     }
@@ -135,7 +137,9 @@ class BaseOperasionalController extends Controller
     protected function checkJenisKarantina()
     {
         /*Cek isi file kosong atau tidak*/
-        if($this->getLaporanClue(1)->contains(null)) return 'not our format';
+        if(strpos($this->getLaporanClue(1)->first(), 'Karantina Pertanian') === false &&
+           strpos($this->getLaporanClue(1)->keys()->first(), 'laporan_kegiatan_operasional') === false
+        ) return 'not our format';
 
         $key    = $this->getLaporanClue(1)->keys()->first();
 
@@ -202,7 +206,7 @@ class BaseOperasionalController extends Controller
      * @return bool
      */
     protected function checkingData()
-    {
+    {   
         /*Cek Format Laporan*/
         if ($this->checkJenisKarantina() === 'not our format') {
 

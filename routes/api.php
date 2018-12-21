@@ -80,6 +80,13 @@ Route::namespace('Operasional')->group(function () {
 	Route::get('kt/rekapitulasi/detail_tujuan_mp/{class?}/{mp?}/{year?}/{month?}/{wilker_id?}', 'HomeKtController@detailTujuanKt')
 	->name('api.kt.detail.tujuan');
 
+	/*Route API For Chart Rekapitulasi*/
+	Route::get('kh/rekapitulasi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKhController@frekuensiPerMonthChartKh')
+	->name('api.kh.detail.frekuensi.chart');
+
+	Route::get('kt/rekapitulasi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKtController@frekuensiPerMonthChartKt')
+	->name('api.kt.detail.frekuensi.chart');
+
 	/*Route API For Log Pengiriman Laporan bulanan*/
 	Route::post('kt/log_operasional/{year?}/{wilker?}', 'HomeKtController@logApi')->name('api.kt.log_operasional');
 

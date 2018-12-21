@@ -164,6 +164,30 @@ trait DataOperasionalKtTrait
                     ],
 
                ],
+
+               'frekuensiKomoditiPerMonth' =>  [
+
+                    'Domestik Masuk Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDomas,
+
+                    'Domestik Keluar Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDokel,
+
+                    'Ekspor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiEkspor,   
+
+                    'Impor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiImpor
+
+               ],
+
+               'topFiveFrekuensiKomoditi' =>  [
+
+                    'Domestik Masuk Karantina Tumbuhan' => $this->ktRepository->topFiveFrekuensiKomoditiKt()->topFiveFrekuensiKomoditiDomas,
+
+                    'Domestik Keluar Karantina Tumbuhan' => $this->ktRepository->topFiveFrekuensiKomoditiKt()->topFiveFrekuensiKomoditiDokel,
+
+                    'Ekspor Karantina Tumbuhan' => $this->ktRepository->topFiveFrekuensiKomoditiKt()->topFiveFrekuensiKomoditiEkspor,   
+
+                    'Impor Karantina Tumbuhan' => $this->ktRepository->topFiveFrekuensiKomoditiKt()->topFiveFrekuensiKomoditiImpor
+
+               ],
             ]
             
         ];
@@ -261,6 +285,29 @@ trait DataOperasionalKtTrait
                 <i class="fa fa-edit"></i> Detail MP
             </a>';
         })->make(true);
+    }
+
+    /**
+     * Untuk Tampilan chart frekuensi
+     *
+     * @param string $tipe_karantina
+     * @return array
+     */
+    public function frekuensiPerMonthChartKt($type_karantina = null)
+    {
+        $frekuensi = [
+
+            'Domestik Masuk Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDomas,
+
+            'Domestik Keluar Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDokel,
+
+            'Ekspor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiEkspor,   
+
+            'Impor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiImpor
+
+       ];
+
+      return $frekuensi[$type_karantina]; 
     }
 
     /**

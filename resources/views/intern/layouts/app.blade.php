@@ -203,11 +203,17 @@
                 <div class="row">
                     <div class="col-12">
 
-                        @include('inc.message')
+                        @if(Route::currentRouteName() == 'welcome' OR 
+                            Route::currentRouteName() == 'showmenu.operasional.kh' OR
+                            Route::currentRouteName() == 'showmenu.operasional.kt')
+
+                          @include('inc.message')
+
+                        @endif 
 
                         @yield('content')
 
-                        <br />
+                        <br/>
 
                         <div class="text-center mt-4">
                           <img src="{{ asset('images/e-operasional_logo.png') }}" class="logo-e-operasional" width="600">

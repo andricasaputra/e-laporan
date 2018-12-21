@@ -19,5 +19,8 @@ class UsersComposer
     public function compose(View $view)
     {
         $view->with('roles', Role::where('id', '!=', 1)->get()); 
+        $view->with('wilkers', Wilker::all());
+        $view->with('jabatan', Jabatan::all());
+        $view->with('golongan', Golongan::all());
     }
 }

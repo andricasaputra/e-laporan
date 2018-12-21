@@ -10,7 +10,7 @@
 
 @section('page-breadcrumb')
 
-<h4 class="page-title">Dashboard</h4>
+<h4 class="page-title">Ringkasan Data</h4>
 <div class="d-flex align-items-center">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -71,7 +71,7 @@
 use App\Http\Controllers\TanggalController as Tanggal; 
 
 use App\Http\Controllers\RupiahController as Rupiah;
-
+// @dd(collect($dataKt['dataKt']['topFiveFrekuensiKomoditi'])->flatten(1)->sortByDesc('data')->take(5))
 @endphp
 
     @if($dataKh['bulan'] !== null)
@@ -255,18 +255,6 @@ use App\Http\Controllers\RupiahController as Rupiah;
     </div>
 
     <div class="row">
-      <div class="col-md-4">
-        <label for="frekKh">Pilih Tahun</label>
-        <select name="frekKh" id="selectCatKh" class="form-control">
-          <option value="Domestik Keluar Karantina Hewan">Domestik Keluar</option>
-          <option value="Domestik Masuk Karantina Hewan">Domestik Masuk</option>
-          <option value="Ekspor Karantina Hewan">Ekspor</option>
-          <option value="Impor Karantina Hewan">Impor</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row mt-3">
       <div class="col-md-8">
           <div class="card">
               <div class="card-body" id="chartFrekuensiKh"></div>
@@ -293,22 +281,10 @@ use App\Http\Controllers\RupiahController as Rupiah;
     </div>
 
     <div class="row">
-      <div class="col-md-4">
-        <label for="frekKt">Pilih Tahun</label>
-        <select name="frekKt" id="selectCatKt" class="form-control">
-          <option value="Domestik Keluar Karantina Tumbuhan">Domestik Keluar</option>
-          <option value="Domestik Masuk Karantina Tumbuhan">Domestik Masuk</option>
-          <option value="Ekspor Karantina Tumbuhan">Ekspor</option>
-          <option value="Impor Karantina Tumbuhan">Impor</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row mt-3">
       <div class="col-md-8">
-        <div class="card">
-            <div class="card-body" id="chartFrekuensiKt"></div>
-        </div>
+          <div class="card">
+              <div class="card-body" id="chartFrekuensiKt"></div>
+          </div>
       </div>
       <div class="col-md-4">
           <div class="card">
@@ -372,19 +348,19 @@ use App\Http\Controllers\RupiahController as Rupiah;
     });
 
     /*Chart KH*/
-    let chartKh = Highcharts.chart('chartFrekuensiKh', {
+    Highcharts.chart('chartFrekuensiKh', {
       credits : false,
       chart: {
           type: 'column'
       },
       title: {
-          text: 'Frekuensi Operasional Karantina Hewan'
+          text: 'Top 5 Komoditi Karantina Hewan'
       },
       subtitle: {
-          text: 'Berdasarkan Sertifikasi'
+          text: 'Berdasarkan Frekuensi'
       },
       xAxis: {
-          categories:  @json(collect($dataKh['dataKh']['frekuensiKomoditiPerMonth']['Domestik Keluar Karantina Hewan'])->flatten(1)->pluck('bln')->all()),
+          categories:  @json(collect($dataKh['dataKh']['topFiveFrekuensiKomoditi'])->flatten(1)->pluck('name')->take(5)->all()),
           crosshair: true
       },
       yAxis: {
@@ -405,188 +381,51 @@ use App\Http\Controllers\RupiahController as Rupiah;
       },
       series: [{
           name:'Frekuensi' ,
-          data: @json(collect($dataKh['dataKh']['frekuensiKomoditiPerMonth']['Domestik Keluar Karantina Hewan'])->flatten(1)->pluck('data')->all())
+          data: @json(collect($dataKh['dataKh']['topFiveFrekuensiKomoditi'])->flatten(1)->pluck('data')->take(5)->all())
       }]
   });
 
-  $('#selectCatKh').change(function(){
-
-    let value = $('#selectCatKh').val();
-
-    $.ajax({
-
-      url : '{{ route('api.kh.detail.frekuensi.chart') }}/' + value
-
-    }).done(function(response){
-
-      let data = {
-
-        data : [],
-        name : []
-
-      };
-
-      $.each(response, function(key, value){
-
-        data.name.push(value.bln) 
-        data.data.push(value.data)  
-
-      });
-      
-      $('#chartFrekuensiKh').highcharts().destroy();
-
-        chartKh = Highcharts.chart('chartFrekuensiKh', {
-          credits : false,
-          chart: {
-              type: 'column'
-          },
-          title: {
-              text: 'Frekuensi Operasional Karantina Tumbuhan'
-          },
-          subtitle: {
-              text: 'Berdasarkan Sertifikasi'
-          },
-          xAxis: {
-            categories:  data.name,
-            crosshair: true
-          },
-          yAxis: {
-              min: 0,
-              title: {
-                  text: 'Frekuensi (kali)'
-              }
-          },
-          tooltip: {
-              shared: true,
-              useHTML: true
-          },
-          plotOptions: {
-              column: {
-                  pointPadding: 0.2,
-                  borderWidth: 0
-              }
-          },
-          series: [{
-            name:'Frekuensi',
-            data: data.data
-          }]
-        });
-
-    })/*End ajax*/;
-
-
-  });
-
   /*Hightchart colors option*/
-  Highcharts.setOptions({
-    colors: ['#12AFAF', '#F62D51', '#64E572', '#2962FF']
-  });
+    Highcharts.setOptions({
+      colors: ['#12AFAF', '#F62D51', '#64E572', '#2962FF']
+    });
 
-  /*Chart KT*/
-  let chartKt = Highcharts.chart('chartFrekuensiKt', {
-    credits : false,
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Frekuensi Operasional Karantina Tumbuhan'
-    },
-    subtitle: {
-        text: 'Berdasarkan Sertifikasi'
-    },
-    xAxis: {
-        categories:  @json(collect($dataKt['dataKt']['frekuensiKomoditiPerMonth']['Domestik Keluar Karantina Tumbuhan'])->flatten(1)->pluck('bln')->all()),
-        crosshair: true
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: 'Frekuensi (kali)'
-        }
-    },
-    tooltip: {
-        shared: true,
-        useHTML: true
-    },
-    plotOptions: {
-        column: {
-            pointPadding: 0.2,
-            borderWidth: 0
-        }
-    },
-    series: [{
-        name:'Frekuensi' ,
-        data: @json(collect($dataKt['dataKt']['frekuensiKomoditiPerMonth']['Domestik Keluar Karantina Tumbuhan'])->flatten(1)->pluck('data')->all())
-    }]
-  });
-
-
-  $('#selectCatKt').change(function(){
-
-    let value = $('#selectCatKt').val();
-
-    $.ajax({
-
-      url : '{{ route('api.kt.detail.frekuensi.chart') }}/' + value
-
-    }).done(function(response){
-
-      let data = {
-
-        data : [],
-        name : []
-
-      };
-
-      $.each(response, function(key, value){
-
-        data.name.push(value.bln) 
-        data.data.push(value.data)  
-
-      });
-      
-      $('#chartFrekuensiKt').highcharts().destroy();
-
-        chartKt = Highcharts.chart('chartFrekuensiKt', {
-          credits : false,
-          chart: {
-              type: 'column'
-          },
+    /*Chart KH*/
+    Highcharts.chart('chartFrekuensiKt', {
+      credits : false,
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Top 5 Komoditi Karantina Tumbuhan'
+      },
+      subtitle: {
+          text: 'Berdasarkan Frekuensi'
+      },
+      xAxis: {
+          categories:  @json(collect($dataKt['dataKt']['topFiveFrekuensiKomoditi'])->flatten(1)->pluck('name')->take(5)->all()),
+          crosshair: true
+      },
+      yAxis: {
+          min: 0,
           title: {
-              text: 'Frekuensi Operasional Karantina Tumbuhan'
-          },
-          subtitle: {
-              text: 'Berdasarkan Sertifikasi'
-          },
-          xAxis: {
-            categories:  data.name,
-            crosshair: true
-          },
-          yAxis: {
-              min: 0,
-              title: {
-                  text: 'Frekuensi (kali)'
-              }
-          },
-          tooltip: {
-              shared: true,
-              useHTML: true
-          },
-          plotOptions: {
-              column: {
-                  pointPadding: 0.2,
-                  borderWidth: 0
-              }
-          },
-          series: [{
-            name:'Frekuensi',
-            data: data.data
-          }]
-        });
-
-    })/*End ajax*/;
-
-
+              text: 'Frekuensi (kali)'
+          }
+      },
+      tooltip: {
+          shared: true,
+          useHTML: true
+      },
+      plotOptions: {
+          column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+          }
+      },
+      series: [{
+          name:'Frekuensi' ,
+          data: @json(collect($dataKt['dataKt']['topFiveFrekuensiKomoditi'])->flatten(1)->pluck('data')->take(5)->all())
+      }]
   });
 
   });/*End Ready*/

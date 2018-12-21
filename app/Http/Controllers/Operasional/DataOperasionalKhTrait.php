@@ -164,6 +164,30 @@ trait DataOperasionalKhTrait
                     ],
 
                ],
+
+               'frekuensiKomoditiPerMonth' =>  [
+
+                    'Domestik Masuk Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiDomas,
+
+                    'Domestik Keluar Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiDokel,
+
+                    'Ekspor Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiEkspor,   
+
+                    'Impor Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiImpor
+
+               ],
+
+               'topFiveFrekuensiKomoditi' =>  [
+
+                    'Domestik Masuk Karantina Hewan' => $this->khRepository->topFiveFrekuensiKomoditiKh()->topFiveFrekuensiKomoditiDomas,
+
+                    'Domestik Keluar Karantina Hewan' => $this->khRepository->topFiveFrekuensiKomoditiKh()->topFiveFrekuensiKomoditiDokel,
+
+                    'Ekspor Karantina Hewan' => $this->khRepository->topFiveFrekuensiKomoditiKh()->topFiveFrekuensiKomoditiEkspor,   
+
+                    'Impor Karantina Hewan' => $this->khRepository->topFiveFrekuensiKomoditiKh()->topFiveFrekuensiKomoditiImpor
+
+               ],
             ]
             
         ];
@@ -223,6 +247,29 @@ trait DataOperasionalKhTrait
         ];
 
         return $data[$this->year];
+    }
+
+    /**
+     * Untuk Tampilan chart frekuensi
+     *
+     * @param string $tipe_karantina
+     * @return array
+     */
+    public function frekuensiPerMonthChartKh($type_karantina = null)
+    {
+        $frekuensi = [
+
+            'Domestik Masuk Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiDomas,
+
+            'Domestik Keluar Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiDokel,
+
+            'Ekspor Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiEkspor,   
+
+            'Impor Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiImpor
+
+       ];
+
+      return $frekuensi[$type_karantina]; 
     }
 
     /**

@@ -12,7 +12,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MainNotificationsEvent implements ShouldBroadcast
+class MainNotificationsEvent /*implements ShouldBroadcast*/
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -37,7 +37,16 @@ class MainNotificationsEvent implements ShouldBroadcast
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
+
+    /**
+    *The Errors  Note!!
+    *
+    * @return  Illuminate \ Broadcasting \ BroadcastException
+    * The data content of this event exceeds the allowed maximum (10240 bytes). 
+    * See http://pusher.com/docs/server_api_guide/server_publishing_events for more info
+    *
+    */
+    /*public function broadcastOn()
     {
         return ['all-notifiactions'];
     }
@@ -45,5 +54,5 @@ class MainNotificationsEvent implements ShouldBroadcast
     public function broadcastAs() 
     {
         return 'all-notifications-report';
-    }
+    }*/
 }

@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Operasional;
 
 use App\Models\Wilker;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Repositories\Operasional\DataOperasionalKtRepository as Repository;
 
-class HomeKtController extends BaseOperasionalController
+class HomeKtController extends Controller
 {
     use DataOperasionalKtTrait;
 
@@ -152,8 +153,7 @@ class HomeKtController extends BaseOperasionalController
     {
         $this->ktRepository->rollback($request);
 
-        return redirect()->route('kt.homeupload')
-                ->with('success', 'Laporan Operasional Berhasil Ditarik Kembali');
+        return back()->with('success', 'Laporan Operasional Berhasil Ditarik Kembali');
     }
     
 

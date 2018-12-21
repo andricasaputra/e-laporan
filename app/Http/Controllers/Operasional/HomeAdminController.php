@@ -56,6 +56,14 @@ class HomeAdminController extends Controller
      */
     public $params;
 
+    /**
+     * Init repository and request for this class
+     *
+     * @param KhRepository $khRepository
+     * @param KtRepository $ktRepository
+     * @param Request $request
+     * @return void
+     */
     public function __construct(KhRepository $khRepository, KtRepository $ktRepository, Request $request)
     {
         $this->khRepository = $khRepository;
@@ -75,12 +83,17 @@ class HomeAdminController extends Controller
         $this->ktRepository->setDateAndWilker($this->year, $this->month, $this->wilker_id);
     }
 
+    /**
+     * Untuk tampilan utama pada dashboard
+     *
+     * @return void
+     */
     public function show()
     {
     	return view('intern.operasional.home')
     	       ->with('dataKh', $this->statistikDataOperasionalKh())
                ->with('dataKt', $this->statistikDataOperasionalKt())
-               ->with('wilkers', Wilker::all());
+               ->with('wilkers', Wilker::where('id', '!=', 1)->get());
     }
 
     

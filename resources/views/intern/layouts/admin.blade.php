@@ -71,7 +71,6 @@
           overflow: hidden;   
           display: block;
         }
-
     </style>
   </head>
 
@@ -101,8 +100,6 @@
             </div>
 
         </div>
-
-        <div id="loader"></div>
         <!-- /page content -->
 
         <!-- footer content -->
@@ -137,22 +134,6 @@
     <script src="{{asset('intern/build/js/mywebadmin.js')}}"></script>
 
     <script src="{{ asset('js/pusher.min.js') }}"></script>
-
-    <script>
-        $('div#loader').hide();
-
-        $(window).on('load', function(){
-
-            $('div#loader').show();
-
-        });
-
-        setTimeout(function(){
-
-            $('div#loader').fadeOut('fast');
-                
-        }, 2000);
-    </script>
 
     @include('intern.inc.notifications_script')
 

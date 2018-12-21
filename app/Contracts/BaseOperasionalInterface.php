@@ -9,6 +9,8 @@ interface BaseOperasionalInterface
 {
 	public function tableDetailFrekuensiView(Request $request);
 
+	public function rekapitulasiTableDetail(Request $request);
+
 	public function uploadPageView();
 
 	public function imports(Validation $request);
