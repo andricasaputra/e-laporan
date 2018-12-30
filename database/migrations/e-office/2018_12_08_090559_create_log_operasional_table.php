@@ -15,10 +15,10 @@ class CreateLogOperasionalTable extends Migration
     {
         Schema::create('log_operasional', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type');
-            $table->date('bulan');
+            $table->string('type', 100);
+            $table->string('bulan', 20);
             $table->unsignedInteger('wilker_id');
-            $table->string('status')->nullable();
+            $table->string('status', 20)->nullable();
             $table->dateTime('rolledback_at')->nullable();
             $table->foreign('wilker_id')->references('id')->on('wilker');
             $table->timestamps();

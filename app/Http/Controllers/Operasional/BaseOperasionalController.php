@@ -108,9 +108,12 @@ class BaseOperasionalController extends Controller
 
         $this->wilkerNameClue   = substr($this->checkUserWilker(), -10, 8);
 
-        $this->jenisPermohonan  = $model->permohonan;
+        $this->jenisPermohonan  = strtolower($model->permohonan);
 
-        $this->jenisKarantina   = 'operasional_' . strtolower(str_replace(' ', '_', $model->karantina));
+        $this->jenisKarantina   = strtolower(str_replace(' ', '_', $model->karantina));
+
+        return $this;
+
     }
 
     /**
@@ -121,12 +124,15 @@ class BaseOperasionalController extends Controller
      */
     protected function checkUserWilker()
     {
-        /*Cek isi file kosong atau tidak*/
-        if(strpos($this->getLaporanClue(1)->first(), 'Karantina Pertanian') === false &&
-           strpos($this->getLaporanClue(1)->keys()->first(), 'laporan_kegiatan_operasional') === false
-        ) return 'not our format';
+        $key    = $this->getLaporanClue(1)->keys()->first();
 
-        return $this->cleanString( trim(explode(":", $this->getLaporanClue(1)->first())[2]) );
+        $value  = $this->getLaporanClue(1)->first();
+
+        /*Cek isi file kosong atau tidak*/
+        if(strpos($value, 'Karantina Pertanian') === false && 
+           strpos($key, $this->jenisKarantina) === false ) return 'not our format';
+
+        return $this->cleanString( trim(explode(":", $value)[2]) );
     }
 
     /**
@@ -136,14 +142,13 @@ class BaseOperasionalController extends Controller
      */
     protected function checkJenisKarantina()
     {
-        /*Cek isi file kosong atau tidak*/
-        if(strpos($this->getLaporanClue(1)->first(), 'Karantina Pertanian') === false &&
-           strpos($this->getLaporanClue(1)->keys()->first(), 'laporan_kegiatan_operasional') === false
-        ) return 'not our format';
-
         $key    = $this->getLaporanClue(1)->keys()->first();
 
         $value  = $this->getLaporanClue(1)->first();
+
+        /*Cek isi file kosong atau tidak*/
+        if(strpos($value, 'Karantina Pertanian') === false && 
+           strpos($key, $this->jenisKarantina) === false ) return 'not our format';
 
         /*Cek dari value Kosong atau tidak*/
         if ($value == null || strpos($key, $this->jenisKarantina) === false) return false;
@@ -162,15 +167,35 @@ class BaseOperasionalController extends Controller
     {
         /*Cek Jika File Yang Diunggah Sesuai Dengan Jenis Permohonannya */
 
-        return  trim(explode(
+        /*
+        * Apabila laporan yang diupload merupakan pembatalan dokumen 
+        * ambil data pada laporan yang diupload dimulai dari row ke 0
+        */
+        if ($this->jenisPermohonan === 'pembatalan dokumen') {
 
-                    ':', strtolower($this->getLaporanClue(2)->first())
-                    
-                )[1])  == $this->jenisPermohonan ?: false;   
+            return  strpos(strtolower(
+
+                        $this->getLaporanClue(0)->first()
+
+                    ), $this->jenisPermohonan) !== false ? true : false;
+            
+        /*
+        * Apabila laporan bukan merupakan pembatalan dokumen  
+        * ambil data pada laporan yang diupload dimulai dari row ke 2
+        */
+        }else{
+
+            return  trim(explode(
+
+                        ':', strtolower($this->getLaporanClue(2)->first())
+                        
+                    )[1])  == $this->jenisPermohonan ?: false;  
+
+        }   
     }
 
     /**
-     * Menghapus titik beserta koma pada string
+     * Menghapus titik, spasi beserta koma pada string dan menjadikan string huruf kecil
      *
      * @param string $value
      * @return string
@@ -248,8 +273,15 @@ class BaseOperasionalController extends Controller
 
         }
 
-        /*Cek Wilker User dengan wilker yang diupload pada laporan, harus sesuai*/
-        if ($this->getUserRoleId() !== 1 && $this->getUserRoleId() !== 2) {
+        /*
+        * Cek Wilker User dengan wilker yang diupload pada laporan, 
+        * harus sesuai kecuali wilker brangbiji
+        * Note : Wilker Pada IQFAST -> Brangbiji,
+        *        Pada E - Office -> Sultan M. Kaharuddin
+        */
+        if ($this->getUserRoleId() !== 1 && 
+            $this->getUserRoleId() !== 2 && 
+            strpos($this->wilkerName, 'brangbiji') !== false) {
 
             if(! strpos(strtolower($this->wilkerName), $this->wilkerNameClue)){
 
@@ -288,17 +320,6 @@ class BaseOperasionalController extends Controller
     protected function flashMessage()
     {
         return session()->flash("$this->messageType", "$this->message");
-    }
-
-    /**
-     * Digunakan URL request kemudian di redirect ke table detail laporan
-     *
-     * @param Request $request
-     * @return void
-     */
-    protected function DetailTableSelectAnotherYear(Request $request)
-    {
-        return redirect($request->year);
     }
 
 }

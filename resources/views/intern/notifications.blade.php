@@ -149,7 +149,6 @@
           <form id="delete-notification" action="{{ route('delete.all.notifications') }}" method="POST" style="display: none;">
             @csrf
           </form>
-
       </div>
     </div>
 
@@ -169,7 +168,6 @@
        
 </div>
 
-
 <div class="mb-3 mt-2">
   <div class="col-md-12 align-items-center d-flex justify-content-center">
        {{ $notifications->links() }}
@@ -181,6 +179,5 @@
     <a href="{{ route('welcome') }}" class="btn btn-primary">kembali ke halaman utama</a>
   </div>
 </div>
-
 
 @endsection

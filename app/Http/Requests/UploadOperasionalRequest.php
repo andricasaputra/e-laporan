@@ -26,7 +26,7 @@ class UploadOperasionalRequest extends FormRequest
         return [
 
             'wilker_id' => 'required',
-            'filenya' => 'mimes:xls,xlsx'
+            'filenya' => 'required|mimes:xls,xlsx'
             
         ];
     }

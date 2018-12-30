@@ -12,6 +12,10 @@ use App\Models\Operasional\EksporKt;
 use App\Contracts\RepositoryInterface;
 use App\Events\OperasionalRollbackEvent;
 use App\Http\Controllers\RupiahController as Rupiah;
+use App\Models\Operasional\RekapitulasiKomoditiDokelKt as RekapDokelKt;
+use App\Models\Operasional\RekapitulasiKomoditiDomasKt as RekapDomasKt;
+use App\Models\Operasional\RekapitulasiKomoditiImporKt as RekapImporKt;
+use App\Models\Operasional\RekapitulasiKomoditiEksporKt as RekapEksporKt;
 
 class DataOperasionalKtRepository implements RepositoryInterface
 {
@@ -265,19 +269,19 @@ class DataOperasionalKtRepository implements RepositoryInterface
      */
     public function totalRekapitulasi()
     {
-        $this->dokelTotalVolume  =  static::castPnbpToRupiah(DokelKt::countRekapitulasi(
+        $this->dokelTotalVolume  =  static::castPnbpToRupiah(RekapDokelKt::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
 
-        $this->domasTotalVolume  =  static::castPnbpToRupiah(DomasKt::countRekapitulasi(
+        $this->domasTotalVolume  =  static::castPnbpToRupiah(RekapDomasKt::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
 
-        $this->eksporTotalVolume =  static::castPnbpToRupiah(EksporKt::countRekapitulasi(
+        $this->eksporTotalVolume =  static::castPnbpToRupiah(RekapEksporKt::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
 
-        $this->imporTotalVolume  =  static::castPnbpToRupiah(ImporKt::countRekapitulasi(
+        $this->imporTotalVolume  =  static::castPnbpToRupiah(RekapImporKt::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
 
@@ -307,19 +311,19 @@ class DataOperasionalKtRepository implements RepositoryInterface
      */
     public function totalPnbp()
     {
-        $this->pnbpDomas     =  DomasKt::countTotalPnbp(
+        $this->pnbpDomas     =  RekapDomasKt::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
                                 )->first()->pnbp;
 
-        $this->pnbpDokel     =  DokelKt::countTotalPnbp(
+        $this->pnbpDokel     =  RekapDokelKt::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
                                 )->first()->pnbp;
 
-        $this->pnbpEkspor    =  EksporKt::countTotalPnbp(
+        $this->pnbpEkspor    =  RekapEksporKt::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
                                 )->first()->pnbp;
 
-        $this->pnbpImpor     =  ImporKt::countTotalPnbp(
+        $this->pnbpImpor     =  RekapImporKt::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
                                 )->first()->pnbp;
 
@@ -387,19 +391,19 @@ class DataOperasionalKtRepository implements RepositoryInterface
      */
     public function topFiveFrekuensiKomoditiKt()
     {
-        $this->topFiveFrekuensiKomoditiDokel    =   DokelKt::topFiveFrekuensiKomoditi(
+        $this->topFiveFrekuensiKomoditiDokel    =   RekapDokelKt::topFiveFrekuensiKomoditi(
                                                         $this->year, $this->month, $this->wilker_id
                                                     )->get();
 
-        $this->topFiveFrekuensiKomoditiDomas    =   DomasKt::topFiveFrekuensiKomoditi(
+        $this->topFiveFrekuensiKomoditiDomas    =   RekapDomasKt::topFiveFrekuensiKomoditi(
                                                         $this->year, $this->month, $this->wilker_id
                                                     )->get();
 
-        $this->topFiveFrekuensiKomoditiEkspor   =   EksporKt::topFiveFrekuensiKomoditi(
+        $this->topFiveFrekuensiKomoditiEkspor   =   RekapEksporKt::topFiveFrekuensiKomoditi(
                                                         $this->year, $this->month, $this->wilker_id
                                                     )->get();
 
-        $this->topFiveFrekuensiKomoditiImpor    =   ImporKt::topFiveFrekuensiKomoditi(
+        $this->topFiveFrekuensiKomoditiImpor    =   RekapImporKt::topFiveFrekuensiKomoditi(
                                                         $this->year, $this->month, $this->wilker_id
                                                     )->get();
         return $this;
@@ -499,7 +503,7 @@ class DataOperasionalKtRepository implements RepositoryInterface
      * @param $request
      * @return void
      */
-    public function rollback($request)
+    public function rollback(Request $request)
     {
         $log = LogInfo::find($request->id);
 

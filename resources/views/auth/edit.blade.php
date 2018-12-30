@@ -104,9 +104,7 @@
 
                             <select class="form-control" name="golongan_id">
 
-                                <option value="{{ $user->golongan->first()->id }}" selected>
-                                    {{ $user->golongan->first()->golongan }}
-                                </option>
+                                <option value="" selected>Pilih Golongan</option>
 
                                 @foreach($golongan as $g)
 

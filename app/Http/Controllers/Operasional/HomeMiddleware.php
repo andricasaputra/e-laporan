@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class HomeMiddleware extends Controller
 {
     /**
-     *Dynamic Middleware pass to here
+     * Dynamic Middleware pass to here
      * 
      * @return string
      */
@@ -26,8 +26,8 @@ class HomeMiddleware extends Controller
     }
 
     /**
-     *Set What Middleware to use if user authenticated 
-     *and send it to static property $shouldUseMiddleware
+     * Set What Middleware to use if user authenticated 
+     * and send it to static property $shouldUseMiddleware
      *
      * @return void 
      */
@@ -37,9 +37,9 @@ class HomeMiddleware extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the application dashboard based on role type.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function operasional()
     {

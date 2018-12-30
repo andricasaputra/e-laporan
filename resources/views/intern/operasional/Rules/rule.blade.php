@@ -21,8 +21,8 @@ Tetapi laporan excel sudah dibuka, ini mengakibatkan semua total pnbp pada lapor
 akan gagal. contoh Dokumen pelepasan KT 12 tetapi total pnbp 0 -> ini kesalahan ketika export data dari iqfast --}}
 
 <div class="col-md-3 offset-md-1 col-sm-12">
-    <div class="card">
-      <div class="card-body">
+  <div class="card">
+    <div class="card-body">
         <ul class="list-group">
           <li class="list-group-item active">Keterangan : </li>
         </ul>
@@ -55,6 +55,6 @@ akan gagal. contoh Dokumen pelepasan KT 12 tetapi total pnbp 0 -> ini kesalahan 
             <p class="mb-1">Data operasional yang telah diupload <b> dapat ditarik kembali dalam kurun waktu satu minggu </b>setelah data berhasil diupload, <b> selebihnya data akan terkunci dan dianggap valid! </b></p>
           </a>
         </div>
-      </div>
     </div>
- </div>
+  </div>
+</div>

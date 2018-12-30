@@ -138,7 +138,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
         <div class="col-sm-3">
           <div class="card">
             <div class="card-body text-center">
-              <div class="row">
+              <div class="row mb-3">
                 <div class="col-sm-12 card_body_welcome" style="min-height: 150px">
                     <h4 class="card-title">{{ $key }}</h4>
                     <hr>
@@ -162,7 +162,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
         <div class="col-sm-3">
           <div class="card">
             <div class="card-body text-center">
-              <div class="row">
+              <div class="row mb-3">
                 <div class="col-sm-12 card_body_welcome" style="min-height: 150px">
                     <h4 class="card-title">{{ $key }}</h4>
                     <hr>
@@ -196,7 +196,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
         <div class="col-sm-3">
           <div class="card">
             <div class="card-body text-center">
-              <div class="row">
+              <div class="row mb-3">
                 <div class="col-sm-12 card_body_welcome" style="min-height: 150px">
                     <h4 class="card-title">{{ $key }}</h4>
                     <hr>
@@ -222,7 +222,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
         <div class="col-sm-3">
           <div class="card">
             <div class="card-body text-center">
-              <div class="row">
+              <div class="row mb-3">
                 <div class="col-sm-12 card_body_welcome" style="min-height: 150px">
                     <h4 class="card-title">{{ $key }}</h4>
                     <hr>

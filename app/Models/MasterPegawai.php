@@ -11,7 +11,7 @@ class MasterPegawai extends Model
 
     public function getIsActiveAttribute($value)
     {
-    	if ($value === 1) {
+    	if ($value === 1 || $value === "1") {
 
     		return $value = 'Pegawai Aktif';
 

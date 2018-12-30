@@ -22,7 +22,7 @@ class WilkerTableSeeder extends Seeder
             ['nama_wilker' => 'Wilker Pelabuhan Laut Soro Kempo'],
             ['nama_wilker' => 'Wilker Bandara Sultan M.Salahuddin'],
             ['nama_wilker' => 'Wilker Pelabuhan Laut Bima'],
-            ['nama_wilker' => 'Wilker Pelabuhan Ferry Sape'],
+            ['nama_wilker' => 'Wilker Pelabuhan Penyeberangan Sape'],
             ['nama_wilker' => 'Laboratorium Induk'],
             
         ]);

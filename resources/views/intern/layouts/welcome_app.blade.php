@@ -92,6 +92,19 @@
     #main_notifications::-webkit-scrollbar-thumb:hover {
         background: #555; 
     }
+
+    .social-group a{
+        padding: 5px 25px;
+    } 
+
+    .social-group i.fa{
+      font-size: 25pt;
+      color: #3E50B4
+    }
+
+    .social-group i.fa:hover{
+      color: #D62D20
+    }
   </style>
 
 </head>
@@ -276,7 +289,19 @@
           <!-- footer -->
           <!-- ============================================================== -->
           <footer class="footer text-center">
-            &copy;{{ date('Y') }} <br> Stasiun Karantina Pertanian Kelas I Sumbawa Besar
+            <div class="row mb-3">
+              <div class="col-md-12 social-group">
+                <a href="https://www.facebook.com/skp.sumbawa.7" target="_blank" rel="noreferrer"><i class="fa fa-facebook"></i></a>
+                <a href="https://twitter.com/SKP_Sumbawa?lang=id" target="_blank" rel="noreferrer"><i class="fa fa-twitter"></i></a>
+                <a href="https://mail.google.com" target="_blank" rel="noreferrer"><i class="fa fa-google-plus"></i></a>
+                <a href="https://www.youtube.com/channel/UCavSN4-PUiPqA3GnejTpKFQ/videos" target="_blank" rel="noreferrer"><i class="fa fa-youtube"></i></a>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+               &copy;2018 <br> <strong>Stasiun Karantina Pertanian Kelas I Sumbawa Besar</strong>
+              </div>
+            </div>
           </footer>
           <!-- ============================================================== -->
           <!-- End footer -->

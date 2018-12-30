@@ -17,8 +17,8 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->integer('pegawai_id')->unsigned()->nullable();
             $table->foreign('pegawai_id')->references('id')->on('master_pegawai')->onDelete('restrict');
-            $table->string('username')->unique();
-            $table->string('password');
+            $table->string('username', 50)->unique();
+            $table->string('password', 255);
             $table->rememberToken();
             $table->timestamps();
         });

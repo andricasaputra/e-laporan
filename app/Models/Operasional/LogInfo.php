@@ -19,7 +19,14 @@ class LogInfo extends Model
 
     public function getBulanAttribute($value)
     {
-        return Tanggal::bulanTahun($value);
+        if (strlen($value) > 4) {
+
+            return Tanggal::bulanTahun($value);
+
+        }
+
+        return $value;
+        
     }
 
     public function getTypeAttribute($value)
@@ -49,6 +56,12 @@ class LogInfo extends Model
         	case 'impor_kh':
         		$type = 'Impor Karantina Hewan';
         		break;
+            case 'pembatalan_dok_kt':
+                $type = 'Pembatalan Dokumen Karantina Tumbuhan';
+                break;
+            case 'pembatalan_dok_kh':
+                $type = 'Pembatalan Dokumen Karantina Hewan';
+                break;
         	default:
         		$type = 'Data Operasional Tidak Ditemukan';
         		break;
@@ -96,17 +109,17 @@ class LogInfo extends Model
     public function scopeKarantinaTumbuhanType($query, $year, $wilker)
     {
         return $query->where('wilker_id', $wilker)
-                     ->whereYear('bulan', $year)
-                     ->whereIn('type', ['dokel_kt', 'domas_kt', 'ekspor_kt', 'impor_kt'])
-                     ->orderBy('bulan', 'desc');
+                     ->whereYear('created_at', $year)
+                     ->whereIn('type', ['dokel_kt', 'domas_kt', 'ekspor_kt', 'impor_kt', 'pembatalan_dok_kt'])
+                     ->latest();
     }
 
     public function scopeKarantinaHewanType($query, $year, $wilker)
     {
         return $query->where('wilker_id', $wilker)
-                     ->whereYear('bulan', $year)
-                     ->whereIn('type', ['dokel_kh', 'domas_kh', 'ekspor_kh', 'impor_kh'])
-                     ->orderBy('bulan', 'desc');
+                     ->whereYear('created_at', $year)
+                     ->whereIn('type', ['dokel_kh', 'domas_kh', 'ekspor_kh', 'impor_kh', 'pembatalan_dok_kh'])
+                     ->latest();
     }
 
 }

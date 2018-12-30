@@ -4,19 +4,17 @@ namespace App\Traits;
 
 use App\Models\User;
 use App\Models\Wilker;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Collection;
 
 trait UsersTrait
 {
 	public function getUserId()
     {
-        return Auth::user()->id;
+        return auth()->user()->id;
     }
 
     public function getUserRoleId()
     {
-        return Auth::user()->role()->first()->id;
+        return auth()->user()->role()->first()->id;
     }
 
     public function setUserWilkerId(int $wilker_id)
@@ -51,7 +49,7 @@ trait UsersTrait
     {
         if ($this->setActiveUser()->id !== $user_id) {
 
-            Session::flash('warning','Unautorizhed User Detected!');
+            session()->flash('warning','Unautorizhed User Detected!');
 
             return false;
 
@@ -62,19 +60,16 @@ trait UsersTrait
 
     public function setActiveUser()
     {
-        $user = User::whereId($this->getUserId())->first();
-
-        return $user;
+        return User::whereId($this->getUserId())->first();
     }
 
     public function setActiveUserWilker()
     {
-        $wilker = $this->getUserRoleId() === 1 || $this->getUserRoleId() === 2
+        return  $this->getUserRoleId() === 1 || $this->getUserRoleId() === 2
 
                 ? Wilker::where('nama_wilker', '!=', 'Kantor induk')->get()
 
                 : User::find($this->getUserId())->wilker;
-
-        return $wilker;
     }
+
 }

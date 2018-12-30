@@ -15,9 +15,9 @@ class CreateMasterPegawaiTable extends Migration
     {
         Schema::create('master_pegawai', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nama');
-            $table->string('nip')->nullable();
-            $table->string('jenis_karantina')->nullable();
+            $table->string('nama', 100);
+            $table->string('nip', 25)->nullable();
+            $table->string('jenis_karantina', 25)->nullable();
             $table->integer('golongan_id')->unsigned()->nullable();
             $table->integer('jabatan_id')->unsigned()->nullable();
             $table->boolean('is_active')->default(1);

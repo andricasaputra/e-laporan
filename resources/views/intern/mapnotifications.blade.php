@@ -60,7 +60,6 @@
 
     <hr>
 
-	
 	@foreach($notifications as $notification)
 		<form action="{{ route('mark.as.read') }}" id="notif_submit-{{ $notification->id }}" method="POST">
 		@csrf
@@ -89,13 +88,10 @@
 		</form>
 		<hr>
 	@endforeach
-	
-	
 
 	<li class="text-center" role="menuitem" tabindex="0">
       <i class="fa fa-eye"></i> <a href="{{ route('show.all.notifications') }}">Lihat semua pemberitahuan</a>
     </li>
-	
 
 @else
 

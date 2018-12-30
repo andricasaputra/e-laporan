@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\EksporKh as Operasional;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
-use App\Http\Controllers\Operasional\UploadController as Upload;
+use App\Http\Controllers\Operasional\UploadOperasionalController as Upload;
 
 ini_set('max_execution_time', '200');
 
@@ -55,13 +55,6 @@ class EksporKhController extends BaseOperasionalController implements BaseOperas
      */
     public function imports(Validation $request) 
 	{
-        if (! $request->hasFile('filenya')) {
-
-             session()->flash('warning','Harap Pilih File Untuk Diimport Terlebih Dahulu!');
-
-             return back();
-        }
-
         $this->setDataProperty($request, new Operasional);
 
         /*Filter Data Sebelum Insert Database*/
@@ -124,9 +117,11 @@ class EksporKhController extends BaseOperasionalController implements BaseOperas
      * @param int $year
      * @return datatables JSON
      */
-    public function api(int $year)
+    public function api($year = null, $month =  null, $wilker_id = null)
     {
-        $ekspor = Operasional::whereYear('bulan', $year)->with('wilker')->get();
+        $ekspor = Operasional::sortTableDetail($year, $month, $wilker_id)
+                    ->with('wilker')
+                    ->get();
 
         return app('DataTables')::of($ekspor)->addIndexColumn()->make(true);
     }

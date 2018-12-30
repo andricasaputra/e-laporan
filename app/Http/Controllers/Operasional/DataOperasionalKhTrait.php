@@ -4,15 +4,14 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Operasional;
 
-use App\Models\wilker;
+use App\Models\Wilker;
 use Illuminate\Http\Request;
-use App\Http\Controllers\RupiahController as Rupiah;
 
 trait DataOperasionalKhTrait
 {   
     /**
      * Untuk Mengumpulkan data statistik yang akan digunakan oleh
-     * method show pada class HomeKhController
+     * method show pada class HomeKhController dan class HomeAdmin
      *
      * @return array
      */
@@ -22,27 +21,39 @@ trait DataOperasionalKhTrait
 
             'tahun'  => $this->year,
             'bulan'  => $this->month,
-            'wilker' => wilker::whereId($this->wilker_id)->pluck('nama_wilker')->first(),
+            'wilker' => Wilker::whereId($this->wilker_id)->pluck('nama_wilker')->first(),
             'dataKh' => [
 
                'frekuensiPerKegiatan' => [
 
                     'Domestik Masuk Karantina Hewan' => [
+
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
                         'link' => route('kh.view.page.detail.frekuensi.domas', $this->params)
+
                     ],
+
                     'Domestik Keluar Karantina Hewan' => [
+
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
                         'link' => route('kh.view.page.detail.frekuensi.dokel', $this->params)
+
                     ],
+
                     'Ekspor Karantina Hewan' => [
+
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
                         'link' => route('kh.view.page.detail.frekuensi.ekspor', $this->params)
+
                     ],
+
                     'Impor Karantina Hewan' => [
+
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
                         'link' => route('kh.view.page.detail.frekuensi.impor', $this->params)
+
                     ]
+
                 ],
 
                'totalVolume' =>  [
@@ -62,32 +73,28 @@ trait DataOperasionalKhTrait
                     'Domestik Masuk Karantina Hewan' => [
 
                         'volume' => $this->khRepository->totalRekapitulasi()->domasTotalVolume->groupBy('satuan'),
-                        'link' => route('kh.view.rekapitulasi.domas', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
                     'Domestik Keluar Karantina Hewan' => [
 
                         'volume' => $this->khRepository->totalRekapitulasi()->dokelTotalVolume->groupBy('satuan'),
-                        'link' => route('kh.view.rekapitulasi.dokel', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
                     'Ekspor Karantina Hewan' => [
 
                         'volume' => $this->khRepository->totalRekapitulasi()->eksporTotalVolume->groupBy('satuan'),
-                        'link' => route('kh.view.rekapitulasi.ekspor', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
                     'Impor Karantina Hewan' => [
 
                         'volume' => $this->khRepository->totalRekapitulasi()->imporTotalVolume->groupBy('satuan'),
-                        'link' => route('kh.view.rekapitulasi.impor', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
@@ -98,32 +105,28 @@ trait DataOperasionalKhTrait
                     'Domestik Masuk Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpDomas,
-                        'link' => route('kh.view.rekapitulasi.domas', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
                     'Domestik Keluar Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpDokel,
-                        'link' => route('kh.view.rekapitulasi.dokel', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
                     'Ekspor Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpEkspor,
-                        'link' => route('kh.view.rekapitulasi.ekspor', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
                     'Impor Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpImpor,
-                        'link' => route('kh.view.rekapitulasi.impor', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
@@ -134,32 +137,28 @@ trait DataOperasionalKhTrait
                     'Domestik Masuk Karantina Hewan' => [
 
                         'dokumen' => $this->khRepository->pemakaianDokumen()->dokumenDomas,
-                        'link' => route('kh.view.rekapitulasi.domas', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
                     'Domestik Keluar Karantina Hewan' => [
 
                         'dokumen' => $this->khRepository->pemakaianDokumen()->dokumenDokel,
-                        'link' => route('kh.view.rekapitulasi.dokel', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
                     'Ekspor Karantina Hewan' => [
 
                         'dokumen' => $this->khRepository->pemakaianDokumen()->dokumenEkspor,
-                        'link' => route('kh.view.rekapitulasi.ekspor', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
                     'Impor Karantina Hewan' => [
 
                         'dokumen' => $this->khRepository->pemakaianDokumen()->dokumenImpor,
-                        'link' => route('kh.view.rekapitulasi.impor', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
 
                     ],
 
@@ -213,20 +212,31 @@ trait DataOperasionalKhTrait
                'frekuensiPerKegiatan' => [
 
                     'Domestik Masuk Karantina Hewan' => [
+
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
                         'link' => route('kh.view.page.detail.frekuensi.domas', $this->params)
+
                     ],
+
                     'Domestik Keluar Karantina Hewan' => [
+
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
                         'link' => route('kh.view.page.detail.frekuensi.dokel', $this->params)
+
                     ],
+
                     'Ekspor Karantina Hewan' => [
+
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
                         'link' => route('kh.view.page.detail.frekuensi.ekspor', $this->params)
+
                     ],
+
                     'Impor Karantina Hewan' => [
+
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
                         'link' => route('kh.view.page.detail.frekuensi.impor', $this->params)
+
                     ]
                 ],
 

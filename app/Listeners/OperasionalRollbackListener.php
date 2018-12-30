@@ -62,7 +62,7 @@ class OperasionalRollbackListener
             $operasional    =   $this->model->whereIn('bulan', [$event->bulan])
                                             ->whereIn('wilker_id', [$event->wilkerId])
                                             ->get();
-
+                                            
             $operasional->each(function($item, $key){
 
                 return $item->delete();

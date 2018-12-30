@@ -1,4 +1,5 @@
 <script>
+	
 	$('#btnNotifications').click(function(){
 
 		$("#main_notifications").html(`
@@ -10,7 +11,7 @@
 		  `);
 
 		$('#main_notifications').delay(500).queue(function( nxt ) {
-		    $(this).load('{{route('map.notifications')}}');
+		    $(this).load('{{ route('map.notifications') }}');
 		    nxt();
 		});
 

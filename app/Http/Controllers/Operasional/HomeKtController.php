@@ -156,5 +156,4 @@ class HomeKtController extends Controller
         return back()->with('success', 'Laporan Operasional Berhasil Ditarik Kembali');
     }
     
-
 }

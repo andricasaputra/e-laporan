@@ -41,11 +41,15 @@
                     </a>
                 </li>
                 <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('showmenu.operasional.kh') }}" aria-expanded="false"><i class="mdi mdi-account-network"></i><span class="hide-menu">Operasional KH</span>
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('showmenu.operasional.kh') }}" aria-expanded="false"><i class="mdi mdi-paw"></i><span class="hide-menu">Operasional KH</span>
                     </a>
                 </li>
                 <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('showmenu.operasional.kt') }}" aria-expanded="false"><i class="mdi mdi-border-all"></i><span class="hide-menu">Operasional KT</span>
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('showmenu.operasional.kt') }}" aria-expanded="false"><i class="mdi mdi-leaf"></i><span class="hide-menu">Operasional KT</span>
+                    </a>
+                </li>
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ asset('storage/e-operasional/guides-e-operasional.pdf') }}" aria-expanded="false" target="_blank" rel="noreferrer"><i class="mdi mdi-book-open-page-variant"></i><span class="hide-menu">Manual E - Operasional</span>
                     </a>
                 </li>
             </ul>

@@ -12,6 +12,10 @@ use App\Models\Operasional\EksporKh;
 use App\Contracts\RepositoryInterface;
 use App\Events\OperasionalRollbackEvent;
 use App\Http\Controllers\RupiahController as Rupiah;
+use App\Models\Operasional\RekapitulasiKomoditiDokelKh as RekapDokelKh;
+use App\Models\Operasional\RekapitulasiKomoditiDomasKh as RekapDomasKh;
+use App\Models\Operasional\RekapitulasiKomoditiImporKh as RekapImporKh;
+use App\Models\Operasional\RekapitulasiKomoditiEksporKh as RekapEksporKh;
 
 class DataOperasionalKhRepository implements RepositoryInterface
 {
@@ -265,19 +269,19 @@ class DataOperasionalKhRepository implements RepositoryInterface
      */
     public function totalRekapitulasi()
     {
-        $this->dokelTotalVolume  =  static::castPnbpToRupiah(DokelKh::countRekapitulasi(
+        $this->dokelTotalVolume  =  static::castPnbpToRupiah(RekapDokelKh::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
 
-        $this->domasTotalVolume  =  static::castPnbpToRupiah(DomasKh::countRekapitulasi(
+        $this->domasTotalVolume  =  static::castPnbpToRupiah(RekapDomasKh::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
 
-        $this->eksporTotalVolume =  static::castPnbpToRupiah(EksporKh::countRekapitulasi(
+        $this->eksporTotalVolume =  static::castPnbpToRupiah(RekapEksporKh::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
 
-        $this->imporTotalVolume  =  static::castPnbpToRupiah(ImporKh::countRekapitulasi(
+        $this->imporTotalVolume  =  static::castPnbpToRupiah(RekapImporKh::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
         return $this; 
@@ -306,19 +310,19 @@ class DataOperasionalKhRepository implements RepositoryInterface
      */
     public function totalPnbp()
     {
-        $this->pnbpDomas     =  DomasKh::countTotalPnbp(
+        $this->pnbpDomas     =  RekapDomasKh::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
                                 )->first()->pnbp;
 
-        $this->pnbpDokel     =  DokelKh::countTotalPnbp(
+        $this->pnbpDokel     =  RekapDokelKh::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
                                 )->first()->pnbp;
 
-        $this->pnbpEkspor    =  EksporKh::countTotalPnbp(
+        $this->pnbpEkspor    =  RekapEksporKh::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
                                 )->first()->pnbp;
 
-        $this->pnbpImpor     =  ImporKh::countTotalPnbp(
+        $this->pnbpImpor     =  RekapImporKh::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
                                 )->first()->pnbp;
 
@@ -386,19 +390,19 @@ class DataOperasionalKhRepository implements RepositoryInterface
      */
     public function topFiveFrekuensiKomoditiKh()
     {
-        $this->topFiveFrekuensiKomoditiDokel    =   DokelKh::topFiveFrekuensiKomoditi(
+        $this->topFiveFrekuensiKomoditiDokel    =   RekapDokelKh::topFiveFrekuensiKomoditi(
                                                         $this->year, $this->month, $this->wilker_id
                                                     )->get();
 
-        $this->topFiveFrekuensiKomoditiDomas    =   DomasKh::topFiveFrekuensiKomoditi(
+        $this->topFiveFrekuensiKomoditiDomas    =   RekapDomasKh::topFiveFrekuensiKomoditi(
                                                         $this->year, $this->month, $this->wilker_id
                                                     )->get();
 
-        $this->topFiveFrekuensiKomoditiEkspor   =   EksporKh::topFiveFrekuensiKomoditi(
+        $this->topFiveFrekuensiKomoditiEkspor   =   RekapEksporKh::topFiveFrekuensiKomoditi(
                                                         $this->year, $this->month, $this->wilker_id
                                                     )->get();
 
-        $this->topFiveFrekuensiKomoditiImpor    =   ImporKh::topFiveFrekuensiKomoditi(
+        $this->topFiveFrekuensiKomoditiImpor    =   RekapImporKh::topFiveFrekuensiKomoditi(
                                                         $this->year, $this->month, $this->wilker_id
                                                     )->get();
         return $this;

@@ -39,7 +39,7 @@ class MainNotificationsEvent /*implements ShouldBroadcast*/
      */
 
     /**
-    *The Errors  Note!!
+    * The Errors  Note!!
     *
     * @return  Illuminate \ Broadcasting \ BroadcastException
     * The data content of this event exceeds the allowed maximum (10240 bytes). 

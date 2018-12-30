@@ -15,8 +15,8 @@ class CreateJabatanTable extends Migration
     {
         Schema::create('jabatan', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('jabatan');
-            $table->string('klasifikasi')->nullable();
+            $table->string('jabatan', 70);
+            $table->string('klasifikasi', 20)->nullable();
             $table->timestamps();
         });
     }

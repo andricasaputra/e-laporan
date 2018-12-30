@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,10 +13,15 @@ class DatabaseSeeder extends Seeder
     {
         /*
         |
-        |Seeder Untuk EOffice & Setup Aplikasi Database (Default Migrations)
+        | Seeder Untuk EOffice & Setup Aplikasi Database (Default Migrations)
         |
         */
 
+        $this->mapOperasionalSeeder();
+    }
+
+    public function mapOperasionalSeeder()
+    {
         $this->call(RolesTableSeeder::class);
         $this->call(WilkerTableSeeder::class);
         $this->call(GolonganTableSeeder::class);
@@ -27,20 +31,6 @@ class DatabaseSeeder extends Seeder
         $this->call(WilkerUsersTableSeeder::class);
         $this->call(RoleUsersTableSeeder::class);
         $this->call(UserProfileTableSeeder::class);
-
-        /*
-        |
-        |Seeder Untuk IKM Database
-        |
-        */
-
-        // $this->call(IkmTableSeeder::class);
-        // $this->call(IkmLayananTableSeeder::class);
-        // $this->call(IkmAnswerTableSeeder::class);
-        // $this->call(IkmQuestionTableSeeder::class);
-        // $this->call(IkmAnswerQuestionTableSeeder::class);
-        // $this->call(IkmPekerjaanTableSeeder::class);
-        // $this->call(IkmPendidikanTableSeeder::class);
-        // $this->call(IkmUmurTableSeeder::class);
     }
+
 }

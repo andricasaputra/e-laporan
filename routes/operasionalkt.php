@@ -55,6 +55,12 @@ Route::get(
 	'statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@tableDetailFrekuensiView'
 )->name('kt.view.page.detail.frekuensi.impor');
 
+/*View Page Table Detail Pembatalan Dokumen*/
+Route::get(
+	'statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'PembatalanDokKtController@tableDetailPembatalanView'
+)->name('kt.view.page.detail.dokumen.pembatalan_dokumen');
+
+
 Route::middleware('kt')->group(function(){
 
 	Route::get('home_upload/{tahun?}', 'HomeKtController@homeUpload')
@@ -76,6 +82,9 @@ Route::middleware('kt')->group(function(){
 	Route::get('upload/impor', 'ImporKtController@uploadPageView')
 	->name('kt.upload.page.impor'); 
 
+	Route::get('upload/pembatalan_dokumen', 'PembatalanDokKtController@uploadPageView')
+	->name('kt.upload.page.pembatalan_dokumen');
+
 	/*Proses Upload*/
 	Route::post('dokel/importdata', 'DokelKtController@imports')
 	->name('kt.upload.proses.dokel');
@@ -88,6 +97,9 @@ Route::middleware('kt')->group(function(){
 
 	Route::post('impor/importdata', 'ImporKtController@imports')
 	->name('kt.upload.proses.impor');
+
+	Route::post('pembatalan_dokumen/importdata', 'PembatalanDokKtController@imports')
+	->name('kt.upload.proses.pembatalan_dokumen');
 
 	/*Export Routes*/
 	// Route::get('download/domas', function () {

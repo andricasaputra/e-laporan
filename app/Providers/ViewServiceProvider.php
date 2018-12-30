@@ -103,6 +103,7 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kt.upload.domas',
                 'intern.operasional.kt.upload.ekspor',
                 'intern.operasional.kt.upload.impor',
+                'intern.operasional.kt.upload.pembatalan_dokumen',
             ],
 
             $this->namespace . '\Operasional\UploadPageComposer'

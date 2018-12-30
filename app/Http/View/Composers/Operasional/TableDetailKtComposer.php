@@ -2,18 +2,24 @@
 
 namespace App\Http\View\Composers\Operasional;
 
+use App\Models\Wilker;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 use App\Traits\TableOperasionalProperty;
 
 class TableDetailKtComposer
 {
     use TableOperasionalProperty;
 
-    public $year;
+    public $year, $month, $wilker_id;
 
-    public function __construct($year = null)
+    public function __construct(Request $request)
     {
-        $this->year = $year;
+        $this->year         = $request->route()->parameter('year');
+
+        $this->month        = $request->route()->parameter('month');
+
+        $this->wilker_id    = $request->route()->parameter('wilker_id');
     }
 
     /**
@@ -24,8 +30,14 @@ class TableDetailKtComposer
      */
     public function compose(View $view)
     {
+        $view->with('wilkers', Wilker::where('id', '!=', 1)->get());
+
         $view->with('titles', $this->tableTitleKt()); 
 
         $view->with('tahun', $this->year ?? date('Y'));
+
+        $view->with('bulan', $this->month);
+
+        $view->with('userWilker', $this->wilker_id ?? auth()->user()->wilker->first()->id);
     }
 }

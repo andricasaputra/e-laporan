@@ -4,15 +4,14 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Operasional;
 
-use App\Models\wilker;
+use App\Models\Wilker;
 use Illuminate\Http\Request;
-use App\Http\Controllers\RupiahController as Rupiah;
 
 trait DataOperasionalKtTrait
 {   
     /**
      * Untuk Mengumpulkan data statistik yang akan digunakan oleh
-     * method show pada class HomektController
+     * method show pada class HomektController dan class HomeAdmin
      *
      * @return array
      */
@@ -22,26 +21,37 @@ trait DataOperasionalKtTrait
 
             'tahun'  => $this->year,
             'bulan'  => $this->month,
-            'wilker' => wilker::whereId($this->wilker_id)->pluck('nama_wilker')->first(),
+            'wilker' => Wilker::whereId($this->wilker_id)->pluck('nama_wilker')->first(),
             'dataKt' => [
 
                'frekuensiPerKegiatan' => [
 
                     'Domestik Masuk Karantina Tumbuhan' => [
+
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
                         'link' => route('kt.view.page.detail.frekuensi.domas', $this->params)
+
                     ],
+
                     'Domestik Keluar Karantina Tumbuhan' => [
+
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
                         'link' => route('kt.view.page.detail.frekuensi.dokel', $this->params)
+
                     ],
+
                     'Ekspor Karantina Tumbuhan' => [
+
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
                         'link' => route('kt.view.page.detail.frekuensi.ekspor', $this->params)
+
                     ],
+
                     'Impor Karantina Tumbuhan' => [
+
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
                         'link' => route('kt.view.page.detail.frekuensi.impor', $this->params)
+
                     ]
                 ],
 
@@ -62,32 +72,28 @@ trait DataOperasionalKtTrait
                     'Domestik Masuk Karantina Tumbuhan' => [
 
                         'volume' => $this->ktRepository->totalRekapitulasi()->domasTotalVolume->groupBy('sat_netto'),
-                        'link' => route('kt.view.rekapitulasi.domas', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
                     ],
 
                     'Domestik Keluar Karantina Tumbuhan' => [
 
                         'volume' => $this->ktRepository->totalRekapitulasi()->dokelTotalVolume->groupBy('sat_netto'),
-                        'link' => route('kt.view.rekapitulasi.dokel', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
                     ],
 
                     'Ekspor Karantina Tumbuhan' => [
 
                         'volume' => $this->ktRepository->totalRekapitulasi()->eksporTotalVolume->groupBy('sat_netto'),
-                        'link' => route('kt.view.rekapitulasi.ekspor', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
                     ],
 
                     'Impor Karantina Tumbuhan' => [
 
                         'volume' => $this->ktRepository->totalRekapitulasi()->imporTotalVolume->groupBy('sat_netto'),
-                        'link' => route('kt.view.rekapitulasi.impor', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
                     ],
 
@@ -98,7 +104,7 @@ trait DataOperasionalKtTrait
                     'Domestik Masuk Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpDomas,
-                        'link' => route('kt.view.rekapitulasi.domas', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
 
                     ],
@@ -106,7 +112,7 @@ trait DataOperasionalKtTrait
                     'Domestik Keluar Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpDokel,
-                        'link' => route('kt.view.rekapitulasi.dokel', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
 
                     ],
@@ -114,7 +120,7 @@ trait DataOperasionalKtTrait
                     'Ekspor Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpEkspor,
-                        'link' => route('kt.view.rekapitulasi.ekspor', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
 
                     ],
@@ -122,7 +128,7 @@ trait DataOperasionalKtTrait
                     'Impor Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpImpor,
-                        'link' => route('kt.view.rekapitulasi.impor', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
 
                     ],
@@ -134,32 +140,28 @@ trait DataOperasionalKtTrait
                     'Domestik Masuk Karantina Tumbuhan' => [
 
                         'dokumen' => $this->ktRepository->pemakaianDokumen()->dokumenDomas,
-                        'link' => route('kt.view.rekapitulasi.domas', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
                     ],
 
                     'Domestik Keluar Karantina Tumbuhan' => [
 
                         'dokumen' => $this->ktRepository->pemakaianDokumen()->dokumenDokel,
-                        'link' => route('kt.view.rekapitulasi.dokel', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
                     ],
 
                     'Ekspor Karantina Tumbuhan' => [
 
                         'dokumen' => $this->ktRepository->pemakaianDokumen()->dokumenEkspor,
-                        'link' => route('kt.view.rekapitulasi.ekspor', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
                     ],
 
                     'Impor Karantina Tumbuhan' => [
 
                         'dokumen' => $this->ktRepository->pemakaianDokumen()->dokumenImpor,
-                        'link' => route('kt.view.rekapitulasi.impor', $this->params)
-
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
 
                     ],
 
@@ -213,20 +215,31 @@ trait DataOperasionalKtTrait
                'frekuensiPerKegiatan' => [
 
                     'Domestik Masuk Karantina Tumbuhan' => [
+
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
                         'link' => route('kt.view.page.detail.frekuensi.domas', $this->params)
+
                     ],
+
                     'Domestik Keluar Karantina Tumbuhan' => [
+
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
                         'link' => route('kt.view.page.detail.frekuensi.dokel', $this->params)
+
                     ],
+
                     'Ekspor Karantina Tumbuhan' => [
+
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
                         'link' => route('kt.view.page.detail.frekuensi.ekspor', $this->params)
+
                     ],
+
                     'Impor Karantina Tumbuhan' => [
+
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
                         'link' => route('kt.view.page.detail.frekuensi.impor', $this->params)
+
                     ]
                 ],
 

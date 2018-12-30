@@ -220,7 +220,7 @@
       { "data" : "wilker.nama_wilker" },
       { "data" : null, 
         render: function (data, type, row) {
-          var details = row.status + " " + row.rolledback_at;
+          let details = row.status + " " + row.rolledback_at;
           return details 
         }
       },
@@ -233,11 +233,6 @@
 
         "processing": true,
         "serverSide": true,
-        "paginate" : false,
-        "lengthChange" : false,
-        "order" : false,
-        "searching": false,
-        "bInfo": false,
         "ajax":{
            "url": url,
            "method": "POST",
@@ -263,11 +258,6 @@
 
           "processing": true,
           "serverSide": true,
-          "paginate" : false,
-          "lengthChange" : false,
-          "order" : false,
-          "searching": false,
-          "bInfo": false,
           "ajax":{
              "url": url,
              "method": "POST",

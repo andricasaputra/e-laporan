@@ -256,7 +256,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
     <div class="row">
       <div class="col-md-4">
-        <label for="frekKh">Pilih Tahun</label>
+        <label for="frekKh">Pilih Jenis Permohonan</label>
         <select name="frekKh" id="selectCatKh" class="form-control">
           <option value="Domestik Keluar Karantina Hewan">Domestik Keluar</option>
           <option value="Domestik Masuk Karantina Hewan">Domestik Masuk</option>
@@ -294,7 +294,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
     <div class="row">
       <div class="col-md-4">
-        <label for="frekKt">Pilih Tahun</label>
+        <label for="frekKt">Pilih Jenis Permohonan</label>
         <select name="frekKt" id="selectCatKt" class="form-control">
           <option value="Domestik Keluar Karantina Tumbuhan">Domestik Keluar</option>
           <option value="Domestik Masuk Karantina Tumbuhan">Domestik Masuk</option>
@@ -340,15 +340,21 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
   $(document).ready(function(){
 
+    let year = $('#year').val();
+
+    let month = $('#month').val();
+
+    let wilker = $('#wilker').val();
+
     $('#change_data').on('submit', function(e){
 
       e.preventDefault();
 
-      let year = $('#year').val();
+      year = $('#year').val();
 
-      let month = $('#month').val();
+      month = $('#month').val();
 
-      let wilker = $('#wilker').val();
+      wilker = $('#wilker').val();
 
       if (year != '' && month == '' && wilker == '') {
 
@@ -366,60 +372,21 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
     });
 
-    /*Hightchart colors option*/
-    Highcharts.setOptions({
-      colors: ['#7460EE']
-    });
+    let khValue = 'Domestik Keluar Karantina Hewan';
 
-    /*Chart KH*/
-    let chartKh = Highcharts.chart('chartFrekuensiKh', {
-      credits : false,
-      chart: {
-          type: 'column'
-      },
-      title: {
-          text: 'Frekuensi Operasional Karantina Hewan'
-      },
-      subtitle: {
-          text: 'Berdasarkan Sertifikasi'
-      },
-      xAxis: {
-          categories:  @json(collect($dataKh['dataKh']['frekuensiKomoditiPerMonth']['Domestik Keluar Karantina Hewan'])->flatten(1)->pluck('bln')->all()),
-          crosshair: true
-      },
-      yAxis: {
-          min: 0,
-          title: {
-              text: 'Frekuensi (kali)'
-          }
-      },
-      tooltip: {
-          shared: true,
-          useHTML: true
-      },
-      plotOptions: {
-          column: {
-              pointPadding: 0.2,
-              borderWidth: 0
-          }
-      },
-      series: [{
-          name:'Frekuensi' ,
-          data: @json(collect($dataKh['dataKh']['frekuensiKomoditiPerMonth']['Domestik Keluar Karantina Hewan'])->flatten(1)->pluck('data')->all())
-      }]
-  });
+    let ktValue = 'Domestik Keluar Karantina Tumbuhan';
 
-  $('#selectCatKh').change(function(){
+    let khUrl = '{{ route('api.kh.detail.frekuensi.chart') }}';
 
-    let value = $('#selectCatKh').val();
+    let ktUrl = '{{ route('api.kt.detail.frekuensi.chart') }}';
 
     $.ajax({
 
-      url : '{{ route('api.kh.detail.frekuensi.chart') }}/' + value
+      url : khUrl + '/' + khValue + '/' + year
 
     }).done(function(response){
 
-      let data = {
+      let dataKh = {
 
         data : [],
         name : []
@@ -428,110 +395,201 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
       $.each(response, function(key, value){
 
-        data.name.push(value.bln) 
-        data.data.push(value.data)  
+        dataKh.name.push(value.bln) 
+        dataKh.data.push(parseInt(value.data))  
 
       });
-      
-      $('#chartFrekuensiKh').highcharts().destroy();
 
-        chartKh = Highcharts.chart('chartFrekuensiKh', {
-          credits : false,
-          chart: {
-              type: 'column'
-          },
-          title: {
-              text: 'Frekuensi Operasional Karantina Tumbuhan'
-          },
-          subtitle: {
-              text: 'Berdasarkan Sertifikasi'
-          },
-          xAxis: {
-            categories:  data.name,
+      /*Hightchart colors option*/
+      Highcharts.setOptions({
+        colors: ['#7460EE']
+      });
+
+      /*Chart KH*/
+      let chartKh = Highcharts.chart('chartFrekuensiKh', {
+        credits : false,
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Frekuensi Operasional Karantina Hewan'
+        },
+        subtitle: {
+            text: 'Berdasarkan Sertifikasi'
+        },
+        xAxis: {
+            categories:  dataKh.name,
             crosshair: true
-          },
-          yAxis: {
-              min: 0,
-              title: {
-                  text: 'Frekuensi (kali)'
-              }
-          },
-          tooltip: {
-              shared: true,
-              useHTML: true
-          },
-          plotOptions: {
-              column: {
-                  pointPadding: 0.2,
-                  borderWidth: 0
-              }
-          },
-          series: [{
-            name:'Frekuensi',
-            data: data.data
-          }]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Frekuensi (kali)'
+            }
+        },
+        tooltip: {
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name:'Frekuensi' ,
+            data: dataKh.data
+        }]
+    });
+
+  });/*End Ajax KH*/
+
+  $.ajax({
+
+      url : ktUrl + '/' + ktValue + '/' + year
+
+    }).done(function(response){
+
+      let dataKt = {
+
+        data : [],
+        name : []
+
+      };
+
+      $.each(response, function(key, value){
+
+        dataKt.name.push(value.bln) 
+        dataKt.data.push(parseInt(value.data))  
+
+      });
+
+      /*Hightchart colors option*/
+      Highcharts.setOptions({
+        colors: ['#12AFAF', '#F62D51', '#64E572', '#2962FF']
+      });
+
+      /*Chart KH*/
+      let chartKt = Highcharts.chart('chartFrekuensiKt', {
+        credits : false,
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Frekuensi Operasional Karantina Tumbuhan'
+        },
+        subtitle: {
+            text: 'Berdasarkan Sertifikasi'
+        },
+        xAxis: {
+            categories:  dataKt.name,
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Frekuensi (kali)'
+            }
+        },
+        tooltip: {
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name:'Frekuensi' ,
+            data: dataKt.data
+        }]
+    });
+
+  });/*End Ajax KT*/
+
+
+  $('#selectCatKh').change(function(){
+
+      khValue = $('#selectCatKh').val();
+
+      $.ajax({
+
+        url : khUrl + '/' + khValue + '/' + year
+
+      }).done(function(response){
+
+        dataKh = {
+
+          data : [],
+          name : []
+
+        };
+
+        $.each(response, function(key, value){
+
+          dataKh.name.push(value.bln) 
+          dataKh.data.push(parseInt(value.data))  
+     
         });
 
-    })/*End ajax*/;
+        $('#chartFrekuensiKh').highcharts().destroy();
 
-
-  });
-
-  /*Hightchart colors option*/
-  Highcharts.setOptions({
-    colors: ['#12AFAF', '#F62D51', '#64E572', '#2962FF']
-  });
-
-  /*Chart KT*/
-  let chartKt = Highcharts.chart('chartFrekuensiKt', {
-    credits : false,
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Frekuensi Operasional Karantina Tumbuhan'
-    },
-    subtitle: {
-        text: 'Berdasarkan Sertifikasi'
-    },
-    xAxis: {
-        categories:  @json(collect($dataKt['dataKt']['frekuensiKomoditiPerMonth']['Domestik Keluar Karantina Tumbuhan'])->flatten(1)->pluck('bln')->all()),
-        crosshair: true
-    },
-    yAxis: {
-        min: 0,
+        chartKh = Highcharts.chart('chartFrekuensiKh', {
+        credits : false,
+        chart: {
+            type: 'column'
+        },
         title: {
-            text: 'Frekuensi (kali)'
-        }
-    },
-    tooltip: {
-        shared: true,
-        useHTML: true
-    },
-    plotOptions: {
-        column: {
-            pointPadding: 0.2,
-            borderWidth: 0
-        }
-    },
-    series: [{
-        name:'Frekuensi' ,
-        data: @json(collect($dataKt['dataKt']['frekuensiKomoditiPerMonth']['Domestik Keluar Karantina Tumbuhan'])->flatten(1)->pluck('data')->all())
-    }]
-  });
+            text: 'Frekuensi Operasional Karantina Tumbuhan'
+        },
+        subtitle: {
+            text: 'Berdasarkan Sertifikasi'
+        },
+        xAxis: {
+          categories:  dataKh.name,
+          crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Frekuensi (kali)'
+            }
+        },
+        tooltip: {
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+          name:'Frekuensi',
+          data: dataKh.data
+        }]
+      });
+
+    });/*End Ajax Select KH*/
+
+  });/*End Select KH*/
 
 
   $('#selectCatKt').change(function(){
 
-    let value = $('#selectCatKt').val();
+    ktValue = $('#selectCatKt').val();
 
     $.ajax({
 
-      url : '{{ route('api.kt.detail.frekuensi.chart') }}/' + value
+      url : ktUrl + '/' + ktValue + '/' + year
 
     }).done(function(response){
 
-      let data = {
+      dataKt = {
 
         data : [],
         name : []
@@ -540,8 +598,8 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
       $.each(response, function(key, value){
 
-        data.name.push(value.bln) 
-        data.data.push(value.data)  
+        dataKt.name.push(value.bln) 
+        dataKt.data.push(parseInt(value.data))  
 
       });
       
@@ -559,7 +617,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
               text: 'Berdasarkan Sertifikasi'
           },
           xAxis: {
-            categories:  data.name,
+            categories:  dataKt.name,
             crosshair: true
           },
           yAxis: {
@@ -580,14 +638,14 @@ use App\Http\Controllers\RupiahController as Rupiah;
           },
           series: [{
             name:'Frekuensi',
-            data: data.data
+            data: dataKt.data
           }]
         });
 
-    })/*End ajax*/;
+    });/*End Ajax Select KT*/
 
 
-  });
+  });/*End Select KT*/
 
   });/*End Ready*/
 </script>

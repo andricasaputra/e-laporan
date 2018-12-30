@@ -34,7 +34,7 @@
     padding: 0.5em 0.6em;
   }
 
-  .fa-bus{
+  .fa-bus, .fa-exchange{
     background-color: #f73b5e;
     color: #fff
   }
@@ -44,12 +44,12 @@
     color: #fff;
   }
 
-  .fa-ship{
+  .fa-ship, .fa-file-excel-o{
     background-color: #FF8F29;
     color: #fff;
   }
 
-  .fa-plane{
+  .fa-plane, .card-body > .fa-repeat{
     background-color: #12AFAF;
     color: #fff;
   }
@@ -114,6 +114,55 @@
     </div>
   </div>
 </div>
+
+<div class="row hide" id="advancedMenu">
+  <div class="col-md-4 col-sm-12">
+    <div class="card text-center">
+      <div class="card-header">
+        Upload Laporan Serah Terima
+      </div>
+      <div class="card-body">
+        <i class="fa fa-exchange fa-2x mb-3"></i>
+        <h4 class="card-text mb-3">
+          Serah Terima
+        </h4>
+        <a href="#" class="btn btn-primary">Masuk</a>
+      </div>
+    </div>
+  </div>  
+  <div class="col-md-4 col-sm-12">
+    <div class="card text-center">
+      <div class="card-header">
+        Upload Laporan Re Ekspor
+      </div>
+      <div class="card-body">
+        <i class="fa fa-repeat fa-2x mb-3"></i>
+        <h4 class="card-text mb-3">
+          Re Ekspor
+        </h4>
+        <a href="#" class="btn btn-primary">Masuk</a>
+      </div>
+    </div>
+  </div> 
+  <div class="col-md-4 col-sm-12">
+    <div class="card text-center">
+      <div class="card-header">
+        Upload Laporan Pembatalan Dokumen
+      </div>
+      <div class="card-body">
+        <i class="fa fa-file-excel-o fa-2x mb-3"></i>
+        <h4 class="card-text mb-3">
+          Pembatalan Dokumen
+        </h4>
+        <a href="{{ route('kt.upload.page.pembatalan_dokumen') }}" class="btn btn-primary">Masuk</a>
+      </div>
+    </div>
+  </div> 
+</div>
+
+<a href="#" id="showMoreMenu">Menu lanjutan <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+
+<hr>
 
 <div class="row mt-4 mb-2">
   <div class="col">
@@ -219,7 +268,7 @@
       { "data" : "wilker.nama_wilker" },
       { "data" : null, 
         render: function (data, type, row) {
-          var details = row.status + " " + row.rolledback_at;
+          let details = row.status + " " + row.rolledback_at;
           return details 
         }
       },
@@ -232,11 +281,6 @@
 
         "processing": true,
         "serverSide": true,
-        "paginate" : false,
-        "lengthChange" : false,
-        "order" : false,
-        "searching": false,
-        "bInfo": false,
         "ajax":{
            "url": url,
            "method": "POST",
@@ -262,11 +306,6 @@
 
           "processing": true,
           "serverSide": true,
-          "paginate" : false,
-          "lengthChange" : false,
-          "order" : false,
-          "searching": false,
-          "bInfo": false,
           "ajax":{
              "url": url,
              "method": "POST",
@@ -292,6 +331,12 @@
       let idInForm = $("#modalRollbackOperasional #typeId").val(id);
 
     });  
+
+    $('#showMoreMenu').click(function(e){
+      e.preventDefault();
+
+      $('#advancedMenu').toggleClass('hide');
+    });
 
 
   });

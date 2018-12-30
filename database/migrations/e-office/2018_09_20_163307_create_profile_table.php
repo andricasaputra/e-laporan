@@ -16,10 +16,10 @@ class CreateProfileTable extends Migration
         Schema::create('profile', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('master_pegawai_id')->unsigned();
-            $table->string('nama')->nullable();
-            $table->string('ttl')->nullable();
-            $table->string('alamat')->nullable();
-            $table->string('hp')->nullable();
+            $table->string('nama', 100)->nullable();
+            $table->string('ttl', 100)->nullable();
+            $table->text('alamat')->nullable();
+            $table->string('hp', 25)->nullable();
             $table->string('icon')->nullable();
             $table->foreign('master_pegawai_id')->references('id')->on('master_pegawai');
             $table->timestamps();
