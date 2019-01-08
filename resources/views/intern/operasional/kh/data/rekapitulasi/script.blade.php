@@ -64,7 +64,7 @@
         },
         "columns": [
           { "data" : "nama_mp" },
-          { "data" : "volume" },
+          { "data" : "volume", render: $.fn.dataTable.render.number( '.', ',', 0 ) },
           { "data" : "satuan" },
           { "data" : "frekuensi" },
           { "data" : "pnbp" },
@@ -82,7 +82,9 @@
 
           e.preventDefault();
 
-          let mp      = $(this).data('mp');
+          let mpStr   = $(this).data('mp');
+
+          let mp      = mpStr.replace('/', '--');
 
           let detail  = $(this);
 
@@ -102,18 +104,20 @@
                row.child.hide();
                tr.toggleClass('active')
                tr.removeClass('shown');
-            }
-            else {
+
+            } else {
                // Open this row
                row.child(response).show();
                tr.toggleClass('active');
                tr.addClass('shown');
+
+               $('.table-detail-rekap').DataTable();
             }
               
           });
 
       });
-    }
+    }/*End Function*/
 
   });
 </script>

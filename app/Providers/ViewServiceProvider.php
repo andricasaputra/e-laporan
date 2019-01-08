@@ -33,6 +33,11 @@ class ViewServiceProvider extends ServiceProvider
         // 
     }
 
+    /**
+     * Inventarisir/ Mapping view untuk manajemen user.
+     *
+     * @return void
+     */
     public function mapUserAuth()
     {
         View::composer(
@@ -49,6 +54,11 @@ class ViewServiceProvider extends ServiceProvider
 
     }
 
+    /**
+     * Inventarisir/ Mapping view untuk E- Operasional
+     *
+     * @return void
+     */
     public function mapOperasional()
     {
         /*Share Data For Statistik Page KH*/
@@ -59,6 +69,7 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kh.data.statistik.detail.frekuensi.domas',
                 'intern.operasional.kh.data.statistik.detail.frekuensi.ekspor',
                 'intern.operasional.kh.data.statistik.detail.frekuensi.impor',
+                'intern.operasional.kh.data.statistik.detail.dokumen.pembatalan_dokumen',
             ],
 
             $this->namespace . '\Operasional\TableDetailKhComposer'
@@ -73,6 +84,7 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kt.data.statistik.detail.frekuensi.domas',
                 'intern.operasional.kt.data.statistik.detail.frekuensi.ekspor',
                 'intern.operasional.kt.data.statistik.detail.frekuensi.impor',
+                'intern.operasional.kt.data.statistik.detail.dokumen.pembatalan_dokumen',
             ],
 
             $this->namespace . '\Operasional\TableDetailKtComposer'
@@ -95,18 +107,37 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(
 
             [
+                /*KH views*/
                 'intern.operasional.kh.upload.dokel', 
                 'intern.operasional.kh.upload.domas',
                 'intern.operasional.kh.upload.ekspor',
                 'intern.operasional.kh.upload.impor',
+                'intern.operasional.kh.upload.pembatalan_dokumen',
+                'intern.operasional.kh.upload.reekspor',
+                'intern.operasional.kh.upload.serah_terima',
+
+                /*KT views*/
                 'intern.operasional.kt.upload.dokel', 
                 'intern.operasional.kt.upload.domas',
                 'intern.operasional.kt.upload.ekspor',
                 'intern.operasional.kt.upload.impor',
                 'intern.operasional.kt.upload.pembatalan_dokumen',
+                'intern.operasional.kt.upload.reekspor',
+                'intern.operasional.kt.upload.serah_terima',
             ],
 
             $this->namespace . '\Operasional\UploadPageComposer'
+
+        );
+
+        /*Share Data For Home Download Page*/
+        View::composer(
+
+            [
+                'intern.operasional.kt.download.home_download',
+            ],
+
+            $this->namespace . '\Operasional\HomeDownloadPageComposer'
 
         );
 

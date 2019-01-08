@@ -15,13 +15,30 @@ use App\Repositories\Ikm\HomeRepository;
 
 class HomeController extends Controller
 {
+    /**
+     * For keep repository instance on the bag
+     *
+     * @var App\Repositories\HomeRepository
+     */
     private $repository;
 
+    /**
+     * For keep instance of repository
+     *
+     * @param HomeRepository $repository
+     * @return void
+     */
     public function __construct(HomeRepository $repository)
     {
         $this->repository = $repository;
     }
 
+    /**
+     * Create API For Main dashboard tables
+     *
+     * @param int $ikmId
+     * @return collections | array
+     */
     public function api(int $ikmId = null)
     {
         return $this->repository->api($ikmId);

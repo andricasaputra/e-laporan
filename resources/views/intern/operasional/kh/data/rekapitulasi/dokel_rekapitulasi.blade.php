@@ -9,7 +9,7 @@
                 <th>Komoditi</th>
                 <th>Jumlah/ Volume</th>
                 <th>Satuan</th>
-                <th>Frekuensi</th>
+                <th>Frekuensi (berdasarkan mp)</th>
                 <th>Total PNBP</th>
                 <th>Detail</th>
               </tr>

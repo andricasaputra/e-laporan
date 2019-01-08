@@ -11,9 +11,7 @@ interface BaseOperasionalInterface
 
 	public function rekapitulasiTableDetail(Request $request);
 
-	public function uploadPageView();
+	public function uploadPageView(Request $request);
 
 	public function imports(Validation $request);
-	
-	public function exports();
 }

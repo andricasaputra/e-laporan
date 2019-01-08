@@ -4,14 +4,12 @@ namespace App\Repositories\Operasional;
 
 use App\Traits\Repository;
 use Illuminate\Http\Request;
-use App\Models\Operasional\DokelKh;
-use App\Models\Operasional\DomasKh;
-use App\Models\Operasional\ImporKh;
 use App\Models\Operasional\LogInfo;
-use App\Models\Operasional\EksporKh;
 use App\Contracts\RepositoryInterface;
 use App\Events\OperasionalRollbackEvent;
+use App\Models\Operasional\PembatalanDokKh;
 use App\Http\Controllers\RupiahController as Rupiah;
+use App\Models\Operasional\PemakaianDokumenKh as DokumenKh;
 use App\Models\Operasional\RekapitulasiKomoditiDokelKh as RekapDokelKh;
 use App\Models\Operasional\RekapitulasiKomoditiDomasKh as RekapDomasKh;
 use App\Models\Operasional\RekapitulasiKomoditiImporKh as RekapImporKh;
@@ -106,34 +104,6 @@ class DataOperasionalKhRepository implements RepositoryInterface
     public $pnbpImpor;
 
     /**
-     * Untuk menyimpan data pemakaian dokumen kegiatan domas
-     *
-     * @var collection
-     */
-    public $dokumenDomas;
-
-    /**
-     * Untuk menyimpan data pemakaian dokumen kegiatan dokel
-     *
-     * @var collection
-     */
-    public $dokumenDokel;
-
-    /**
-     * Untuk menyimpan data pemakaian dokumen kegiatan ekspor
-     *
-     * @var collection
-     */
-    public $dokumenEkspor;
-
-    /**
-     * Untuk menyimpan data pemakaian dokumen kegiatan impor
-     *
-     * @var collection
-     */
-    public $dokumenImpor;
-
-    /**
      * Untuk menyimpan data frekuensi per bulan dokel
      *
      * @var collection
@@ -162,34 +132,6 @@ class DataOperasionalKhRepository implements RepositoryInterface
     public $frekuensiKomoditiImpor;
 
     /**
-     * Untuk menyimpan data top 5 Komoditi dokel
-     *
-     * @var collection
-     */
-    public $topFiveFrekuensiKomoditiDokel;
-
-    /**
-     * Untuk menyimpan data top 5 Komoditi domas
-     *
-     * @var collection
-     */
-    public $topFiveFrekuensiKomoditiDomas;
-
-    /**
-     * Untuk menyimpan data top 5 Komoditi Ekspor
-     *
-     * @var collection
-     */
-    public $topFiveFrekuensiKomoditiEkspor;
-
-    /**
-     * Untuk menyimpan data top 5 Komoditi Impor
-     *
-     * @var collection
-     */
-    public $topFiveFrekuensiKomoditiImpor;
-
-    /**
      * Untuk menyimpan parameter tahun dari url
      *
      * @var int
@@ -215,7 +157,7 @@ class DataOperasionalKhRepository implements RepositoryInterface
      *
      * @var array
      */
-    public $params;
+    public $routeParams;
 
     /**
      * Untuk menyimpan model namespace
@@ -233,13 +175,13 @@ class DataOperasionalKhRepository implements RepositoryInterface
      */
     public function setDateAndWilker($year = null, $month = null, $wilker_id = null)
     {
-        $this->year      = $year ?? date('Y');
+        $this->year         = $year ?? date('Y');
 
-        $this->month     = $month;
+        $this->month        = $month;
 
-        $this->wilker_id = $wilker_id;
+        $this->wilker_id    = $wilker_id;
 
-        $this->params    = [$this->year, $this->month, $this->wilker_id];
+        $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
     }
 
     /**
@@ -250,38 +192,71 @@ class DataOperasionalKhRepository implements RepositoryInterface
      */
     public function totalFrekuensiPerKegiatan()
     {
-        $this->frekuensiDomas   = DomasKh::countFrekuensi($this->year, $this->month, $this->wilker_id);
+        $this->frekuensiDomas   =   RekapDomasKh::countFrekuensi(
+                                        $this->year, $this->month, $this->wilker_id
+                                    )->frekuensi;
 
-        $this->frekuensiDokel   = DokelKh::countFrekuensi($this->year, $this->month, $this->wilker_id);
+        $this->frekuensiDokel   =   RekapDokelKh::countFrekuensi(
+                                        $this->year, $this->month, $this->wilker_id
+                                    )->frekuensi;
 
-        $this->frekuensiEkspor  = EksporKh::countFrekuensi($this->year, $this->month, $this->wilker_id);
+        $this->frekuensiEkspor  =   RekapEksporKh::countFrekuensi(
+                                        $this->year, $this->month, $this->wilker_id
+                                    )->frekuensi;
 
-        $this->frekuensiImpor   = ImporKh::countFrekuensi($this->year, $this->month, $this->wilker_id);
+        $this->frekuensiImpor   =   RekapImporKh::countFrekuensi(
+                                        $this->year, $this->month, $this->wilker_id
+                                    )->frekuensi;
 
         return $this;
     }
 
     /**
-     * Mengatur total Volume berdasakan jenis Kegiatan |
+     * Mengatur total volume komoditi per satuan |
+     * memakai scope local pada Model
+     *
+     * @return array
+     */
+    public function totalVolumePerSatuan()
+    {
+        return  [
+
+            'dokel' =>  RekapDokelKh::countVolume($this->year, $this->month, $this->wilker_id)
+                        ->get(),
+
+            'domas' =>  RekapDomasKh::countVolume($this->year, $this->month, $this->wilker_id)
+                        ->get(),
+
+            'ekspor' =>  RekapEksporKh::countVolume($this->year, $this->month, $this->wilker_id)
+                        ->get(),
+
+            'impor' =>  RekapImporKh::countVolume($this->year, $this->month, $this->wilker_id)
+                        ->get(),
+
+        ];
+    }
+
+    /**
+     * Mengatur total rekapitulasi frekuensi, volume, pnbp berdasakan komoditi |
      * memakai scope local pada Model
      *
      * @return this
      */
     public function totalRekapitulasi()
     {
-        $this->dokelTotalVolume  =  static::castPnbpToRupiah(RekapDokelKh::countRekapitulasi(
+        $this->dokelTotalVolume  =  static::castNumberFormat(RekapDokelKh::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
 
-        $this->domasTotalVolume  =  static::castPnbpToRupiah(RekapDomasKh::countRekapitulasi(
+        $this->domasTotalVolume  =  static::castNumberFormat(RekapDomasKh::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
 
-        $this->eksporTotalVolume =  static::castPnbpToRupiah(RekapEksporKh::countRekapitulasi(
+        $this->eksporTotalVolume =  static::castNumberFormat(RekapEksporKh::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
 
-        $this->imporTotalVolume  =  static::castPnbpToRupiah(RekapImporKh::countRekapitulasi(
+        $this->imporTotalVolume  =  static::castNumberFormat(RekapImporKh::countRekapitulasi(
                                         $this->year, $this->month, $this->wilker_id
                                     )->get());
         return $this; 
@@ -292,13 +267,18 @@ class DataOperasionalKhRepository implements RepositoryInterface
      *
      * @return collections
      */
-    public static function castPnbpToRupiah($collections)
+    public static function castNumberFormat($collections)
     {
         return $collections->map(function($value, $key){
+
             return collect($value)->map(function($val, $k){
+
                 if ($k == 'pnbp') $val =  Rupiah::rp($val);
+
                 return $val;
+
             });
+            
         });
     }
  
@@ -312,19 +292,19 @@ class DataOperasionalKhRepository implements RepositoryInterface
     {
         $this->pnbpDomas     =  RekapDomasKh::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
-                                )->first()->pnbp;
+                                )->pnbp;
 
         $this->pnbpDokel     =  RekapDokelKh::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
-                                )->first()->pnbp;
+                                )->pnbp;
 
         $this->pnbpEkspor    =  RekapEksporKh::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
-                                )->first()->pnbp;
+                                )->pnbp;
 
         $this->pnbpImpor     =  RekapImporKh::countTotalPnbp(
                                     $this->year, $this->month, $this->wilker_id
-                                )->first()->pnbp;
+                                )->pnbp;
 
         return $this;
     }
@@ -337,23 +317,22 @@ class DataOperasionalKhRepository implements RepositoryInterface
      */
     public function pemakaianDokumen()
     {
-        $this->dokumenDomas     =   DomasKh::countPemakaianDokumen(
-                                        $this->year, $this->month, $this->wilker_id
-                                    )->get();
+        return  DokumenKh::countPemakaianDokumen(
+                    $this->year, $this->month, $this->wilker_id
+                )->get();
+    }
 
-        $this->dokumenDokel     =   DokelKh::countPemakaianDokumen(
-                                        $this->year, $this->month, $this->wilker_id
-                                    )->get();
-
-        $this->dokumenEkspor    =   EksporKh::countPemakaianDokumen(
-                                        $this->year, $this->month, $this->wilker_id
-                                    )->get();
-
-        $this->dokumenImpor     =   ImporKh::countPemakaianDokumen(
-                                        $this->year, $this->month, $this->wilker_id
-                                    )->get();
-
-        return $this;
+    /**
+     * Mengatur Total Pembatalan Dokumen semua kegiatan |
+     * memakai local scope pada model
+     *
+     * @return void
+     */
+    public function pembatalanDokumen()
+    {
+        return  PembatalanDokKh::countPembatalanDokumen(
+                    $this->year, $this->month, $this->wilker_id
+                )->get();
     }
 
     /**
@@ -364,19 +343,19 @@ class DataOperasionalKhRepository implements RepositoryInterface
      */
     public function frekuensiKomoditiPerMonthKh()
     {
-        $this->frekuensiKomoditiDokel    =   DokelKh::countFrekuensiKomoditi(
+        $this->frekuensiKomoditiDokel    =   RekapDokelKh::countFrekuensiKomoditi(
                                                 $this->year, $this->month, $this->wilker_id
                                              )->get();
 
-        $this->frekuensiKomoditiDomas    =   DomasKh::countFrekuensiKomoditi(
+        $this->frekuensiKomoditiDomas    =   RekapDomasKh::countFrekuensiKomoditi(
                                                 $this->year, $this->month, $this->wilker_id
                                              )->get();
 
-        $this->frekuensiKomoditiEkspor   =   EksporKh::countFrekuensiKomoditi(
+        $this->frekuensiKomoditiEkspor   =   RekapEksporKh::countFrekuensiKomoditi(
                                                 $this->year, $this->month, $this->wilker_id
                                              )->get();
 
-        $this->frekuensiKomoditiImpor    =   ImporKh::countFrekuensiKomoditi(
+        $this->frekuensiKomoditiImpor    =   RekapImporKh::countFrekuensiKomoditi(
                                                 $this->year, $this->month, $this->wilker_id
                                              )->get();
         return $this;
@@ -390,22 +369,21 @@ class DataOperasionalKhRepository implements RepositoryInterface
      */
     public function topFiveFrekuensiKomoditiKh()
     {
-        $this->topFiveFrekuensiKomoditiDokel    =   RekapDokelKh::topFiveFrekuensiKomoditi(
-                                                        $this->year, $this->month, $this->wilker_id
-                                                    )->get();
+        return  [
 
-        $this->topFiveFrekuensiKomoditiDomas    =   RekapDomasKh::topFiveFrekuensiKomoditi(
-                                                        $this->year, $this->month, $this->wilker_id
-                                                    )->get();
+            'dokel' =>  RekapDokelKh::topFiveFrekuensiKomoditi($this->year, $this->month, $this->wilker_id)
+                        ->get(),
 
-        $this->topFiveFrekuensiKomoditiEkspor   =   RekapEksporKh::topFiveFrekuensiKomoditi(
-                                                        $this->year, $this->month, $this->wilker_id
-                                                    )->get();
+            'domas' =>  RekapDomasKh::topFiveFrekuensiKomoditi($this->year, $this->month, $this->wilker_id)
+                        ->get(),
 
-        $this->topFiveFrekuensiKomoditiImpor    =   RekapImporKh::topFiveFrekuensiKomoditi(
-                                                        $this->year, $this->month, $this->wilker_id
-                                                    )->get();
-        return $this;
+            'ekspor' =>  RekapEksporKh::topFiveFrekuensiKomoditi($this->year, $this->month, $this->wilker_id)
+                        ->get(),
+
+            'impor' =>  RekapImporKh::topFiveFrekuensiKomoditi($this->year, $this->month, $this->wilker_id)
+                        ->get(),
+
+        ];
     }
 
     /**
@@ -417,44 +395,10 @@ class DataOperasionalKhRepository implements RepositoryInterface
     public function getDetailKota(Request $request)
     {
         $class      = $request->route()->parameter('class');
-        $mp         = $request->route()->parameter('mp');
-        $year       = $request->route()->parameter('year');
-        $month      = $request->route()->parameter('month');
-        $wilker_id  = $request->route()->parameter('wilker_id');
         $model      = $this->modelNamespace . $class;
 
-        $getDetailKota  = $model::selectRaw(
-                            'kota_tuju, 
-                            kota_asal, 
-                            dok_pelepasan,
-                            count(*) as total,
-                            count(dok_pelepasan) as pemakaian_dokumen'
-                          )
-                          ->whereNotNull('kota_tuju')
-                          ->where('nama_mp', [$mp]);
-
-        if ($wilker_id !== null) {
-
-            $getDetailKota->where('wilker_id', $wilker_id);
-        } 
-
-        if ($month !== null && $month !== 'all') {
-
-            $getDetailKota->whereMonth('bulan', $month);
-        }
-
-        if ($year === null) {
-
-            $getDetailKota->whereYear('bulan', date('Y'));
-           
-        } else {
-
-            $getDetailKota->whereYear('bulan', $year);
-        }
-
-        return $getDetailKota->groupBy('kota_tuju')->get();
+        return $model::getDetailKotaByKomoditi($request);
     }
-
 
     /**
      * Untuk API Log Pengiriman Laporan
@@ -464,27 +408,27 @@ class DataOperasionalKhRepository implements RepositoryInterface
      * @param int $year, int $wilker_id
      * @return Collection of Datatables
      */
-    public function log($year, $wilker)
+    public function log($year, $month, $wilker, $type)
     {
-        $log = LogInfo::karantinaHewanType($year, $wilker)->get();
+        $log = LogInfo::karantinaHewanType($year, $month, $wilker, $type)->get();
 
         return app('DataTables')::of($log)->addIndexColumn()
          ->addColumn('action', function ($data) {
 
             if (empty($data->rolledback_at) || $data->rolledback_at == "") {
 
-                if (\Carbon::now()->subDays(7)->format('d-m-Y') > $data->created_at) {
+                if (\Carbon::now() > \Carbon::parse($data->created_at)->addWeek()) {
 
                     $action = '-';
                     
-                }else{
+                } else {
 
                     $action = '<a href="#" data-id = "'.$data->id.'" class="btn btn-danger" id="rollbackOperasionalBtn">
                             <i class="fa fa-repeat fa-fw"></i> Rollback
                         </a>';
                 }       
 
-            }else{
+            } else {
 
                $action = '-';
 

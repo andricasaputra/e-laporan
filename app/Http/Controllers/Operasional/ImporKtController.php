@@ -42,7 +42,7 @@ class ImporKtController extends BaseOperasionalController implements BaseOperasi
      *
      * @return to view
      */
-    public function uploadPageView()
+    public function uploadPageView(Request $request)
     {
         return view('intern.operasional.kt.upload.impor');
     }
@@ -64,52 +64,11 @@ class ImporKtController extends BaseOperasionalController implements BaseOperasi
     }
 
     /**
-     *Export data dengan format excel dari database
+     * API untuk detail tabel 
      *
-     * @return void
+     * @param int $year
+     * @return datatables JSON
      */
-    public function exports($tahun = '', $bulan = 'all')
-    {
-
-        if ($tahun != '') :
-            
-            if ($bulan != 'all') {
-                
-                $Datas = Operasional::whereMonth('tanggal_permohonan', $bulan)->get()->toArray();
-                
-            }else{
-
-                $Datas = Operasional::whereYear('tanggal_permohonan', $tahun)->get()->toArray();
-
-            }
-
-        else :
-
-            if ($bulan != 'all') {
-                
-                $Datas = Operasional::whereMonth('tanggal_permohonan', $bulan)->get()->toArray();
-
-            }else{
-
-                $Datas = Operasional::all()->toArray();
-            }
-
-        endif;
-
-        return Excel::create('Datas', function($excel) use ($Datas) {
-
-            $excel->sheet('Data Details', function($sheet) use ($Datas){
-
-                $sheet->fromArray($Datas);
-                
-            });
-
-        })->download('xlsx');
-        
-        session()->flash('success','Data Berhasil Didownload!');
-  
-    }
-
     public function api($year = null, $month =  null, $wilker_id = null)
     {
         $impor  = Operasional::sortTableDetail($year, $month, $wilker_id)

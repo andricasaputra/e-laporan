@@ -98,7 +98,7 @@
         <p>Karantina Tumbuhan</p>
       </div>
       <div class="card-footer bg-transparent">
-        <a href="#" class="btn btn-default">Masuk</a>
+        <a href="{{ route('kt.homedownload') }}" class="btn btn-default">Masuk</a>
       </div>
     </div>
   </div> 

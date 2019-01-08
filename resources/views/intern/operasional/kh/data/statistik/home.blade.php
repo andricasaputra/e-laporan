@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title', 'Home Operasional - Halaman Utama')
+@section('title', 'Statistik Operasional KH')
 
 @section('barside')
 
@@ -31,8 +31,9 @@
     margin-bottom: 5%;
   }
 
-  table tr th, table tr td:not(:nth-child(1)) {
+  table tr th, table tr td {
     text-align: center;
+    font-weight: bold;
   }
 </style>
 
@@ -48,13 +49,16 @@ use App\Http\Controllers\RupiahController as Rupiah;
   <div class="col">
     
     @if($datas['bulan'] !== null)
-      <h3>
-        Statistik Data Operasional Karantina Hewan Bulan 
-        {{ Tanggal::bulan($datas['bulan']) }} Tahun {{ $datas['tahun'] }}
+      <h4>
+        Rekapitulasi Data Operasional Karantina Hewan 
+        {{ $datas['bulan'] == 'all' 
+            ? 'Semua Bulan' 
+            : 'Bulan ' . Tanggal::bulan($datas['bulan']) }} 
+        Tahun {{ $datas['tahun'] }}
         {{ $datas['wilker'] }}
-      </h3>
+      </h4>
     @else
-      <h3>Statistik Data Operasional Karantina Hewan Tahun {{ $datas['tahun'] }}</h3>
+      <h4>Rekapitulasi Data Operasional Karantina Hewan Tahun {{ $datas['tahun'] }}</h4>
     @endif
 
     <form id="change_data">
@@ -62,7 +66,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
         <div class="col-md-4 col-sm-12">
           <label for="year">Pilih Tahun</label>
           <select class="form-control" name="year" id="year">
-            @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
+            @for($i = date('Y') - 5; $i < date('Y') + 2 ; $i++)
         
               @if($i == $datas['tahun'])
 
@@ -143,7 +147,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
                     <h4 class="card-title">{{ $key }}</h4>
                     <hr>
                     <small><i>Berdasarkan Sertifikasi</i></small>
-                    <h5 class="card-text mt-2"><i>Frekuensi : {{ $data['frekuensi'] }}</i></h5>
+                    <h5 class="card-text mt-2"><i>Frekuensi : {{ $data['frekuensi'] ?? 0 }}</i></h5>
                 </div>
               </div>
               <a href="{{ $data['link'] }}" class="btn btn-primary"><i class="fa fa-info-circle" aria-hidden="true"></i>  Detail</a>
@@ -168,14 +172,16 @@ use App\Http\Controllers\RupiahController as Rupiah;
                     <hr>
                     <small><i>Berdasarkan Satuan</i></small>
                     @if(count($data['volume']) > 0)
+                      <h5 class="mt-2">Volume :</h5>
                       @foreach($data['volume'] as $k => $volume)
                       <h5 class="card-text mt-2">
-                        <i> Volume :  {{ $volume->sum('volume') }} {{ ucfirst($k) }}</i>
+                        <i>  {{ number_format($volume->sum('volume'), 0 , '.', '.') }} {{ ucfirst($k) }}</i>
                       </h5>
                       @endforeach
                     @else
+                      <h5 class="mt-2">Volume :</h5>
                       <h5 class="card-text mt-2">
-                        <i> Volume :  0</i>
+                        <i>  0</i>
                       </h5>
                     @endif
                 </div>
@@ -213,38 +219,70 @@ use App\Http\Controllers\RupiahController as Rupiah;
       @endforeach
     </div>
 
-    <h3>Pemakaian Dokumen <i class="fa fa-book" aria-hidden="true"></i></h3>
-
-    <hr>
-
     <div class="row">
-      @foreach($datas['dataKh']['Dokumen'] as $key => $data)
-        <div class="col-sm-3">
-          <div class="card">
-            <div class="card-body text-center">
-              <div class="row mb-3">
-                <div class="col-sm-12 card_body_welcome" style="min-height: 150px">
-                    <h4 class="card-title">{{ $key }}</h4>
-                    <hr>
-                    <small><i>Berdasarkan Frekuensi</i></small>
-                    @if(count($data['dokumen']) > 0)
-                      @foreach($data['dokumen'] as $dokumen)
-                        <h5 class="card-text mt-2">
-                          <i> {{ $dokumen['dokumen'] }} :  {{ $dokumen['total'] }} Dokumen</i>
-                        </h5>
-                      @endforeach
-                    @else
-                      <h5 class="card-text mt-2">
-                        <i>0 Dokumen</i>
-                      </h5>
-                    @endif
-                </div>
-              </div>
-              <a href="{{ $data['link'] }}" class="btn btn-success"><i class="fa fa-info-circle" aria-hidden="true"></i>  Detail</a>
-            </div>
+      <div class="col-6">
+        <div class="card">
+          <div class="card-title mt-3 text-center">
+            <h4>Pemakaian Dokumen&nbsp;&nbsp;<i class="fa fa-book" aria-hidden="true"></i></h4>
           </div>
+          <div class="card-body">
+            <table class="table table-striped" width="100">
+              <thead>
+                <tr>
+                  <th>Dokumen</th>
+                  <th>Total Pemakaian</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if(count($datas['dataKh']['Dokumen']['dokumen']) > 0)
+                  @foreach($datas['dataKh']['Dokumen']['dokumen'] as $key => $data)
+                    <tr>
+                      <td>{{ $data->dokumen }}</td>
+                      <td>{{ $data->total }}</td>
+                    </tr>
+                  @endforeach
+                @else
+                  <tr>
+                    <td colspan="2">Tidak ada pemakaian dokumen</td>
+                  </tr>
+                @endif
+              </tbody>
+            </table>
+          </div>  
         </div>
-      @endforeach
+      </div>
+
+      <div class="col-6">
+        <div class="card">
+          <div class="card-title mt-3 text-center">
+            <h4>Pembatalan Dokumen&nbsp;&nbsp;<i class="fa fa-file-excel-o" aria-hidden="true"></i></h4>
+          </div>
+          <div class="card-body">
+            <table class="table table-striped" width="100">
+              <thead>
+                <tr>
+                  <th>Dokumen</th>
+                  <th>Total Pembatalan</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if(count($datas['dataKh']['PembatalanDokumen']['pembatalan_dokumen']) > 0)
+                  @foreach($datas['dataKh']['PembatalanDokumen']['pembatalan_dokumen'] as $key => $data)
+                    <tr>
+                      <td>{{ $data->dokumen }}</td>
+                      <td>{{ $data->total }}</td>
+                    </tr>
+                  @endforeach
+                @else
+                  <tr>
+                    <td colspan="2">Tidak ada dokumen batal</td>
+                  </tr>
+                @endif
+              </tbody>
+            </table>
+          </div>  
+        </div>
+      </div>
     </div>
 
     <div class="row">

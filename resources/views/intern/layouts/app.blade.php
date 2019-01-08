@@ -79,7 +79,7 @@
                   <!-- ============================================================== -->
                   <!-- Logo -->
                   <!-- ============================================================== -->
-                  <a class="navbar-brand" href="index.html">
+                  <a class="navbar-brand" href="#">
                       <!-- Logo icon -->
                       <b class="logo-icon">
                           <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -89,9 +89,7 @@
                       <!--End Logo icon -->
                       {{-- E-office Sumbawa --}}
                       <!-- Logo text -->
-                      <span class="logo-text">
-
-                      </span>
+                      <span class="logo-text"></span>
                   </a>
                   <!-- ============================================================== -->
                   <!-- End Logo -->
@@ -185,7 +183,7 @@
             <!-- ============================================================== -->
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
-                    <div class="col-5">
+                    <div class="col-12">
                         @yield('page-breadcrumb')
                     </div>
                 </div>
@@ -295,6 +293,15 @@
 
         $(".container-fluid").addClass("loading");
         
+      });
+
+      // Global Datatables Locale Language
+      $(document).ready(function(){
+        $.extend( true, $.fn.dataTable.defaults, {
+          "language": {
+            "url": "{{ asset('Indonesian-datatables.json') }}"
+          }
+        });
       });
 
     </script>

@@ -12,13 +12,28 @@ class UserRepository implements RepositoryInterface
 {
 	use Repository;
 
+    /**
+     * Untuk menyimpan instance dari model
+     *
+     * @var instance of App/Models/AnyModels
+     */
 	private $model;
 
+    /**
+     * Untuk set instance model yang harus dipakai 
+     *
+     * @return void 
+     */
 	public function __construct()
     {
         $this->model = new User;
     }
 
+    /**
+     * Untuk menampilkan API data users 
+     *
+     * @return Collections of Datatables 
+     */
 	public function api()
     {
     	$users = User::where('id', '!=', 1);

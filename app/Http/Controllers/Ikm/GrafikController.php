@@ -12,6 +12,12 @@ class GrafikController
      * @var App\Repositories\UserRepository
      */
     private $repository;
+
+    /**
+     * Save id 
+     *
+     * @var int
+     */
     private $id;
 
     /**

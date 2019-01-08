@@ -15,11 +15,11 @@ class TableDetailKtComposer
 
     public function __construct(Request $request)
     {
-        $this->year         = $request->route()->parameter('year');
+        $this->year         = $request->year;
 
-        $this->month        = $request->route()->parameter('month');
+        $this->month        = $request->month;
 
-        $this->wilker_id    = $request->route()->parameter('wilker_id');
+        $this->wilker_id    = $request->wilker_id;
     }
 
     /**

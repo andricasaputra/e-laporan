@@ -64,7 +64,7 @@
         },
         "columns": [
           { "data" : "nama_komoditas" },
-          { "data" : "volume" },
+          { "data" : "volume", render: $.fn.dataTable.render.number( '.', ',', 0 ) },
           { "data" : "sat_netto" },
           { "data" : "frekuensi" },
           { "data" : "pnbp" },
@@ -82,7 +82,9 @@
 
           e.preventDefault();
 
-          let mp      = $(this).data('mp');
+          let mpStr   = $(this).data('mp');
+
+          let mp      = mpStr.replace('/', '--');
 
           let detail  = $(this);
 
@@ -102,18 +104,22 @@
                row.child.hide();
                tr.toggleClass('active')
                tr.removeClass('shown');
-            }
-            else {
+
+            } else {
                // Open this row
                row.child(response).show();
                tr.toggleClass('active');
                tr.addClass('shown');
+
+               $('.table-detail-rekap').DataTable();
             }
               
           });
 
       });
-    }
+    }/*end function*/
+
+
 
   });
 </script>

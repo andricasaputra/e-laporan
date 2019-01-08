@@ -13,10 +13,33 @@ class StatistikRepository implements RepositoryInterface
 {
 	use Repository;
 
+	/**
+     * Untuk menyimpan Nilai Rata - rata (NRR) 
+     *
+     * @var float
+     */
 	const NRR = 0.111;
+
+	/**
+     * Untuk menyimpan total nilai IKM berdasarkan Periode 
+     *
+     * @var float
+     */
     private $totalNilai;
+
+    /**
+     * Untuk menyimpan total responden yang mengikuti survey sesuai periode 
+     *
+     * @var int
+     */
     private $totalResponden;
 
+    /**
+     * Untuk Menampilkan API Statistik IKM yang dipilih berdasarkan table result (database)
+     *
+     * @param int $id
+     * @return collections of Datatables 
+     */
     public function api($id)
     {
     	return app('DataTables')::of($this->apiSource($id))
@@ -24,6 +47,12 @@ class StatistikRepository implements RepositoryInterface
     			->make(true);
     }
 
+    /**
+     * Untuk Set API Statistik IKM yang dipilih berdasarkan table result (database)
+     *
+     * @param int $id
+     * @return collections
+     */
     public function apiSource($id)
     {
     	$result = Result::questionGroup($id);
@@ -31,6 +60,13 @@ class StatistikRepository implements RepositoryInterface
 		return $this->mapApi($result);
     }
 
+    /**
+     * Source API Statistik IKM yang dipilih berdasarkan table result (database)
+     * mangumpulkan semua data (semua method) yang dibutuhkan untuk API menjadi 1
+     *
+     * @param App\Models\Ikm\Result
+     * @return array
+     */
     public function mapApi($result)
     {
     	return $result->map(function($responden){
@@ -56,6 +92,12 @@ class StatistikRepository implements RepositoryInterface
 		});
     }
 
+     /**
+     * Menghitung statistik total responden berdasarkan periode
+     *
+     * @param App\Models\Ikm\Responden
+     * @return void
+     */
     public function totalResponden($responden)
     {
     	$this->totalResponden = $responden->count();
@@ -63,6 +105,12 @@ class StatistikRepository implements RepositoryInterface
     	return $this;
     }
 
+    /**
+     * Menghitung statistik jumlah nilai IKM berdasarkan periode
+     *
+     * @param App\Models\Ikm\Responden
+     * @return void
+     */
     public function totalNilai($responden)
     {
 		$this->totalNilai = $responden->map(function($total){
@@ -74,6 +122,12 @@ class StatistikRepository implements RepositoryInterface
     	return $this;
 	}
 
+	/**
+     * Mendapatkan semua pertanyaan & jawaban per Responden
+     *
+     * @param App\Models\Ikm\Responden
+     * @return collections
+     */
 	public function allQuestions($responden)
     {
 		return $responden->map(function($question){
@@ -83,6 +137,14 @@ class StatistikRepository implements RepositoryInterface
 		})->first();
 	}
 
+	/**
+     * Mendapatkan setiap unsur pelayanan dari pertanyaan 
+     * masing - masing responden
+     * Note : Setiap pertanyaan mewakili 1 Unsur Pelayanan
+     *
+     * @param App\Models\Ikm\Responden
+     * @return collections
+     */
 	public function unsurPelayanan($responden)
     {
 		return $responden->map(function($question){
@@ -92,6 +154,13 @@ class StatistikRepository implements RepositoryInterface
 		})->first();
 	}
 
+	/**
+     * Mendapatkan keterangan periode Survey IKM yang diikuti oleh 
+     * masing - masing responden
+     *
+     * @param App\Models\Ikm\Responden
+     * @return collections
+     */
 	public function keterangan($responden)
 	{
 		return $responden->map(function($keterangan){
@@ -101,16 +170,33 @@ class StatistikRepository implements RepositoryInterface
 		})->first();
 	}
 
+	/**
+     * Menghitung rata - rata NRR
+     *
+     * @param int $total
+     * @return float
+     */
 	public function rataRataNrr($total)
 	{
 		return number_format((float) $total / $this->totalResponden, 3, '.', '');	
 	}
 
+	/**
+     * Menghitung rata - rata NRR per unsur layanan
+     *
+     * @param int $total
+     * @return float
+     */
 	public function rataRataPerUnsurPelayanan($total)
 	{
 		return number_format((float) $total / $this->totalResponden * self::NRR, 3, '.', '');	
 	}
 
+	/**
+     * Set IKM Periode Default juga tidak ada periode yang dipilih
+     *
+     * @return int ID of IKM
+     */
     public function default()
     {
     	$id 	= 	Result::with(['ikm' => function ($query) { 
@@ -126,6 +212,11 @@ class StatistikRepository implements RepositoryInterface
         return $id->ikm->id;
 	}
 
+	/**
+     * Set unsur pelayanan berdasarkan jawaban
+     *
+     * @return int $no
+     */
 	public function getUnsur(int $no)
 	{
 		switch ($no) {
@@ -161,6 +252,11 @@ class StatistikRepository implements RepositoryInterface
 		return $unsur_pelayanan;
 	}
 
+	/**
+     * Untuk Cetak PDF Rekapitulasi IKM
+     *
+     * @return collections
+     */
 	public function cetakRekap(int $id)
     {
     	$datas = [
@@ -183,6 +279,11 @@ class StatistikRepository implements RepositoryInterface
 		});
     }
 
+    /**
+     * Untuk Cetak PDF Rekapitulasi IKM (Set Table Header)
+     *
+     * @return collections
+     */
     public function setCetakTableHeader()
     {
     	$questions     = Question::all();
@@ -200,6 +301,11 @@ class StatistikRepository implements RepositoryInterface
     	return $data;
     }
 
+    /**
+     * Untuk Cetak PDF Rekapitulasi IKM (Set Table Body)
+     *
+     * @return collections
+     */
     public function setCetakTableBody(int $id)
     {
     	$result    = Result::respondenGroup($id);

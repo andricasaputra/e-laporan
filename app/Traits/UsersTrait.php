@@ -65,9 +65,11 @@ trait UsersTrait
 
     public function setActiveUserWilker()
     {
-        return  $this->getUserRoleId() === 1 || $this->getUserRoleId() === 2
+        return  $this->getUserRoleId() === 1 || 
+                $this->getUserRoleId() === 2 ||
+                $this->getUserRoleId() === 3
 
-                ? Wilker::where('nama_wilker', '!=', 'Kantor induk')->get()
+                ? Wilker::where('id', '!=', 1)->get()
 
                 : User::find($this->getUserId())->wilker;
     }

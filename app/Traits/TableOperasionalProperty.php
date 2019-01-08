@@ -127,4 +127,53 @@ trait TableOperasionalProperty
             'total_pnbp'
         );
     }
+
+    /**
+     *Digunakan mencetak semua table kt head pada masing2 class turunan
+     *dan kemuadian masing2 child class mengoper ke view yang diperlukan 
+     *
+     * @return array
+     */
+    protected function tableTitleLaporanOperasionalKt() : array
+    {
+        return array(
+             'No',
+             'No Permohonan',
+             'No Aju',
+             'Tanggal Permohonan',
+             'Jenis Permohonan',
+             'Nama Pemohon',
+             'Nama Pengirim',
+             'Alamat Pengirim',
+             'Nama Penerima',
+             'Alamat Penerima',
+             'Jumlah Kemasan',
+             'Kota Asal',
+             'Asal',
+             'Kota Tujuan',
+             'Tujuan',
+             'Pelabuhan Asal',
+             'Pelabuhan Tujuan',
+             'Moda Alat Angkut Terakhir',
+             'Tipe Alat Angkut Terakhir',
+             'Nama Alat Angkut Terakhir',
+             'Status Internal',
+             'Lokasi Media Pembawa',
+             'Tempat Produksi',
+             'Nama Tempat Pelaksanaan',
+             'Peruntukan',
+             'Dokumen Pelepasan',
+             'No Dokumen Pelepasan',
+             'Tanggal Pelepasan',
+             'Kode Komoditas',
+             'Nama Komoditas',
+             'Nama Ilmiah',
+             'Volume Bersih',
+             'Satuan Bersih',
+             'Volume Kotor',
+             'Satuan Kotor',
+             'No Seri',
+             'PNBP (Rp)'
+        );
+    }
 }

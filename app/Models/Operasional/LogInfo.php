@@ -19,14 +19,9 @@ class LogInfo extends Model
 
     public function getBulanAttribute($value)
     {
-        if (strlen($value) > 4) {
-
-            return Tanggal::bulanTahun($value);
-
-        }
+        if (strlen($value) > 4) return Tanggal::bulanTahun($value);
 
         return $value;
-        
     }
 
     public function getTypeAttribute($value)
@@ -62,10 +57,21 @@ class LogInfo extends Model
             case 'pembatalan_dok_kh':
                 $type = 'Pembatalan Dokumen Karantina Hewan';
                 break;
+            case 'reekspor_kh':
+                $type = 'Re Ekspor Karantina Hewan';
+                break;
+            case 'reekspor_kt':
+                $type = 'Re Ekspor Karantina Tumbuhan';
+                break;
+            case 'serah_terima_kh':
+                $type = 'Serah Terima Karantina Hewan';
+                break;
+            case 'serah_terima_kt':
+                $type = 'Serah Terima Karantina Tumbuhan';
+                break;
         	default:
         		$type = 'Data Operasional Tidak Ditemukan';
         		break;
-        	
         }
 
         return $type;
@@ -103,23 +109,55 @@ class LogInfo extends Model
 
     public function getCreatedAtAttribute($value)
     {
-       return \Carbon::parse($value)->format('d-m-Y');
+       return \Carbon::parse($value)->toDateTimeString();
     }
 
-    public function scopeKarantinaTumbuhanType($query, $year, $wilker)
+    public function scopeKarantinaTumbuhanType($query, $year, $month, $wilker, $type)
     {
-        return $query->where('wilker_id', $wilker)
-                     ->whereYear('created_at', $year)
-                     ->whereIn('type', ['dokel_kt', 'domas_kt', 'ekspor_kt', 'impor_kt', 'pembatalan_dok_kt'])
-                     ->latest();
+        $query->whereYear('created_at', $year);
+
+        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+
+        if (isset($wilker) and (int) $wilker !== 1) $query->whereWilkerId($wilker);  
+             
+        if (isset($type) and $type != 'all'){
+
+            $query->where('type', $type);
+
+        } else {
+
+            $query->whereIn('type', 
+                ['dokel_kt', 'domas_kt', 'ekspor_kt', 'impor_kt', 
+                'serah_terima_kt', 'reekspor_kt', 'pembatalan_dok_kt']
+            );
+
+        }
+                         
+        return $query->latest();
     }
 
-    public function scopeKarantinaHewanType($query, $year, $wilker)
+    public function scopeKarantinaHewanType($query, $year, $month, $wilker, $type)
     {
-        return $query->where('wilker_id', $wilker)
-                     ->whereYear('created_at', $year)
-                     ->whereIn('type', ['dokel_kh', 'domas_kh', 'ekspor_kh', 'impor_kh', 'pembatalan_dok_kh'])
-                     ->latest();
+        $query->whereYear('created_at', $year);
+
+        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+
+        if (isset($wilker) and (int) $wilker !== 1) $query->whereWilkerId($wilker);
+                      
+        if (isset($type) and $type != 'all'){
+
+            $query->where('type', $type);
+
+        } else {
+
+            $query->whereIn('type', 
+                ['dokel_kh', 'domas_kh', 'ekspor_kh', 'impor_kh', 
+                'serah_terima_kh', 'reekspor_kh', 'pembatalan_dok_kh']
+            );
+
+        }
+                         
+        return $query->latest();
     }
 
 }

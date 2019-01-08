@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Operasional;
 
 use App\Models\Wilker;
 use Illuminate\Http\Request;
+use App\Http\Controllers\RupiahController as Rupiah;
 
 trait DataOperasionalKhTrait
 {   
@@ -29,28 +30,28 @@ trait DataOperasionalKhTrait
                     'Domestik Masuk Karantina Hewan' => [
 
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
-                        'link' => route('kh.view.page.detail.frekuensi.domas', $this->params)
+                        'link' => route('kh.view.page.detail.frekuensi.domas', $this->routeParams)
 
                     ],
 
                     'Domestik Keluar Karantina Hewan' => [
 
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
-                        'link' => route('kh.view.page.detail.frekuensi.dokel', $this->params)
+                        'link' => route('kh.view.page.detail.frekuensi.dokel', $this->routeParams)
 
                     ],
 
                     'Ekspor Karantina Hewan' => [
 
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
-                        'link' => route('kh.view.page.detail.frekuensi.ekspor', $this->params)
+                        'link' => route('kh.view.page.detail.frekuensi.ekspor', $this->routeParams)
 
                     ],
 
                     'Impor Karantina Hewan' => [
 
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
-                        'link' => route('kh.view.page.detail.frekuensi.impor', $this->params)
+                        'link' => route('kh.view.page.detail.frekuensi.impor', $this->routeParams)
 
                     ]
 
@@ -73,28 +74,28 @@ trait DataOperasionalKhTrait
                     'Domestik Masuk Karantina Hewan' => [
 
                         'volume' => $this->khRepository->totalRekapitulasi()->domasTotalVolume->groupBy('satuan'),
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
 
                     ],
 
                     'Domestik Keluar Karantina Hewan' => [
 
                         'volume' => $this->khRepository->totalRekapitulasi()->dokelTotalVolume->groupBy('satuan'),
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
 
                     ],
 
                     'Ekspor Karantina Hewan' => [
 
                         'volume' => $this->khRepository->totalRekapitulasi()->eksporTotalVolume->groupBy('satuan'),
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
 
                     ],
 
                     'Impor Karantina Hewan' => [
 
                         'volume' => $this->khRepository->totalRekapitulasi()->imporTotalVolume->groupBy('satuan'),
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
 
                     ],
 
@@ -105,28 +106,28 @@ trait DataOperasionalKhTrait
                     'Domestik Masuk Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpDomas,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
 
                     ],
 
                     'Domestik Keluar Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpDokel,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
 
                     ],
 
                     'Ekspor Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpEkspor,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
 
                     ],
 
                     'Impor Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpImpor,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
 
                     ],
 
@@ -134,33 +135,15 @@ trait DataOperasionalKhTrait
 
                'Dokumen' =>  [
 
-                    'Domestik Masuk Karantina Hewan' => [
+                    'dokumen' => $this->khRepository->pemakaianDokumen(),
+                    'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
 
-                        'dokumen' => $this->khRepository->pemakaianDokumen()->dokumenDomas,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
+               ],
 
-                    ],
+               'PembatalanDokumen' =>  [
 
-                    'Domestik Keluar Karantina Hewan' => [
-
-                        'dokumen' => $this->khRepository->pemakaianDokumen()->dokumenDokel,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
-
-                    ],
-
-                    'Ekspor Karantina Hewan' => [
-
-                        'dokumen' => $this->khRepository->pemakaianDokumen()->dokumenEkspor,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
-
-                    ],
-
-                    'Impor Karantina Hewan' => [
-
-                        'dokumen' => $this->khRepository->pemakaianDokumen()->dokumenImpor,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->params)
-
-                    ],
+                    'pembatalan_dokumen' => $this->khRepository->pembatalanDokumen(),
+                    'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
 
                ],
 
@@ -176,17 +159,6 @@ trait DataOperasionalKhTrait
 
                ],
 
-               'topFiveFrekuensiKomoditi' =>  [
-
-                    'Domestik Masuk Karantina Hewan' => $this->khRepository->topFiveFrekuensiKomoditiKh()->topFiveFrekuensiKomoditiDomas,
-
-                    'Domestik Keluar Karantina Hewan' => $this->khRepository->topFiveFrekuensiKomoditiKh()->topFiveFrekuensiKomoditiDokel,
-
-                    'Ekspor Karantina Hewan' => $this->khRepository->topFiveFrekuensiKomoditiKh()->topFiveFrekuensiKomoditiEkspor,   
-
-                    'Impor Karantina Hewan' => $this->khRepository->topFiveFrekuensiKomoditiKh()->topFiveFrekuensiKomoditiImpor
-
-               ],
             ]
             
         ];
@@ -214,28 +186,28 @@ trait DataOperasionalKhTrait
                     'Domestik Masuk Karantina Hewan' => [
 
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
-                        'link' => route('kh.view.page.detail.frekuensi.domas', $this->params)
+                        'link' => route('kh.view.page.detail.frekuensi.domas', $this->routeParams)
 
                     ],
 
                     'Domestik Keluar Karantina Hewan' => [
 
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
-                        'link' => route('kh.view.page.detail.frekuensi.dokel', $this->params)
+                        'link' => route('kh.view.page.detail.frekuensi.dokel', $this->routeParams)
 
                     ],
 
                     'Ekspor Karantina Hewan' => [
 
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
-                        'link' => route('kh.view.page.detail.frekuensi.ekspor', $this->params)
+                        'link' => route('kh.view.page.detail.frekuensi.ekspor', $this->routeParams)
 
                     ],
 
                     'Impor Karantina Hewan' => [
 
                         'frekuensi' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
-                        'link' => route('kh.view.page.detail.frekuensi.impor', $this->params)
+                        'link' => route('kh.view.page.detail.frekuensi.impor', $this->routeParams)
 
                     ]
                 ],
@@ -257,6 +229,58 @@ trait DataOperasionalKhTrait
         ];
 
         return $data[$this->year];
+    }
+
+    /**
+     * Untuk Menampilkan Ringkasan Data Pada Dashboard
+     *
+     * @return array
+     */
+    public function sourceDashboardApiKh()
+    {
+        return [
+
+            'tahun'     =>  $this->year,
+
+            'bulan'     =>  $this->month,
+
+            'wilker'    =>  Wilker::whereId($this->wilker_id)->pluck('nama_wilker')->first(),
+
+            'frekuensi' =>  $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDomas +
+                            $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDokel +
+                            $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor +
+                            $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
+
+            'volume'    =>  collect($this->khRepository->totalVolumePerSatuan())
+                            ->flatten(1)
+                            ->groupBy('satuan')
+                            ->map(function($value, $key){
+
+                                return number_format($value->sum('volume'), 0, ',', '.') . ' ' . ucfirst($key);
+
+                            }),
+
+            'pnbp'      =>  Rupiah::rp(
+                                $this->khRepository->totalPnbp()->pnbpDomas +
+                                $this->khRepository->totalPnbp()->pnbpDokel +
+                                $this->khRepository->totalPnbp()->pnbpEkspor +
+                                $this->khRepository->totalPnbp()->pnbpImpor
+                            ),
+
+            'dokumen'   =>  $this->khRepository->pemakaianDokumen(),
+
+            'topFive'   =>  collect($this->khRepository->topFiveFrekuensiKomoditiKh())
+                            ->flatten(1)
+                            ->groupBy('name')
+                            ->sortByDesc('data')
+                            ->take(5)
+                            ->map(function($value, $key){
+
+                                return number_format($value->sum('data'), 0, ',', '.');
+
+                            }),
+
+        ];
     }
 
     /**
@@ -370,28 +394,40 @@ trait DataOperasionalKhTrait
 
         $table = '
 
-        <table class="table" style="width: 100%; background-color: #fff; font-size: 10pt; font-weight: bold; text-align: center; border: solid 1px #d6d1fa">
+        <table class="table table-detail-rekap" style="width: 100%; background-color: #fff; font-size: 10pt; font-weight: bold; text-align: center; border: solid 1px #d6d1fa">
             <thead>
               <tr>
-                <th style="font-style: italic; border: solid 1px #d6d1fa">KOTA ASAL</th>
-                <th style="font-style: italic; border: solid 1px #d6d1fa">KOTA TUJUAN</th>
-                <th style="font-style: italic; border: solid 1px #d6d1fa">FREKUENSI</th>
-                <th style="font-style: italic; border: solid 1px #d6d1fa">DOKUMEN PELEPASAN</th>
-                <th style="font-style: italic; border: solid 1px #d6d1fa">JUMLAH DOKUMEN PELEPASAN</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">KOTA ASAL</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">NEGARA ASAL</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">KOTA TUJUAN</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">NEGARA TUJUAN</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">FREKUENSI</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">VOLUME</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">SATUAN</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">DOKUMEN PELEPASAN</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">JUMLAH DOKUMEN PELEPASAN</th>
               </tr>
             </thead> 
             <tbody>';
 
             foreach ($data as $value) {
-    
+
+              $kota_asal        =  $value["kota_asal"]  ?? "IDEM";
+              $kota_tuju        =  $value["kota_tuju"]  ?? "IDEM";
+              $dok_pelepasan    =  $value["dok_pelepasan"] ?? "IDEM";
+
               $table .= '
 
                 <tr>
-                    <td style="border: solid 1px #d6d1fa">'. $value["kota_asal"] .'</td>
-                    <td style="border: solid 1px #d6d1fa">'. $value["kota_tuju"] .'</td>
-                    <td style="border: solid 1px #d6d1fa">'. $value["total"] .'</td>
-                    <td style="border: solid 1px #d6d1fa">'. $value["dok_pelepasan"] .'</td>
-                    <td style="border: solid 1px #d6d1fa">'. $value["pemakaian_dokumen"] .' Dokumen</td>
+                    <td style="font-weight: 500">'. $kota_asal .'</td>
+                    <td style="font-weight: 500">'. $value["asal"] .'</td>
+                    <td style="font-weight: 500">'. $kota_tuju .'</td>
+                    <td style="font-weight: 500">'. $value["tujuan"] .'</td>
+                    <td style="font-weight: 500">'. $value["total"] .'</td>
+                    <td style="font-weight: 500">'. number_format((int) $value["volume"], 0, ".", ",") .'</td>
+                    <td style="font-weight: 500">'. $value["satuan"] .'</td>
+                    <td style="font-weight: 500">'. $dok_pelepasan .'</td>
+                    <td style="font-weight: 500">'. $value["pemakaian_dokumen"] .' Dokumen</td>
                 </tr>';
 
             }

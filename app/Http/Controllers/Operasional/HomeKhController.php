@@ -44,7 +44,7 @@ class HomeKhController extends Controller
      *
      * @var array
      */
-    public $params;
+    public $routeParams;
 
     /**
      * Untuk set semua property yang dibutuhkan maka perlu constructor
@@ -56,13 +56,13 @@ class HomeKhController extends Controller
     {
         $this->khRepository = $repository;
 
-        $this->year         = $request->route()->parameter('year') ?? date('Y');
+        $this->year         = $request->year ?? date('Y');
 
-        $this->month        = $request->route()->parameter('month');
+        $this->month        = $request->month;
 
-        $this->wilker_id    = $request->route()->parameter('wilker_id');
+        $this->wilker_id    = $request->wilker_id;
 
-        $this->params       = [$this->year, $this->month, $this->wilker_id];
+        $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
 
         $this->khRepository->setDateAndWilker($this->year, $this->month, $this->wilker_id);
     }
@@ -133,14 +133,24 @@ class HomeKhController extends Controller
     }
 
     /**
+     * Untuk API Dashboard E - Operasional
+     *
+     * @return array
+     */
+    public function dashboardApiKh()
+    {
+        return $this->sourecDashboardApiKh();
+    }
+
+    /**
      * Untuk API Log Pengiriman Laporan
      *
      * @param int $year, $wilker_id 
      * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
      */
-    public function logApi(int $year, int $wilker)
+    public function logApi(int $year, $month , $wilker, string $type)
     {
-        return $this->khRepository->log($year, $wilker);
+        return $this->khRepository->log($year, $month ,$wilker, $type);
     }
 
     /**

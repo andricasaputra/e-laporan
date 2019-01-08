@@ -26,7 +26,7 @@ class CreatePembatalanDokKtTable extends Migration
             $table->date('tanggal_permohonan')->index()->nullable();
             $table->string('jenis_permohonan', 10)->index()->nullable();
             $table->string('dokumen', 50)->index()->nullable();
-            $table->integer('no_seri')->index()->nullable();
+            $table->integer('nomor_seri')->index()->nullable();
             $table->text('alasan')->nullable();
             $table->date('tanggal_batal')->index()->nullable();
             $table->string('mengetahui')->nullable();

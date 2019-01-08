@@ -4,17 +4,23 @@ namespace App\Http\View\Composers\Operasional;
 
 use Illuminate\View\View;
 use App\Traits\UsersTrait;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class HomeUploadPageComposer
 {
     use UsersTrait;
 
-    public $year;
+    public $year, $month, $wilker, $type;
 
-    public function __construct($year = null)
+    public function __construct(Request $request)
     {
-        $this->year = $year;
+        $this->year         = $request->year;
+
+        $this->month        = $request->month;
+
+        $this->wilker_id    = $request->wilker_id;
+
+        $this->type         = $request->type;
     }
 
     /**
@@ -27,7 +33,7 @@ class HomeUploadPageComposer
     {
         $view->with('all_wilker', $this->setActiveUserWilker()); 
 
-        $view->with('wilker', Auth::user()->wilker->first());
+        $view->with('wilker', auth()->user()->wilker->first());
 
         $view->with('year', $this->year ?? date('Y'));
     }

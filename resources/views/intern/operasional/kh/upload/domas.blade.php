@@ -1,5 +1,7 @@
 @extends('intern.layouts.app')
 
+@section('title', 'Upload Laporan Domas')
+
 @section('barside')
 
   @include('intern.inc.barside_operasional')

@@ -44,7 +44,7 @@ class HomeKtController extends Controller
      *
      * @var array
      */
-    public $params;
+    public $routeParams;
 
     /**
      * Untuk set semua property yang dibutuhkan maka perlu constructor
@@ -56,13 +56,13 @@ class HomeKtController extends Controller
     {
         $this->ktRepository = $repository;
 
-        $this->year         = $request->route()->parameter('year') ?? date('Y');
+        $this->year         = $request->year ?? date('Y');
 
-        $this->month        = $request->route()->parameter('month');
+        $this->month        = $request->month;
 
-        $this->wilker_id    = $request->route()->parameter('wilker_id');
+        $this->wilker_id    = $request->wilker_id;
 
-        $this->params       = [$this->year, $this->month, $this->wilker_id];
+        $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
 
         $this->ktRepository->setDateAndWilker($this->year, $this->month, $this->wilker_id);
     }
@@ -96,6 +96,17 @@ class HomeKtController extends Controller
     public function homeUpload(int $year = null)
     {
         return view('intern.operasional.kt.upload.home_upload');
+    }
+
+    /**
+     * Halaman upload
+     *
+     * @param int $ year nullable
+     * @return view -> page upload (domas, dokel, ekspor, impor)
+     */
+    public function homeDownload()
+    {
+        return view('intern.operasional.kt.download.home_download');
     }
 
     /**
@@ -133,14 +144,24 @@ class HomeKtController extends Controller
     }
 
     /**
+     * Untuk API Dashboard E - Operasional
+     *
+     * @return array
+     */
+    public function dashboardApiKt()
+    {
+        return $this->sourecDashboardApiKt();
+    }
+
+    /**
      * Untuk API Log Pengiriman Laporan
      *
      * @param int $year, $wilker_id 
      * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
      */
-    public function logApi(int $year, int $wilker)
+    public function logApi(int $year, $month , $wilker, string $type)
     {
-        return $this->ktRepository->log($year, $wilker);
+        return $this->ktRepository->log($year, $month ,$wilker, $type);
     }
 
     /**

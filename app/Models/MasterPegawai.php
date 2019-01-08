@@ -24,26 +24,21 @@ class MasterPegawai extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'pegawai_id');
+        return $this->belongsTo(User::class, 'pegawai_id');
     }
 
     public function golongan()
     {
-        return $this->hasOne(Golongan::class, 'id');
+        return $this->hasOne(Golongan::class, 'id', 'golongan_id');
     }
 
     public function jabatan()
     {
-        return $this->hasOne(Jabatan::class, 'id');
-    }
-
-    public function wilker()
-    {
-        return $this->hasOne(Wilker::class, 'wilker_id');
+        return $this->hasOne(Jabatan::class, 'id', 'jabatan_id');
     }
 
     public function profile()
     {
-        return $this->hasOne(Profile::class, 'master_pegawai_id');
+        return $this->belongsTo(Profile::class, 'master_pegawai_id');
     }
 }

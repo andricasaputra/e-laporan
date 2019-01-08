@@ -27,22 +27,34 @@ Route::post('users', 'UserController@api')->name('api.user');
 
 Route::namespace('Operasional')->group(function () {
 
+	/*Route API For Dashboard / Ringkasan data*/
+	Route::get('operasional/dashboard/{year?}/{month?}/{wilker_id?}', 'HomeAdminController@api')
+	->name('api.operasional.dashboard');
+
 	/*Route API For Detail Table Laporan bulanan*/
-	Route::post('kt/statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@api')->name('api.kt.detail.frekuensi.dokel');
+	Route::post('kt/statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@api')
+	->name('api.kt.detail.frekuensi.dokel');
 
-	Route::post('kt/statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@api')->name('api.kt.detail.frekuensi.domas');
+	Route::post('kt/statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@api')
+	->name('api.kt.detail.frekuensi.domas');
 
-	Route::post('kt/statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@api')->name('api.kt.detail.frekuensi.ekspor');
+	Route::post('kt/statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@api')
+	->name('api.kt.detail.frekuensi.ekspor');
 
-	Route::post('kt/statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@api')->name('api.kt.detail.frekuensi.impor');
+	Route::post('kt/statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@api')
+	->name('api.kt.detail.frekuensi.impor');
 
-	Route::post('kh/statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKhController@api')->name('api.kh.detail.frekuensi.dokel');
+	Route::post('kh/statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKhController@api')
+	->name('api.kh.detail.frekuensi.dokel');
 
-	Route::post('kh/statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKhController@api')->name('api.kh.detail.frekuensi.domas');
+	Route::post('kh/statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKhController@api')
+	->name('api.kh.detail.frekuensi.domas');
 
-	Route::post('kh/statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKhController@api')->name('api.kh.detail.frekuensi.ekspor');
+	Route::post('kh/statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKhController@api')
+	->name('api.kh.detail.frekuensi.ekspor');
 
-	Route::post('kh/statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKhController@api')->name('api.kh.detail.frekuensi.impor');
+	Route::post('kh/statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKhController@api')
+	->name('api.kh.detail.frekuensi.impor');
 
 	/*Route API For Ringaksan Data in landing Page Laporan bulanan*/
 	Route::get('data/{year}/{month?}/{wilker_id?}', 'HomeAdminController@dataOperasional')
@@ -88,9 +100,9 @@ Route::namespace('Operasional')->group(function () {
 	->name('api.kt.detail.frekuensi.chart');
 
 	/*Route API For Log Pengiriman Laporan bulanan*/
-	Route::post('kt/log_operasional/{year?}/{wilker?}', 'HomeKtController@logApi')->name('api.kt.log_operasional');
+	Route::post('kt/log_operasional/{year?}/{month?}/{wilker?}/{type?}', 'HomeKtController@logApi')->name('api.kt.log_operasional');
 
-	Route::post('kh/log_operasional/{year?}/{wilker?}', 'HomeKhController@logApi')->name('api.kh.log_operasional');
+	Route::post('kh/log_operasional/{year?}/{month?}/{wilker?}/{type?}', 'HomeKhController@logApi')->name('api.kh.log_operasional');
 
 });
 

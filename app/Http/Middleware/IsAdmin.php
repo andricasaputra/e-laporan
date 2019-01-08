@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class IsAdmin
 {
@@ -16,9 +15,9 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()) {
+        if (auth()->user()) {
 
-            $cek = Auth::user()->role->first()->id;
+            $cek = auth()->user()->role->first()->id;
 
             if ($cek  === 2 || $cek  === 3) {
 
@@ -26,7 +25,8 @@ class IsAdmin
                 
             }else{
 
-                return redirect(route('welcome'))->with('warning', "Maaf anda tidak mempunyai hak akses ke halaman ini");
+                return redirect(route('welcome'))
+                        ->with('warning', "Maaf anda tidak mempunyai hak akses ke halaman ini");
 
             }
 

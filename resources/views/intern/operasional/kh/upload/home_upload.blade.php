@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title', 'Menu Operasional KT')
+@section('title', 'Upload Laporan KH')
 
 @section('barside')
 
@@ -23,6 +23,14 @@
 
 @endsection
 
+@php 
+
+use App\Http\Controllers\TanggalController as Tanggal; 
+
+use App\Http\Controllers\RupiahController as Rupiah;
+
+@endphp
+
 @section('content')
 
 <style type="text/css">
@@ -34,7 +42,7 @@
     padding: 0.5em 0.6em;
   }
 
-  .fa-bus{
+  .fa-bus, .fa-exchange{
     background-color: #f73b5e;
     color: #fff
   }
@@ -44,14 +52,18 @@
     color: #fff;
   }
 
-  .fa-ship{
+  .fa-ship, .fa-file-excel-o{
     background-color: #FF8F29;
     color: #fff;
   }
 
-  .fa-plane{
+  .fa-plane, .card-body > .fa-repeat{
     background-color: #12AFAF;
     color: #fff;
+  }
+
+  .badge{
+    padding: 4px 13px !important;
   }
 
 </style>
@@ -115,6 +127,57 @@
   </div>
 </div>
 
+<div class="row" id="advancedMenu">
+  <div class="col-md-4 col-sm-12">
+    <div class="card text-center">
+      <div class="card-header">
+        Upload Laporan Serah Terima
+      </div>
+      <div class="card-body">
+        <i class="fa fa-exchange fa-2x mb-3"></i>
+        <h4 class="card-text mb-3">
+          Serah Terima
+        </h4>
+        <a href="{{ route('kh.upload.page.serah_terima') }}" class="btn btn-default">Masuk</a>
+      </div>
+    </div>
+  </div>  
+  <div class="col-md-4 col-sm-12">
+    <div class="card text-center">
+      <div class="card-header">
+        Upload Laporan Re Ekspor
+      </div>
+      <div class="card-body">
+        <i class="fa fa-repeat fa-2x mb-3"></i>
+        <h4 class="card-text mb-3">
+          Re Ekspor
+        </h4>
+        <a href="{{ route('kh.upload.page.reekspor') }}" class="btn btn-default">Masuk</a>
+      </div>
+    </div>
+  </div> 
+  <div class="col-md-4 col-sm-12">
+    <div class="card text-center">
+      <div class="card-header">
+        Upload Laporan Pembatalan Dokumen
+      </div>
+      <div class="card-body">
+        <i class="fa fa-file-excel-o fa-2x mb-3"></i>
+        <h4 class="card-text mb-3">
+          Pembatalan Dokumen
+        </h4>
+        <a href="{{ route('kh.upload.page.pembatalan_dokumen') }}" class="btn btn-default">Masuk</a>
+      </div>
+    </div>
+  </div> 
+</div>
+
+<a href="#" id="showMoreMenu" class="badge badge-pill badge-danger">
+ menu lanjutan <i class="fa fa-angle-double-down"></i>
+</a>
+
+<hr>
+
 <div class="row mt-4 mb-2">
   <div class="col">
     <div class="text-center">
@@ -125,31 +188,91 @@
 
 @include('intern.inc.message')
 
-<div class="row mt-4">
-  <div class="col-md-2 mb-2">
-    <select name="wilker_id" id="selectWilker" class="form-control">
-               
-      @if(count($all_wilker) > 0)
+<h4 class="mt-3">Log Pengiriman Laporan Bulanan</h4>
 
-          <option disabled selected>Pilih Wilker</option>
+<hr>
 
-          @foreach($all_wilker as $w)
+<form id="logProperty">
+  <div class="row mt-4">
+    <div class="col-md-3 mb-2">
+      <select name="wilker_id" id="wilker" class="form-control">
+                 
+        @if(count($all_wilker) > 0)
 
-            <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
+            <option selected value="{{ $wilker->id }}">
+              {{ 
+                $wilker->nama_wilker == 'Kantor Induk' ? 'Semua Wilker' : $wilker->nama_wilker
+              }}
+            </option>
 
-          @endforeach
+            @foreach($all_wilker as $w)
+
+              <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
+
+            @endforeach
+          
+        @endif
         
-      @endif
-      
-    </select>
+      </select>
+    </div>
+    <div class="col-md-2 mb-2">
+      <select class="form-control" name="year" id="year">
+        @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
+
+          @if($i == date('Y'))
+
+          <option value="{{ $i }}" selected>{{ $i }}</option>
+
+          @else
+
+          <option value="{{ $i }}">{{ $i }}</option>
+
+          @endif
+
+        @endfor
+      </select>
+    </div>
+    <div class="col-md-2 mb-2">
+      <select class="form-control" name="month" id="month">
+
+        <option value="all">Semua bulan</option>
+        
+        @for($i = 1; $i < 13 ; $i++)
+    
+          <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+
+        @endfor
+        
+      </select>
+    </div>
+    <div class="col-md-3 mb-2">
+      <select class="form-control" name="type" id="type">
+        <option value="all">Semua permohonan</option>
+        <option value="domas_kh">Domestik Masuk</option>
+        <option value="dokel_kh">Domestik Keluar</option> 
+        <option value="ekspor_kh">Ekspor</option> 
+        <option value="impor_kh">Impor</option>
+        <option value="reekspor_kh">Re Ekspor</option>
+        <option value="serah_terima_kh">Serah Terima</option>
+        <option value="pembatalan_dok_kh">Pembatalan Dokumen</option>    
+      </select>
+    </div>
+    <div class="col-md-2 text-center">
+      <button type="submit" class="btn btn-danger">
+        <i class="fa fa-sort"></i> Sortir
+      </button>
+    </div>
   </div>
+</form>
+
+<div class="row mt-2">
   <div class="col-md-12">
-    <div class="card"  style="border: 1px solid #eee">
+    <div class="card" style="border: 1px solid #eee">
       <div class="card-header">
-        <b>Log Pengiriman Laporan Bulanan </b>
+        <b>Log Pengiriman Laporan</b> <span class="info-log"></span>
       </div>
       <div class="card-body">
-        <table id="logOperasional" class="table table-striped table-bordered text-center" width="100%">
+        <table id="logOperasional" class="table table-responsive table-striped table-bordered text-center w-100 d-block d-md-table">
             <thead>
               <tr>
                 <th>No</th>
@@ -179,7 +302,7 @@
       </div>
       <div class="modal-body text-center">
         <h4>Apakah Anda Yakin Ingin Menarik Data Ini?</h4><br>
-        <form action="{{ route('rollback.operasional.kt', 'delete') }}" method="post">
+        <form action="{{ route('rollback.operasional.kh', 'delete') }}" method="post">
 
           @csrf
           @method('DELETE')
@@ -206,11 +329,13 @@
 
   $(document).ready(function(){
 
-    let year = {{ $year }};
+    let wilker  = '{{ $wilker->id }}';
 
-    let wilker = {{ $wilker->id }};
+    let year    = '{{ $year }}';
 
-    let url = '{{ route('api.kh.log_operasional') }}/' + year + '/' + wilker;
+    let month   = $('#month').val();
+
+    let type    = $('#type').val();
 
     let data = [
 
@@ -229,30 +354,39 @@
 
     ]
 
-    $('#logOperasional').DataTable({
+    changeLog(wilker, year, month, type);
 
-        "processing": true,
-        "serverSide": true,
-        "ajax":{
-           "url": url,
-           "method": "POST",
-           "dataType": "JSON"
-        },
-        "columns": data,
-        "columnDefs": [{
-            "defaultContent": "-",
-            "targets": "_all"
-        }]
+    $('#logProperty').on('submit', function(e){
+
+      e.preventDefault();
+
+      year    = $('#year').val();
+
+      month   = $('#month').val();
+
+      wilker  = $('#wilker').val();
+
+      type    = $('#type').val();
+
+      changeLog(wilker, year, month, type);
 
     });
 
-    $('#selectWilker').on('change', function() {
+    function changeLog(wilker, year, month, type){
 
-      wilker = $(this).val();
-
-      url = '{{ route('api.kh.log_operasional') }}/' + year + '/' + wilker;
+      let url = `{{ route('api.kh.log_operasional') }}/
+                ${year}/${month}/${wilker}/${type}
+                `;
 
       $('#logOperasional').DataTable().destroy();
+
+      $('.info-log').html(`
+ 
+        <b>Tahun : ${year}, 
+        Bulan : ${month == 'all' ? 'Semua Bulan' : '0' + month},
+        Permohonan : ${type == 'all' ? 'Semua Permohonan' : type}</b>
+
+      `);
 
       $('#logOperasional').DataTable({
 
@@ -271,21 +405,31 @@
 
       });
 
-    });
+    } 
 
     $(document).on('click', '#rollbackOperasionalBtn', function(e){
 
       e.preventDefault();
+
       let id = $( this ).data( 'id' );
 
       $('#modalRollbackOperasional').modal('show');
 
-      let idInForm = $("#modalRollbackOperasional #typeId").val(id);
+      $("#modalRollbackOperasional #typeId").val(id);
 
-    });  
+    }); 
 
+    $('#advancedMenu .col-md-4').hide();
 
-  });
+    $('#showMoreMenu').click(function(e){
+
+      e.preventDefault();
+
+      $('#advancedMenu .col-md-4').slideToggle();
+
+    }); 
+
+  }); /*End Ready*/
 
 </script>
 

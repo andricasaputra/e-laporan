@@ -42,7 +42,7 @@ class EksporKtController extends BaseOperasionalController implements BaseOperas
      *
      * @return to view
      */
-    public function uploadPageView()
+    public function uploadPageView(Request $request)
     {
         return view('intern.operasional.kt.upload.ekspor');
     }
@@ -54,10 +54,8 @@ class EksporKtController extends BaseOperasionalController implements BaseOperas
      */
     public function imports(Validation $request) 
     {
-        $this->setDataProperty($request, new Operasional);
-
         /*Filter Data Sebelum Insert Database*/
-        if ($this->checkingData() === false) return back();
+        if (! $this->setDataProperty($request, new Operasional)->checkingData() ) return back();
 
         /*Delegate Upload Process to Upload Class*/
         (new Upload( new Operasional, $request ))->uploadData();
@@ -66,50 +64,11 @@ class EksporKtController extends BaseOperasionalController implements BaseOperas
     }
 
     /**
-     *Export data dengan format excel dari database
+     * API untuk detail tabel 
      *
-     * @return void
+     * @param int $year
+     * @return datatables JSON
      */
-    public function exports($tahun = '', $bulan = 'all')
-    {
-
-        if ($tahun != '') :
-            
-            if ($bulan != 'all') {
-                
-                $Datas = Operasional::whereMonth('tanggal_permohonan', $bulan)->get()->toArray();
-                
-            }else{
-
-                $Datas = Operasional::whereYear('tanggal_permohonan', $tahun)->get()->toArray();
-
-            }
-
-        else :
-
-            if ($bulan != 'all') {
-                
-                $Datas = Operasional::whereMonth('tanggal_permohonan', $bulan)->get()->toArray();
-
-            }else{
-
-                $Datas = Operasional::all()->toArray();
-            }
-
-        endif;
-
-        return Excel::create('Datas', function($excel) use ($Datas) {
-            $excel->sheet('Data Details', function($sheet) use ($Datas){
-
-                $sheet->fromArray($Datas);
-                
-            });
-        })->download('xlsx');
-        
-        session()->flash('success','Data Berhasil Didownload!');
-  
-    }
-
     public function api($year = null, $month =  null, $wilker_id = null)
     {
         $ekspor  = Operasional::sortTableDetail($year, $month, $wilker_id)

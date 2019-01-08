@@ -54,7 +54,7 @@ class HomeAdminController extends Controller
      *
      * @var array
      */
-    public $params;
+    public $routeParams;
 
     /**
      * Init repository and request for this class
@@ -70,13 +70,13 @@ class HomeAdminController extends Controller
 
         $this->ktRepository = $ktRepository;
 
-        $this->year         = $request->route()->parameter('year') ?? date('Y');
+        $this->year         = $request->year ?? date('Y');
 
-        $this->month        = $request->route()->parameter('month');
+        $this->month        = $request->month;
 
-        $this->wilker_id    = $request->route()->parameter('wilker_id');
+        $this->wilker_id    = $request->wilker_id;
 
-        $this->params       = [$this->year, $this->month, $this->wilker_id];
+        $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
 
         $this->khRepository->setDateAndWilker($this->year, $this->month, $this->wilker_id);
 
@@ -91,10 +91,22 @@ class HomeAdminController extends Controller
     public function show()
     {
     	return view('intern.operasional.home')
-    	       ->with('dataKh', $this->statistikDataOperasionalKh())
-               ->with('dataKt', $this->statistikDataOperasionalKt())
                ->with('wilkers', Wilker::where('id', '!=', 1)->get());
     }
 
-    
+    /**
+     * API untuk menampilkan ringkasan data pada dashboard
+     *
+     * @return array
+     */
+    public function api()
+    {
+        return [
+
+            'kh' => $this->sourceDashboardApiKh(),
+            'kt' => $this->sourceDashboardApiKt()
+
+        ];
+    }
+
 }

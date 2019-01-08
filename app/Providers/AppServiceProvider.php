@@ -16,10 +16,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        /*Set Type Data Varchar Length To 191*/
         Schema::defaultStringLength(191);
 
-        Carbon::setLocale(config('app.locale'));
+        /*Set Localization For Whole aplication times (Asia/Makassar, WITA)*/
+        Carbon::setLocale(config('app.timezone'));
 
+        /*Observer Class untuk insert, edit user*/
         \App\Models\MasterPegawai::observe(\App\Observers\UsersObserver::class);
     }
 
@@ -30,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        /*Register HTML2PDF Class to Service Container*/
         $this->app->singleton('PDF', function ($app) {
 
             return new Html2Pdf('P', 'A4', 'en');

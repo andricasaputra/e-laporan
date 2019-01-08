@@ -41,16 +41,6 @@
   <link rel="stylesheet" href="{{ asset('css/style.min.css') }}">
 
   <style type="text/css">
-    aside{
-      display: none;
-    }
-
-    @media only screen and (max-width: 765px){
-      aside{
-        display: block;
-      }
-    }
-
     .badge-container{
       position: relative; 
       float: right; 
@@ -133,7 +123,7 @@
                   <!-- ============================================================== -->
                   <!-- Logo -->
                   <!-- ============================================================== -->
-                  <a class="navbar-brand" href="index.html">
+                  <a class="navbar-brand" href="#">
                       <!-- Logo icon -->
                       <b class="logo-icon">
                           <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -143,9 +133,7 @@
                       <!--End Logo icon -->
                       {{-- E-office Sumbawa --}}
                       <!-- Logo text -->
-                      <span class="logo-text">
-
-                      </span>
+                      <span class="logo-text"></span>
                   </a>
                   <!-- ============================================================== -->
                   <!-- End Logo -->
@@ -174,24 +162,27 @@
                           <div  class="badge-container">
                             <span class="badge badge-pill badge-danger dropdown-count"></span>
                           </div>
-                          <div class="bell-icon-container">
+                          <div  class="bell-icon-container">
                             <i class="fa fa-bell"></i>
                           </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right user-dd animated">
-                          <ul id="main_notifications" class="dropdown-item" role="menu" aria-hidden="true" style="list-style: none;background-color: #fff;"></ul>
+                          <ul id="main_notifications" class="dropdown-item" role="menu" aria-hidden="true" style="list-style: none; background-color: #fff;"></ul>
                         </div>
                       </li>
                       <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ asset('images/users/1.jpg') }}" alt="user" class="rounded-circle" width="31"></a>
                           <div class="dropdown-menu dropdown-menu-right user-dd animated">
                               <a class="dropdown-item" href="{{ route('welcome') }}">
-                                <i class="fa fa-home"></i>   
-                                    Ke Halaman Utama
+                                <i class="ti-home m-r-5 m-l-5"></i> Ke Halman Utama
                               </a>
-                              <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-user"></i> My Profile</a>
+                              <a class="dropdown-item" href="javascript:void(0)">
+                                <i class="ti-user m-r-5 m-l-5"></i> My Profile
+                              </a>
                               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                  document.getElementById('logout-form').submit();"><i class="fa fa-power-off"></i> Logout</a>
+                                  document.getElementById('logout-form').submit();">
+                                  <i class="fa fa fa-power-off m-r-5 m-l-5"></i> Logout
+                              </a>
                               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                   @csrf
                               </form>
@@ -204,50 +195,6 @@
               </div>
           </nav>
       </header>
-      <!-- ============================================================== -->
-      <!-- End Topbar header -->
-      <!-- ============================================================== -->
-      <aside class="left-sidebar" data-sidebarbg="skin6">
-        <!-- Sidebar scroll-->
-        <div class="scroll-sidebar">
-            <!-- Sidebar navigation-->
-            <nav class="sidebar-nav">
-                <ul id="sidebarnav">
-                    <!-- User Profile-->
-                    <li>
-                        <!-- User Profile-->
-                        <div class="user-profile d-flex no-block dropdown m-t-20">
-                            <div class="user-pic">
-                              <img src="{{ asset('images/users/1.jpg') }}" alt="user" class="rounded-circle" width="40">
-                              <a href="{{ route('show.all.notifications') }}">
-                                <span class="badge badge-pill badge-primary">1</span>
-                              </a>
-                            </div>
-                            <div class="user-content hide-menu m-l-10">
-                                <a href="javascript:void(0)" class="" id="Userdd" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <div style="position: relative; margin-left: 20px;margin-top: 10px">
-                                      <h5 class="m-b-0 user-name font-medium">{{ Auth::user()->pegawai->nama }} <i class="fa fa-angle-down"></i></h5>
-                                    </div>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Userdd">
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();"><i class="fa fa-sign-out-alt m-r-5 m-l-5"></i> Logout</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End User Profile-->
-                    </li>
-                </ul>
-                
-            </nav>
-            <!-- End Sidebar navigation -->
-        </div>
-        <!-- End Sidebar scroll-->
-    </aside>
       <!-- ============================================================== -->
       <!-- Page wrapper  -->
       <!-- ============================================================== -->

@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class IsSuperAdmin
 {
@@ -16,9 +15,9 @@ class IsSuperAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()) {
+        if (auth()->user()) {
 
-            $cek = Auth::user()->role->first()->id;
+            $cek = auth()->user()->role->first()->id;
 
             if ($cek === 1) {
 

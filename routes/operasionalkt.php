@@ -55,21 +55,39 @@ Route::get(
 	'statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@tableDetailFrekuensiView'
 )->name('kt.view.page.detail.frekuensi.impor');
 
+Route::get(
+	'statistik/detail/frekuensi/reekspor/{year?}/{month?}/{wilker_id?}', 'ReeksporKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.frekuensi.reekspor');
+
+Route::get(
+	'statistik/detail/frekuensi/serah_terima/{year?}/{month?}/{wilker_id?}', 'SerahTerimaKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.frekuensi.serah_terima');
+
 /*View Page Table Detail Pembatalan Dokumen*/
 Route::get(
 	'statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'PembatalanDokKtController@tableDetailPembatalanView'
 )->name('kt.view.page.detail.dokumen.pembatalan_dokumen');
 
-
 Route::middleware('kt')->group(function(){
 
+	/*Home Upload View (Domas, Dokel, DLL)*/
 	Route::get('home_upload/{tahun?}', 'HomeKtController@homeUpload')
 	->name('kt.homeupload');
 
+	/*Home Download View (Domas, Dokel, DLL)*/
+	Route::get('home_download', 'HomeKtController@homeDownload')
+	->name('kt.homedownload');
+
+	/*Rollback Laporan*/
 	Route::delete('home/rollback/{id}', 'HomeKtController@destroy')
 	->name('rollback.operasional.kt');
 
-	/*KT Upload Routes*/
+	/*
+	*-------------------------------------
+	* KT Upload Routes
+	* ------------------------------------
+	*/
+
 	Route::get('upload/domas', 'DomasKtController@uploadPageView')
 	->name('kt.upload.page.domas');
 
@@ -85,7 +103,18 @@ Route::middleware('kt')->group(function(){
 	Route::get('upload/pembatalan_dokumen', 'PembatalanDokKtController@uploadPageView')
 	->name('kt.upload.page.pembatalan_dokumen');
 
-	/*Proses Upload*/
+	Route::get('upload/reekspor', 'ReeksporKtController@uploadPageView')
+	->name('kt.upload.page.reekspor');
+
+	Route::get('upload/serah_terima', 'SerahTerimaKtController@uploadPageView')
+	->name('kt.upload.page.serah_terima');
+
+	/*
+	*-------------------------------------
+	* KT Proses Upload
+	* ------------------------------------
+	*/
+
 	Route::post('dokel/importdata', 'DokelKtController@imports')
 	->name('kt.upload.proses.dokel');
 
@@ -101,36 +130,26 @@ Route::middleware('kt')->group(function(){
 	Route::post('pembatalan_dokumen/importdata', 'PembatalanDokKtController@imports')
 	->name('kt.upload.proses.pembatalan_dokumen');
 
-	/*Export Routes*/
-	// Route::get('download/domas', function () {
-	// 	return view('operasional.kt.download.domas');
-	// })->name('kt.download.page.domas');
+	Route::post('reekspor/importdata', 'ReeksporKtController@imports')
+	->name('kt.upload.proses.reekspor');
 
-	// Route::get('download/dokel', function () {
-	//     return view('operasional.kt.download.dokel');
-	// })->name('kt.download.page.dokel'); 
+	Route::post('serah_terima/importdata', 'SerahTerimaKtController@imports')
+	->name('kt.upload.proses.serah_terima');
 
-	// Route::get('download/ekspor', function () {
-	//     return view('operasional.kt.download.ekspor');
-	// })->name('kt.download.page.ekspor'); 
+	/*
+	*-------------------------------------
+	* KT Proses Download
+	* ------------------------------------
+	*/
 
-	// Route::get('download/impor', function () {
-	//     return view('operasional.kt.download.impor');
-	// })->name('kt.download.page.impor'); 
+	Route::namespace('Download')->group(function () {
 
-	// Route::post('dokel/exportdata/{tahun}/{bulan?}', 'DokelKtController@exports')
-	// ->name('kt.download.proses.dokel');
+	    Route::post('donwload/operasional', 'LaporanOperasionalKtController@laporanOperasionalKt')
+		->name('kt.download.operasional');
 
-	// Route::post('domas/exportdata', 'DomasKtController@exports')
-	// ->name('kt.download.proses.domas');
+	});/*End Download Namespace*/
 
-	// Route::post('ekspor/exportdata', 'EksporKtController@exports')
-	// ->name('kt.download.proses.ekspor');
-
-	// Route::post('impor/exportdata', 'ImporKtController@exports')
-	// ->name('kt.download.proses.impor');
-
-});
+});/*End Middleware KT*/
 
 
 

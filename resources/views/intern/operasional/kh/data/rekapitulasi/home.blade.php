@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title', 'Home Operasional - Halaman Utama')
+@section('title', 'Rekapitulasi Komoditi KH')
 
 @section('barside')
 
@@ -48,13 +48,16 @@
   <div class="col">
 
       @if($datas['bulan'] !== null)
-      <h3>
-          Rekapitulasi Data Operasional Karantina Hewan Bulan 
-          {{ Tanggal::bulan($datas['bulan']) }} Tahun {{ $datas['tahun'] }}
+        <h4>
+          Rekapitulasi Data Operasional Karantina Hewan 
+          {{ $datas['bulan'] == 'all' 
+              ? 'Semua Bulan' 
+              : 'Bulan ' . Tanggal::bulan($datas['bulan']) }} 
+          Tahun {{ $datas['tahun'] }}
           {{ $datas['wilker'] }}
-        </h3>
+        </h4>
       @else
-        <h3>Rekapitulasi Data Operasional Karantina Hewan Tahun {{ $datas['tahun'] }}</h3>
+        <h4>Rekapitulasi Data Operasional Karantina Hewan Tahun {{ $datas['tahun'] }}</h4>
       @endif
 
       <form id="change_data_rekapitulasi">
@@ -62,7 +65,7 @@
           <div class="col-md-4 col-sm-12">
             <label for="year">Pilih Tahun</label>
             <select class="form-control" name="year" id="year">
-              @for($i = date('Y') - 3; $i < date('Y') + 2 ; $i++)
+              @for($i = date('Y') - 5; $i < date('Y') + 2 ; $i++)
           
                 @if($i == $datas['tahun'])
 

@@ -281,7 +281,7 @@ class BaseOperasionalController extends Controller
         */
         if ($this->getUserRoleId() !== 1 && 
             $this->getUserRoleId() !== 2 && 
-            strpos($this->wilkerName, 'brangbiji') !== false) {
+            strpos($this->checkUserWilker(), 'brangbiji') === false) {
 
             if(! strpos(strtolower($this->wilkerName), $this->wilkerNameClue)){
 

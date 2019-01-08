@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateViewRekapKomoditiDomasKt extends Migration
+class CreateViewRekapKomoditiDokelKt extends Migration
 {
     /**
      * Run the migrations.
@@ -14,18 +14,17 @@ class CreateViewRekapKomoditiDomasKt extends Migration
      */
     public function up()
     {
-        DB::statement("CREATE VIEW v_rekap_komoditi_domas_kt AS
+        DB::statement("CREATE VIEW v_rekap_komoditi_dokel_kt AS
                         SELECT  id, 
                                 wilker_id,
                                 sat_netto, 
                                 nama_komoditas,
-                                year(created_at) as year, 
-                                month(bulan) as month, 
+                                bulan,
                                 sum(volume_netto) as volume, 
                                 sum(total_pnbp) as pnbp,
                                 count(sat_netto) as frekuensi 
-                        FROM domas_kt
-                        GROUP BY nama_komoditas
+                        FROM dokel_kt
+                        GROUP BY nama_komoditas, bulan, wilker_id
                     ");
     }
 
@@ -36,6 +35,6 @@ class CreateViewRekapKomoditiDomasKt extends Migration
      */
     public function down()
     {
-        DB::statement("DROP VIEW v_rekap_komoditi_domas_kt");
+        DB::statement("DROP VIEW v_rekap_komoditi_dokel_kt");
     }
 }

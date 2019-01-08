@@ -197,7 +197,7 @@ return [
         | Auto set alignment on merged cells
         |--------------------------------------------------------------------------
         */
-        'merged_cell_alignment'       => 'left',
+        'merged_cell_alignment'       => 'center',
 
         /*
         |--------------------------------------------------------------------------

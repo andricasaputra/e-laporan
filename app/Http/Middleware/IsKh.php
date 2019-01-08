@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class IsKh
 {
@@ -16,9 +15,9 @@ class IsKh
      */ 
     public function handle($request, Closure $next)
     {
-        $cek = Auth::user()->pegawai->jenis_karantina;
+        if (auth()->user()) {
 
-        if (Auth::user()) {
+            $cek = auth()->user()->pegawai->jenis_karantina;
 
             if ($cek === NULL || $cek === 'str' || $cek === 'kh' ) {
 

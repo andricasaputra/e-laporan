@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Operasional;
 
 use App\Models\Wilker;
 use Illuminate\Http\Request;
+use App\Http\Controllers\RupiahController as Rupiah;
 
 trait DataOperasionalKtTrait
 {   
@@ -29,28 +30,28 @@ trait DataOperasionalKtTrait
                     'Domestik Masuk Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
-                        'link' => route('kt.view.page.detail.frekuensi.domas', $this->params)
+                        'link' => route('kt.view.page.detail.frekuensi.domas', $this->routeParams)
 
                     ],
 
                     'Domestik Keluar Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
-                        'link' => route('kt.view.page.detail.frekuensi.dokel', $this->params)
+                        'link' => route('kt.view.page.detail.frekuensi.dokel', $this->routeParams)
 
                     ],
 
                     'Ekspor Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
-                        'link' => route('kt.view.page.detail.frekuensi.ekspor', $this->params)
+                        'link' => route('kt.view.page.detail.frekuensi.ekspor', $this->routeParams)
 
                     ],
 
                     'Impor Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
-                        'link' => route('kt.view.page.detail.frekuensi.impor', $this->params)
+                        'link' => route('kt.view.page.detail.frekuensi.impor', $this->routeParams)
 
                     ]
                 ],
@@ -72,28 +73,28 @@ trait DataOperasionalKtTrait
                     'Domestik Masuk Karantina Tumbuhan' => [
 
                         'volume' => $this->ktRepository->totalRekapitulasi()->domasTotalVolume->groupBy('sat_netto'),
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
 
                     ],
 
                     'Domestik Keluar Karantina Tumbuhan' => [
 
                         'volume' => $this->ktRepository->totalRekapitulasi()->dokelTotalVolume->groupBy('sat_netto'),
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
 
                     ],
 
                     'Ekspor Karantina Tumbuhan' => [
 
                         'volume' => $this->ktRepository->totalRekapitulasi()->eksporTotalVolume->groupBy('sat_netto'),
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
 
                     ],
 
                     'Impor Karantina Tumbuhan' => [
 
                         'volume' => $this->ktRepository->totalRekapitulasi()->imporTotalVolume->groupBy('sat_netto'),
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
 
                     ],
 
@@ -104,7 +105,7 @@ trait DataOperasionalKtTrait
                     'Domestik Masuk Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpDomas,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
 
 
                     ],
@@ -112,7 +113,7 @@ trait DataOperasionalKtTrait
                     'Domestik Keluar Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpDokel,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
 
 
                     ],
@@ -120,7 +121,7 @@ trait DataOperasionalKtTrait
                     'Ekspor Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpEkspor,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
 
 
                     ],
@@ -128,7 +129,7 @@ trait DataOperasionalKtTrait
                     'Impor Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpImpor,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
+                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
 
 
                     ],
@@ -137,33 +138,15 @@ trait DataOperasionalKtTrait
 
                'Dokumen' =>  [
 
-                    'Domestik Masuk Karantina Tumbuhan' => [
+                    'dokumen' => $this->ktRepository->pemakaianDokumen(),
+                    'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
 
-                        'dokumen' => $this->ktRepository->pemakaianDokumen()->dokumenDomas,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
+               ],
 
-                    ],
+               'PembatalanDokumen' =>  [
 
-                    'Domestik Keluar Karantina Tumbuhan' => [
-
-                        'dokumen' => $this->ktRepository->pemakaianDokumen()->dokumenDokel,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
-
-                    ],
-
-                    'Ekspor Karantina Tumbuhan' => [
-
-                        'dokumen' => $this->ktRepository->pemakaianDokumen()->dokumenEkspor,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
-
-                    ],
-
-                    'Impor Karantina Tumbuhan' => [
-
-                        'dokumen' => $this->ktRepository->pemakaianDokumen()->dokumenImpor,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->params)
-
-                    ],
+                    'pembatalan_dokumen' => $this->ktRepository->pembatalanDokumen(),
+                    'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
 
                ],
 
@@ -179,17 +162,6 @@ trait DataOperasionalKtTrait
 
                ],
 
-               'topFiveFrekuensiKomoditi' =>  [
-
-                    'Domestik Masuk Karantina Tumbuhan' => $this->ktRepository->topFiveFrekuensiKomoditiKt()->topFiveFrekuensiKomoditiDomas,
-
-                    'Domestik Keluar Karantina Tumbuhan' => $this->ktRepository->topFiveFrekuensiKomoditiKt()->topFiveFrekuensiKomoditiDokel,
-
-                    'Ekspor Karantina Tumbuhan' => $this->ktRepository->topFiveFrekuensiKomoditiKt()->topFiveFrekuensiKomoditiEkspor,   
-
-                    'Impor Karantina Tumbuhan' => $this->ktRepository->topFiveFrekuensiKomoditiKt()->topFiveFrekuensiKomoditiImpor
-
-               ],
             ]
             
         ];
@@ -217,28 +189,28 @@ trait DataOperasionalKtTrait
                     'Domestik Masuk Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
-                        'link' => route('kt.view.page.detail.frekuensi.domas', $this->params)
+                        'link' => route('kt.view.page.detail.frekuensi.domas', $this->routeParams)
 
                     ],
 
                     'Domestik Keluar Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
-                        'link' => route('kt.view.page.detail.frekuensi.dokel', $this->params)
+                        'link' => route('kt.view.page.detail.frekuensi.dokel', $this->routeParams)
 
                     ],
 
                     'Ekspor Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
-                        'link' => route('kt.view.page.detail.frekuensi.ekspor', $this->params)
+                        'link' => route('kt.view.page.detail.frekuensi.ekspor', $this->routeParams)
 
                     ],
 
                     'Impor Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
-                        'link' => route('kt.view.page.detail.frekuensi.impor', $this->params)
+                        'link' => route('kt.view.page.detail.frekuensi.impor', $this->routeParams)
 
                     ]
                 ],
@@ -260,6 +232,58 @@ trait DataOperasionalKtTrait
         ];
 
         return $data[$this->year];
+    }
+
+    /**
+     * Untuk Menampilkan Ringkasan Data Pada Dashboard
+     *
+     * @return array
+     */
+    public function sourceDashboardApiKt()
+    {
+        return [
+
+            'tahun'     =>  $this->year,
+
+            'bulan'     =>  $this->month,
+
+            'wilker'    =>  Wilker::whereId($this->wilker_id)->pluck('nama_wilker')->first(),
+
+            'frekuensi' =>  $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDomas +
+                            $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDokel +
+                            $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor +
+                            $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
+
+            'volume'    =>  collect($this->ktRepository->totalVolumePerSatuan())
+                            ->flatten(1)
+                            ->groupBy('sat_netto')
+                            ->map(function($value, $key){
+
+                                return number_format($value->sum('volume'), 0, ',', '.') . ' ' . ucfirst($key);
+
+                            }),
+
+            'pnbp'      =>  Rupiah::rp(
+                                $this->ktRepository->totalPnbp()->pnbpDomas +
+                                $this->ktRepository->totalPnbp()->pnbpDokel +
+                                $this->ktRepository->totalPnbp()->pnbpEkspor +
+                                $this->ktRepository->totalPnbp()->pnbpImpor
+                            ),
+
+            'dokumen'   =>  $this->ktRepository->pemakaianDokumen(),
+
+            'topFive'   =>  collect($this->ktRepository->topFiveFrekuensiKomoditiKt())
+                            ->flatten(1)
+                            ->groupBy('name')
+                            ->sortByDesc('data')
+                            ->take(5)
+                            ->map(function($value, $key){
+
+                                return number_format($value->sum('data'), 0, ',', '.');
+
+                            }),
+
+        ];
     }
 
     /**
@@ -301,29 +325,6 @@ trait DataOperasionalKtTrait
     }
 
     /**
-     * Untuk Tampilan chart frekuensi
-     *
-     * @param string $tipe_karantina
-     * @return array
-     */
-    public function frekuensiPerMonthChartKt($type_karantina = null)
-    {
-        $frekuensi = [
-
-            'Domestik Masuk Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDomas,
-
-            'Domestik Keluar Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDokel,
-
-            'Ekspor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiEkspor,   
-
-            'Impor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiImpor
-
-       ];
-
-      return $frekuensi[$type_karantina]; 
-    }
-
-    /**
      * Untuk Tampilan table detail volume ekspor
      *
      * @return coolections Datatables
@@ -362,6 +363,29 @@ trait DataOperasionalKtTrait
     }
 
     /**
+     * Untuk Tampilan chart frekuensi
+     *
+     * @param string $tipe_karantina
+     * @return array
+     */
+    public function frekuensiPerMonthChartKt($type_karantina = null)
+    {
+        $frekuensi = [
+
+            'Domestik Masuk Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDomas,
+
+            'Domestik Keluar Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDokel,
+
+            'Ekspor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiEkspor,   
+
+            'Impor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiImpor
+
+       ];
+
+      return $frekuensi[$type_karantina]; 
+    }
+
+    /**
      * Untuk Tampilan table detail kota asal & tuju
      *
      * @param Request $request
@@ -373,28 +397,40 @@ trait DataOperasionalKtTrait
 
         $table = '
 
-        <table class="table" style="width: 100%; background-color: #fff; font-size: 10pt; font-weight: bold; text-align: center; border: solid 1px #d6d1fa">
+        <table class="table table-detail-rekap" style="width: 100%; background-color: #fff; font-size: 10pt; font-weight: bold; text-align: center; border: solid 1px #d6d1fa"">
             <thead>
               <tr>
-                <th style="font-style: italic; border: solid 1px #d6d1fa">KOTA ASAL</th>
-                <th style="font-style: italic; border: solid 1px #d6d1fa">KOTA TUJUAN</th>
-                <th style="font-style: italic; border: solid 1px #d6d1fa">FREKUENSI</th>
-                <th style="font-style: italic; border: solid 1px #d6d1fa">DOKUMEN PELEPASAN</th>
-                <th style="font-style: italic; border: solid 1px #d6d1fa">JUMLAH DOKUMEN PELEPASAN</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">KOTA ASAL</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">NEGARA ASAL</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">KOTA TUJUAN</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">NEGARA TUJUAN</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">FREKUENSI</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">VOLUME</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">SATUAN</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">DOKUMEN PELEPASAN</th>
+                <th style="font-style: italic; font-weight: bold; border-bottom: solid 1px #d6d1fa">JUMLAH DOKUMEN PELEPASAN</th>
               </tr>
             </thead> 
             <tbody>';
 
             foreach ($data as $value) {
+
+              $kota_asal        =  $value["kota_asal"]  ?? "IDEM";
+              $kota_tuju        =  $value["kota_tuju"]  ?? "IDEM";
+              $dok_pelepasan    =  $value["dok_pelepasan"] ?? "IDEM";
     
               $table .= '
 
                 <tr>
-                    <td style="border: solid 1px #d6d1fa">'. $value["kota_asal"] .'</td>
-                    <td style="border: solid 1px #d6d1fa">'. $value["kota_tuju"] .'</td>
-                    <td style="border: solid 1px #d6d1fa">'. $value["total"] .'</td>
-                    <td style="border: solid 1px #d6d1fa">'. $value["dok_pelepasan"] .'</td>
-                    <td style="border: solid 1px #d6d1fa">'. $value["pemakaian_dokumen"] .' Dokumen</td>
+                    <td style = "font-weight: 500">'. $kota_asal .'</td>
+                    <td style = "font-weight: 500">'. $value["asal"] .'</td>
+                    <td style = "font-weight: 500">'. $kota_tuju .'</td>
+                    <td style = "font-weight: 500">'. $value["tujuan"] .'</td>
+                    <td style = "font-weight: 500">'. $value["total"] .'</td>
+                    <td style = "font-weight: 500">'. number_format((int) $value["volume"], 0, ".", ",") .'</td>
+                    <td style = "font-weight: 500">'. $value["satuan"] .'</td>
+                    <td style = "font-weight: 500">'. $dok_pelepasan .'</td>
+                    <td style = "font-weight: 500">'. $value["pemakaian_dokumen"] .' Dokumen</td>
                 </tr>';
 
             }

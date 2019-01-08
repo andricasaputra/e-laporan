@@ -125,6 +125,8 @@ class UploadPembatalanController extends BaseOperasionalController
     	$this->type_karantina   = explode('_', $model->getTable());
 
         $this->type_karantina   = end($this->type_karantina);
+
+        return $this;
     }
 
     /**
@@ -213,7 +215,26 @@ class UploadPembatalanController extends BaseOperasionalController
                                    ->whereIn('no_permohonan', $no_permohonan)
                                    ->get();
 
-        $insertOrUpdate     = $this->model::updateOrCreate($forinsertOrUpdate , $datas->all() );
+        /*Jika Data Kosong artinya laporan belum pernah diupload -> maka insert*/                           
+        if ($forinsertOrUpdate === null || count($forinsertOrUpdate) === 0) {
+
+            $insertOrUpdate = $this->model->insert( $datas->all() ); 
+
+        /*Laporan sudah pernah diupload -> maka update laporan*/
+        } else {
+
+            foreach ($datas as $key => $value) {
+
+               $this->model->whereNotIn('no_permohonan', ['IDEM'])
+                           ->where('no_permohonan', $value['no_permohonan'])
+                           ->where('wilker_id', $value['wilker_id'])
+                           ->update($value);
+
+            }
+
+            $insertOrUpdate = false;
+
+        }
 
         /*Set success untuk menampilkan pesan kepada user setelah upload*/
         $insertOrUpdate === true ? $this->success = 1 : $this->success = 2;

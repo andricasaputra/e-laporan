@@ -13,6 +13,13 @@ class HomeRepository implements RepositoryInterface
 {
 	use Repository;
 
+    /**
+     * Untuk API IKM yang dipilih berdasarkan table responden (database), default id 1 
+     * Digunakan pada table halaman dashboard / home
+     *
+     * @param int $ikmId
+     * @return collections of Datatables 
+     */
 	public function api(int $ikmId = null)
     {
         $ikmId 		= $ikmId ?? 1;
@@ -37,6 +44,13 @@ class HomeRepository implements RepositoryInterface
                 ->make(true);
     }
 
+    /**
+     * Untuk Detail API Per Responden, menampilkan jawaban dan nilai dari responden 
+     *
+     * @param int $id
+     * @param int $ikmId
+     * @return collections of Datatables 
+     */
     public function detailApi(int $id, int $ikmId)
     {
         $result =  Result::whereIn('responden_id', [$id])->where('ikm_id', $ikmId)->get();
@@ -46,6 +60,13 @@ class HomeRepository implements RepositoryInterface
                 ->make(true);
     }
 
+    /**
+     * Untuk update jawaban responden 
+     *
+     * @param Request $request
+     * @param instance of App\Models\Ikm\Responden
+     * @return bool
+     */
     public function update($request, $responden)
     {
     	$answer 	= $request->except(['responden_id','submit','_method','_token']);

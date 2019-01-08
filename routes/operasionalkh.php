@@ -55,6 +55,19 @@ Route::get(
 	'statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKhController@tableDetailFrekuensiView'
 )->name('kh.view.page.detail.frekuensi.impor');
 
+Route::get(
+	'statistik/detail/frekuensi/reekspor/{year?}/{month?}/{wilker_id?}', 'ReeksporKhController@tableDetailFrekuensiView'
+)->name('kh.view.page.detail.frekuensi.reekspor');
+
+Route::get(
+	'statistik/detail/frekuensi/serah_terima/{year?}/{month?}/{wilker_id?}', 'SerahTerimaKhController@tableDetailFrekuensiView'
+)->name('kh.view.page.detail.frekuensi.serah_terima');
+
+/*View Page Table Detail Pembatalan Dokumen*/
+Route::get(
+	'statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'PembatalanDokKhController@tableDetailPembatalanView'
+)->name('kh.view.page.detail.dokumen.pembatalan_dokumen');
+
 Route::middleware('kh')->group(function(){
 
 	Route::get('home_upload/{year?}', 'HomeKhController@homeUpload')
@@ -76,6 +89,16 @@ Route::middleware('kh')->group(function(){
 	Route::get('upload/impor', 'ImporKhController@uploadPageView')
 	->name('kh.upload.page.impor');
 
+	Route::get('upload/pembatalan_dokumen', 'PembatalanDokKhController@uploadPageView')
+	->name('kh.upload.page.pembatalan_dokumen');
+
+	Route::get('upload/reekspor', 'ReeksporKhController@uploadPageView')
+	->name('kh.upload.page.reekspor');
+
+	Route::get('upload/serah_terima', 'SerahTerimaKhController@uploadPageView')
+	->name('kh.upload.page.serah_terima');
+
+	/*Proses Upload*/
 	Route::post('dokel/importdata', 'DokelKhController@imports')
 	->name('kh.upload.proses.dokel');
 
@@ -88,37 +111,16 @@ Route::middleware('kh')->group(function(){
 	Route::post('impor/importdata', 'ImporKhController@imports')
 	->name('kh.upload.proses.impor');
 
-	/*Export Routes*/
-	// Route::get('download/domas', function () {
-	// 	return view('operasional.kh.download.domas');
-	// })->name('kh.download.page.domas');
+	Route::post('pembatalan_dokumen/importdata', 'PembatalanDokKhController@imports')
+	->name('kh.upload.proses.pembatalan_dokumen');
 
-	// Route::get('download/dokel', function () {
-	//     return view('operasional.kh.download.dokel');
-	// })->name('kh.download.page.dokel'); 
+	Route::post('reekspor/importdata', 'ReeksporKhController@imports')
+	->name('kh.upload.proses.reekspor');
 
-	// Route::get('download/ekspor', function () {
-	//     return view('operasional.kh.download.ekspor');
-	// })->name('kh.download.page.ekspor'); 
+	Route::post('serah_terima/importdata', 'SerahTerimaKhController@imports')
+	->name('kh.upload.proses.serah_terima');
 
-	// Route::get('download/impor', function () {
-	//     return view('operasional.kh.download.impor');
-	// })->name('kh.download.page.impor'); 
-
-	// Route::post('dokel/exportdata/{year}/{bulan?}', 'DokelKhController@exports')
-	// ->name('kh.download.proses.dokel');
-
-	// Route::post('domas/exportdata', 'DomasKhController@exports')
-	// ->name('kh.download.proses.domas');
-
-	// Route::post('ekspor/exportdata', 'EksporKhController@exports')
-	// ->name('kh.download.proses.ekspor');
-
-	// Route::post('impor/exportdata', 'ImporKhController@exports')
-	// ->name('kh.download.proses.impor');
-
-
-});
+});/*End Middleware KH*/
 
 
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 class HomeMiddleware extends Controller
@@ -43,15 +42,11 @@ class HomeMiddleware extends Controller
      */
     public function operasional()
     {
-        if (!Auth::user()) {
-
-            return redirect(route('login'));
+        if (! auth()->user()) return redirect(route('login'));
             
-        }
+        $cek1 = auth()->user()->role->first()->id;
 
-        $cek1 = Auth::user()->role->first()->id;
-
-        $cek2 = Auth::user()->pegawai->jenis_karantina;
+        $cek2 = auth()->user()->pegawai->jenis_karantina;
 
         if($cek1 === 1 || $cek1 === 2 || $cek1 === 3):
 

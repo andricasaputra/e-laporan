@@ -8,10 +8,35 @@ use App\Contracts\RepositoryInterface;
 
 class GrafikRepository extends StatistikRepository implements RepositoryInterface
 {
+    /**
+     * Untuk menyimpan semua data IKM yang dipilih sesuai periode
+     * Default IKM Yang aktif
+     *
+     * @var Collectios
+     */
     public $ikm;
+
+    /**
+     * Untuk menyimpan data keterangan IKM 
+     *
+     * @var Collectios
+     */
     public $ikm_ket;
+
+    /**
+     * Untuk menyimpan id IKM yang dipilih
+     *
+     * @var int
+     */
     public $id;
 
+    /**
+     * Untuk set keterangan E - IKM yang sedang aktif 
+     * pada tampilan charts 
+     *
+     * @param int $id
+     * @return void 
+     */
     public function getKeterangan($id)
     {
         $this->id       = $id;
@@ -23,6 +48,12 @@ class GrafikRepository extends StatistikRepository implements RepositoryInterfac
         return $this;
     }
 
+    /**
+     * Untuk API charts Utama, Kumpulan dari beberapa method
+     *
+     * @param int $id
+     * @return array | collections 
+     */
 	public function chartApi($id)
     {
         $datas                  =   Responden::where('ikm_id', $id)->get();
@@ -45,6 +76,12 @@ class GrafikRepository extends StatistikRepository implements RepositoryInterfac
         return collect($data);
     }
 
+    /**
+     * Untuk set data layanan E -IKM
+     *
+     * @param array | collections $datas
+     * @return array 
+     */
     public function getLayanan($datas)
     {
         return $datas->groupBy('layanan_id')->mapWithKeys(function($data){
@@ -58,6 +95,12 @@ class GrafikRepository extends StatistikRepository implements RepositoryInterfac
         })->all();
     }
 
+    /**
+     * Untuk set data umur responden E -IKM
+     *
+     * @param array | collections $datas
+     * @return array 
+     */
     public function getUmur($datas)
     {
         return $datas->groupBy('umur_id')->mapWithKeys(function($data){
@@ -71,6 +114,12 @@ class GrafikRepository extends StatistikRepository implements RepositoryInterfac
         })->all();
     }
 
+    /**
+     * Untuk set data pendidikan responden E -IKM
+     *
+     * @param array | collections $datas
+     * @return array 
+     */
     public function getPendidikan($datas)
     {
         return $datas->groupBy('pendidikan_id')->mapWithKeys(function($data){
@@ -84,6 +133,12 @@ class GrafikRepository extends StatistikRepository implements RepositoryInterfac
         })->all();
     }
 
+    /**
+     * Untuk set data pekerjaan responden E -IKM
+     *
+     * @param array | collections $datas
+     * @return array 
+     */
     public function getPekerjaan($datas)
     {
         return $datas->groupBy('pekerjaan_id')->mapWithKeys(function($data){
@@ -97,6 +152,13 @@ class GrafikRepository extends StatistikRepository implements RepositoryInterfac
         })->all();
     }
 
+    /**
+     * Untuk menghitung data sesuai jenis kelamin responden E -IKM
+     *
+     * @param int $id
+     * @param int $jenis_kelamin_id
+     * @return int 
+     */
     private function getJenisKelamin(int $id, int $jenis_kelamin_id)
     {   
        return Responden::select('jenis_kelamin')

@@ -16,7 +16,7 @@ class PembatalanDokKt extends Model implements ModelOperasionalInterface
 
     /**
      * Untuk alias dari jenis permohonan untuk set parameter route
-     * digunakan pada class UploadController untuk set notifikasi property
+     * digunakan pada class UploadPembatalanController untuk set notifikasi property
      *
      * @var string
      */
@@ -24,7 +24,7 @@ class PembatalanDokKt extends Model implements ModelOperasionalInterface
 
     /**
      * Untuk alias dari jenis permohonan
-     * digunakan pada class UploadController untuk set notifikasi property
+     * digunakan pada class UploadPembatalanController untuk set notifikasi property
      *
      * @var string
      */
@@ -32,7 +32,7 @@ class PembatalanDokKt extends Model implements ModelOperasionalInterface
 
     /**
      * Untuk alias dari jenis karantina
-     * digunakan pada class UploadController untuk set notifikasi property
+     * digunakan pada class UploadPembatalanController untuk set notifikasi property
      *
      * @var string
      */
@@ -46,5 +46,27 @@ class PembatalanDokKt extends Model implements ModelOperasionalInterface
  	public function getBulanAttribute($value)
     {
         return Tanggal::bulanTahun($value);
+    }
+
+    /**
+     * Untuk menghitung total pemakaian dokumen
+     *
+     * @param $query
+     * @param int $year
+     * @param int $month
+     * @param int $wilker_id
+     * @return collections
+     */
+    public function scopeCountPembatalanDokumen($query, $year, $month = null, $wilker_id = null)
+    {
+        $query->selectRaw('dokumen, count(dokumen) as total')
+              ->whereNotNull('dokumen')
+              ->where('bulan', $year);
+
+        if (isset($month) and $month != 'all') $query->whereMonth('tanggal_batal', $month);
+
+        if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
+                     
+        return $query->groupBy('dokumen')->orderBy('total', 'desc');
     }
 }

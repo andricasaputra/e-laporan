@@ -19,13 +19,12 @@ class CreateViewRekapKomoditiEksporKt extends Migration
                                 wilker_id,
                                 sat_netto, 
                                 nama_komoditas,
-                                year(created_at) as year, 
-                                month(bulan) as month, 
+                                bulan, 
                                 sum(volume_netto) as volume, 
                                 sum(total_pnbp) as pnbp,
                                 count(sat_netto) as frekuensi 
                         FROM ekspor_kt
-                        GROUP BY nama_komoditas
+                        GROUP BY nama_komoditas, bulan, wilker_id
                     ");
     }
 

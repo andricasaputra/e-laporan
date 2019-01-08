@@ -68,7 +68,14 @@ class RouteServiceProvider extends ServiceProvider
              ->group(base_path('routes/web.php'));
     }
 
-
+    /**
+     * Define the "auth" routes for the application.
+     *
+     * Route utama untuk aplikasi E - Operasional, 
+     * mengharuskan user untuk login terlebih dahulu
+     *
+     * @return void
+     */
     protected function mapMainOperasionalRoutes()
     {
         Route::middleware('web', 'auth')
@@ -79,6 +86,13 @@ class RouteServiceProvider extends ServiceProvider
              });
     }
 
+    /**
+     * Define the "KH Operasional" routes for the application.
+     *
+     * Route utama untuk E - Operasional Karantina Hewan
+     *
+     * @return void
+     */
     protected function mapOperasionalKhRoutes()
     {
         Route::middleware('web', 'auth')
@@ -89,6 +103,13 @@ class RouteServiceProvider extends ServiceProvider
              });
     }
 
+    /**
+     * Define the "KT Operasional" routes for the application.
+     *
+     * Route utama untuk E - Operasional Karantina Tumbuhan
+     *
+     * @return void
+     */
     protected function mapOperasionalKtRoutes()
     {
         Route::middleware('web', 'auth')
@@ -99,6 +120,13 @@ class RouteServiceProvider extends ServiceProvider
              });
     }
 
+    /**
+     * Define the "IKM" routes for the application.
+     *
+     * Route utama untuk E - IKM
+     *
+     * @return void
+     */
     protected function mapIkmRoutes()
     {
         Route::middleware('web', 'auth')
@@ -109,6 +137,13 @@ class RouteServiceProvider extends ServiceProvider
              });
     }
 
+    /**
+     * Define the "Manajemen Aplikasi" routes for the application.
+     *
+     * Route utama untuk Manajemen Aplikasi, Khusus Admin dan Role Diatasnya
+     *
+     * @return void
+     */
     protected function mapAplicationManagementRoutes()
     {
         Route::middleware('web', 'admin')
@@ -117,6 +152,13 @@ class RouteServiceProvider extends ServiceProvider
              ->group(base_path('routes/management.php'));
     }
 
+    /**
+     * Define the "Notifikasi" routes for the application.
+     *
+     * Route utama untuk Notifikasi pada semua Aplikasi
+     *
+     * @return void
+     */
     protected function mapNotificationsRoutes()
     {
         Route::middleware('web', 'auth')
