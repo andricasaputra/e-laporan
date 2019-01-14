@@ -5,14 +5,13 @@ namespace App\Traits;
 trait TableOperasionalProperty
 {
 	/**
-     *Digunakan mencetak semua table kt head pada masing2 class turunan
-     *dan kemuadian masing2 child class mengoper ke view yang diperlukan 
+     * Untuk Detail head table frekuensi KT
      *
      * @return array
      */
     protected function tableTitleKt() : array
     {
-        return array(
+        return [
              'no',
              'bulan',
              'wilker',
@@ -62,18 +61,17 @@ trait TableOperasionalProperty
              'kontainer',
              'biaya_perjalanan_dinas',
              'total_pnbp'
-        );
+        ];
     }
 
     /**
-     *Digunakan mencetak semua table kh head pada masing2 class turunan
-     *dan kemuadian masing2 child class mengoper ke view yang diperlukan
+     * Untuk Detail head table frekuensi KT
      * 
      * @return array
      */
     protected function tableTitleKh() : array
     {
-        return array(
+        return [
             'no',
             'bulan',
             'wilker',
@@ -125,18 +123,17 @@ trait TableOperasionalProperty
             'kontainer',
             'biaya_perjalanan_dinas',
             'total_pnbp'
-        );
+        ];
     }
 
     /**
-     *Digunakan mencetak semua table kt head pada masing2 class turunan
-     *dan kemuadian masing2 child class mengoper ke view yang diperlukan 
+     * Table head dari laporan operasional KT
      *
      * @return array
      */
-    protected function tableTitleLaporanOperasionalKt() : array
+    protected function tableHeaderLaporanOperasionalKt() : array
     {
-        return array(
+        return [
              'No',
              'No Permohonan',
              'No Aju',
@@ -174,6 +171,53 @@ trait TableOperasionalProperty
              'Satuan Kotor',
              'No Seri',
              'PNBP (Rp)'
-        );
+            ];
+    }
+
+    /**
+     * Table head dari laporan operasional KH
+     *
+     * @return array
+     */
+    protected function tableHeaderLaporanOperasionalKh() : array
+    {
+        return [
+             'No',
+             'No Permohonan',
+             'No Aju',
+             'Tanggal Permohonan',
+             'Jenis Permohonan',
+             'Nama Pemohon',
+             'Nama Pengirim',
+             'Alamat Pengirim',
+             'Nama Penerima',
+             'Alamat Penerima',
+             'Jumlah Kemasan',
+             'Kota Asal',
+             'Asal',
+             'Kota Tujuan',
+             'Tujuan',
+             'Pelabuhan Asal',
+             'Pelabuhan Tujuan',
+             'Moda Alat Angkut Terakhir',
+             'Tipe Alat Angkut Terakhir',
+             'Nama Alat Angkut Terakhir',
+             'Status Internal',
+             'Peruntukan',
+             'Dokumen Pelepasan',
+             'No Dokumen Pelepasan',
+             'Tanggal Pelepasan',
+             'Jenis Media Pembawa',
+             'Kelas Media Pembawa',
+             'Kode HS',
+             'Nama Media Pembawa',
+             'Nama Latin',
+             'Jantan',
+             'Betina',
+             'Jumlah',
+             'Satuan',
+             'No Seri',
+             'PNBP (Rp)'
+            ];
     }
 }

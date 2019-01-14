@@ -87,7 +87,8 @@ class BaseOperasionalController extends Controller
     protected $messageType;
 
     /**
-     * Set data property untuk diolah lebih lanjut
+     * Method ini dipanggil pada kelas turunan untuk set property
+     * dan dapat digunakan pada kelas turunan lainnya
      *
      * @param Request $request, Model $model
      * @return string
@@ -113,7 +114,6 @@ class BaseOperasionalController extends Controller
         $this->jenisKarantina   = strtolower(str_replace(' ', '_', $model->karantina));
 
         return $this;
-
     }
 
     /**
@@ -155,7 +155,6 @@ class BaseOperasionalController extends Controller
 
         /*Cek Jika File Yang Diunggah Sudah Sesuai Dengan Jenis Karantinanya */
         return strpos($key, $this->jenisKarantina) !== false ? true : false;
-
     }
 
     /**
@@ -202,7 +201,7 @@ class BaseOperasionalController extends Controller
      */
     protected function cleanString(string $value)
     {   
-        if (strpos($value, '.') !== false) $value = str_replace('.', ' ', $value);
+        $value = str_replace('.', ' ', $value);
 
         return strtolower(trim(str_replace(' ', '', $value)));
     }

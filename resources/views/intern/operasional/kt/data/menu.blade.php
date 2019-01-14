@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title', 'Menu Data Operasional kt')
+@section('title', 'Menu Data Operasional KT')
 
 @section('barside')
 

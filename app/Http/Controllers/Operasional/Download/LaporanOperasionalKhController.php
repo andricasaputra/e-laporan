@@ -6,11 +6,11 @@ namespace App\Http\Controllers\Operasional\Download;
 
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Repositories\Operasional\DataOperasionalKtRepository as Repository;
+use App\Repositories\Operasional\DataOperasionalKhRepository as Repository;
 
 ini_set('max_execution_time', '200');
 
-class LaporanOperasionalKtController extends DownloadController
+class LaporanOperasionalKhController extends DownloadController
 {
     /**
      * Menyimpan start row untuk isi data laporan pada table
@@ -36,7 +36,7 @@ class LaporanOperasionalKtController extends DownloadController
      *
      * @return Excel
      */
-	public function laporanOperasionalKt()
+	public function laporanOperasionalKh()
     {
         return Excel::create("Laporan Operasional {$this->monthName} Tahun {$this->year} {$this->karantina} {$this->wilkerName}", function($excel) {
 
@@ -49,7 +49,7 @@ class LaporanOperasionalKtController extends DownloadController
                 $excel->sheet($permohonan, function($sheet) use ($permohonan) {
 
                     /*init page view/ source page laporan*/
-                    $sheet->loadView('intern.operasional.kt.download.laporan_operasional_excel')
+                    $sheet->loadView('intern.operasional.kh.download.laporan_operasional_excel')
                           ->with('datas', $this->datasToView(strtolower($permohonan)));
                   
                     /*jika data null atau nihil*/

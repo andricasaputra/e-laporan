@@ -17,19 +17,7 @@
 
       wilker = $('#wilker').val();
 
-      if (year != '' && month == '' && wilker == '') {
-
-        window.location = '{{ route('show.rekapitulasi.operasional.kt') }}/' + year;
-
-      } else if(year != '' && month != '' && wilker == '') {
-
-        window.location = '{{ route('show.rekapitulasi.operasional.kt') }}/' + year + '/' + month;
-
-      } else {
-
-        window.location = '{{ route('show.rekapitulasi.operasional.kt') }}/' + year + '/' + month + '/' + wilker;
-
-      }
+      window.location = '{{ route('show.rekapitulasi.operasional.kt') }}/' + year + '/' + month + '/' + wilker;
 
     });
 
@@ -118,8 +106,6 @@
 
       });
     }/*end function*/
-
-
 
   });
 </script>

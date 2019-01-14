@@ -10,7 +10,7 @@ use App\Repositories\Operasional\DataOperasionalKtRepository as Repository;
 
 ini_set('max_execution_time', '200');
 
-class LaporanOperasionalKtController extends DownloadController
+class LaporanRekapitulasiKomoditiKtController extends DownloadController
 {
     /**
      * Menyimpan start row untuk isi data laporan pada table
@@ -36,9 +36,9 @@ class LaporanOperasionalKtController extends DownloadController
      *
      * @return Excel
      */
-	public function laporanOperasionalKt()
+	public function laporanRekapitulasiKomoditiKt()
     {
-        return Excel::create("Laporan Operasional {$this->monthName} Tahun {$this->year} {$this->karantina} {$this->wilkerName}", function($excel) {
+        return Excel::create("Laporan Rekapitulasi Komoditi KT {$this->monthName} Tahun {$this->year} {$this->karantina} {$this->wilkerName}", function($excel) {
 
             /*Looping sesuai banyak tipe permohonan yang dipilih*/
             foreach ($this->type as $permohonan) :
@@ -65,10 +65,10 @@ class LaporanOperasionalKtController extends DownloadController
                     }
 
                     /*set global orientation laporan*/
-                    $sheet->setOrientation('landscape');
+                    $sheet->setOrientation('potrait');
 
                     /*set paper size laporan =  A3*/
-                    $sheet->setPaperSize(\PHPExcel_Worksheet_PageSetup::PAPERSIZE_A3);
+                    $sheet->setPaperSize(\PHPExcel_Worksheet_PageSetup::PAPERSIZE_LETTER);
 
                     /*set rowheight hanya untuk data di dalam table*/
                     $this->setRowHeight($sheet, $permohonan);

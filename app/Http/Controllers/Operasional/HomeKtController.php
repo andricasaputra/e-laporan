@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Operasional;
 
-use App\Models\Wilker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Operasional\DataOperasionalKtRepository as Repository;
@@ -52,10 +51,8 @@ class HomeKtController extends Controller
      * @param DataOperasionalKtRepository $repository, Request $request
      * @return void
      */
-    public function __construct(Repository $repository, Request $request)
+    public function __construct(Repository $ktRepository, Request $request)
     {
-        $this->ktRepository = $repository;
-
         $this->year         = $request->year ?? date('Y');
 
         $this->month        = $request->month;
@@ -64,7 +61,7 @@ class HomeKtController extends Controller
 
         $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
 
-        $this->ktRepository->setDateAndWilker($this->year, $this->month, $this->wilker_id);
+        $this->ktRepository = new $ktRepository($this->year, $this->month, $this->wilker_id);
     }
 
     /**
@@ -117,8 +114,7 @@ class HomeKtController extends Controller
     public function homeRekapitulasi()
     {
         return view('intern.operasional.kt.data.rekapitulasi.home')
-                ->with('datas', $this->rekapitulasiDataOperasionalKt())
-                ->with('wilkers', Wilker::where('id', '!=', 1)->get());
+                ->with('datas', $this->rekapitulasiDataOperasionalKt());
     }
 
     /**
@@ -129,8 +125,7 @@ class HomeKtController extends Controller
     public function homeStatistik()
     {
         return view('intern.operasional.kt.data.statistik.home')
-                ->with('datas', $this->statistikDataOperasionalKt())
-                ->with('wilkers', Wilker::where('id', '!=', 1)->get());
+                ->with('datas', $this->statistikDataOperasionalKt());
     }
 
     /**

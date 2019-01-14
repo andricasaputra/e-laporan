@@ -28,37 +28,8 @@ Route::post('users', 'UserController@api')->name('api.user');
 Route::namespace('Operasional')->group(function () {
 
 	/*Route API For Dashboard / Ringkasan data*/
-	Route::get('operasional/dashboard/{year?}/{month?}/{wilker_id?}', 'HomeAdminController@api')
+	Route::get('operasional/dashboard/{year?}/{month?}/{wilker_id?}', 'HomeController@api')
 	->name('api.operasional.dashboard');
-
-	/*Route API For Detail Table Laporan bulanan*/
-	Route::post('kt/statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@api')
-	->name('api.kt.detail.frekuensi.dokel');
-
-	Route::post('kt/statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@api')
-	->name('api.kt.detail.frekuensi.domas');
-
-	Route::post('kt/statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@api')
-	->name('api.kt.detail.frekuensi.ekspor');
-
-	Route::post('kt/statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@api')
-	->name('api.kt.detail.frekuensi.impor');
-
-	Route::post('kh/statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKhController@api')
-	->name('api.kh.detail.frekuensi.dokel');
-
-	Route::post('kh/statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKhController@api')
-	->name('api.kh.detail.frekuensi.domas');
-
-	Route::post('kh/statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKhController@api')
-	->name('api.kh.detail.frekuensi.ekspor');
-
-	Route::post('kh/statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKhController@api')
-	->name('api.kh.detail.frekuensi.impor');
-
-	/*Route API For Ringaksan Data in landing Page Laporan bulanan*/
-	Route::get('data/{year}/{month?}/{wilker_id?}', 'HomeAdminController@dataOperasional')
-	->name('api.data.operasional');
 
 	/*Route API For Rekapitulasi Per Kegiatan Laporan bulanan KH*/
 	Route::get('kh/dokel/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKhController@dataVolumeDokelApiKh')
@@ -91,6 +62,31 @@ Route::namespace('Operasional')->group(function () {
 
 	Route::get('kt/rekapitulasi/detail_tujuan_mp/{class?}/{mp?}/{year?}/{month?}/{wilker_id?}', 'HomeKtController@detailTujuanKt')
 	->name('api.kt.detail.tujuan');
+
+	/*Route API For Detail Table Laporan bulanan*/
+	Route::post('kt/statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@api')
+	->name('api.kt.detail.frekuensi.dokel');
+
+	Route::post('kt/statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@api')
+	->name('api.kt.detail.frekuensi.domas');
+
+	Route::post('kt/statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@api')
+	->name('api.kt.detail.frekuensi.ekspor');
+
+	Route::post('kt/statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@api')
+	->name('api.kt.detail.frekuensi.impor');
+
+	Route::post('kh/statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKhController@api')
+	->name('api.kh.detail.frekuensi.dokel');
+
+	Route::post('kh/statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKhController@api')
+	->name('api.kh.detail.frekuensi.domas');
+
+	Route::post('kh/statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKhController@api')
+	->name('api.kh.detail.frekuensi.ekspor');
+
+	Route::post('kh/statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKhController@api')
+	->name('api.kh.detail.frekuensi.impor');
 
 	/*Route API For Chart Rekapitulasi*/
 	Route::get('kh/rekapitulasi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKhController@frekuensiPerMonthChartKh')

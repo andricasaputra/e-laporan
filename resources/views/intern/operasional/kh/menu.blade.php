@@ -59,7 +59,7 @@
       <div class="card-body">
         <i class="fa fa-expand fa-2x mb-4"></i>
         <h4 class="card-text">
-          Data Operasional
+          Lihat Data Operasional
         </h4>
         <p>Karantina Hewan</p>  
       </div>
@@ -98,7 +98,7 @@
         <p>Karantina Hewan</p>
       </div>
       <div class="card-footer bg-transparent">
-        <a href="#" class="btn btn-primary">Masuk</a>
+        <a href="{{ route('kh.homedownload') }}" class="btn btn-primary">Masuk</a>
       </div>
     </div>
   </div> 

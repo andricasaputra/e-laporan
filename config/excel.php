@@ -560,7 +560,7 @@ return [
             'th'     => [
                 'font' => [
                     'bold' => true,
-                    'size' => 12,
+                    'size' => 14,
                 ]
             ],
 

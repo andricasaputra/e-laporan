@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Operasional;
 
-use App\Models\Wilker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Operasional\DataOperasionalKhRepository as Repository;
@@ -52,10 +51,8 @@ class HomeKhController extends Controller
      * @param DataOperasionalKhRepository $repository, Request $request
      * @return void
      */
-    public function __construct(Repository $repository, Request $request)
+    public function __construct(Repository $khRepository, Request $request)
     {
-        $this->khRepository = $repository;
-
         $this->year         = $request->year ?? date('Y');
 
         $this->month        = $request->month;
@@ -64,7 +61,7 @@ class HomeKhController extends Controller
 
         $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
 
-        $this->khRepository->setDateAndWilker($this->year, $this->month, $this->wilker_id);
+        $this->khRepository = new $khRepository($this->year, $this->month, $this->wilker_id);
     }
 
     /**
@@ -99,6 +96,17 @@ class HomeKhController extends Controller
     }
 
     /**
+     * Halaman upload
+     *
+     * @param int $ year nullable
+     * @return view -> page upload (domas, dokel, ekspor, impor)
+     */
+    public function homeDownload()
+    {
+        return view('intern.operasional.kh.download.home_download');
+    }
+
+    /**
      * Halaman Utama untuk data - data opersional dari Karantina Hewan
      *
      * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
@@ -106,8 +114,7 @@ class HomeKhController extends Controller
     public function homeRekapitulasi()
     {
         return view('intern.operasional.kh.data.rekapitulasi.home')
-                ->with('datas', $this->rekapitulasiDataOperasionalKh())
-                ->with('wilkers', Wilker::where('id', '!=', 1)->get());
+                ->with('datas', $this->rekapitulasiDataOperasionalKh());
     }
 
     /**
@@ -118,8 +125,7 @@ class HomeKhController extends Controller
     public function homeStatistik()
     {
         return view('intern.operasional.kh.data.statistik.home')
-                ->with('datas', $this->statistikDataOperasionalKh())
-                ->with('wilkers', Wilker::where('id', '!=', 1)->get());
+                ->with('datas', $this->statistikDataOperasionalKh());
     }
 
     /**

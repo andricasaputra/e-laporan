@@ -17,19 +17,7 @@
 
       wilker = $('#wilker').val();
 
-      if (year != '' && month == '' && wilker == '') {
-
-        window.location = '{{ route('show.rekapitulasi.operasional.kh') }}/' + year;
-
-      } else if(year != '' && month != '' && wilker == '') {
-
-        window.location = '{{ route('show.rekapitulasi.operasional.kh') }}/' + year + '/' + month;
-
-      } else {
-
-        window.location = '{{ route('show.rekapitulasi.operasional.kh') }}/' + year + '/' + month + '/' + wilker;
-
-      }
+      window.location = '{{ route('show.rekapitulasi.operasional.kh') }}/' + year + '/' + month + '/' + wilker;
 
     });
 

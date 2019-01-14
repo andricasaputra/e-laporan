@@ -59,7 +59,7 @@
       <div class="card-body">
         <i class="fa fa-expand fa-2x mb-4"></i>
         <h4 class="card-text">
-          Data Operasional
+          Lihat Data Operasional
         </h4>
         <p>Karantina Tumbuhan</p>
       </div>

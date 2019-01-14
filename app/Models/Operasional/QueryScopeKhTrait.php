@@ -6,27 +6,7 @@ use Illuminate\Http\Request;
 
 trait QueryScopeKhTrait
 {
-	/**
-     * Untuk Mensortir Detail Table (Table Global)
-     *
-     * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilker_id
-     * @return void
-     */
-    public function scopeSortTableDetail($query, $year = null, $month = null, $wilker_id = null)
-    {
-        $year   = $year ?? date('Y');
-
-        $query->whereYear('bulan', $year);
-
-        if(isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
-
-        if(isset($wilker_id)) $query->where('wilker_id', $wilker_id);
-
-        return $query;
-    }
+    use QueryScopeGlobalTrait;
 
     /**
      * Untuk Menghitung Total Frekuensi Dari KH
@@ -73,28 +53,6 @@ trait QueryScopeKhTrait
     }
 
     /**
-     * Untuk menghitung total pemakaian dokumen
-     *
-     * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilker_id
-     * @return collections
-     */
-    public function scopeCountPemakaianDokumen($query, $year, $month = null, $wilker_id = null)
-    {
-        $query->selectRaw('dokumen, sum(total) as total')
-              ->whereNotNull('dokumen')
-              ->whereYear('bulan', $year);
-
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
-
-        if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
-                     
-        return $query->groupBy('dokumen')->orderBy('total', 'desc');
-    }
-
-    /**
      * Untuk menghitung total frekuensi berdasarkan komoditas dan bulan
      *
      * @param $query
@@ -137,27 +95,6 @@ trait QueryScopeKhTrait
         if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
            
         return $query->groupBy('nama_mp');
-    }
-
-    /**
-     * Untuk menghitung total PNBP
-     *
-     * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilker_id
-     * @return collections
-     */
-    public function scopeCountTotalPnbp($query, $year, $month = null, $wilker_id = null)
-    {
-        $query->selectRaw('sum(pnbp) as pnbp')  
-              ->whereYear('bulan', $year);
-
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
-
-        if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
-                     
-        return $query->first();
     }
 
     /**
@@ -208,13 +145,69 @@ trait QueryScopeKhTrait
                           ->whereNotNull('nama_mp')
                           ->where('nama_mp', $mp);
 
-        if ($wilker_id != null || $wilker_id != 0) $query->where('wilker_id', $wilker_id);
+        if ($wilker_id != null or $wilker_id != 0) $query->where('wilker_id', $wilker_id);
          
-        if ($month !== null && $month !== 'all') $query->whereMonth('bulan', $month);
+        if ($month !== null and $month !== 'all') $query->whereMonth('bulan', $month);
         
         $year === null ? $query->whereYear('bulan', date('Y')) : $query->whereYear('bulan', $year);
 
         return $query->groupBy('kota_asal', 'kota_tuju')->get();
+    }
+
+    /**
+     * Untuk mendownload Excel File laporan operasional 
+     *
+     * @param $query
+     * @param int $year
+     * @param int $month
+     * @param int $wilker_id
+     * @return collections
+     */
+    public function scopeLaporanOperasional($query, $year, $month = null, $wilker_id = null)
+    {
+        $query->select(
+             'no_permohonan',
+             'no_aju',
+             'tanggal_permohonan',
+             'jenis_permohonan',
+             'nama_pemohon',
+             'nama_pengirim',
+             'alamat_pengirim',
+             'nama_penerima',
+             'alamat_penerima',
+             'jumlah_kemasan',
+             'kota_asal',
+             'asal',
+             'kota_tuju',
+             'tujuan',
+             'port_asal',
+             'port_tuju',
+             'moda_alat_angkut_terakhir',
+             'tipe_alat_angkut_terakhir',
+             'nama_alat_angkut_terakhir',
+             'status_internal',
+             'peruntukan',
+             'dok_pelepasan',
+             'nomor_dok_pelepasan',
+             'tanggal_pelepasan',
+             'jenis_mp',
+             'kelas_mp',
+             'kode_hs',
+             'nama_mp',
+             'nama_latin',
+             'jantan',
+             'betina',
+             'jumlah',
+             'satuan',
+             'no_seri',
+             'total_pnbp'
+         )->whereYear('bulan', $year);
+
+        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+
+        if (isset($wilker_id) and $wilker_id != '' and $wilker_id != 1) $query->whereWilkerId($wilker_id);
+
+        return $query->whereNotNull('no_permohonan')->orderBy('id', 'asc')->get();
     }
 
 }

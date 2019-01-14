@@ -55,12 +55,27 @@ class ViewServiceProvider extends ServiceProvider
     }
 
     /**
-     * Inventarisir/ Mapping view untuk E- Operasional
+     * Populasi/ Mapping view untuk E- Operasional
      *
      * @return void
      */
     public function mapOperasional()
     {
+        /*Share Data For Statistik Page KH*/
+        View::composer(
+
+            [
+                'intern.operasional.home', 
+                'intern.operasional.kh.data.rekapitulasi.home',
+                'intern.operasional.kh.data.statistik.home',
+                'intern.operasional.kt.data.rekapitulasi.home',
+                'intern.operasional.kt.data.statistik.home',
+            ],
+
+            $this->namespace . '\Operasional\HomeComposer'
+
+        );
+
         /*Share Data For Statistik Page KH*/
         View::composer(
 
@@ -134,6 +149,7 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(
 
             [
+                'intern.operasional.kh.download.home_download',
                 'intern.operasional.kt.download.home_download',
             ],
 

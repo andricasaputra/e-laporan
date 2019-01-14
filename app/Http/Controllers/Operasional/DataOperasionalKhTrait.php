@@ -10,6 +10,19 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
 trait DataOperasionalKhTrait
 {   
+    /*
+    |--------------------------------------------------------------------------
+    | Info
+    |--------------------------------------------------------------------------
+    |
+    | * Trait yang dipakai untuk keperluan menampilkan kumpulan data 
+    |   dari operasional karantina hewan yang dibutuhkan oleh views
+    |
+    | * Dipakai pada class HomeKhController dan HomeAdminController
+    |
+    |
+    */
+
     /**
      * Untuk Mengumpulkan data statistik yang akan digunakan oleh
      * method show pada class HomeKhController dan class HomeAdmin

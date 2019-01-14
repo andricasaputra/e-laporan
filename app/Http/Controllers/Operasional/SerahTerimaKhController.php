@@ -9,6 +9,8 @@ use App\Models\Operasional\SerahTerimaKh as Operasional;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
 use App\Http\Controllers\Operasional\UploadOperasionalController as Upload;
 
+ini_set('max_execution_time', '200');
+
 class SerahTerimaKhController extends BaseOperasionalController implements BaseOperasionalInterface
 {
     /**
@@ -68,8 +70,8 @@ class SerahTerimaKhController extends BaseOperasionalController implements BaseO
     public function api($year = null, $month =  null, $wilker_id = null)
     {
         $serahTerima  = Operasional::sortTableDetail($year, $month, $wilker_id)
-                    ->with('wilker')
-                    ->get();
+                        ->with('wilker')
+                        ->get();
 
         return app('DataTables')::of($serahTerima)->addIndexColumn()->make(true);
     }

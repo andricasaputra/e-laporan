@@ -14,7 +14,7 @@ class WilkerTableSeeder extends Seeder
     {
         DB::table('wilker')->insert([
 
-            ['nama_wilker' => 'Kantor Induk'],
+            ['nama_wilker' => 'Stasiun Karantina Pertanian Kelas I Sumbawa Besar'],
             ['nama_wilker' => 'Wilker Pelabuhan Ferry Poto Tano'],
             ['nama_wilker' => 'Wilker Pelabuhan Laut Benete'],
             ['nama_wilker' => 'Wilker Pelabuhan Laut Badas'],

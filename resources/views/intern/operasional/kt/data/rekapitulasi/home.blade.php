@@ -43,112 +43,104 @@
 
 @php use App\Http\Controllers\TanggalController as Tanggal; @endphp
 
-<div class="container-fluid">
 
-  <div class="col">
+@if($datas['bulan'] !== null)
+  <h4>
+    Rekapitulasi Data Operasional Karantina Tumbuhan 
+    {{ $datas['bulan'] == 'all' 
+        ? 'Semua Bulan' 
+        : 'Bulan ' . Tanggal::bulan($datas['bulan']) }} 
+    Tahun {{ $datas['tahun'] }}
+    {{ $datas['wilker'] }}
+  </h4>
+@else
+  <h4>Rekapitulasi Data Operasional Karantina Tumbuhan Tahun {{ $datas['tahun'] }}</h4>
+@endif
 
-      @if($datas['bulan'] !== null)
-        <h4>
-          Rekapitulasi Data Operasional Karantina Tumbuhan 
-          {{ $datas['bulan'] == 'all' 
-              ? 'Semua Bulan' 
-              : 'Bulan ' . Tanggal::bulan($datas['bulan']) }} 
-          Tahun {{ $datas['tahun'] }}
-          {{ $datas['wilker'] }}
-        </h4>
-      @else
-        <h4>Rekapitulasi Data Operasional Karantina Tumbuhan Tahun {{ $datas['tahun'] }}</h4>
-      @endif
-
-      <form id="change_data_rekapitulasi_kt">
-        <div class="row mb-3">
-          <div class="col-md-4 col-sm-12">
-            <label for="year">Pilih Tahun</label>
-            <select class="form-control" name="year" id="year">
-              @for($i = date('Y') - 5; $i < date('Y') + 2 ; $i++)
-          
-                @if($i == $datas['tahun'])
-
-                  <option value="{{ $i }}" selected>{{ $i }}</option>
-
-                @else
-
-                  <option value="{{ $i }}">{{ $i }}</option>
-
-                @endif
-
-              @endfor
-            </select>
-          </div>
-
-          <div class="col-md-4 col-sm-12">
-            <label for="month">Pilih Bulan</label>
-            <select class="form-control" name="month" id="month">
-              <option value="all">Semua</option>
-              @for($i = 1; $i < 13 ; $i++)
-          
-                @if($i == $datas['bulan'])
-
-                  <option value="{{ $i }}" selected>{{ Tanggal::bulan($i) }}</option>
-
-                @else
-
-                  <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
-
-                @endif
-
-              @endfor
-              
-            </select>
-          </div>
-
-          <div class="col-md-4 col-sm-12">
-            <label for="wilker">Pilih Wilker</label>
-            <select class="form-control" name="wilker" id="wilker">
-
-              <option value="">Semua</option>
-
-              @foreach($wilkers as $wilker)
-
-                @if(isset($datas['wilker']) && $datas['wilker'] == $wilker->nama_wilker)
-
-                <option value="{{ $wilker->id }}" selected>{{ $wilker->nama_wilker }}</option>
-
-                @else
-
-                <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
-
-                @endif
-                
-              @endforeach
-
-            </select>
-          </div>
-
-          <div class="col-md-4 col-sm-12 mt-3">
-           <button type="submit" class="btn btn-danger">Pilih</button>
-          </div>
-
-        </div>
-      </form>
-
-      @include('intern.operasional.kt.data.rekapitulasi.domas_rekapitulasi')
-      @include('intern.operasional.kt.data.rekapitulasi.dokel_rekapitulasi')
-      @include('intern.operasional.kt.data.rekapitulasi.ekspor_rekapitulasi')
-      @include('intern.operasional.kt.data.rekapitulasi.impor_rekapitulasi')
-
-      <div class="row">
-        <div class="col">
-          <div class="text-center">
-            <a href="{{ route('showmenu.data.operasional.kt') }}" class="btn btn-default"><i class="fa fa-angle-double-left"></i> Kembali</a>
-          </div>
-        </div>
-      </div>
-
+<form id="change_data_rekapitulasi_kt">
+  <div class="row mb-3">
+    <div class="col-md-4 col-sm-12">
+      <label for="year">Pilih Tahun</label>
+      <select class="form-control" name="year" id="year">
+        @for($i = date('Y') - 5; $i < date('Y') + 2 ; $i++)
     
-  </div>
+          @if($i == $datas['tahun'])
 
-</div> {{-- end container --}}
+            <option value="{{ $i }}" selected>{{ $i }}</option>
+
+          @else
+
+            <option value="{{ $i }}">{{ $i }}</option>
+
+          @endif
+
+        @endfor
+      </select>
+    </div>
+
+    <div class="col-md-4 col-sm-12">
+      <label for="month">Pilih Bulan</label>
+      <select class="form-control" name="month" id="month">
+        <option value="all">Semua</option>
+        @for($i = 1; $i < 13 ; $i++)
+    
+          @if($i == $datas['bulan'])
+
+            <option value="{{ $i }}" selected>{{ Tanggal::bulan($i) }}</option>
+
+          @else
+
+            <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+
+          @endif
+
+        @endfor
+        
+      </select>
+    </div>
+
+    <div class="col-md-4 col-sm-12">
+      <label for="wilker">Pilih Wilker</label>
+      <select class="form-control" name="wilker" id="wilker">
+
+        <option value="">Semua</option>
+
+        @foreach($wilkers as $wilker)
+
+          @if(isset($datas['wilker']) && $datas['wilker'] == $wilker->nama_wilker)
+
+          <option value="{{ $wilker->id }}" selected>{{ $wilker->nama_wilker }}</option>
+
+          @else
+
+          <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
+
+          @endif
+          
+        @endforeach
+
+      </select>
+    </div>
+
+    <div class="col-md-4 col-sm-12 mt-3">
+     <button type="submit" class="btn btn-danger">Pilih</button>
+    </div>
+
+  </div>
+</form>
+
+@include('intern.operasional.kt.data.rekapitulasi.domas_rekapitulasi')
+@include('intern.operasional.kt.data.rekapitulasi.dokel_rekapitulasi')
+@include('intern.operasional.kt.data.rekapitulasi.ekspor_rekapitulasi')
+@include('intern.operasional.kt.data.rekapitulasi.impor_rekapitulasi')
+
+<div class="row">
+  <div class="col">
+    <div class="text-center">
+      <a href="{{ route('showmenu.data.operasional.kt') }}" class="btn btn-default"><i class="fa fa-angle-double-left"></i> Kembali</a>
+    </div>
+  </div>
+</div>
 
 @endsection
 

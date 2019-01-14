@@ -4,13 +4,12 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Operasional;
 
-use App\Models\Wilker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Operasional\DataOperasionalKhRepository as KhRepository;
 use App\Repositories\Operasional\DataOperasionalKtRepository as KtRepository;
 
-class HomeAdminController extends Controller
+class HomeController extends Controller
 {
     use DataOperasionalKhTrait, DataOperasionalKtTrait;
 
@@ -66,10 +65,6 @@ class HomeAdminController extends Controller
      */
     public function __construct(KhRepository $khRepository, KtRepository $ktRepository, Request $request)
     {
-        $this->khRepository = $khRepository;
-
-        $this->ktRepository = $ktRepository;
-
         $this->year         = $request->year ?? date('Y');
 
         $this->month        = $request->month;
@@ -78,9 +73,9 @@ class HomeAdminController extends Controller
 
         $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
 
-        $this->khRepository->setDateAndWilker($this->year, $this->month, $this->wilker_id);
+        $this->khRepository = new $khRepository($this->year, $this->month, $this->wilker_id);
 
-        $this->ktRepository->setDateAndWilker($this->year, $this->month, $this->wilker_id);
+        $this->ktRepository = new $ktRepository($this->year, $this->month, $this->wilker_id);
     }
 
     /**
@@ -90,8 +85,7 @@ class HomeAdminController extends Controller
      */
     public function show()
     {
-    	return view('intern.operasional.home')
-               ->with('wilkers', Wilker::where('id', '!=', 1)->get());
+    	return view('intern.operasional.home');
     }
 
     /**

@@ -9,6 +9,8 @@ use App\Http\Requests\UploadOperasionalRequest as Validation;
 use App\Models\Operasional\PembatalanDokKh as Operasional;
 use App\Http\Controllers\Operasional\UploadPembatalanController as Upload;
 
+ini_set('max_execution_time', '200');
+
 class PembatalanDokKhController extends BaseOperasionalController
 {
     /**
@@ -68,10 +70,10 @@ class PembatalanDokKhController extends BaseOperasionalController
      */
     public function api($year = null, $month =  null, $wilker_id = null)
     {
-        $dokel  = Operasional::sortTableDetail($year, $month, $wilker_id)
-                    ->with('wilker')
-                    ->get();
+        $dokBatal  = Operasional::sortTableDetail($year, $month, $wilker_id)
+                        ->with('wilker')
+                        ->get();
 
-        return app('DataTables')::of($dokel)->addIndexColumn()->make(true);
+        return app('DataTables')::of($dokBatal)->addIndexColumn()->make(true);
     }
 }

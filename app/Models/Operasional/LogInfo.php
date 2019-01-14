@@ -12,11 +12,21 @@ class LogInfo extends Model
     protected $guarded 	= ['id', 'created_at', 'updated_at'];
     protected $with     = ['wilker'];
 
+    /**
+     * One to many relations
+     *
+     * @return void
+     */
     public function wilker()
     {
     	return $this->belongsTo(Wilker::class);
     }
 
+    /**
+     * Merubah attribute bulan menjadi indonesia, ex 01-01-2018 => Januari 2018
+     *
+     * @return string
+     */
     public function getBulanAttribute($value)
     {
         if (strlen($value) > 4) return Tanggal::bulanTahun($value);
@@ -24,6 +34,11 @@ class LogInfo extends Model
         return $value;
     }
 
+    /**
+     * Merubah Type Permohonan attribute
+     *
+     * @return string
+     */
     public function getTypeAttribute($value)
     {
         switch ($value) {
@@ -77,6 +92,11 @@ class LogInfo extends Model
         return $type;
     }
 
+    /**
+     * Merubah Status laporan attribute
+     *
+     * @return string
+     */
     public function getStatusAttribute($value)
     {
         switch ($value) {
@@ -92,6 +112,11 @@ class LogInfo extends Model
         return $value;
     }
 
+    /**
+     * Merubah Rolled Back status attribute
+     *
+     * @return string
+     */
     public function getRolledbackAtAttribute($value)
     {
         switch ($value) {
@@ -107,11 +132,21 @@ class LogInfo extends Model
         return $value;
     }
 
+    /**
+     * Merubah Created At attribute
+     *
+     * @return datetime
+     */
     public function getCreatedAtAttribute($value)
     {
        return \Carbon::parse($value)->toDateTimeString();
     }
 
+    /**
+     * Scope local khusu karantina tumbuhan, mencari postfix type laporan '_kt'
+     *
+     * @return datetime
+     */
     public function scopeKarantinaTumbuhanType($query, $year, $month, $wilker, $type)
     {
         $query->whereYear('created_at', $year);
@@ -136,6 +171,11 @@ class LogInfo extends Model
         return $query->latest();
     }
 
+    /**
+     * Scope local khusu karantina hewan, mencari postfix type laporan '_kh'
+     *
+     * @return datetime
+     */
     public function scopeKarantinaHewanType($query, $year, $month, $wilker, $type)
     {
         $query->whereYear('created_at', $year);

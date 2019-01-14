@@ -42,7 +42,7 @@ class DokelKhController extends BaseOperasionalController implements BaseOperasi
      *
      * @return to view
      */
-    public function uploadPageView()
+    public function uploadPageView(Request $request)
     {
         return view('intern.operasional.kh.upload.dokel');
     }

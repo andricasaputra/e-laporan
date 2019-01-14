@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title','Operasional - Data Domestik Keluar')
+@section('title','Operasional - Domestik Keluar')
 
 @section('barside')
 
@@ -17,6 +17,7 @@
             <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('showmenu.operasional.kt') }}">Menu Utama</a></li>
             <li class="breadcrumb-item"><a href="{{ route('showmenu.data.operasional.kt') }}">Menu Data Operasional Karantina Tumbuhan</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('show.statistik.operasional.kt') }}">Statistik</a></li>
             <li class="breadcrumb-item" aria-current="page">Detail Operasional</li>
         </ol>
     </nav>
@@ -152,7 +153,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
       datatablesOperasional(
         container, 
-        '{{ route('api.kt.detail.frekuensi.dokel', [$tahun, 'all', $userWilker === 1 ? null : $userWilker]) }}', 
+        '{{ route('api.kt.detail.frekuensi.dokel', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
         'kt'
       );
 

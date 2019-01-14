@@ -238,8 +238,8 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center">
-                <div class="row mb-2">
+            <footer class="footer">
+                <div class="row mb-2 text-center">
                     <div class="col-md-12">
                       <a href="https://www.facebook.com/skp.sumbawa.7" target="_blank" rel="noreferrer"><i class="fa fa-facebook"></i></a>
                       <a href="https://twitter.com/SKP_Sumbawa?lang=id" target="_blank" rel="noreferrer"><i class="fa fa-twitter"></i></a>
@@ -247,7 +247,7 @@
                       <a href="https://www.youtube.com/channel/UCavSN4-PUiPqA3GnejTpKFQ/videos" target="_blank" rel="noreferrer"><i class="fa fa-youtube"></i></a>
                     </div>
                 </div>
-                <div class="row mt-2">
+                <div class="row mt-2 text-center">
                     <div class="col-md-12">
                      &copy;2018 <br> <strong>Stasiun Karantina Pertanian Kelas I Sumbawa Besar</strong>
                     </div>
@@ -293,15 +293,6 @@
 
         $(".container-fluid").addClass("loading");
         
-      });
-
-      // Global Datatables Locale Language
-      $(document).ready(function(){
-        $.extend( true, $.fn.dataTable.defaults, {
-          "language": {
-            "url": "{{ asset('Indonesian-datatables.json') }}"
-          }
-        });
       });
 
     </script>

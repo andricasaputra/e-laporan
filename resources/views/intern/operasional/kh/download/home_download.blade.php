@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title', 'Download Laporan KT')
+@section('title', 'Download Laporan KH')
 
 @section('barside')
 
@@ -10,7 +10,7 @@
 
 @section('page-breadcrumb')
 
-<h4 class="page-title">Download Laporan Operasional Karantina Tumbuhan</h4>
+<h4 class="page-title">Download Laporan Operasional Karantina Hewan</h4>
 <div class="d-flex align-items-center">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -120,7 +120,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
 <!-- Modal -->
 <div class="modal fade" id="laporanOperasionalDownloadModal" tabindex="-1" role="dialog" aria-labelledby="laporanOperasionalDownloadModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-  	<form action="{{ route('kt.download.operasional') }}" method="POST">
+  	<form action="{{ route('kh.download.operasional') }}" method="POST">
 	    <div class="modal-content">
 
 	      <div class="modal-header">
@@ -213,7 +213,8 @@ use App\Http\Controllers\RupiahController as Rupiah;
             </select>
           </div>
 
-       		<input type="hidden" name="karantina" value="Kt">
+          {{-- kunci utama untuk model yang ankan dipakai --}}
+       		<input type="hidden" name="karantina" value="Kh">
 
 		  </div>
 

@@ -1,81 +1,81 @@
 <?php
 
-/*KT Prefix*/
+/* kt/operasional prefix */
 
 Route::get(
-	'ktoperasional', 'HomeKtController@showMenu'
+	'menu', 'HomeKtController@showMenu'
 )->name('showmenu.operasional.kt');
 
 /*Menu Data Operasional KT*/
 Route::get(
-	'ktoperasional/menu_operasional', 'HomeKtController@showMenuDataOperasional'
+	'menu/data', 'HomeKtController@showMenuDataOperasional'
 )->name('showmenu.data.operasional.kt');
 
 /*Rekapitulasi Page*/
 Route::get(
-	'ktoperasional/menu_operasional/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKtController@homeRekapitulasi'
+	'data/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKtController@homeRekapitulasi'
 )->name('show.rekapitulasi.operasional.kt');
 
 /*Statistik Page*/
 Route::get(
-	'ktoperasional/menu_operasional/statistik/{year?}/{month?}/{wilker_id?}', 'HomeKtController@homeStatistik'
+	'data/statistik/{year?}/{month?}/{wilker_id?}', 'HomeKtController@homeStatistik'
 )->name('show.statistik.operasional.kt');
 
 /*View Page Rekapitulasi Detail*/
 Route::get(
-	'rekapitulasi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@rekapitulasiTableDetail'
+	'data/rekapitulasi/detail/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@rekapitulasiTableDetail'
 )->name('kt.view.rekapitulasi.dokel');
 
 Route::get(
-	'rekapitulasi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@rekapitulasiTableDetail'
+	'data/rekapitulasi/detail/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@rekapitulasiTableDetail'
 )->name('kt.view.rekapitulasi.domas');
 
 Route::get(
-	'rekapitulasi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@rekapitulasiTableDetail'
+	'data/rekapitulasi/detail/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@rekapitulasiTableDetail'
 )->name('kt.view.rekapitulasi.ekspor');
 
 Route::get(
-	'rekapitulasi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@rekapitulasiTableDetail'
+	'data/rekapitulasi/detail/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@rekapitulasiTableDetail'
 )->name('kt.view.rekapitulasi.impor');
 
 /*View Page Table Detail Frekuensi*/
 Route::get(
-	'statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@tableDetailFrekuensiView'
+	'data/statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@tableDetailFrekuensiView'
 )->name('kt.view.page.detail.frekuensi.dokel');
 
 Route::get(
-	'statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@tableDetailFrekuensiView'
+	'data/statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@tableDetailFrekuensiView'
 )->name('kt.view.page.detail.frekuensi.domas');
 
 Route::get(
-	'statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@tableDetailFrekuensiView'
+	'data/statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@tableDetailFrekuensiView'
 )->name('kt.view.page.detail.frekuensi.ekspor');
 
 Route::get(
-	'statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@tableDetailFrekuensiView'
+	'data/statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@tableDetailFrekuensiView'
 )->name('kt.view.page.detail.frekuensi.impor');
 
 Route::get(
-	'statistik/detail/frekuensi/reekspor/{year?}/{month?}/{wilker_id?}', 'ReeksporKtController@tableDetailFrekuensiView'
+	'data/statistik/detail/frekuensi/reekspor/{year?}/{month?}/{wilker_id?}', 'ReeksporKtController@tableDetailFrekuensiView'
 )->name('kt.view.page.detail.frekuensi.reekspor');
 
 Route::get(
-	'statistik/detail/frekuensi/serah_terima/{year?}/{month?}/{wilker_id?}', 'SerahTerimaKtController@tableDetailFrekuensiView'
+	'data/statistik/detail/frekuensi/serah_terima/{year?}/{month?}/{wilker_id?}', 'SerahTerimaKtController@tableDetailFrekuensiView'
 )->name('kt.view.page.detail.frekuensi.serah_terima');
 
 /*View Page Table Detail Pembatalan Dokumen*/
 Route::get(
-	'statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'PembatalanDokKtController@tableDetailPembatalanView'
+	'data/statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'PembatalanDokKtController@tableDetailPembatalanView'
 )->name('kt.view.page.detail.dokumen.pembatalan_dokumen');
 
 Route::middleware('kt')->group(function(){
 
 	/*Home Upload View (Domas, Dokel, DLL)*/
-	Route::get('home_upload/{tahun?}', 'HomeKtController@homeUpload')
+	Route::get('upload/home/{tahun?}', 'HomeKtController@homeUpload')
 	->name('kt.homeupload');
 
 	/*Home Download View (Domas, Dokel, DLL)*/
-	Route::get('home_download', 'HomeKtController@homeDownload')
+	Route::get('download/home', 'HomeKtController@homeDownload')
 	->name('kt.homedownload');
 
 	/*Rollback Laporan*/
