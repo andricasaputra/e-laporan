@@ -23,14 +23,6 @@
 
 @endsection
 
-@php 
-
-use App\Http\Controllers\TanggalController as Tanggal; 
-
-use App\Http\Controllers\RupiahController as Rupiah;
-
-@endphp
-
 @section('content')
 
 <style type="text/css">
@@ -81,7 +73,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
         <h4 class="card-text mb-3">
           Laporan Operasional
         </h4>
-        <a href="" class="btn btn-primary"  data-toggle="modal" data-target="#laporanOperasionalDownloadModal">Download</a>
+        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#laporanOperasionalDownloadModal">Download</a>
       </div>
     </div>
   </div>  
@@ -93,9 +85,9 @@ use App\Http\Controllers\RupiahController as Rupiah;
       <div class="card-body">
         <i class="fa fa-repeat fa-2x mb-3"></i>
         <h4 class="card-text mb-3">
-          Laporan Rekap Komoditas
+          Laporan Rekapitulasi Komoditas
         </h4>
-        <a href="" class="btn btn-primary">Download</a>
+        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#laporanRekapitulalsiKomoditiDownloadModal">Download</a>
       </div>
     </div>
   </div> 
@@ -109,7 +101,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
         <h4 class="card-text mb-3">
           Laporan Penggunaan Dokumen
         </h4>
-        <a href="" class="btn btn-primary">Download</a>
+        <a href="#" class="btn btn-primary">Download</a>
       </div>
     </div>
   </div> 
@@ -117,114 +109,27 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
 <!-- Modal Laporan Operasional -->
 
-<!-- Modal -->
-<div class="modal fade" id="laporanOperasionalDownloadModal" tabindex="-1" role="dialog" aria-labelledby="laporanOperasionalDownloadModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-  	<form action="{{ route('kt.download.operasional') }}" method="POST">
-	    <div class="modal-content">
+@include('intern.operasional.kt.download.inc.modal_laporan_operasional')
+@include('intern.operasional.kt.download.inc.modal_laporan_rekapitulasi_komoditi')
 
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="laporanOperasionalDownloadModalLabel">Download Laporan Operasional</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
+@endsection
 
-      	  <div class="modal-body">
+@section('script')
 
-       		@csrf
-       		@method('POST')
+<script>
+  $(document).ready(function(){
 
-       		<div class="form-group">
-       			<label for="year">Pilih Tahun</label>
-       			<select class="form-control" name="year" id="year">
-			        @for($i = date('Y') - 5; $i < date('Y') + 2 ; $i++)
+    $('.pageSetup').hide();
 
-			          @if($i == date('Y'))
+    $('.pageSetupButton').on('click', function(e){
 
-			          <option value="{{ $i }}" selected>{{ $i }}</option>
+      e.preventDefault();
 
-			          @else
+      $('.pageSetup').slideToggle();
 
-			          <option value="{{ $i }}">{{ $i }}</option>
+    });
 
-			          @endif
-
-			        @endfor
-			     </select>
-       		</div>
-       		<div class="form-group">
-       			<label for="month">Pilih Bulan</label>
-       			<select class="form-control" name="month" id="month">
-
-			        <option value="all">Semua bulan</option>
-			        
-			        @for($i = 1; $i < 13 ; $i++)
-			    
-			          <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
-
-			        @endfor
-			        
-			      </select>
-       		</div>
-       		<div class="form-group">
-       			<label for="wilker">Pilih Wilker</label>
-       			<select name="wilker_id" id="wilker" class="form-control">
-		                 
-		        @if(count($all_wilker) > 0)
-
-		            @foreach($wilkers as $wilker)
-
-                  @if($wilker->id === 1)
-
-                    <option value="">Semua Wilker</option>
-
-                  @else
-
-                    <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
-
-                  @endif
-
-		            @endforeach
-		          
-		        @endif
-		        
-		      </select>
-       		</div>
-       		<div class="form-group">
-       			<label for="type">Pilih Permohonan</label>
-       			<select class="form-control" name="type" id="type">
-			        <option value="all">Semua permohonan</option>
-			        <option value="Domas">Domestik Masuk</option>
-			        <option value="Dokel">Domestik Keluar</option> 
-			        <option value="Ekspor">Ekspor</option> 
-			        <option value="Impor">Impor</option>
-			        <option value="Reekspor">Re Ekspor</option>
-			        <option value="SerahTerima">Serah Terima</option>  
-			      </select>
-       		</div>
-          <div class="form-group">
-            <label for="signatory">Pilih Penandatangan Laporan</label>
-            <select class="form-control" name="signatory" id="signatory">
-              @foreach($pegawai as $p)
-                <option value="{{ $p->id }}">{{ $p->nama }}</option>
-              @endforeach
-                <option value=""></option>
-            </select>
-          </div>
-
-       		<input type="hidden" name="karantina" value="Kt">
-
-		  </div>
-
-	      <div class="modal-footer"> 
-	        <button type="submit" class="btn btn-primary">Download</button>
-	      </div>
-	    </div>
-
-    </form>
-
-  </div>
-</div>
+  });/*end ready*/
+</script>
 
 @endsection

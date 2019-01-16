@@ -220,4 +220,46 @@ trait TableOperasionalProperty
              'PNBP (Rp)'
             ];
     }
+
+    /**
+     * Table head dari laporan rekapitulasi komoditi KT
+     *
+     * @return array
+     */
+    protected function tableHeaderLaporanRekapitulasiKomoditiKt()
+    {
+        return [
+
+            'No',
+            'Wilker/Pelabuhan/Bandara',
+            'Jenis Media Pembawa (Komoditas)',
+            'Jumlah',
+            'Satuan',
+            'Frekuensi',
+            'Daerah Asal',
+            'Daerah Tujuan',
+
+        ];
+    }
+
+    /**
+     * Table head dari laporan rekapitulasi komoditi KH
+     *
+     * @return array
+     */
+    protected function tableHeaderLaporanRekapitulasiKomoditiKh()
+    {
+        return [
+
+            'No',
+            'Wilker/Pelabuhan/Bandara',
+            'Jenis Media Pembawa (Komoditas)',
+            'Jumlah',
+            'Satuan',
+            'Frekuensi',
+            'Daerah Asal',
+            'Daerah Tujuan',
+
+        ];
+    }
 }

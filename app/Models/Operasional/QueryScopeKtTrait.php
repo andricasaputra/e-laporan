@@ -210,5 +210,38 @@ trait QueryScopeKtTrait
 
         return $query->whereNotNull('no_permohonan')->orderBy('id', 'asc')->get();
     }
+
+    /**
+     * Untuk mendownload Excel File laporan rekapitulasi komoditi 
+     *
+     * @param $query
+     * @param int $year
+     * @param int $month
+     * @param int $wilker_id
+     * @return collections
+     */
+    public function scopeLaporanRekapitulasiKomoditi($query, $year, $month = null, $wilker_id = null)
+    {
+        $query->selectRaw(
+             '  wilker_id,    
+                nama_komoditas,
+                sum(volume_netto) as volume,
+                sat_netto,
+                count(*) as frekuensi,
+                kota_asal,
+                asal,
+                kota_tuju,
+                tujuan '
+         )->whereYear('bulan', $year);
+
+        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+
+        if (isset($wilker_id) and $wilker_id != '' and $wilker_id != 1) $query->whereWilkerId($wilker_id);
+
+        return $query->with('wilker')
+                     ->groupBy('wilker_id', 'nama_komoditas', 'kota_asal', 'kota_tuju')
+                     ->orderBy('wilker_id', 'asc')
+                     ->get();
+    }
     
 }

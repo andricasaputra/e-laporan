@@ -147,6 +147,9 @@ Route::middleware('kh')->group(function(){
 	    Route::post('donwload/operasional', 'LaporanOperasionalKhController@laporanOperasionalKh')
 		->name('kh.download.operasional');
 
+		Route::post('donwload/rekapitulasi', 'LaporanRekapitulasiKomoditiKhController@laporanRekapitulasiKomoditiKh')
+		->name('kh.download.rekapitulasi');
+
 	});/*End Download Namespace*/
 
 });/*End Middleware KH*/
