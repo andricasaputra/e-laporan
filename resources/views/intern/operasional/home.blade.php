@@ -66,12 +66,6 @@
   }
 </style>
 
-@php 
-
-use App\Http\Controllers\TanggalController as Tanggal; 
-
-@endphp
-
     <h4 id="judul"></h4>
 
     <form id="change_data" class="form-loader">
@@ -99,9 +93,10 @@ use App\Http\Controllers\TanggalController as Tanggal;
           <label for="month">Pilih Bulan</label>
           <select class="form-control" name="month" id="month">
             <option value="all">Semua Bulan</option>
+
             @for($i = 1; $i < 13 ; $i++)
 
-              <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+              <option value="{{ $i }}">{{ bulan($i) }}</option>
 
             @endfor
             

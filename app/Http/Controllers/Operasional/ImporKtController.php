@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\ImporKt as Operasional;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
@@ -23,7 +22,7 @@ class ImporKtController extends BaseOperasionalController implements BaseOperasi
      */
     public function tableDetailFrekuensiView(Request $request)
     {
-        return view('intern.operasional.kt.data.statistik.detail.frekuensi.impor');
+        return view('intern.operasional.kt.data.statistik.detail.bigtable.impor');
     }
 
     /**
@@ -64,7 +63,7 @@ class ImporKtController extends BaseOperasionalController implements BaseOperasi
     }
 
     /**
-     * API untuk detail tabel 
+     * API untuk detail big tabel 
      *
      * @param int $year
      * @return datatables JSON
@@ -75,6 +74,6 @@ class ImporKtController extends BaseOperasionalController implements BaseOperasi
                     ->with('wilker')
                     ->get();
 
-        return app('DataTables')::of($impor)->addIndexColumn()->make(true);
+        return datatables($impor)->addIndexColumn()->make(true);
     }
 }

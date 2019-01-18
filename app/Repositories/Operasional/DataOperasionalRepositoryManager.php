@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Operasional\LogInfo;
 use App\Contracts\RepositoryInterface;
 use App\Events\OperasionalRollbackEvent;
-use App\Http\Controllers\RupiahController as Rupiah;
 
 class DataOperasionalRepositoryManager implements RepositoryInterface
 {
@@ -259,7 +258,7 @@ class DataOperasionalRepositoryManager implements RepositoryInterface
 
             return collect($value)->map(function($val, $k){
 
-                if ($k == 'pnbp') $val =  Rupiah::rp($val);
+                if ($k == 'pnbp') $val = rp($val);
 
                 return $val;
 

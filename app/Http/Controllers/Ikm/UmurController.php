@@ -17,8 +17,7 @@ class UmurController extends Controller
     {
         $umur = Model::all();
         
-        return view('intern.ikm.umur.index')
-                ->with(compact('umur'));
+        return view('intern.ikm.umur.index')->withUmur($umur);
     }
 
     /**
@@ -44,7 +43,7 @@ class UmurController extends Controller
         Model::create(['umur' => $request->umur]);
 
         return redirect(route('intern.ikm.umur.index'))
-                ->with('success', 'Data Berhasil Ditambah');
+                ->withSuccess('Data Berhasil Ditambah');
     }
 
 
@@ -56,8 +55,7 @@ class UmurController extends Controller
      */
     public function edit(Model $umur)
     {
-        return view('intern.ikm.umur.edit')
-                ->with(compact('umur'));
+        return view('intern.ikm.umur.edit')->withUmur($umur);
     }
 
     /**
@@ -74,7 +72,7 @@ class UmurController extends Controller
         $umur->update(['umur' => $request->umur]);
 
         return redirect(route('intern.ikm.umur.index'))
-                ->with('success', 'Data Berhasil Diubah');
+                ->withSuccess('Data Berhasil Diubah');
     }
 
     /**
@@ -88,6 +86,6 @@ class UmurController extends Controller
         $umur->delete();
 
         return redirect(route('intern.ikm.umur.index'))
-                ->with('success', 'Data Berhasil Dihapus');
+                ->withSuccess('Data Berhasil Dihapus');
     }
 }

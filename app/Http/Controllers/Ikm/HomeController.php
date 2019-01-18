@@ -109,7 +109,7 @@ class HomeController extends Controller
         $this->repository->update($request, $responden);
 
         return redirect(route('intern.ikm.home.index'))
-                ->with('success', 'Data Berhasil Diubah');
+                ->withSuccess('Data Berhasil Diubah');
     }
 
     /**
@@ -123,7 +123,7 @@ class HomeController extends Controller
         Responden::find($request->id)->delete();
 
         return redirect(route('intern.ikm.home.index'))
-                ->with('success', 'Data Berhasil Dihapus');
+                ->withSuccess('Data Berhasil Dihapus');
     }
 
     public function cetakMultiple(Jadwal $ikmId)
@@ -132,13 +132,13 @@ class HomeController extends Controller
 
         $question_answer    = Question::with('question_answer')->get();
 
-        app('PDF')->pdf->setTitle('Rekapitulasi Responden Survey Kepuasan Masyarakat');
+        pdf()->pdf->setTitle('Rekapitulasi Responden Survey Kepuasan Masyarakat');
 
-        app('PDF')->writeHTML(
+        pdf()->writeHTML(
             view('intern.ikm.home.cetak_multiple', compact('datas', 'question_answer'))
         );
 
-        return app('PDF')->output('Rekapitulasi Responden Survey Kepuasan Masyarakat.pdf');
+        return pdf()->output('Rekapitulasi Responden Survey Kepuasan Masyarakat.pdf');
     }
 
     private function setIkmId()

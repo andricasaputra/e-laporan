@@ -5,7 +5,6 @@ namespace App\Models\Operasional;
 use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\ModelOperasionalInterface;
-use App\Http\Controllers\TanggalController as Tanggal;
 
 class DomasKh extends Model implements ModelOperasionalInterface
 {
@@ -46,7 +45,7 @@ class DomasKh extends Model implements ModelOperasionalInterface
      */
  	public function getBulanAttribute($value)
     {
-        return Tanggal::bulanTahun($value);
+        return bulan_tahun($value);
     }
 
     /**

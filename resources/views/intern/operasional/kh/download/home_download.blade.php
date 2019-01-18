@@ -10,7 +10,7 @@
 
 @section('page-breadcrumb')
 
-<h4 class="page-title">Download Laporan Operasional Karantina Tumbuhan</h4>
+<h4 class="page-title">Download Laporan Operasional Karantina Hewan</h4>
 <div class="d-flex align-items-center">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -101,7 +101,7 @@
         <h4 class="card-text mb-3">
           Laporan Penggunaan Dokumen
         </h4>
-        <a href="#" class="btn btn-primary">Download</a>
+        <a href="#" data-toggle="modal" data-target="#laporanPemakaianDokumenModal" class="btn btn-primary">Download</a>
       </div>
     </div>
   </div> 
@@ -111,6 +111,7 @@
 
 @include('intern.operasional.kh.download.inc.modal_laporan_operasional')
 @include('intern.operasional.kh.download.inc.modal_laporan_rekapitulasi_komoditi')
+@include('intern.operasional.kh.download.inc.modal_laporan_pemakaian_dokumen')
 
 @endsection
 

@@ -10,8 +10,6 @@ use App\Models\MasterPegawai;
 
 class HomeDownloadPageComposer
 {
-    use UsersTrait;
-
     public $year, $month, $wilker, $type;
 
     public function __construct(Request $request)
@@ -33,8 +31,6 @@ class HomeDownloadPageComposer
      */
     public function compose(View $view)
     {
-        $view->with('all_wilker', $this->setActiveUserWilker()); 
-
         $view->with('wilkers', Wilker::all());
 
         $view->with('year', $this->year ?? date('Y'));

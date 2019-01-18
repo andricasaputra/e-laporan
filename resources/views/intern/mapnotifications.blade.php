@@ -52,50 +52,57 @@
 
 </style>
 
-@if(count($notifications) > 0)
-	
-	<li class="text-center" role="menuitem" tabindex="0">
-      <i class="fa fa-eye"></i> <a href="{{ route('show.all.notifications') }}">Lihat semua pemberitahuan</a>
-    </li>
+<li class="text-center" role="menuitem" tabindex="0">
+  <i class="fa fa-eye"></i> <a href="{{ route('show.all.notifications') }}">Lihat semua pemberitahuan</a>
+</li>
 
-    <hr>
+<hr>
 
-	@foreach($notifications as $notification)
-		<form action="{{ route('mark.as.read') }}" id="notif_submit-{{ $notification->id }}" method="POST">
-		@csrf
-			<table>
-				<tr>
-					<td colspan="2" class="message">
-						<a href="#" id="btn-submit-{{ $notification->id }}" onclick='event.preventDefault();document.getElementById("notif_submit-{{ $notification->id }}").submit()'>{{ $notification->data['message'] }}</a>
-					</td>				
-				</tr>
-				<tr>
-					<td class="type">
-						<i class="fa fa-bolt" aria-hidden="true"></i>
-						{{ $notification->data['type'] }}
-					</td>
-					<td class="time">
-						<i class="fa fa-clock-o" aria-hidden="true"></i> 
-						{{ \Carbon\Carbon::createFromTimeStamp(strtotime($notification->created_at))->diffForHumans() }}
-					</td>
-					
-				</tr>
-			</table>
+@forelse($notifications as $notification)
+
+	<form action="{{ route('mark.as.read') }}" id="notif_submit-{{ $notification->id }}" method="POST">
+
+	@csrf
+
+		<table>
+
+			<tr>
+				<td colspan="2" class="message">
+					<a href="#" id="btn-submit-{{ $notification->id }}" onclick='event.preventDefault();document.getElementById("notif_submit-{{ $notification->id }}").submit()'>{{ $notification->data['message'] }}</a>
+				</td>				
+			</tr>
 			
-			<input type="hidden" name="id" value="{{ $notification->id }}">
-			<input type="hidden" name="notifiable_id" value="{{ $notification->notifiable_id }}">
-			<input type="hidden" name="redirect" value="{{ $notification->data['link'] }}">
-		</form>
-		<hr>
-	@endforeach
+			<tr>
+				<td class="type">
+					<i class="fa fa-bolt" aria-hidden="true"></i>
+					{{ $notification->data['type'] }}
+				</td>
+				<td class="time">
+					<i class="fa fa-clock-o" aria-hidden="true"></i> 
+					{{ \Carbon\Carbon::createFromTimeStamp(strtotime($notification->created_at))->diffForHumans() }}
+				</td>
+			</tr>
+
+		</table>
+		
+		<input type="hidden" name="id" value="{{ $notification->id }}">
+
+		<input type="hidden" name="notifiable_id" value="{{ $notification->notifiable_id }}">
+
+		<input type="hidden" name="redirect" value="{{ $notification->data['link'] }}">
+
+	</form>
+
+	<hr>
 
 	<li class="text-center" role="menuitem" tabindex="0">
-      <i class="fa fa-eye"></i> <a href="{{ route('show.all.notifications') }}">Lihat semua pemberitahuan</a>
-    </li>
+	  <i class="fa fa-eye"></i> <a href="{{ route('show.all.notifications') }}">Lihat semua pemberitahuan</a>
+	</li>
 
-@else
+@empty
 
 	<table>
+
 		<tr>
 			<td class="text-center">
 				Tidak ada pemberitahuan terbaru
@@ -104,8 +111,8 @@
 		<tr>
 			<td class="time"></td>
 		</tr>
-	</table>
-	<hr>
 
-@endif
+	</table>
+
+@endforelse
 

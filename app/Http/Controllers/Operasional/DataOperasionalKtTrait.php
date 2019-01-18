@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Operasional;
 
 use App\Models\Wilker;
 use Illuminate\Http\Request;
-use App\Http\Controllers\RupiahController as Rupiah;
 
 trait DataOperasionalKtTrait
 {   
@@ -276,7 +275,7 @@ trait DataOperasionalKtTrait
 
                             }),
 
-            'pnbp'      =>  Rupiah::rp(
+            'pnbp'      =>  rp(
                                 $this->ktRepository->totalPnbp()->pnbpDomas +
                                 $this->ktRepository->totalPnbp()->pnbpDokel +
                                 $this->ktRepository->totalPnbp()->pnbpEkspor +
@@ -306,7 +305,7 @@ trait DataOperasionalKtTrait
      */
     public function dataVolumeDokelApiKt()
     {
-        return app('DataTables')::of(
+        return datatables(
 
             $this->ktRepository->totalRekapitulasi()->dokelTotalVolume
 
@@ -325,7 +324,7 @@ trait DataOperasionalKtTrait
      */
     public function dataVolumeDomasApiKt()
     {
-        return app('DataTables')::of(
+        return datatables(
 
             $this->ktRepository->totalRekapitulasi()->domasTotalVolume
 
@@ -344,7 +343,7 @@ trait DataOperasionalKtTrait
      */
     public function dataVolumeEksporApiKt()
     {
-        return app('DataTables')::of(
+        return datatables(
 
             $this->ktRepository->totalRekapitulasi()->eksporTotalVolume
 
@@ -363,7 +362,7 @@ trait DataOperasionalKtTrait
      */
     public function dataVolumeImporApiKt()
     {
-        return app('DataTables')::of(
+        return datatables(
 
             $this->ktRepository->totalRekapitulasi()->imporTotalVolume
 

@@ -157,14 +157,64 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
     }
 
     /**
-     * Mengatur Total Total Pemakaian Dokumen semua kegiatan |
+     * Mengatur Total Pemakaian Dokumen semua kegiatan untuk tanggal tertentu |
      * memakai local scope pada model
      *
-     * @return void
+     * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
+     * @return array
      */
-    public function pemakaianDokumen()
+    public function pemakaianDokumen($excel = false)
     {
         return  DokumenKh::countPemakaianDokumen(
+                    $this->year, $this->month, $this->wilker_id, $excel
+                )->get();
+    }
+
+    /**
+     * Mengatur Total Pemakaian Dokumen bulan sebelumnya, untuk tanggal tertentu |
+     * memakai local scope pada model
+     *
+     * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
+     * @return array
+     */
+    public function pemakaianDokumenBulanLalu($excel = false)
+    {
+        if ($this->month == 'all') {
+
+            $lastMonth = \Carbon::parse($this->year)->subMonth()->month;
+
+            $year  = \Carbon::parse($this->year)->subYear()->year;
+
+        } else {
+
+            $lastMonth = \Carbon::parse($this->year .'-'. $this->month)->subMonth()->month;
+
+            if ($this->month == 1) {
+
+                $year  = \Carbon::parse($this->year .'-'. $this->month)->subYear()->year;
+
+            } else {
+
+                $year  = $this->year;
+
+            }
+
+        }
+
+        return  DokumenKh::countPemakaianDokumen(
+                    $year, $lastMonth, $this->wilker_id, $excel
+                )->get();
+    }
+
+    /**
+     * Mengatur Total Pemakaian Dokumen semua kegiatan |
+     * memakai local scope pada model
+     *
+     * @return array
+     */
+    public function totalPemakaianDokumen()
+    {
+        return  DokumenKh::countTotalPemakaianDokumen(
                     $this->year, $this->month, $this->wilker_id
                 )->get();
     }
@@ -266,7 +316,7 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
     {
         $log = LogInfo::karantinaHewanType($year, $month, $wilker, $type)->get();
 
-        return app('DataTables')::of($log)->addIndexColumn()
+        return datatables($log)->addIndexColumn()
          ->addColumn('action', function ($data) {
 
             if (empty($data->rolledback_at) || $data->rolledback_at == "") {

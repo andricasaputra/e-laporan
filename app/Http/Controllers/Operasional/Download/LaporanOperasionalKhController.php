@@ -5,11 +5,9 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Operasional\Download;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Controllers\RupiahController as Rupiah;
 use App\Repositories\Operasional\DataOperasionalKhRepository as Repository;
 
-ini_set('max_execution_time', '200');
+ini_set('max_execution_time', '500');
 
 class LaporanOperasionalKhController extends DownloadController
 {
@@ -18,7 +16,7 @@ class LaporanOperasionalKhController extends DownloadController
      *
      * @var int
      */
-    public $startDataRow = 7;
+    private $startDataRow = 7;
 
     /**
      * Populasi property yang dibutuhkan
@@ -39,7 +37,7 @@ class LaporanOperasionalKhController extends DownloadController
      */
 	public function laporanOperasionalKh()
     {
-        return Excel::create("Laporan Operasional {$this->monthName} Tahun {$this->year} {$this->karantina} {$this->wilkerName}", function($excel) {
+        return excel()->create("Laporan Operasional {$this->monthName} Tahun {$this->year} {$this->karantina} {$this->wilkerName}", function($excel) {
 
             /*Looping sesuai banyak tipe permohonan yang dipilih*/
             foreach ($this->type as $permohonan) :
@@ -103,7 +101,7 @@ class LaporanOperasionalKhController extends DownloadController
         return [
 
           'headers'       => $this->tableHeaderLaporanOperasionalKh(),
-          'bodies'        => $this->model::laporanOperasional($this->year, $this->month, $this->wilker_id)->get(),
+          'bodies'        => $this->model::laporanOperasional($this->year, $this->month, $this->wilker_id),
           'permohonan'    => $this->getPermohonanFullName($permohonan),
           'bulan'         => $this->getMonth(),
           'tahun'         => $this->year,
@@ -135,7 +133,7 @@ class LaporanOperasionalKhController extends DownloadController
 
         ];
 
-        return Rupiah::rp($pnbp[$permohonan]);
+        return rp($pnbp[$permohonan]);
     }
 
     /**
@@ -179,25 +177,25 @@ class LaporanOperasionalKhController extends DownloadController
      */
     protected function laporanHeader($sheet)
     {
-        $sheet->mergeCells('A1:AK1')->cells('A1:AK1', function($cells) {
+        $sheet->mergeCells('A1:AJ1')->cells('A1:AJ1', function($cells) {
 
             $cells->setFontSize(36);
             $cells->setFontWeight('bold');
             $cells->setFontFamily('Arial');
             
-        })->mergeCells('A2:AK2')->cells('A2:AK2', function($cells) {
+        })->mergeCells('A2:AJ2')->cells('A2:AJ2', function($cells) {
 
             $cells->setFontSize(36);
             $cells->setFontWeight('bold');
             $cells->setFontFamily('Arial');
            
-        })->mergeCells('A3:AK3')->cells('A3:AK3', function($cells) {
+        })->mergeCells('A3:AJ3')->cells('A3:AJ3', function($cells) {
 
             $cells->setFontSize(36);
             $cells->setFontWeight('bold');
             $cells->setFontFamily('Arial');
            
-        })->mergeCells('A4:AK4')->cells('A4:AK4', function($cells) {
+        })->mergeCells('A4:AJ4')->cells('A4:AJ4', function($cells) {
 
             $cells->setFontSize(36);
             $cells->setFontWeight('bold');
@@ -235,7 +233,7 @@ class LaporanOperasionalKhController extends DownloadController
         $this->laporanHeader($sheet);
 
         /*set table body font size*/
-        $sheet->cells('A7:AK7', function($cells) {
+        $sheet->cells('A7:AJ7', function($cells) {
 
             $cells->setFontSize(60);
             $cells->setFontWeight('bold');

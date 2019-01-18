@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Operasional;
 use App\Traits\UsersTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\ModelOperasionalInterface as Model;
 
 ini_set('max_execution_time', '200');
@@ -214,12 +213,12 @@ class BaseOperasionalController extends Controller
      */
     protected function getLaporanClue(int $row)
     {
-        return  Excel::selectSheetsByIndex(0)
-                ->load($this->laporanPath, function($reader) use ($row) {
+        return  excel()->selectSheetsByIndex(0)
+                       ->load($this->laporanPath, function($reader) use ($row) {
 
-                    config(['excel.import.startRow' => $row]);
+                            config(['excel.import.startRow' => $row]);
 
-                })->first();
+                        })->first();
     }
 
     /**
@@ -250,7 +249,7 @@ class BaseOperasionalController extends Controller
             $this->messageType  = "warning";
 
             $this->message      = "Format Laporan Yang Anda Unggah Bukan Kegiatan "
-                                  . ucwords(str_replace('_', ' ', $this->jenisKarantina)) ." !";
+                                  .ucwords(str_replace('_', ' ', $this->jenisKarantina)) ." !";
 
             $this->flashMessage();
 

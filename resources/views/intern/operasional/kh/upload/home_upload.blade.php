@@ -23,14 +23,6 @@
 
 @endsection
 
-@php 
-
-use App\Http\Controllers\TanggalController as Tanggal; 
-
-use App\Http\Controllers\RupiahController as Rupiah;
-
-@endphp
-
 @section('content')
 
 <style type="text/css">
@@ -197,17 +189,11 @@ use App\Http\Controllers\RupiahController as Rupiah;
     <div class="col-md-3 mb-2">
       <select name="wilker_id" id="wilker" class="form-control">
                  
-        @if(count($all_wilker) > 0)
+        @if(count($wilkers) > 0)
 
-            <option selected value="{{ $wilker->id }}">
-              {{ 
-                $wilker->nama_wilker == 'Kantor Induk' ? 'Semua Wilker' : $wilker->nama_wilker
-              }}
-            </option>
+            @foreach($wilkers as $wilker)
 
-            @foreach($all_wilker as $w)
-
-              <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
+              <option value="{{ $wilker['id'] }}">{{ $wilker['nama_wilker'] }}</option>
 
             @endforeach
           
@@ -239,7 +225,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
         
         @for($i = 1; $i < 13 ; $i++)
     
-          <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+          <option value="{{ $i }}">{{ bulan($i) }}</option>
 
         @endfor
         

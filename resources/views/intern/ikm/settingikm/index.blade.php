@@ -38,10 +38,9 @@
 	        </tr>
 	      </thead>
 	      <tbody>
-	      	@php $no = 1 @endphp
 	      	@foreach($settingikm as $setting)
 	      		<tr>
-		      		<td>{{ $no++ }}</td>
+		      		<td>{{ $loop->index + 1 }}</td>
 		      		<td>{{ $setting->start_date }}</td>
 		      		<td>{{ $setting->end_date }}</td>
 		      		<td>	

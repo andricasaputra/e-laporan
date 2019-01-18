@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\SerahTerimaKt as Operasional;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
@@ -21,7 +20,7 @@ class SerahTerimaKtController extends BaseOperasionalController implements BaseO
      */
     public function tableDetailFrekuensiView(Request $request)
     {
-        return view('intern.operasional.kt.data.statistik.detail.frekuensi.serah_terima');
+        return view('intern.operasional.kt.data.statistik.detail.bigtable.serah_terima');
     }
 
     /**
@@ -62,7 +61,7 @@ class SerahTerimaKtController extends BaseOperasionalController implements BaseO
 	}
 
     /**
-     * API untuk detail tabel 
+     * API untuk detail big tabel 
      *
      * @param int $year
      * @return datatables JSON
@@ -73,6 +72,6 @@ class SerahTerimaKtController extends BaseOperasionalController implements BaseO
                         ->with('wilker')
                         ->get();
 
-        return app('DataTables')::of($serahTerima)->addIndexColumn()->make(true);
+        return datatables($serahTerima)->addIndexColumn()->make(true);
     }
 }

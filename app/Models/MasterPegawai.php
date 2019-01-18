@@ -11,15 +11,8 @@ class MasterPegawai extends Model
 
     public function getIsActiveAttribute($value)
     {
-    	if ($value === 1 || $value === "1") {
-
-    		return $value = 'Pegawai Aktif';
-
-    	}else{
-
-    		return $value = 'Pensiun/Mutasi';
-
-    	}
+        return  $value === 1 || $value === "1"
+                ? 'Pegawai Aktif' : 'Pensiun/Mutasi';
     }
 
     public function user()

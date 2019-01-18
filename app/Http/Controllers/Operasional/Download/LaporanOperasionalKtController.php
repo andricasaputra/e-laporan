@@ -5,11 +5,9 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Operasional\Download;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Controllers\RupiahController as Rupiah;
 use App\Repositories\Operasional\DataOperasionalKtRepository as Repository;
 
-ini_set('max_execution_time', '200');
+ini_set('max_execution_time', '500');
 
 class LaporanOperasionalKtController extends DownloadController
 {
@@ -18,7 +16,7 @@ class LaporanOperasionalKtController extends DownloadController
      *
      * @var int
      */
-    public $startDataRow = 7;
+    private $startDataRow = 7;
 
     /**
      * Populasi property yang dibutuhkan
@@ -39,7 +37,7 @@ class LaporanOperasionalKtController extends DownloadController
      */
 	public function laporanOperasionalKt()
     {
-        return Excel::create("Laporan Operasional {$this->monthName} Tahun {$this->year} {$this->karantina} {$this->wilkerName}", function($excel) {
+        return excel()->create("Laporan Operasional {$this->monthName} Tahun {$this->year} {$this->karantina} {$this->wilkerName}", function($excel) {
 
             /*Looping sesuai banyak tipe permohonan yang dipilih*/
             foreach ($this->type as $permohonan) :
@@ -135,7 +133,7 @@ class LaporanOperasionalKtController extends DownloadController
 
         ];
 
-        return Rupiah::rp($pnbp[$permohonan]);
+        return rp($pnbp[$permohonan]);
     }
 
     /**

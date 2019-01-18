@@ -31,9 +31,7 @@ class HomeUploadPageComposer
      */
     public function compose(View $view)
     {
-        $view->with('all_wilker', $this->setActiveUserWilker()); 
-
-        $view->with('wilker', auth()->user()->wilker->first());
+        $view->with('wilkers', $this->setActiveUserWilker()); 
 
         $view->with('year', $this->year ?? date('Y'));
     }

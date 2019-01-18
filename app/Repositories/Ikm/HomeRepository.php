@@ -24,11 +24,9 @@ class HomeRepository implements RepositoryInterface
     {
         $ikmId 		= $ikmId ?? 1;
 
-        $responden  = Responden::where('ikm_id', $ikmId)
-        				->orderBy('created_at', 'desc')
-        				->get();
+        $responden  = Responden::whereIkmId($ikmId)->latest()->get();
 
-        return  app('DataTables')::of($responden)->addIndexColumn()
+        return  datatables($responden)->addIndexColumn()
                 ->addColumn('action', function ($responden) use ($ikmId) {
                     return '
                     <a href="'.route('intern.ikm.home.edit', $responden->id).'" class="btn btn-xs btn-primary">
@@ -40,8 +38,7 @@ class HomeRepository implements RepositoryInterface
                     <a href="#" data-id = "'.$responden->id.'"  class="btn btn-danger btn-xs" id="deleteIkm">
                         <i class="glyphicon glyphicon-trash"></i> Delete
                     </a>';
-                })
-                ->make(true);
+                })->make(true);
     }
 
     /**
@@ -53,11 +50,9 @@ class HomeRepository implements RepositoryInterface
      */
     public function detailApi(int $id, int $ikmId)
     {
-        $result =  Result::whereIn('responden_id', [$id])->where('ikm_id', $ikmId)->get();
+        $result =  Result::whereIn('responden_id', [$id])->whereIkmId($ikmId)->get();
 
-        return app('DataTables')::of($result)
-                ->addIndexColumn()
-                ->make(true);
+        return datatables($result)->addIndexColumn()->make(true);
     }
 
     /**
@@ -83,8 +78,8 @@ class HomeRepository implements RepositoryInterface
 
         foreach ($combined as $key => $value) {
 
-            $result 			= Result::where('responden_id', $responden->id)
-                        			->where('question_id', $key)
+            $result 			= Result::whereRespondenId($responden->id)
+                        			->whereQuestionId($key)
                         			->first();
 
             $result->answer_id 	= $value;

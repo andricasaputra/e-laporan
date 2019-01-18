@@ -36,20 +36,13 @@
     font-weight: bold;
   }
 </style>
-
-@php 
-
-use App\Http\Controllers\TanggalController as Tanggal; 
-use App\Http\Controllers\RupiahController as Rupiah; 
-
-@endphp
     
 @if($datas['bulan'] !== null)
   <h4>
     Rekapitulasi Data Operasional Karantina Tumbuhan 
     {{ $datas['bulan'] == 'all' 
         ? 'Semua Bulan' 
-        : 'Bulan ' . Tanggal::bulan($datas['bulan']) }} 
+        : 'Bulan ' . bulan($datas['bulan']) }} 
     Tahun {{ $datas['tahun'] }}
     {{ $datas['wilker'] }}
   </h4>
@@ -86,11 +79,11 @@ use App\Http\Controllers\RupiahController as Rupiah;
     
           @if($i == $datas['bulan'])
 
-            <option value="{{ $i }}" selected>{{ Tanggal::bulan($i) }}</option>
+            <option value="{{ $i }}" selected>{{ bulan($i) }}</option>
 
           @else
 
-            <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+            <option value="{{ $i }}">{{  bulan($i) }}</option>
 
           @endif
 
@@ -204,7 +197,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
                 <hr>
                 <small><i>Berdasarkan Jenis Permohonan</i></small>
                   <h5 class="card-text mt-2">
-                    <i>PNBP :  {{ Rupiah::rp($data['pnbp']) }}</i>
+                    <i>PNBP :  {{ rp($data['pnbp']) }}</i>
                   </h5>
             </div>
           </div>

@@ -17,8 +17,7 @@ class AnswerController extends Controller
     {  
         $answers = Jawaban::all();
 
-        return view('intern.ikm.answer.index')
-                ->with(compact('answers'));
+        return view('intern.ikm.answer.index')->withAnswers($answers);
     }
 
     /**
@@ -53,7 +52,7 @@ class AnswerController extends Controller
         $answer->save();
 
         return redirect(route('intern.ikm.answer.index'))
-                ->with('success', 'Berhasil Tambah Jawaban!');
+                ->withSuccess('Berhasil Tambah Jawaban!');
     }
 
     /**
@@ -64,8 +63,7 @@ class AnswerController extends Controller
      */
     public function edit(Jawaban $answer)
     {
-        return view('intern.ikm.answer.edit')
-                ->with('answer', $answer);
+        return view('intern.ikm.answer.edit')->withAnswer($answer);
     }
 
     /**
@@ -89,7 +87,7 @@ class AnswerController extends Controller
         $answer->save();
 
         return redirect(route('intern.ikm.answer.index'))
-                ->with('success', 'Berhasil Ubah Jawaban!');
+                ->withSuccess('Berhasil Ubah Jawaban!');
     }
 
     /**
@@ -103,6 +101,6 @@ class AnswerController extends Controller
         $answer->delete();
 
         return redirect(route('intern.ikm.answer.index'))
-                ->with('success', 'Data Berhasil Dihapus!');
+                ->withSuccess('Data Berhasil Dihapus!');
     }
 }

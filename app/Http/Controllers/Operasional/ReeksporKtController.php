@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\ReeksporKt as Operasional;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
@@ -21,7 +20,7 @@ class ReeksporKtController extends BaseOperasionalController implements BaseOper
      */
     public function tableDetailFrekuensiView(Request $request)
     {
-        return view('intern.operasional.kt.data.statistik.detail.frekuensi.reekspor');
+        return view('intern.operasional.kt.data.statistik.detail.bigtable.reekspor');
     }
 
     /**
@@ -62,7 +61,7 @@ class ReeksporKtController extends BaseOperasionalController implements BaseOper
 	}
 
     /**
-     * API untuk detail tabel 
+     * API untuk detail big tabel 
      *
      * @param int $year
      * @return datatables JSON
@@ -73,6 +72,6 @@ class ReeksporKtController extends BaseOperasionalController implements BaseOper
                         ->with('wilker')
                         ->get();
 
-        return app('DataTables')::of($reekspor)->addIndexColumn()->make(true);
+        return datatables($reekspor)->addIndexColumn()->make(true);
     }
 }

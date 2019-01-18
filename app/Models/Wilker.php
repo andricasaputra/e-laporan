@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wilker extends Model
 {
-    protected $table = 'wilker';
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $table    = 'wilker';
+    protected $guarded  = ['id', 'created_at', 'updated_at'];
 
     public function logInfo()
     {

@@ -6,10 +6,8 @@ namespace App\Http\Controllers\Operasional;
 
 use App\Models\User;
 use App\Models\Wilker;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Events\DataOperasionalUploadedEvent;
 use App\Contracts\ModelOperasionalInterface as Model;
-use App\Http\Controllers\TanggalController as Tanggal;
 use App\Http\Requests\UploadOperasionalRequest as Request;
 
 class UploadPembatalanController extends BaseOperasionalController
@@ -174,14 +172,14 @@ class UploadPembatalanController extends BaseOperasionalController
      */
     public function excelData($startRow, $ignoreEmpty = true)
     {
-        return  Excel::selectSheetsByIndex(0)
-                ->load($this->path, function($reader) use ($startRow, $ignoreEmpty) {
+        return  excel()->selectSheetsByIndex(0)
+                       ->load($this->path, function($reader) use ($startRow, $ignoreEmpty) {
 
-                    config(['excel.import.startRow' => $startRow]);
+                            config(['excel.import.startRow' => $startRow]);
 
-                    return $reader->ignoreEmpty($ignoreEmpty);
+                            return $reader->ignoreEmpty($ignoreEmpty);
 
-                });
+                        });
     }
 
     /**
@@ -210,8 +208,7 @@ class UploadPembatalanController extends BaseOperasionalController
                                     ->pluck('no_permohonan')
                                     ->all();
 
-        $forinsertOrUpdate  = $this->model::select('no_permohonan')
-                                   ->whereNotIn('no_permohonan', ['IDEM'])
+        $forinsertOrUpdate  = $this->model::whereNotIn('no_permohonan', ['IDEM'])
                                    ->whereIn('no_permohonan', $no_permohonan)
                                    ->get();
 
@@ -226,8 +223,8 @@ class UploadPembatalanController extends BaseOperasionalController
             foreach ($datas as $key => $value) {
 
                $this->model->whereNotIn('no_permohonan', ['IDEM'])
-                           ->where('no_permohonan', $value['no_permohonan'])
-                           ->where('wilker_id', $value['wilker_id'])
+                           ->whereNoPermohonan($value['no_permohonan'])
+                           ->whereWilkerId($value['wilker_id'])
                            ->update($value);
 
             }
@@ -343,7 +340,7 @@ class UploadPembatalanController extends BaseOperasionalController
                                     {$this->request->jenis_permohonan} 
                                     {$this->model->karantina} 
                                     {$this->wilker->nama_wilker} Bulan 
-                                    " .Tanggal::bulan( (int) date('m', strtotime($this->tanggal)) ). " 
+                                    " .bulan( (int) date('m', strtotime($this->tanggal)) ). " 
                                     Sudah Terikirim";
     }
 

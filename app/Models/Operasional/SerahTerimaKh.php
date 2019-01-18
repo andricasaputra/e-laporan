@@ -44,6 +44,6 @@ class SerahTerimaKh extends Model implements ModelOperasionalInterface
      */
  	public function getBulanAttribute($value)
     {
-        return Tanggal::bulanTahun($value);
+        return bulan_tahun($value);
     }
 }

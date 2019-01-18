@@ -14,7 +14,19 @@ class StatistikController extends Controller
      * @var App\Repositories\StatistikRepository
      */
     public $id;
+
+    /**
+     * For save StatistikComposer instance
+     *
+     * @var App\Http\View\Composers\Ikm\StatistikComposer
+     */
     private $compose;
+    
+    /**
+     * For keep repository instance on the bag
+     *
+     * @var App\Repositories\StatistikRepository
+     */
     private $repository;
 
     /**
@@ -31,11 +43,11 @@ class StatistikController extends Controller
 
     public function index(int $id = null)
     {
-    	  $this->id = $id ?? $this->repository->default();
+    	$this->id = $id ?? $this->repository->default();
 
         $this->compose->compose();
 
-    	  return view('intern.ikm.statistik.index');
+    	return view('intern.ikm.statistik.index');
     }
 
     public function api(int $id = null)
@@ -54,11 +66,11 @@ class StatistikController extends Controller
     {
         $datas = $this->repository->cetakRekap($id);
 
-        app('PDF')->pdf->setTitle('Rekapitulasi Survey Kepuasan Masyarakat');
+        pdf()->pdf->setTitle('Rekapitulasi Survey Kepuasan Masyarakat');
 
-        app('PDF')->writeHTML(view('intern.ikm.statistik.cetak', compact('datas')));
+        pdf()->writeHTML(view('intern.ikm.statistik.cetak', compact('datas')));
 
-        return app('PDF')->output('Rekapitulasi Survey Kepuasan Masyarakat.pdf');
+        return pdf()->output('Rekapitulasi Survey Kepuasan Masyarakat.pdf');
     }
 
 }

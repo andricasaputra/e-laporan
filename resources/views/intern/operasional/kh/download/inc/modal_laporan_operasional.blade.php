@@ -1,11 +1,3 @@
-@php
-
-use App\Http\Controllers\TanggalController as Tanggal;
-
-use App\Http\Controllers\RupiahController as Rupiah;
-
-@endphp
-
 <!-- Modal -->
 
 <div class="modal fade" id="laporanOperasionalDownloadModal" tabindex="-1" role="dialog" aria-labelledby="laporanOperasionalDownloadModalLabel" aria-hidden="true">
@@ -51,7 +43,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
 							
 							@for($i = 1; $i < 13 ; $i++)
 							
-							<option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+							<option value="{{ $i }}">{{ bulan($i) }}</option>
 							
 							@endfor
 							
@@ -60,9 +52,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
 					<div class="form-group">
 						<label for="wilker">Pilih Wilker</label>
 						<select name="wilker_id" id="wilker" class="form-control">
-							
-							@if(count($all_wilker) > 0)
-							
+						
 							@foreach($wilkers as $wilker)
 							
 							@if($wilker->id === 1)
@@ -76,8 +66,6 @@ use App\Http\Controllers\RupiahController as Rupiah;
 							@endif
 							
 							@endforeach
-							
-							@endif
 							
 						</select>
 					</div>

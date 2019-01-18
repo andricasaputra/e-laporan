@@ -28,7 +28,7 @@
     <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('images/web-sumbawa4x.png') }}">
     <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="{{ asset('images/web-sumbawa4x.png') }}">
 
-    <title>@yield('title', 'Panel Web Sumbawa')</title>
+    <title>@yield('title', 'Admin Panel Web Sumbawa')</title>
 
     <link rel="icon" type="image/png" href="{{asset('images/favicon-32x32.png')}}" sizes="32x32">
 
@@ -50,17 +50,18 @@
     @yield('custom-link')
 
     <style type="text/css">
+
         .alert-success:nth-of-type(1), .alert-danger:nth-of-type(1){
             margin-top: 5%;
         }
 
         #loader {
-          position:   fixed;
-          z-index:    1000;
-          top:        0;
-          left:       0;
-          height:     100%;
-          width:      100%;
+          position: fixed;
+          z-index: 1000;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
           background: rgba( 255, 255, 255, .8 ) 
                       url('../../../../images/preloader.gif') 
                       50% 50% 
@@ -71,7 +72,9 @@
           overflow: hidden;   
           display: block;
         }
+
     </style>
+
   </head>
 
   <body class="nav-md">

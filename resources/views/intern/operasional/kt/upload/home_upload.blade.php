@@ -23,14 +23,6 @@
 
 @endsection
 
-@php 
-
-use App\Http\Controllers\TanggalController as Tanggal; 
-
-use App\Http\Controllers\RupiahController as Rupiah;
-
-@endphp
-
 @section('content')
 
 <style type="text/css">
@@ -47,7 +39,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
     color: #fff
   }
 
-  .fa-truck{
+  .fa-truck, .fa-file{
     background-color: #2962FF;
     color: #fff;
   }
@@ -65,8 +57,6 @@ use App\Http\Controllers\RupiahController as Rupiah;
   .badge{
     padding: 4px 13px !important;
   }
-
-
 
 </style>
 
@@ -130,7 +120,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
 </div>
 
 <div class="row" id="advancedMenu">
-  <div class="col-md-4 col-sm-12">
+  <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
         Upload Laporan Serah Terima
@@ -144,7 +134,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
       </div>
     </div>
   </div>  
-  <div class="col-md-4 col-sm-12">
+  <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
         Upload Laporan Re Ekspor
@@ -158,7 +148,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
       </div>
     </div>
   </div> 
-  <div class="col-md-4 col-sm-12">
+  <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
         Upload Laporan Pembatalan Dokumen
@@ -172,6 +162,20 @@ use App\Http\Controllers\RupiahController as Rupiah;
       </div>
     </div>
   </div> 
+  <div class="col-md-3 col-sm-12">
+    <div class="card text-center">
+      <div class="card-header">
+        Tambah Data Permintaan Dokumen
+      </div>
+      <div class="card-body">
+        <i class="fa fa-file fa-2x mb-3"></i>
+        <h4 class="card-text mb-3">
+          Permintaan Dokumen
+        </h4>
+        <a href="{{ route('kt.upload.page.permintaan_dokumen') }}" class="btn btn-primary">Masuk</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <a href="#" id="showMoreMenu" class="badge badge-pill badge-danger">
@@ -199,23 +203,11 @@ use App\Http\Controllers\RupiahController as Rupiah;
     <div class="col-md-3 mb-2">
       <select name="wilker_id" id="wilker" class="form-control">
                  
-        @if(count($all_wilker) > 0)
+        @if(count($wilkers) > 0)
 
-            <option selected value="{{ $wilker->id }}">
-              {{
+            @foreach($wilkers as $wilker)
 
-                $wilker->nama_wilker == 'Kantor Induk' ? 'Semua Wilker' : $wilker->nama_wilker
-
-              }}
-            </option>
-
-            @foreach($all_wilker as $w)
-
-              @if(auth()->user()->wilker->first()->nama_wilker != $w->nama_wilker)
-
-              <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
-
-              @endif
+              <option value="{{ $wilker['id'] }}">{{ $wilker['nama_wilker'] }}</option>
 
             @endforeach
           
@@ -247,7 +239,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
         
         @for($i = 1; $i < 13 ; $i++)
     
-          <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+          <option value="{{ $i }}">{{ bulan($i) }}</option>
 
         @endfor
         
@@ -426,13 +418,13 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
     });  
 
-    $('#advancedMenu .col-md-4').hide();
+    $('#advancedMenu .col-md-3').hide();
 
     $('#showMoreMenu').click(function(e){
 
       e.preventDefault();
 
-      $('#advancedMenu .col-md-4').slideToggle();
+      $('#advancedMenu .col-md-3').slideToggle();
 
     });
 

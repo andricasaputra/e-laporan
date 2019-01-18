@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title','Operasional - Domestik Masuk')	
+@section('title','Operasional - Domestik Keluar')
 
 @section('barside')
 
@@ -10,14 +10,14 @@
 
 @section('page-breadcrumb')
 
-<h4 class="page-title">Detail Operasional Domestik Masuk Karantina Tumbuhan</h4>
+<h4 class="page-title">Detail Operasional Domestik Keluar Karantina Tumbuhan</h4>
 <div class="d-flex align-items-center">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('showmenu.operasional.kt') }}">Menu Utama</a></li>
             <li class="breadcrumb-item"><a href="{{ route('showmenu.data.operasional.kt') }}">Menu Data Operasional Karantina Tumbuhan</a></li>
-             <li class="breadcrumb-item"><a href="{{ route('show.statistik.operasional.kt') }}">Statistik</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('show.statistik.operasional.kt') }}">Statistik</a></li>
             <li class="breadcrumb-item" aria-current="page">Detail Operasional</li>
         </ol>
     </nav>
@@ -25,7 +25,6 @@
 
 @endsection
 
-@section('content')
 
 @section('content')
 
@@ -38,17 +37,10 @@
   }
 </style>
 
-@php 
-
-use App\Http\Controllers\TanggalController as Tanggal; 
-
-use App\Http\Controllers\RupiahController as Rupiah;
-
-@endphp
 
 <main class="content-wrapper">
   <div class="container-fluid">
-    <form id="change_data">
+      <form id="change_data">
         <div class="row mb-3">
           <div class="col-md-4 col-sm-12">
             <label for="year">Pilih Tahun</label>
@@ -77,11 +69,11 @@ use App\Http\Controllers\RupiahController as Rupiah;
           
                 @if($i == $bulan)
 
-                  <option value="{{ $i }}" selected>{{ Tanggal::bulan($i) }}</option>
+                  <option value="{{ $i }}" selected>{{ bulan($i) }}</option>
 
                 @else
 
-                  <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+                  <option value="{{ $i }}">{{  bulan($i) }}</option>
 
                 @endif
 
@@ -122,10 +114,10 @@ use App\Http\Controllers\RupiahController as Rupiah;
       <div class="col-md-12 card">
           @include('intern.inc.message')
           <div class="card-header">
-            Data Domestik Masuk Karantina Tumbuhan Tahun <span id="yearSelect">{{ $tahun }}</span>
+            Data Domestik Keluar Karantina Tumbuhan Tahun <span id="yearSelect">{{ $tahun }}</span>
           </div>
           <div class="card-body">
-             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="domaskt">
+             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="dokelkt">
               <thead>
               	@foreach($titles as $title)
               		<th>{{ ucwords(str_replace('_', ' ', $title)) }}</th>
@@ -150,11 +142,11 @@ use App\Http\Controllers\RupiahController as Rupiah;
   <script>
     $(document).ready(function() {
 
-      let container = $('#domaskt');
+      let container = $('#dokelkt');
 
       datatablesOperasional(
         container, 
-        '{{ route('api.kt.detail.frekuensi.domas', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
+        '{{ route('api.kt.statistik.detail.bigtable.dokel', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
         'kt'
       );
 
@@ -175,26 +167,26 @@ use App\Http\Controllers\RupiahController as Rupiah;
         if (year != '' && month == '' && wilker == '') {
 
           datatablesOperasional(container, 
-            '{{ route('api.kt.detail.frekuensi.domas') }}/' + year, 
+            '{{ route('api.kt.statistik.detail.bigtable.dokel') }}/' + year, 
           'kt');
 
         } else if(year != '' && month != '' && wilker == '') {
 
           datatablesOperasional(container, 
-            '{{ route('api.kt.detail.frekuensi.domas') }}/' + year + '/' + month, 
+            '{{ route('api.kt.statistik.detail.bigtable.dokel') }}/' + year + '/' + month, 
           'kt');
 
         } else {
 
           datatablesOperasional(container, 
-            '{{ route('api.kt.detail.frekuensi.domas') }}/' + year + '/' + month + '/' + wilker, 
+            '{{ route('api.kt.statistik.detail.bigtable.dokel') }}/' + year + '/' + month + '/' + wilker, 
           'kt');
 
         }
 
       });
 
-    });
+  	});
   </script>
 
 @endsection

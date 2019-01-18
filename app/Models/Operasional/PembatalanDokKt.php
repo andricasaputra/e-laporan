@@ -4,7 +4,6 @@ namespace App\Models\Operasional;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\ModelOperasionalInterface;
-use App\Http\Controllers\TanggalController as Tanggal;
 
 class PembatalanDokKt extends Model implements ModelOperasionalInterface
 {
@@ -45,7 +44,7 @@ class PembatalanDokKt extends Model implements ModelOperasionalInterface
      */
  	public function getBulanAttribute($value)
     {
-        return Tanggal::bulanTahun($value);
+        return bulan_tahun($value);
     }
 
     /**

@@ -36,14 +36,6 @@
   }
 </style>
 
-@php 
-
-use App\Http\Controllers\TanggalController as Tanggal; 
-
-use App\Http\Controllers\RupiahController as Rupiah;
-
-@endphp
-
 <main class="content-wrapper">
   <div class="container-fluid">
     <form id="change_data">
@@ -75,11 +67,11 @@ use App\Http\Controllers\RupiahController as Rupiah;
         
               @if($i == $bulan)
 
-                <option value="{{ $i }}" selected>{{ Tanggal::bulan($i) }}</option>
+                <option value="{{ $i }}" selected>{{ bulan($i) }}</option>
 
               @else
 
-                <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+                <option value="{{ $i }}">{{ bulan($i) }}</option>
 
               @endif
 
@@ -152,7 +144,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
 
       datatablesOperasional(
         container, 
-        '{{ route('api.kh.detail.frekuensi.dokel', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
+        '{{ route('api.kh.statistik.detail.bigtable.dokel', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
         'kh'
       );
 
@@ -173,19 +165,19 @@ use App\Http\Controllers\RupiahController as Rupiah;
         if (year != '' && month == '' && wilker == '') {
 
           datatablesOperasional(container, 
-            '{{ route('api.kh.detail.frekuensi.dokel') }}/' + year, 
+            '{{ route('api.kh.statistik.detail.bigtable.dokel') }}/' + year, 
           'kh');
 
         } else if(year != '' && month != '' && wilker == '') {
 
           datatablesOperasional(container, 
-            '{{ route('api.kh.detail.frekuensi.dokel') }}/' + year + '/' + month, 
+            '{{ route('api.kh.statistik.detail.bigtable.dokel') }}/' + year + '/' + month, 
           'kh');
 
         } else {
 
           datatablesOperasional(container, 
-            '{{ route('api.kh.detail.frekuensi.dokel') }}/' + year + '/' + month + '/' + wilker, 
+            '{{ route('api.kh.statistik.detail.bigtable.dokel') }}/' + year + '/' + month + '/' + wilker, 
           'kh');
 
         }

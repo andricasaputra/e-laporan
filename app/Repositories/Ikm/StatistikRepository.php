@@ -42,7 +42,7 @@ class StatistikRepository implements RepositoryInterface
      */
     public function api($id)
     {
-    	return app('DataTables')::of($this->apiSource($id))
+    	return datatables($this->apiSource($id))
     			->addIndexColumn(1)
     			->make(true);
     }
@@ -201,7 +201,7 @@ class StatistikRepository implements RepositoryInterface
     {
     	$id 	= 	Result::with(['ikm' => function ($query) { 
 
-			    		$query->where('is_open', 1); 
+			    		$query->whereIsOpen(1); 
 			    		
 			    	}])->first();
 

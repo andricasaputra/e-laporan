@@ -14,7 +14,7 @@ class GrafikController
     private $repository;
 
     /**
-     * Save id 
+     * Save id IKM 
      *
      * @var int
      */
@@ -36,8 +36,7 @@ class GrafikController
 
     	$keterangan    = $this->repository->getKeterangan($this->id);
         
-    	return view('intern.ikm.grafik.index')
-                ->with(compact('keterangan'));	           
+    	return view('intern.ikm.grafik.index')->withKeterangan($keterangan);	           
     }
 
     /*create JSON chart data*/

@@ -4,19 +4,15 @@ namespace App\Http\Controllers\Notifications;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Traits\ActiveUserTrait;
 use App\Http\Controllers\Controller;
 
 class MainNotificationController extends Controller
 {
-    use ActiveUserTrait;
-
     public function readNotifications(Request $request)
     {
-        $this->activeUser()->notifications->where('id', $request->id)
-                           ->where('notifiable_id', $request->notifiable_id)
-                           ->first()
-                           ->markAsRead();
+        auth()->user()->notifications
+                      ->whereIdAndNotifiableId($request->id, $request->notifiable_id)
+                      ->markAsRead();
 
         return redirect($request->redirect);
     }
@@ -24,15 +20,15 @@ class MainNotificationController extends Controller
     public function showAllNotifications()
     {
         return view('intern.notifications')
-                    ->with('user', $this->activeUser())
-                    ->with('notifications', $this->activeUser()->notifications()->paginate(10));
+                    ->withUser(auth()->user())
+                    ->withNotifications(auth()->user()->notifications()->paginate(10));
     }
 
     public function mapNotifications()
     {
         return view('intern.mapnotifications')
-                    ->with('user', $this->activeUser())
-                    ->with('notifications', $this->activeUser()->unreadNotifications);
+                    ->withUser(auth()->user())
+                    ->withNotifications(auth()->user()->unreadNotifications);
     }
 
     public function mainApiNotifications(User $user)
@@ -42,16 +38,16 @@ class MainNotificationController extends Controller
 
     public function markAsReadAllNotifications(Request $request)
     {
-        $this->activeUser()->unreadNotifications->markAsRead();
+        auth()->user()->unreadNotifications->markAsRead();
 
         return redirect(route('show.all.notifications'));
     }
 
     public function deleteNotifications(Request $request)
     {
-        $this->activeUser()->notifications()->delete();
+        auth()->user()->notifications()->delete();
 
         return redirect(route('show.all.notifications'))
-                ->with('success', 'Semua Pemberitahuan Berhasil Dihapus!');
+                ->withSuccess('Semua Pemberitahuan Berhasil Dihapus!');
     }
 }

@@ -70,7 +70,7 @@ class UserController extends Controller
     {
         $request->persistCreate();
 
-        return back()->with('success', 'User baru berhasil diregistrasi');
+        return back()->withSuccess('User baru berhasil diregistrasi');
     }
 
     /**
@@ -81,7 +81,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('auth.edit')->with(compact('user'));         
+        return view('auth.edit')->withUser($user);         
     }
 
     /**
@@ -95,7 +95,7 @@ class UserController extends Controller
         $request->persistUpdate($masterPegawai);
 
         return redirect()->route('users.index')
-                ->with('success', 'Data User Berhasil Diubah');
+                ->withSuccess('Data User Berhasil Diubah');
     }
 
     /**
@@ -114,7 +114,7 @@ class UserController extends Controller
         $user->pegawai()->delete();
 
         return redirect()->route('users.index')
-                ->with('success', 'Data User Berhasil Dihapus');
+                ->withSuccess('Data User Berhasil Dihapus');
     }
 
     /**

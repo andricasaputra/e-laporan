@@ -13,18 +13,34 @@ use App\Http\View\Composers\Ikm\SurveyPageComposer;
 
 class SurveyPageController extends Controller
 {
+    /**
+     * For save Request Instance
+     *
+     * @var Illuminate\Http\Request
+     */
     private $request;
+
+    /**
+     * For save SurveyPageComposer instance
+     *
+     * @var App\Http\View\Composers\Ikm\SurveyPageComposer
+     */
     private $compose;
 
+    /**
+     * Set Composer For views
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->compose = SurveyPageComposer::construct($this);
     }
     
     /**
-     * Display a listing of the resource.
+     * Display a survey page.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function index()
     { 
@@ -33,32 +49,59 @@ class SurveyPageController extends Controller
         return view('ikm.survey');  
     }
 
+    /**
+     * Display landing page
+     *
+     * @return void
+     */
     public function home()
     {
         return view('ikm.home');
     }
 
+    /**
+     * Display FAQ page
+     *
+     * @return void
+     */
     public function faq()
     {
         return view('ikm.faq');
     }
 
+    /**
+     * Display closed IKM page
+     *
+     * @return void
+     */
     public function surveyClosed()
     {
         return view('ikm.closed');
     }
 
+    /**
+     * store survey IKM result
+     *
+     * @param SurveyIkmForm $request
+     * @return void
+     */
     public function store(SurveyIkmForm $request)
     {
-        $this->request = $request->all();
+        $this->request  = $request->all();
 
-        $responden = $request->persistCreate();
+        $responden      = $request->persistCreate();
         
         $this->setNotification();
 
         return redirect()->route('ikm.success', $responden);
     }
 
+    /**
+     * Generate success page if survey done
+     *
+     * @param App\Models\Ikm\Responden $responden
+     * @return void
+     */
     public function success(Responden $responden)
     {
         if ($responden === null) return abort(404);
@@ -68,6 +111,12 @@ class SurveyPageController extends Controller
         return view('ikm.success');
     }
 
+    /**
+     * For print survey IKM result
+     *
+     * @param App\Models\Ikm\Responden $responden
+     * @return void
+     */
     public function cetak(Responden $responden)
     {
         if ($responden === null) return abort(404);
@@ -77,11 +126,21 @@ class SurveyPageController extends Controller
         return view('ikm.cetak');             
     }
 
+    /**
+     * Set user to notify when theres new IKM responden
+     *
+     * @return void
+     */
     public function userToNotify()
     {
         return User::userToNotify()->get();
     }
 
+    /**
+     * Set notifications properties and pass them to NewIkmSurveyEvent class
+     *
+     * @return void
+     */
     public function setNotification()
     {
         new NewIkmSurveyEvent( 

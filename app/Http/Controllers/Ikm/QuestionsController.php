@@ -18,8 +18,7 @@ class QuestionsController extends Controller
     {
         $question = Pertanyaan::all();
 
-        return view('intern.ikm.question.index')
-                ->with('questions', $question);
+        return view('intern.ikm.question.index')->withQuestions($question);
     }
 
     /**
@@ -31,8 +30,7 @@ class QuestionsController extends Controller
     {
         $answers = Jawaban::all();
         
-        return view('intern.ikm.question.create')
-                ->with('answers', $answers);
+        return view('intern.ikm.question.create')->withAnswers($answers);
     }
 
     /**
@@ -69,14 +67,14 @@ class QuestionsController extends Controller
         ]);
 
         return redirect(route('intern.ikm.question.index'))
-                ->with('success', 'Berhasil Tambah pertanyaan!');
+                ->withSuccess('Berhasil Tambah pertanyaan!');
     }
 
     public function show(Pertanyaan $question)
     {
         return view('intern.ikm.question.show')
-                ->with('question', $question)
-                ->with('answers', $question->answer()->orderBy('nilai', 'asc')->get());
+                ->withQuestion($question)
+                ->withAnswers($question->answer()->orderBy('nilai', 'asc')->get());
     }
 
     /**
@@ -90,8 +88,8 @@ class QuestionsController extends Controller
         $answers = Jawaban::all();
 
         return view('intern.ikm.question.edit')
-                ->with('question', $question)
-                ->with('answers', $answers);
+                ->withQuestion($question)
+                ->withAnswers($answers);
     }
 
     /**
@@ -117,7 +115,7 @@ class QuestionsController extends Controller
         ]);
 
         return redirect(route('intern.ikm.question.index'))
-                ->with('success', 'Berhasil Tambah pertanyaan!');
+                ->withSuccess('Berhasil Tambah pertanyaan!');
     }
 
     /**
@@ -133,6 +131,6 @@ class QuestionsController extends Controller
         $question->delete();
 
         return redirect(route('intern.ikm.question.index'))
-                ->with('success', 'Data Berhasil Dihapus!');
+                ->withSuccess('Data Berhasil Dihapus!');
     }
 }

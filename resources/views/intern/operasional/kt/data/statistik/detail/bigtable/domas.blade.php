@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title','Operasional - Ekspor')		
+@section('title','Operasional - Domestik Masuk')	
 
 @section('barside')
 
@@ -10,20 +10,22 @@
 
 @section('page-breadcrumb')
 
-<h4 class="page-title">Detail Operasional Ekspor Karantina Hewan</h4>
+<h4 class="page-title">Detail Operasional Domestik Masuk Karantina Tumbuhan</h4>
 <div class="d-flex align-items-center">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('showmenu.operasional.kh') }}">Menu Utama</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('showmenu.data.operasional.kh') }}">Menu Data Operasional Karantina Hewan</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('show.statistik.operasional.kh') }}">Statistik</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('showmenu.operasional.kt') }}">Menu Utama</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('showmenu.data.operasional.kt') }}">Menu Data Operasional Karantina Tumbuhan</a></li>
+             <li class="breadcrumb-item"><a href="{{ route('show.statistik.operasional.kt') }}">Statistik</a></li>
             <li class="breadcrumb-item" aria-current="page">Detail Operasional</li>
         </ol>
     </nav>
 </div>
 
 @endsection
+
+@section('content')
 
 @section('content')
 
@@ -35,14 +37,6 @@
 	min-width: 150px !important;
   }
 </style>
-
-@php 
-
-use App\Http\Controllers\TanggalController as Tanggal; 
-
-use App\Http\Controllers\RupiahController as Rupiah;
-
-@endphp
 
 <main class="content-wrapper">
   <div class="container-fluid">
@@ -75,11 +69,11 @@ use App\Http\Controllers\RupiahController as Rupiah;
           
                 @if($i == $bulan)
 
-                  <option value="{{ $i }}" selected>{{ Tanggal::bulan($i) }}</option>
+                  <option value="{{ $i }}" selected>{{ bulan($i) }}</option>
 
                 @else
 
-                  <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+                  <option value="{{ $i }}">{{ bulan($i) }}</option>
 
                 @endif
 
@@ -120,10 +114,10 @@ use App\Http\Controllers\RupiahController as Rupiah;
       <div class="col-md-12 card">
           @include('intern.inc.message')
           <div class="card-header">
-            Data Ekspor Karantina Hewan Tahun <span id="yearSelect">{{ $tahun }}</span>
+            Data Domestik Masuk Karantina Tumbuhan Tahun <span id="yearSelect">{{ $tahun }}</span>
           </div>
           <div class="card-body">
-             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="eksporkh">
+             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="domaskt">
               <thead>
               	@foreach($titles as $title)
               		<th>{{ ucwords(str_replace('_', ' ', $title)) }}</th>
@@ -135,7 +129,7 @@ use App\Http\Controllers\RupiahController as Rupiah;
     </div>
     <div class="row">
       <div class="col-md-12 text-center">
-        <a href="{{ route('show.statistik.operasional.kh') }}" class="btn btn-primary"><i class="fa fa-angle-double-left"></i> kembali</a>
+        <a href="{{ route('show.statistik.operasional.kt') }}" class="btn btn-primary"><i class="fa fa-angle-double-left"></i> kembali</a>
       </div>
     </div>
   </div>
@@ -148,12 +142,12 @@ use App\Http\Controllers\RupiahController as Rupiah;
   <script>
     $(document).ready(function() {
 
-      let container = $('#eksporkh');
+      let container = $('#domaskt');
 
       datatablesOperasional(
         container, 
-        '{{ route('api.kh.detail.frekuensi.ekspor', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
-        'kh'
+        '{{ route('api.kt.statistik.detail.bigtable.domas', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
+        'kt'
       );
 
       $('#change_data').on('submit', function(e){
@@ -173,20 +167,20 @@ use App\Http\Controllers\RupiahController as Rupiah;
         if (year != '' && month == '' && wilker == '') {
 
           datatablesOperasional(container, 
-            '{{ route('api.kh.detail.frekuensi.ekspor') }}/' + year, 
-          'kh');
+            '{{ route('api.kt.statistik.detail.bigtable.domas') }}/' + year, 
+          'kt');
 
         } else if(year != '' && month != '' && wilker == '') {
 
           datatablesOperasional(container, 
-            '{{ route('api.kh.detail.frekuensi.ekspor') }}/' + year + '/' + month, 
-          'kh');
+            '{{ route('api.kt.statistik.detail.bigtable.domas') }}/' + year + '/' + month, 
+          'kt');
 
         } else {
 
           datatablesOperasional(container, 
-            '{{ route('api.kh.detail.frekuensi.ekspor') }}/' + year + '/' + month + '/' + wilker, 
-          'kh');
+            '{{ route('api.kt.statistik.detail.bigtable.domas') }}/' + year + '/' + month + '/' + wilker, 
+          'kt');
 
         }
 

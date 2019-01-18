@@ -17,8 +17,7 @@ class LayananController extends Controller
     {
         $layanan = Model::all();
         
-        return view('intern.ikm.layanan.index')
-                ->with('layanan', $layanan);
+        return view('intern.ikm.layanan.index')->withLayanan($layanan);
     }
 
     /**
@@ -52,7 +51,7 @@ class LayananController extends Controller
         ]);
 
         return redirect(route('intern.ikm.layanan.index'))
-                ->with('success', 'Data Berhasil Ditambah');
+                ->withSuccess('Data Berhasil Ditambah');
     }
 
 
@@ -65,7 +64,7 @@ class LayananController extends Controller
     public function edit(Model $layanan)
     {
         return view('intern.ikm.layanan.edit')
-                ->with('layanan', $layanan);
+                ->withLayanan($layanan);
     }
 
     /**
@@ -90,7 +89,7 @@ class LayananController extends Controller
         ]);
 
         return redirect(route('intern.ikm.layanan.index'))
-                ->with('success', 'Data Berhasil Diubah');
+                ->withSuccess('Data Berhasil Diubah');
     }
 
     /**
@@ -104,6 +103,6 @@ class LayananController extends Controller
         $layanan->delete();
 
         return redirect(route('intern.ikm.layanan.index'))
-                ->with('success', 'Data Berhasil Dihapus');
+                ->withSuccess('Data Berhasil Dihapus');
     }
 }

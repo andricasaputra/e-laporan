@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Operasional\Download;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Repositories\Operasional\DataOperasionalKhRepository as Repository;
 
 ini_set('max_execution_time', '200');
@@ -17,28 +16,28 @@ class LaporanRekapitulasiKomoditiKhController extends DownloadController
      *
      * @var int
      */
-    public $startDataRow = 7;
+    private $startDataRow = 7;
 
     /**
      * Menyimpan jumlah data laporan
      *
      * @var int
      */
-    public $totalData;
+    private $totalData;
 
     /**
      * Untuk Mendapatkan row tertinggi
      *
      * @var int
      */
-    public $higestRow;
+    private $higestRow;
 
     /**
      * Untuk mentimpan total sheet berdasarkan index
      *
      * @var array
      */
-    public $sheetIndex = [];
+    private $sheetIndex = [];
 
     /**
      * Populasi property yang dibutuhkan
@@ -62,7 +61,7 @@ class LaporanRekapitulasiKomoditiKhController extends DownloadController
         /*set default index*/
         $sheetIndex = 0;
 
-        return Excel::create("Laporan Rekapitulasi Komoditi {$this->monthName} Tahun {$this->year} {$this->karantina} {$this->wilkerName}", function($excel) use (&$sheetIndex) {
+        return excel()->create("Laporan Rekapitulasi Komoditi {$this->monthName} Tahun {$this->year} {$this->karantina} {$this->wilkerName}", function($excel) use (&$sheetIndex) {
 
             /*Looping sesuai banyak tipe permohonan yang dipilih*/
             foreach ($this->type as $permohonan) :

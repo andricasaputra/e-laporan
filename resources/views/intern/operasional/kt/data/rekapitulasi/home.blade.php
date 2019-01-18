@@ -41,20 +41,21 @@
   }
 </style>
 
-@php use App\Http\Controllers\TanggalController as Tanggal; @endphp
-
-
 @if($datas['bulan'] !== null)
+
   <h4>
     Rekapitulasi Data Operasional Karantina Tumbuhan 
     {{ $datas['bulan'] == 'all' 
         ? 'Semua Bulan' 
-        : 'Bulan ' . Tanggal::bulan($datas['bulan']) }} 
+        : 'Bulan ' . bulan($datas['bulan']) }} 
     Tahun {{ $datas['tahun'] }}
     {{ $datas['wilker'] }}
   </h4>
+
 @else
+
   <h4>Rekapitulasi Data Operasional Karantina Tumbuhan Tahun {{ $datas['tahun'] }}</h4>
+  
 @endif
 
 <form id="change_data_rekapitulasi_kt">
@@ -86,11 +87,11 @@
     
           @if($i == $datas['bulan'])
 
-            <option value="{{ $i }}" selected>{{ Tanggal::bulan($i) }}</option>
+            <option value="{{ $i }}" selected>{{ bulan($i) }}</option>
 
           @else
 
-            <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+            <option value="{{ $i }}">{{ bulan($i) }}</option>
 
           @endif
 

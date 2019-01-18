@@ -17,8 +17,7 @@ class PekerjaanController extends Controller
     {
         $pekerjaan = Model::all();
         
-        return view('intern.ikm.pekerjaan.index')
-                ->with('pekerjaan', $pekerjaan);
+        return view('intern.ikm.pekerjaan.index')->withPekerjaan($pekerjaan);
     }
 
     /**
@@ -52,7 +51,7 @@ class PekerjaanController extends Controller
         ]);
 
         return redirect(route('intern.ikm.pekerjaan.index'))
-                ->with('success', 'Data Berhasil Ditambah');
+                ->withSuccess('Data Berhasil Ditambah');
     }
 
 
@@ -64,8 +63,7 @@ class PekerjaanController extends Controller
      */
     public function edit(Model $pekerjaan)
     {
-        return view('intern.ikm.pekerjaan.edit')
-                ->with('pekerjaan', $pekerjaan);
+        return view('intern.ikm.pekerjaan.edit')->withPekerjaan($pekerjaan);
     }
 
     /**
@@ -90,7 +88,7 @@ class PekerjaanController extends Controller
         ]);
 
         return redirect(route('intern.ikm.pekerjaan.index'))
-                ->with('success', 'Data Berhasil Diubah');
+                ->withSuccess('Data Berhasil Diubah');
     }
 
     /**
@@ -104,6 +102,6 @@ class PekerjaanController extends Controller
         $pekerjaan->delete();
 
         return redirect(route('intern.ikm.pekerjaan.index'))
-                ->with('success', 'Data Berhasil Dihapus');
+                ->withSuccess('Data Berhasil Dihapus');
     }
 }

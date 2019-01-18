@@ -25,6 +25,6 @@ class Jadwal extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('is_open', 1)->where('is_open', '!=', NULL);
+        return $query->whereIsOpen(1)->where('is_open', '!=', NULL);
     }
 }

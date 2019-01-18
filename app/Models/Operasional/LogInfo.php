@@ -4,7 +4,6 @@ namespace App\Models\Operasional;
 
 use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Controllers\TanggalController as Tanggal;
 
 class LogInfo extends Model
 {
@@ -29,9 +28,7 @@ class LogInfo extends Model
      */
     public function getBulanAttribute($value)
     {
-        if (strlen($value) > 4) return Tanggal::bulanTahun($value);
-
-        return $value;
+        return strlen($value) > 4 ? bulan_tahun($value) : $value;
     }
 
     /**
@@ -143,7 +140,7 @@ class LogInfo extends Model
     }
 
     /**
-     * Scope local khusu karantina tumbuhan, mencari postfix type laporan '_kt'
+     * Scope local khusus karantina tumbuhan, mencari postfix type laporan '_kt'
      *
      * @return datetime
      */
@@ -172,7 +169,7 @@ class LogInfo extends Model
     }
 
     /**
-     * Scope local khusu karantina hewan, mencari postfix type laporan '_kh'
+     * Scope local khusus karantina hewan, mencari postfix type laporan '_kh'
      *
      * @return datetime
      */

@@ -10,7 +10,7 @@ class WelcomeController extends Controller
     {
     	$user 	= auth()->user();
 
-    	$ikm	= Jadwal::select('keterangan')->where('is_open', 1)->first();
+    	$ikm	= Jadwal::select('keterangan')->whereIsOpen(1)->first();
 
     	return view('intern.welcome')->with(compact('user', 'ikm'));
     }

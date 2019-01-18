@@ -29,13 +29,12 @@
 		
 		
 		{{-- table body --}}
-		@if(count($datas['bodies']) > 0)
 		
-		@foreach($datas['bodies'] as $no => $body)
+		@forelse ($datas['bodies'] as $body)
 		
 		<tr>
 			
-			<td valign="middle" style="text-align: center;border: 1px solid #000">{{ $no + 1 }}</td>
+			<td valign="middle" style="text-align: center;border: 1px solid #000">{{ $loop->index+ 1 }}</td>
 			
 			@foreach($body->getAttributes() as $key => $value)
 			
@@ -45,19 +44,17 @@
 			
 		</tr>
 		
-		@endforeach
-		
-		@else
+		@empty
 		
 		<tr>
 			
-			<td valign="middle" colspan="37" style="font-weight: bold;text-align: center;border: 1px solid #000">
+			<td valign="middle" colspan="36" style="font-weight: bold;text-align: center;border: 1px solid #000">
 				NIHIL
 			</td>
 			
 		</tr>
 		
-		@endif
+		@endforelse
 		
 		{{-- membuat tambahan row --}}
 		@for($i=1; $i < 5; $i++)
@@ -127,7 +124,7 @@
 		<tr>
 			<td></td>
 			<td></td>
-			<td style="text-align: left;font-weight: bold;font-size: 18">{{ ucwords(strtolower($volumeKomoditi['nama_mp'])) }}</td>
+			<td colspan="2" style="text-align: left;font-weight: bold;font-size: 18">{{ ucwords(strtolower($volumeKomoditi['nama_mp'])) }}</td>
 			<td style="text-align: center;font-weight: bold;font-size: 18"> = </td>
 			<td style="text-align: right;font-weight: bold;font-size: 18">{{ number_format($volumeKomoditi['volume'], 0, ',', '.') }}</td>
 			<td style="font-weight: bold;text-align: center;font-size: 18">{{ ucwords($volumeKomoditi['satuan']) }}</td>

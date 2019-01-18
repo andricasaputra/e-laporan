@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Contracts\BaseOperasionalInterface;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
 use App\Models\Operasional\PembatalanDokKt as Operasional;
 use App\Http\Controllers\Operasional\UploadPembatalanController as Upload;

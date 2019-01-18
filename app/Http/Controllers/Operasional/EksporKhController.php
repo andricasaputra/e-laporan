@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\EksporKh as Operasional;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
@@ -23,7 +22,7 @@ class EksporKhController extends BaseOperasionalController implements BaseOperas
      */
     public function tableDetailFrekuensiView(Request $request)
     {
-        return view('intern.operasional.kh.data.statistik.detail.frekuensi.ekspor');
+        return view('intern.operasional.kh.data.statistik.detail.bigtable.ekspor');
     }
 
     /**
@@ -65,7 +64,7 @@ class EksporKhController extends BaseOperasionalController implements BaseOperas
 	}
 
     /**
-     * API untuk detail tabel 
+     * API untuk detail big tabel 
      *
      * @param int $year
      * @return datatables JSON
@@ -76,7 +75,7 @@ class EksporKhController extends BaseOperasionalController implements BaseOperas
                     ->with('wilker')
                     ->get();
 
-        return app('DataTables')::of($ekspor)->addIndexColumn()->make(true);
+        return datatables($ekspor)->addIndexColumn()->make(true);
     }
 }
 

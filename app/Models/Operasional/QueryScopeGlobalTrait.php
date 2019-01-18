@@ -10,7 +10,8 @@ trait QueryScopeGlobalTrait
     |--------------------------------------------------------------------------
     |
     | * Trait yang bersifat global, dan dapat dipakai pada ke dua buah trait yaitu
-    |   QueryScopeKtTrait atau QueryScopeKhTrait
+    |   QueryScopeKtTrait atau QueryScopeKhTrait -> bulan global scope laravel
+    |   method - method pada class ini tetap memakai local scope saja
     |
     | * Digunakan untuk keperluan menampilkan data dari table views 
     |   untuk nama kolom yang sama saja
@@ -34,13 +35,54 @@ trait QueryScopeGlobalTrait
 
         if(isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
 
-        if(isset($wilker_id) and $wilker_id != '') $query->where('wilker_id', $wilker_id);
+        if(isset($wilker_id) and $wilker_id != '') $query->whereWilkerId($wilker_id);
 
         return $query;
     }
 
     /**
-     * Untuk menghitung total pemakaian dokumen
+     * Untuk menghitung pemakaian dokumen dalam bulan dan tanggal tertentu
+     *
+     * @param $query
+     * @param int $year
+     * @param int $month
+     * @param int $wilker_id
+     * @param bool $excel
+     * @return collections
+     */
+    public function scopeCountPemakaianDokumen($query, $year, $month = null, $wilker_id = null, $excel =  false)
+    {
+        $query->selectRaw('dokumen, sum(total) as total')
+              ->whereYear('bulan', $year);
+
+        /*
+        * untuk cek apakah pemakain dokumen digunakan pada laporan excel
+        * untuk mendapatkan bulan terakhir apabila laporan dicetak dalam format tahunan
+        * untuk laporan yang dipilih pada semua bulan
+        */      
+        if ($excel === true) {
+
+            /*
+            * jika semua bulan dipilih maka gunakan bulan ke 12 untuk dokumen yang digunakan
+            */
+            (isset($month) and $month != 'all') ? $query->whereMonth('bulan', $month) : $query->whereMonth('bulan', 12);
+
+        /*
+        * untuk menampilkan data pada statistik atau detail pemakaian dokumen saja
+        */
+        } else {
+
+            if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+
+        }
+
+        if (isset($wilker_id) and $wilker_id != '') $query->whereWilkerId($wilker_id);
+                     
+        $query->groupBy('dokumen')->latest('total');
+    }
+
+    /**
+     * Untuk menghitung total pemakaian dokumen dalam satu tahun
      *
      * @param $query
      * @param int $year
@@ -48,17 +90,39 @@ trait QueryScopeGlobalTrait
      * @param int $wilker_id
      * @return collections
      */
-    public function scopeCountPemakaianDokumen($query, $year, $month = null, $wilker_id = null)
+    public function scopeCountTotalPemakaianDokumen($query, $year, $month = null, $wilker_id = null)
     {
+        /*
+        * init carbon set tanggal
+        */
+        $date   = \Carbon::createFromDate((int) $year, $month == 'all' ? null : (int) $month, 1);
+
+        /*
+        * untuk menghitung dari awal tahun pemakaian
+        */
+        $start  = $date->copy()->startOfYear()->toDateString();
+
+        /*
+        * jika laporan yang dipilih semua bulan maka kita set tanggal akhir ke akhir tahun
+        */
+        if (isset($month) and $month == 'all') {
+
+            $end    = $date->copy()->endOfYear()->toDateString();
+
+        /*
+        * jika laporan yang dipilih pada bulan tertentu maka kita set tanggal akhir ke akhir bulan tsb
+        */    
+        } else {
+
+            $end    = $date->copy()->endOfMonth()->toDateString();
+        }
+
         $query->selectRaw('dokumen, sum(total) as total')
-              ->whereNotNull('dokumen')
-              ->whereYear('bulan', $year);
+              ->whereBetween('bulan', [$start, $end]);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
-
-        if (isset($wilker_id) and $wilker_id != '') $query->where('wilker_id', $wilker_id);
+        if (isset($wilker_id) and $wilker_id != '') $query->whereWilkerId($wilker_id);
                      
-        return $query->groupBy('dokumen')->orderBy('total', 'desc');
+        return $query->groupBy('dokumen')->latest('total');
     }
 
     /**
@@ -77,7 +141,7 @@ trait QueryScopeGlobalTrait
 
         if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
 
-        if (isset($wilker_id) and $wilker_id != '') $query->where('wilker_id', $wilker_id);
+        if (isset($wilker_id) and $wilker_id != '') $query->whereWilkerId($wilker_id);
                      
         return $query->first();
     }

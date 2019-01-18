@@ -56,7 +56,7 @@ class GrafikRepository extends StatistikRepository implements RepositoryInterfac
      */
 	public function chartApi($id)
     {
-        $datas                  =   Responden::where('ikm_id', $id)->get();
+        $datas                  =   Responden::whereIkmId($id)->get();
 
         $data['data']           =   $this->apiSource($id);
 
@@ -162,8 +162,8 @@ class GrafikRepository extends StatistikRepository implements RepositoryInterfac
     private function getJenisKelamin(int $id, int $jenis_kelamin_id)
     {   
        return Responden::select('jenis_kelamin')
-                ->where('ikm_id', $id)
-                ->where('jenis_kelamin', $jenis_kelamin_id)
+                ->whereIkmId($id)
+                ->whereJenisKelamin($jenis_kelamin_id)
                 ->get()
                 ->count();     
     }

@@ -17,8 +17,7 @@ class PendidikanController extends Controller
     {
         $pendidikan = Model::all();
         
-        return view('intern.ikm.pendidikan.index')
-                ->with('pendidikan', $pendidikan);
+        return view('intern.ikm.pendidikan.index')->withPendidikan($pendidikan);
     }
 
     /**
@@ -52,7 +51,7 @@ class PendidikanController extends Controller
         ]);
 
         return redirect(route('intern.ikm.pendidikan.index'))
-                ->with('success', 'Data Berhasil Ditambah');
+                ->withSuccess('Data Berhasil Ditambah');
     }
 
 
@@ -64,8 +63,7 @@ class PendidikanController extends Controller
      */
     public function edit(Model $pendidikan)
     {
-        return view('intern.ikm.pendidikan.edit')
-                ->with('pendidikan', $pendidikan);
+        return view('intern.ikm.pendidikan.edit')->withPendidikan($pendidikan);
     }
 
     /**
@@ -90,7 +88,7 @@ class PendidikanController extends Controller
         ]);
 
         return redirect(route('intern.ikm.pendidikan.index'))
-                ->with('success', 'Data Berhasil Diubah');
+                ->withSuccess('Data Berhasil Diubah');
     }
 
     /**
@@ -104,6 +102,6 @@ class PendidikanController extends Controller
         $pendidikan->delete();
 
         return redirect(route('intern.ikm.pendidikan.index'))
-                ->with('success', 'Data Berhasil Dihapus');
+                ->withSuccess('Data Berhasil Dihapus');
     }
 }

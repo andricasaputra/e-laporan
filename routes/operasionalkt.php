@@ -109,6 +109,9 @@ Route::middleware('kt')->group(function(){
 	Route::get('upload/serah_terima', 'SerahTerimaKtController@uploadPageView')
 	->name('kt.upload.page.serah_terima');
 
+	Route::get('upload/permintaan_dokumen', 'PermintaanDokumenKtController@uploadPageView')
+	->name('kt.upload.page.permintaan_dokumen');
+
 	/*
 	*-------------------------------------
 	* KT Proses Upload
@@ -136,6 +139,9 @@ Route::middleware('kt')->group(function(){
 	Route::post('serah_terima/importdata', 'SerahTerimaKtController@imports')
 	->name('kt.upload.proses.serah_terima');
 
+	Route::post('permintaan_dokumen/importdata', 'PermintaanDokumenKtController@create')
+	->name('kt.upload.proses.permintaan_dokumen');
+
 	/*
 	*-------------------------------------
 	* KT Proses Download
@@ -149,6 +155,9 @@ Route::middleware('kt')->group(function(){
 
 		Route::post('donwload/rekapitulasi', 'LaporanRekapitulasiKomoditiKtController@laporanRekapitulasiKomoditiKt')
 		->name('kt.download.rekapitulasi');
+
+		Route::post('donwload/pemakaian_dokumen', 'LaporanPemakaianDokumenKtController@laporanPemakaianDokumenKt')
+		->name('kt.download.pemakaian_dokumen');
 
 	});/*End Download Namespace*/
 

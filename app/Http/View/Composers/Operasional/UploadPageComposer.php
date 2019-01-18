@@ -3,15 +3,15 @@
 namespace App\Http\View\Composers\Operasional;
 
 use Illuminate\View\View;
-use App\Http\Controllers\Operasional\BaseOperasionalController;
+use App\Traits\UsersTrait;
 
 class UploadPageComposer
 {
-    public $data;
+    use UsersTrait;
 
-    public function __construct(BaseOperasionalController $data)
+    public function __construct()
     {
-        $this->data = $data;
+        // 
     }
 
     /**
@@ -22,8 +22,8 @@ class UploadPageComposer
      */
     public function compose(View $view)
     {
-        $view->with('user', $this->data->setActiveUser()); 
+        $view->with('user', $this->setActiveUser()); 
 
-        $view->with('wilker', $this->data->setActiveUserWilker());
+        $view->with('wilker', $this->setActiveUserWilker());
     }
 }

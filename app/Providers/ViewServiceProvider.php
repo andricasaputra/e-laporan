@@ -80,10 +80,10 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(
 
             [
-                'intern.operasional.kh.data.statistik.detail.frekuensi.dokel', 
-                'intern.operasional.kh.data.statistik.detail.frekuensi.domas',
-                'intern.operasional.kh.data.statistik.detail.frekuensi.ekspor',
-                'intern.operasional.kh.data.statistik.detail.frekuensi.impor',
+                'intern.operasional.kh.data.statistik.detail.bigtable.dokel', 
+                'intern.operasional.kh.data.statistik.detail.bigtable.domas',
+                'intern.operasional.kh.data.statistik.detail.bigtable.ekspor',
+                'intern.operasional.kh.data.statistik.detail.bigtable.impor',
                 'intern.operasional.kh.data.statistik.detail.dokumen.pembatalan_dokumen',
             ],
 
@@ -95,10 +95,10 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(
 
             [
-                'intern.operasional.kt.data.statistik.detail.frekuensi.dokel', 
-                'intern.operasional.kt.data.statistik.detail.frekuensi.domas',
-                'intern.operasional.kt.data.statistik.detail.frekuensi.ekspor',
-                'intern.operasional.kt.data.statistik.detail.frekuensi.impor',
+                'intern.operasional.kt.data.statistik.detail.bigtable.dokel', 
+                'intern.operasional.kt.data.statistik.detail.bigtable.domas',
+                'intern.operasional.kt.data.statistik.detail.bigtable.ekspor',
+                'intern.operasional.kt.data.statistik.detail.bigtable.impor',
                 'intern.operasional.kt.data.statistik.detail.dokumen.pembatalan_dokumen',
             ],
 
@@ -139,6 +139,7 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kt.upload.pembatalan_dokumen',
                 'intern.operasional.kt.upload.reekspor',
                 'intern.operasional.kt.upload.serah_terima',
+                'intern.operasional.kt.upload.permintaan_dokumen',
             ],
 
             $this->namespace . '\Operasional\UploadPageComposer'

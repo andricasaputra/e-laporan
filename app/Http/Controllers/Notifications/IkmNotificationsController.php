@@ -10,7 +10,7 @@ class IkmNotificationsController extends MainNotificationController
     public function ikmApi(User $user)
     {
     	return $user->unreadNotifications()
-    				->where('type', 'App\Notifications\NewSurveyIkm')
+    				->whereType('App\Notifications\NewSurveyIkm')
     				->get();
     }
 }

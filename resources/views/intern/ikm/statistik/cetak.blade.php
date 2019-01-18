@@ -107,12 +107,10 @@
 			</tr>
 		</thead>
 		<tbody>
-
-			@php $no = 1 @endphp
 			
 			@foreach($datas['table_body']->nilai as $body)
 				<tr>
-					<td>{{ $no++ }}</td>
+					<td>{{ $loop->index + 1 }}</td>
 					@foreach($body as $b)
 						<td>{{ $b->answer->nilai }}</td>
 					@endforeach

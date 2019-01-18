@@ -25,7 +25,7 @@ trait QueryScopeKhTrait
 
         if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
 
-        if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
+        if (isset($wilker_id)) $query->whereWilkerId($wilker_id);
                      
         return $query->first();
     } 
@@ -47,7 +47,7 @@ trait QueryScopeKhTrait
 
         if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
 
-        if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
+        if (isset($wilker_id)) $query->whereWilkerId($wilker_id);
                      
         return $query->groupBy('satuan');
     }
@@ -69,9 +69,9 @@ trait QueryScopeKhTrait
 
         if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
 
-        if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
+        if (isset($wilker_id)) $query->whereWilkerId($wilker_id);
 
-        return $query->groupBy('year', 'bln')->orderBy('bulan');
+        return $query->groupBy('year', 'bln')->oldest('bulan');
     }
 
     /**
@@ -92,7 +92,7 @@ trait QueryScopeKhTrait
 
         if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
 
-        if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
+        if (isset($wilker_id)) $query->whereWilkerId($wilker_id);
            
         return $query->groupBy('nama_mp');
     }
@@ -114,9 +114,9 @@ trait QueryScopeKhTrait
 
         if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
 
-        if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
+        if (isset($wilker_id)) $query->whereWilkerId($wilker_id);
            
-        return $query->groupBy('name')->orderBy('data', 'desc')->limit(5);
+        return $query->groupBy('name')->latest('data')->limit(5);
     }
 
     /**
@@ -143,13 +143,13 @@ trait QueryScopeKhTrait
                             count(dok_pelepasan) as pemakaian_dokumen'
                           )
                           ->whereNotNull('nama_mp')
-                          ->where('nama_mp', $mp);
+                          ->whereNamaMp($mp);
 
-        if ($wilker_id != null or $wilker_id != 0) $query->where('wilker_id', $wilker_id);
+        if ($wilker_id != null or $wilker_id != 0) $query->whereWilkerId($wilker_id);
          
         if ($month !== null and $month !== 'all') $query->whereMonth('bulan', $month);
         
-        $year === null ? $query->whereYear('bulan', date('Y')) : $query->whereYear('bulan', $year);
+        null === $year ? $query->whereYear('bulan', date('Y')) : $query->whereYear('bulan', $year);
 
         return $query->groupBy('kota_asal', 'kota_tuju')->get();
     }
@@ -207,7 +207,7 @@ trait QueryScopeKhTrait
 
         if (isset($wilker_id) and $wilker_id != '' and $wilker_id != 1) $query->whereWilkerId($wilker_id);
 
-        return $query->whereNotNull('no_permohonan')->orderBy('id', 'asc');
+        return $query->whereNotNull('no_permohonan')->oldest('id')->get();
     }
 
     /**
@@ -239,7 +239,7 @@ trait QueryScopeKhTrait
 
         return $query->with('wilker')
                      ->groupBy('wilker_id', 'nama_mp', 'kota_asal', 'kota_tuju')
-                     ->orderBy('wilker_id', 'asc')
+                     ->oldest('wilker_id')
                      ->get();
     }
 

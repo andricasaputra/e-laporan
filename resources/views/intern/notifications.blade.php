@@ -38,7 +38,7 @@
   }
 
   .card-body:hover a.notification-message{
-    text-decoration: none;
+    text-decoration: underline;
     color: #7460EE
   }
 
@@ -119,9 +119,8 @@
 
 <div class="col-sm-12 mb-4">
 
-  @if(count($notifications) > 0)
+    @forelse($notifications as $notification)    
 
-    @foreach($notifications as $notification)            
       <div class="card mt-4">
         <div class="card-body {{ $notification->read_at === null ? 'readed' : '' }}">
           <div class="row">
@@ -137,22 +136,8 @@
           </div>
         </div>
       </div>
-    @endforeach 
 
-    <div class="row mb-3 mt-2 pull-right">
-      <div class="col-md-12 delete-notification">
-          <i class="fa fa-check"></i> <a href="{{ route('mark.all.as.read') }}" onclick="event.preventDefault();document.getElementById('mark-as-read-all-notification').submit()">Tandai Semua Sudah Dibaca</a> &nbsp;&nbsp;
-          <form id="mark-as-read-all-notification" action="{{ route('mark.all.as.read') }}" method="POST" style="display: none;">
-            @csrf
-          </form>
-          <i class="fa fa-trash"></i> <a href="{{ route('delete.all.notifications') }}" onclick="event.preventDefault();document.getElementById('delete-notification').submit()">Hapus Semua Notifikasi</a>
-          <form id="delete-notification" action="{{ route('delete.all.notifications') }}" method="POST" style="display: none;">
-            @csrf
-          </form>
-      </div>
-    </div>
-
-  @else
+  @empty
 
     <div class="card">
         <div class="card-body">
@@ -164,7 +149,20 @@
         </div>
     </div>
 
-  @endif
+  @endforelse
+
+  <div class="row mb-3 mt-2 pull-right">
+    <div class="col-md-12 delete-notification">
+        <i class="fa fa-check"></i> <a href="{{ route('mark.all.as.read') }}" onclick="event.preventDefault();document.getElementById('mark-as-read-all-notification').submit()">Tandai Semua Sudah Dibaca</a> &nbsp;&nbsp;
+        <form id="mark-as-read-all-notification" action="{{ route('mark.all.as.read') }}" method="POST" style="display: none;">
+          @csrf
+        </form>
+        <i class="fa fa-trash"></i> <a href="{{ route('delete.all.notifications') }}" onclick="event.preventDefault();document.getElementById('delete-notification').submit()">Hapus Semua Notifikasi</a>
+        <form id="delete-notification" action="{{ route('delete.all.notifications') }}" method="POST" style="display: none;">
+          @csrf
+        </form>
+    </div>
+  </div>
        
 </div>
 

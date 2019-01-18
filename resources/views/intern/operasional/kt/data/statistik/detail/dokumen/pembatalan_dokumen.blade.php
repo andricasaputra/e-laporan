@@ -36,14 +36,6 @@
   }
 </style>
 
-@php 
-
-use App\Http\Controllers\TanggalController as Tanggal; 
-
-use App\Http\Controllers\RupiahController as Rupiah;
-
-@endphp
-
 <main class="content-wrapper">
   <div class="container-fluid">
       <form id="change_data">
@@ -75,11 +67,11 @@ use App\Http\Controllers\RupiahController as Rupiah;
           
                 @if($i == $bulan)
 
-                  <option value="{{ $i }}" selected>{{ Tanggal::bulan($i) }}</option>
+                  <option value="{{ $i }}" selected>{{ bulan($i) }}</option>
 
                 @else
 
-                  <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+                  <option value="{{ $i }}">{{  bulan($i) }}</option>
 
                 @endif
 

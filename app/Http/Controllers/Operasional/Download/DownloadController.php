@@ -6,9 +6,7 @@ use App\Models\Wilker;
 use Illuminate\Http\Request;
 use App\Models\MasterPegawai;
 use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\TableOperasionalProperty;
-use App\Http\Controllers\TanggalController as Tanggal;
 
 class DownloadController extends Controller
 {
@@ -91,12 +89,32 @@ class DownloadController extends Controller
     */
     protected $model;
 
+    /**
+    * Untuk ukuran kertas yang dipilih
+    *
+    * @var int|string
+    */
     protected $paperSize;
 
+    /**
+    * Untuk skala laporan
+    *
+    * @var int
+    */
     protected $scale;
 
+    /**
+    * Untuk orientasi laporan (potrait/landscape)
+    *
+    * @var string
+    */
     protected $orientation;
 
+    /**
+    * Untuk tipe huruf laporan
+    *
+    * @var string
+    */
     protected $fontFamily;
 
     /**
@@ -107,12 +125,12 @@ class DownloadController extends Controller
     */
     protected function __construct(Request $request)
     {
-    	  $this->year 	      = $request->year;
-    	  $this->month 	      = $request->month;
+    	$this->year 	    = $request->year;
+    	$this->month 	    = $request->month;
         $this->monthName    = $this->getMonthName($this->month);
-    	  $this->wilker_id    = $request->wilker_id;
+    	$this->wilker_id    = $request->wilker_id;
         $this->wilkerName   = $this->getWilkerName($this->wilker_id);
-    	  $this->type 	      = $this->getPermohonanType($request->type);
+    	$this->type 	    = $this->getPermohonanType($request->type);
         $this->karantina    = strtoupper($request->karantina);
         $this->signatory    = $request->signatory;
         $this->paperSize    = $request->paperSize;
@@ -162,7 +180,7 @@ class DownloadController extends Controller
      */
     protected function getMonth()
     {
-        return $this->month == 'all' ? '' : Tanggal::bulan($this->month);
+        return $this->month == 'all' ? '' : bulan($this->month);
     }
 
     /**
@@ -173,7 +191,7 @@ class DownloadController extends Controller
      */
     protected function getMonthName($month)
     {
-        return $month == 'all' ? '' : 'Bulan ' . Tanggal::bulan($this->month);
+        return $month == 'all' ? '' : 'Bulan ' . bulan($this->month);
     }
 
     /**
@@ -184,9 +202,8 @@ class DownloadController extends Controller
      */
     protected function getWilkerName($wilker)
     {
-        return  Wilker::find($wilker) === null 
-                  ? 'UPT : '. Wilker::find(1)->nama_wilker
-                  : Wilker::find($wilker)->nama_wilker;
+        return (! isset($wilker)) ? Wilker::find(1)->nama_wilker 
+                                  : Wilker::find($wilker)->nama_wilker;
     }
 
 }

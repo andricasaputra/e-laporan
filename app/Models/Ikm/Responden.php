@@ -14,16 +14,7 @@ class Responden extends Model
 
     public function getJenisKelaminAttribute($value)
     {
-    	if($value == 1){
-
-    		$value = 'Laki-laki';
-
-    	}else{
-
-    		$value = 'Perempuan';
-    	}
-
-    	return $value;
+        return $value == 1 ? 'Laki-laki' : 'Perempuan';
     }
 
     public function result()

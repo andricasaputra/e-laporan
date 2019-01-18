@@ -101,7 +101,7 @@
         <h4 class="card-text mb-3">
           Laporan Penggunaan Dokumen
         </h4>
-        <a href="#" class="btn btn-primary">Download</a>
+        <a href="#" data-toggle="modal" data-target="#laporanPemakaianDokumenModal" class="btn btn-primary">Download</a>
       </div>
     </div>
   </div> 
@@ -111,6 +111,7 @@
 
 @include('intern.operasional.kt.download.inc.modal_laporan_operasional')
 @include('intern.operasional.kt.download.inc.modal_laporan_rekapitulasi_komoditi')
+@include('intern.operasional.kt.download.inc.modal_laporan_pemakaian_dokumen')
 
 @endsection
 

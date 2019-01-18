@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title','Operasional - Data Domestik Masuk')		
+@section('title','Operasional - Data Domestik Masuk')
 
 @section('barside')
 
@@ -10,7 +10,7 @@
 
 @section('page-breadcrumb')
 
-<h4 class="page-title">Detail Operasional Ekspor Karantina Tumbuhan</h4>
+<h4 class="page-title">Detail Operasional Impor Karantina Tumbuhan</h4>
 <div class="d-flex align-items-center">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -24,7 +24,7 @@
 </div>
 
 @endsection
-
+      
 @section('content')
 
 <style type="text/css">
@@ -35,14 +35,6 @@
 	min-width: 150px !important;
   }
 </style>
-
-@php 
-
-use App\Http\Controllers\TanggalController as Tanggal; 
-
-use App\Http\Controllers\RupiahController as Rupiah;
-
-@endphp
 
 <main class="content-wrapper">
   <div class="container-fluid">
@@ -75,11 +67,11 @@ use App\Http\Controllers\RupiahController as Rupiah;
           
                 @if($i == $bulan)
 
-                  <option value="{{ $i }}" selected>{{ Tanggal::bulan($i) }}</option>
+                  <option value="{{ $i }}" selected>{{ bulan($i) }}</option>
 
                 @else
 
-                  <option value="{{ $i }}">{{  Tanggal::bulan($i) }}</option>
+                  <option value="{{ $i }}">{{ bulan($i) }}</option>
 
                 @endif
 
@@ -120,10 +112,10 @@ use App\Http\Controllers\RupiahController as Rupiah;
       <div class="col-md-12 card">
           @include('intern.inc.message')
           <div class="card-header">
-            Data Ekspor Karantina Tumbuhan Tahun <span id="yearSelect">{{ $tahun }}</span>
+            Data Impor Karantina Tumbuhan Tahun <span id="yearSelect">{{ $tahun }}</span>
           </div>
           <div class="card-body">
-             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="eksporkt">
+             <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="imporkt">
               <thead>
               	@foreach($titles as $title)
               		<th>{{ ucwords(str_replace('_', ' ', $title)) }}</th>
@@ -148,11 +140,11 @@ use App\Http\Controllers\RupiahController as Rupiah;
   <script>
     $(document).ready(function() {
 
-      let container = $('#eksporkt');
+      let container = $('#imporkt');
 
       datatablesOperasional(
         container, 
-        '{{ route('api.kt.detail.frekuensi.ekspor', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
+        '{{ route('api.kt.statistik.detail.bigtable.impor', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
         'kt'
       );
 
@@ -173,19 +165,19 @@ use App\Http\Controllers\RupiahController as Rupiah;
         if (year != '' && month == '' && wilker == '') {
 
           datatablesOperasional(container, 
-            '{{ route('api.kt.detail.frekuensi.ekspor') }}/' + year, 
+            '{{ route('api.kt.statistik.detail.bigtable.impor') }}/' + year, 
           'kt');
 
         } else if(year != '' && month != '' && wilker == '') {
 
           datatablesOperasional(container, 
-            '{{ route('api.kt.detail.frekuensi.ekspor') }}/' + year + '/' + month, 
+            '{{ route('api.kt.statistik.detail.bigtable.impor') }}/' + year + '/' + month, 
           'kt');
 
         } else {
 
           datatablesOperasional(container, 
-            '{{ route('api.kt.detail.frekuensi.ekspor') }}/' + year + '/' + month + '/' + wilker, 
+            '{{ route('api.kt.statistik.detail.bigtable.impor') }}/' + year + '/' + month + '/' + wilker, 
           'kt');
 
         }

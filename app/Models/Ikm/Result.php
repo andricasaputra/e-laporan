@@ -39,12 +39,12 @@ class Result extends Model
 
     public function scopeQuestionGroup($query, $id)
     {
-        return $query->where('ikm_id', $id)->get()->groupBy('question_id');
+        return $query->whereIkmId($id)->get()->groupBy('question_id');
     }
 
     public function scopeRespondenGroup($query, $id)
     {
-        return $query->where('ikm_id', $id)->get()->groupBy('responden_id');
+        return $query->whereIkmId($id)->get()->groupBy('responden_id');
     }
 
 }

@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\DokelKt as Operasional;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
@@ -23,7 +22,7 @@ class DokelKtController extends BaseOperasionalController implements BaseOperasi
      */
     public function tableDetailFrekuensiView(Request $request)
     {
-        return view('intern.operasional.kt.data.statistik.detail.frekuensi.dokel');
+        return view('intern.operasional.kt.data.statistik.detail.bigtable.dokel');
     }
 
     /**
@@ -64,7 +63,7 @@ class DokelKtController extends BaseOperasionalController implements BaseOperasi
 	}
 
     /**
-     * API untuk detail tabel 
+     * API untuk detail big tabel 
      *
      * @param int $year
      * @return datatables JSON
@@ -75,7 +74,7 @@ class DokelKtController extends BaseOperasionalController implements BaseOperasi
                     ->with('wilker')
                     ->get();
 
-        return app('DataTables')::of($dokel)->addIndexColumn()->make(true);
+        return datatables($dokel)->addIndexColumn()->make(true);
     }
 }
 

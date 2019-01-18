@@ -262,4 +262,25 @@ trait TableOperasionalProperty
 
         ];
     }
+
+    /**
+     * Table head dari laporan pemakaian dokumen KT
+     *
+     * @return array
+     */
+    protected function tableHeaderLaporanPemakaianDokumenKt()
+    {
+        return [
+
+            'No',
+            'Wilker/Pelabuhan/Bandara',
+            'Jenis Media Pembawa (Komoditas)',
+            'Jumlah',
+            'Satuan',
+            'Frekuensi',
+            'Daerah Asal',
+            'Daerah Tujuan',
+
+        ];
+    }
 }

@@ -6,9 +6,6 @@ use App\Models\Wilker;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Traits\TableOperasionalProperty;
-use App\Contracts\BaseOperasionalInterface;
-use App\Http\Controllers\Operasional\DokelKhController;
-use App\Http\Controllers\Operasional\BaseOperasionalController;
 
 class TableDetailKhComposer
 {

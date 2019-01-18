@@ -35,10 +35,9 @@
 	        </tr>
 	      </thead>
 	      <tbody>
-	      	@php $no = 1 @endphp
 	      	@foreach($pendidikan as $p)
 	      		<tr>
-		      		<td>{{ $no++ }}</td>
+		      		<td>{{ $loop->index + 1 }}</td>
 		      		<td>{{ $p->pendidikan }}</td>
 		      		<td>
 		      			<a href="{{ route('intern.ikm.pendidikan.edit', $p->id) }}" class="btn btn-success btn-xs"> Edit</a>

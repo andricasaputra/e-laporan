@@ -36,10 +36,9 @@
 	        </tr>
 	      </thead>
 	      <tbody>
-	      	@php $no = 1 @endphp
 	      	@foreach($answers as $answer)
 	      		<tr>
-		      		<td>{{ $no++ }}</td>
+		      		<td>{{ $loop->index + 1 }}</td>
 		      		<td>{{ $answer->answer }}</td>
 		      		<td>{{ $answer->nilai }}</td>
 		      		<td>
