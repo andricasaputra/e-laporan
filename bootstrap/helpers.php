@@ -26,6 +26,29 @@ if (! function_exists('pdf')) {
 	}
 }
 
+if (! function_exists('admin')) {
+	
+	/**
+	 * Authentifikasi jika user adalah admin
+	 *
+	 * @return boll|null
+	 */
+	function admin()
+	{
+		if(auth()->check()) {
+
+			$cek = auth()->user()->role->first()->id;
+
+			if ($cek  === 2 || $cek  === 3) return true;
+
+			return;
+
+		}
+	
+	}
+
+}
+
 if (! function_exists('bulan_tahun')) {
 	
 	/**

@@ -196,7 +196,7 @@ class UploadPembatalanController extends BaseOperasionalController
            return $singledata->prepend($this->request->wilker_id, 'wilker_id')
                              ->prepend($this->request->user_id, 'user_id')
                              ->prepend($this->tanggal, 'bulan')
-                             ->put('created_at', \Carbon::now())
+                             ->put('created_at', now())
                              ->all();
 
         });

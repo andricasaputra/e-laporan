@@ -19,11 +19,9 @@ class IsSuperAdmin
 
             $cek = auth()->user()->role->first()->id;
 
-            if ($cek === 1) {
+            if ($cek === 1) return $next($request);
 
-                return $next($request);
-                
-            }
+            return back()->withWarning('Anda Tidak Mempunyai Hak Akses Ke Halaman Ini!');
 
         }
          

@@ -40,28 +40,28 @@ Route::get(
 
 /*View Page Table Detail Frekuensi*/
 Route::get(
-	'data/statistik/detail/frekuensi/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@tableDetailFrekuensiView'
-)->name('kt.view.page.detail.frekuensi.dokel');
+	'data/statistik/detail/maintable/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.bigtable.dokel');
 
 Route::get(
-	'data/statistik/detail/frekuensi/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@tableDetailFrekuensiView'
-)->name('kt.view.page.detail.frekuensi.domas');
+	'data/statistik/detail/maintable/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.bigtable.domas');
 
 Route::get(
-	'data/statistik/detail/frekuensi/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@tableDetailFrekuensiView'
-)->name('kt.view.page.detail.frekuensi.ekspor');
+	'data/statistik/detail/maintable/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.bigtable.ekspor');
 
 Route::get(
-	'data/statistik/detail/frekuensi/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@tableDetailFrekuensiView'
-)->name('kt.view.page.detail.frekuensi.impor');
+	'data/statistik/detail/maintable/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.bigtable.impor');
 
 Route::get(
-	'data/statistik/detail/frekuensi/reekspor/{year?}/{month?}/{wilker_id?}', 'ReeksporKtController@tableDetailFrekuensiView'
-)->name('kt.view.page.detail.frekuensi.reekspor');
+	'data/statistik/detail/maintable/reekspor/{year?}/{month?}/{wilker_id?}', 'ReeksporKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.bigtable.reekspor');
 
 Route::get(
-	'data/statistik/detail/frekuensi/serah_terima/{year?}/{month?}/{wilker_id?}', 'SerahTerimaKtController@tableDetailFrekuensiView'
-)->name('kt.view.page.detail.frekuensi.serah_terima');
+	'data/statistik/detail/maintable/serah_terima/{year?}/{month?}/{wilker_id?}', 'SerahTerimaKtController@tableDetailFrekuensiView'
+)->name('kt.view.page.detail.bigtable.serah_terima');
 
 /*View Page Table Detail Pembatalan Dokumen*/
 Route::get(

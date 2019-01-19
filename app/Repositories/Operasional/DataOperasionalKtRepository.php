@@ -318,28 +318,28 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
         $log = LogInfo::karantinaTumbuhanType($year, $month, $wilker, $type)->get();
         
         return datatables($log)->addIndexColumn()
-         ->addColumn('action', function ($data) {
+         ->addColumn('action', function ($datas) {
 
-            if (empty($data->rolledback_at) || $data->rolledback_at == "") {
+            /*
+            * Hilangkan tombol rollback jika :
+            * 1. laporan sudah pernah di rollback sebelumnya,
+            * 2. laporan telah diupload lebih dari seminggu yang lalu,
+            *    karena jika sudah lebih dari seminggu, laporan kita asumsikan valid
+            *    dan tidak dapat di rollback kembali
+            */
+            return $datas->when(is_null($datas->rolledback_at) , function($i) use ($datas){
 
-                if (\Carbon::now() > \Carbon::parse($data->created_at)->addWeek()) {
-
-                    $action = '-';
-                    
-                } else {
-
-                    $action = '<a href="#" data-id = "'.$data->id.'" class="btn btn-danger" id="rollbackOperasionalBtn">
+                return  now() > \Carbon::parse($datas->created_at)->addWeek() 
+                        ? '-'
+                        :'<a href="#" data-id = "'.$datas->id.'" class="btn btn-danger" id="rollbackOperasionalBtn">
                             <i class="fa fa-repeat fa-fw"></i> Rollback
-                        </a>';
-                }       
+                         </a>';
 
-            } else {
+            }, function($i) {
 
-               $action = '-';
+                return '-';
 
-            }
-
-            return $action;
+            });
 
         })->make(true);
     }

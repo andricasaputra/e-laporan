@@ -7,7 +7,7 @@ use App\Http\Requests\UploadOperasionalRequest as Validation;
 use App\Models\Operasional\PembatalanDokKt as Operasional;
 use App\Http\Controllers\Operasional\UploadPembatalanController as Upload;
 
-ini_set('max_execution_time', '200');
+ini_set('max_execution_time', '500');
 
 class PembatalanDokKtController extends BaseOperasionalController
 {

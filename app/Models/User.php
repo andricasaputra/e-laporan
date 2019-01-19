@@ -65,12 +65,12 @@ class User extends Authenticatable
 
     public function getUploadDokelKt()
     {
-        return $this->belongsToMany('App\Models\Operasional\DokelKt');
+        return $this->belongsToMany(\Operasional\DokelKt::class);
     }
 
     public function scopePegawaiDetail($query, $pegawaiId)
     {
-        return $query->where('pegawai_id', $pegawaiId['id']);
+        return $query->wherePegawaiId($pegawaiId['id']);
     }
 
     public function scopeUserToNotify($query)
@@ -89,6 +89,11 @@ class User extends Authenticatable
                     $query->where('wilker.id', '!=', $wilker_id);
 
                 }]);
+    }
+
+    public function nonSuperAdmin($query)
+    {
+        return $query->where('id', '!=', 1);
     }
 
 }

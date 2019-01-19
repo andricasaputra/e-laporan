@@ -19,13 +19,9 @@ class IsKt
 
             $cek = auth()->user()->pegawai->jenis_karantina;
 
-            if ($cek === NULL || $cek === 'str' || $cek === 'kt' ) {
+            if ($cek === NULL || $cek === 'kt' ) return $next($request);
 
-                return $next($request);
-
-            }   
-
-            return back()->with('warning', 'Anda Tidak Mempunyai Hak Akses Ke Halaman Ini!');
+            return back()->withWarning('Anda Tidak Mempunyai Hak Akses Ke Halaman Ini!');
                 
         }
 

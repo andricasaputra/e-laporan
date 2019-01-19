@@ -10,6 +10,7 @@ class LogInfo extends Model
     protected $table 	= 'log_operasional';
     protected $guarded 	= ['id', 'created_at', 'updated_at'];
     protected $with     = ['wilker'];
+    protected $appends  = ['rolledbackAtStatus'];
 
     /**
      * One to many relations
@@ -90,43 +91,21 @@ class LogInfo extends Model
     }
 
     /**
-     * Merubah Status laporan attribute
+     * Mendapatkan status rollback atau upload
      *
      * @return string
      */
-    public function getStatusAttribute($value)
+    public function getRolledbackAtStatusAttribute()
     {
-        switch ($value) {
-        	case 1:
-        		$value = "Laporan Berhasil Ditarik Kembali";
-        		break;
-        	
-        	default:
-        		$value = "Laporan Berhasil Diupload";
-        		break;
-        }
+        $status         =   $this->status == 1 
+                            ? 'Laporan Berhasil Ditarik Kembali' 
+                            : 'Laporan Berhasil Diupload';
 
-        return $value;
-    }
+        $rolledBackAt   =   $this->rolledback_at !== null 
+                            ? \Carbon::parse($this->rolledback_at)->format('d-m-Y')
+                            : '';
 
-    /**
-     * Merubah Rolled Back status attribute
-     *
-     * @return string
-     */
-    public function getRolledbackAtAttribute($value)
-    {
-        switch ($value) {
-        	case NULL:
-        		$value = "";
-        		break;
-        	
-        	default:
-        		$value = "(". \Carbon::parse($value)->format('d-m-Y') .")";
-        		break;
-        }
-
-        return $value;
+        return $status.' Pada '.$rolledBackAt;
     }
 
     /**
@@ -148,23 +127,27 @@ class LogInfo extends Model
     {
         $query->whereYear('created_at', $year);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+        $query->when($month != 'all', function($query) use ($month) {
+            
+            return $query->whereMonth('bulan', $month);
 
-        if (isset($wilker) and (int) $wilker !== 1) $query->whereWilkerId($wilker);  
-             
-        if (isset($type) and $type != 'all'){
+        })->when((int) $wilker !== 1, function($query) use ($wilker) {
 
-            $query->where('type', $type);
+            return $query->whereWilkerId($wilker);
 
-        } else {
+        })->when($type != 'all', function($query) use ($type) {
+            
+            return $query->whereType($type);
 
-            $query->whereIn('type', 
-                ['dokel_kt', 'domas_kt', 'ekspor_kt', 'impor_kt', 
-                'serah_terima_kt', 'reekspor_kt', 'pembatalan_dok_kt']
-            );
+        }, function($query){
 
-        }
-                         
+            return  $query->whereIn('type', 
+                        ['dokel_kt', 'domas_kt', 'ekspor_kt', 'impor_kt', 
+                        'serah_terima_kt', 'reekspor_kt', 'pembatalan_dok_kt']
+                    );
+
+        });
+                                     
         return $query->latest();
     }
 
@@ -177,22 +160,26 @@ class LogInfo extends Model
     {
         $query->whereYear('created_at', $year);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+        $query->when($month != 'all', function($query) use ($month) {
+            
+            return $query->whereMonth('bulan', $month);
 
-        if (isset($wilker) and (int) $wilker !== 1) $query->whereWilkerId($wilker);
-                      
-        if (isset($type) and $type != 'all'){
+        })->when((int) $wilker !== 1, function($query) use ($wilker) {
 
-            $query->where('type', $type);
+            return $query->whereWilkerId($wilker);
 
-        } else {
+        })->when($type != 'all', function($query) use ($type) {
+            
+            return $query->whereType($type);
 
-            $query->whereIn('type', 
-                ['dokel_kh', 'domas_kh', 'ekspor_kh', 'impor_kh', 
-                'serah_terima_kh', 'reekspor_kh', 'pembatalan_dok_kh']
-            );
+        }, function($query){
 
-        }
+            return  $query->whereIn('type', 
+                        ['dokel_kh', 'domas_kh', 'ekspor_kh', 'impor_kh', 
+                        'serah_terima_kh', 'reekspor_kh', 'pembatalan_dok_kh']
+                    );
+
+        });
                          
         return $query->latest();
     }

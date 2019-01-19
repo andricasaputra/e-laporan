@@ -42,28 +42,28 @@ trait DataOperasionalKtTrait
                     'Domestik Masuk Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
-                        'link' => route('kt.view.page.detail.frekuensi.domas', $this->routeParams)
+                        'link' => route('kt.view.page.detail.bigtable.domas', $this->routeParams)
 
                     ],
 
                     'Domestik Keluar Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
-                        'link' => route('kt.view.page.detail.frekuensi.dokel', $this->routeParams)
+                        'link' => route('kt.view.page.detail.bigtable.dokel', $this->routeParams)
 
                     ],
 
                     'Ekspor Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
-                        'link' => route('kt.view.page.detail.frekuensi.ekspor', $this->routeParams)
+                        'link' => route('kt.view.page.detail.bigtable.ekspor', $this->routeParams)
 
                     ],
 
                     'Impor Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
-                        'link' => route('kt.view.page.detail.frekuensi.impor', $this->routeParams)
+                        'link' => route('kt.view.page.detail.bigtable.impor', $this->routeParams)
 
                     ]
                 ],
@@ -201,28 +201,28 @@ trait DataOperasionalKtTrait
                     'Domestik Masuk Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
-                        'link' => route('kt.view.page.detail.frekuensi.domas', $this->routeParams)
+                        'link' => route('kt.view.page.detail.bigtable.domas', $this->routeParams)
 
                     ],
 
                     'Domestik Keluar Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
-                        'link' => route('kt.view.page.detail.frekuensi.dokel', $this->routeParams)
+                        'link' => route('kt.view.page.detail.bigtable.dokel', $this->routeParams)
 
                     ],
 
                     'Ekspor Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
-                        'link' => route('kt.view.page.detail.frekuensi.ekspor', $this->routeParams)
+                        'link' => route('kt.view.page.detail.bigtable.ekspor', $this->routeParams)
 
                     ],
 
                     'Impor Karantina Tumbuhan' => [
 
                         'frekuensi' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
-                        'link' => route('kt.view.page.detail.frekuensi.impor', $this->routeParams)
+                        'link' => route('kt.view.page.detail.bigtable.impor', $this->routeParams)
 
                     ]
                 ],

@@ -17,15 +17,21 @@ trait QueryScopeKhTrait
      * @param int $wilker_id
      * @return int
      */
-    public function scopeCountFrekuensi($query, $year, $month = null, $wilker_id = null)
+    public function scopeCountFrekuensi($query, $year, $month = false, $wilkerId = false)
     {
         $query->selectRaw('sum(frekuensi) as frekuensi')
               ->whereNotNull('nama_mp')
               ->whereYear('bulan', $year);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+        $query->when($month && $month != 'all', function ($query) use ($month) {
 
-        if (isset($wilker_id)) $query->whereWilkerId($wilker_id);
+            return $query->whereMonth('bulan', $month);
+
+        })->when($wilkerId, function ($query, $wilkerId) {
+
+            return $query->whereWilkerId($wilkerId);
+
+        });
                      
         return $query->first();
     } 
@@ -39,15 +45,21 @@ trait QueryScopeKhTrait
      * @param int $wilker_id
      * @return int
      */
-    public function scopeCountVolume($query, $year, $month = null, $wilker_id = null)
+    public function scopeCountVolume($query, $year, $month = false, $wilkerId = false)
     {
         $query->selectRaw('sum(volume) as volume, satuan')
               ->whereNotNull('nama_mp')
               ->whereYear('bulan', $year);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+        $query->when($month && $month != 'all', function ($query) use ($month) {
 
-        if (isset($wilker_id)) $query->whereWilkerId($wilker_id);
+            return $query->whereMonth('bulan', $month);
+
+        })->when($wilkerId, function ($query, $wilkerId) {
+
+            return $query->whereWilkerId($wilkerId);
+
+        });
                      
         return $query->groupBy('satuan');
     }
@@ -61,15 +73,21 @@ trait QueryScopeKhTrait
      * @param int $wilker_id
      * @return collections
      */
-    public function scopeCountFrekuensiKomoditi($query, $year, $month = null, $wilker_id = null)
+    public function scopeCountFrekuensiKomoditi($query, $year, $month = false, $wilkerId = false)
     {
         $query->selectRaw('year(bulan) as year, monthname(bulan) as bln, count(*) as data')
               ->whereNotNull('nama_mp')
               ->whereYear('bulan', $year);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+        $query->when($month && $month != 'all', function ($query) use ($month) {
 
-        if (isset($wilker_id)) $query->whereWilkerId($wilker_id);
+            return $query->whereMonth('bulan', $month);
+
+        })->when($wilkerId, function ($query, $wilkerId) {
+
+            return $query->whereWilkerId($wilkerId);
+
+        });
 
         return $query->groupBy('year', 'bln')->oldest('bulan');
     }
@@ -84,15 +102,21 @@ trait QueryScopeKhTrait
      * @param int $wilker_id
      * @return collections
      */
-    public function scopeCountRekapitulasi($query, $year, $month = null, $wilker_id = null)
+    public function scopeCountRekapitulasi($query, $year, $month = false, $wilkerId = false)
     {   
         $query->selectRaw(' *, sum(volume) as volume, sum(pnbp) as pnbp, sum(frekuensi) as frekuensi')
               ->whereNotNull('nama_mp')
               ->whereYear('bulan', $year);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+        $query->when($month && $month != 'all', function ($query) use ($month) {
 
-        if (isset($wilker_id)) $query->whereWilkerId($wilker_id);
+            return $query->whereMonth('bulan', $month);
+
+        })->when($wilkerId, function ($query, $wilkerId) {
+
+            return $query->whereWilkerId($wilkerId);
+
+        });
            
         return $query->groupBy('nama_mp');
     }
@@ -106,15 +130,21 @@ trait QueryScopeKhTrait
      * @param int $wilker_id
      * @return collections
      */
-    public function scopeTopFiveFrekuensiKomoditi($query, $year, $month = null, $wilker_id = null)
+    public function scopeTopFiveFrekuensiKomoditi($query, $year, $month = false, $wilkerId = false)
     {
         $query->selectRaw('nama_mp as name, sum(frekuensi) as data')
               ->whereNotNull('nama_mp') 
               ->whereYear('bulan', $year);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+        $query->when($month && $month != 'all', function ($query) use ($month) {
 
-        if (isset($wilker_id)) $query->whereWilkerId($wilker_id);
+            return $query->whereMonth('bulan', $month);
+
+        })->when($wilkerId, function ($query, $wilkerId) {
+
+            return $query->whereWilkerId($wilkerId);
+
+        });
            
         return $query->groupBy('name')->latest('data')->limit(5);
     }
@@ -128,9 +158,9 @@ trait QueryScopeKhTrait
     public function scopeGetDetailKotaByKomoditi($query, Request $request)
     {
         $mp         = str_replace('--', '/', $request->mp);
-        $year       = $request->year;
-        $month      = $request->month;
-        $wilker_id  = (int) $request->wilker_id;
+        $year       = $request->year ?? false;
+        $month      = $request->month ?? false;
+        $wilkerId   = $request->wilker_id ?? false;
 
         $query->selectRaw(' asal,
                             tujuan,
@@ -145,11 +175,23 @@ trait QueryScopeKhTrait
                           ->whereNotNull('nama_mp')
                           ->whereNamaMp($mp);
 
-        if ($wilker_id != null or $wilker_id != 0) $query->whereWilkerId($wilker_id);
-         
-        if ($month !== null and $month !== 'all') $query->whereMonth('bulan', $month);
-        
-        null === $year ? $query->whereYear('bulan', date('Y')) : $query->whereYear('bulan', $year);
+        $query->when($month && $month != 'all', function ($query) use ($month) {
+
+            return $query->whereMonth('bulan', $month);
+
+        })->when($wilkerId, function ($query, $wilkerId) {
+
+            return $query->whereWilkerId($wilkerId);
+
+        })->when($year, function ($query, $year) {
+
+            return $query->whereYear('bulan', $year);
+
+        }, function($query){
+
+            return $query->whereYear('bulan', date('Y'));
+
+        });
 
         return $query->groupBy('kota_asal', 'kota_tuju')->get();
     }
@@ -163,7 +205,7 @@ trait QueryScopeKhTrait
      * @param int $wilker_id
      * @return collections
      */
-    public function scopeLaporanOperasional($query, $year, $month = null, $wilker_id = null)
+    public function scopeLaporanOperasional($query, $year, $month = false, $wilkerId = false)
     {
         $query->select(
              'no_permohonan',
@@ -203,9 +245,15 @@ trait QueryScopeKhTrait
              'total_pnbp'
          )->whereYear('bulan', $year);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+        $query->when($month && $month != 'all', function ($query) use ($month) {
 
-        if (isset($wilker_id) and $wilker_id != '' and $wilker_id != 1) $query->whereWilkerId($wilker_id);
+            return $query->whereMonth('bulan', $month);
+
+        })->when($wilkerId, function ($query, $wilkerId) {
+
+            return $query->whereWilkerId($wilkerId);
+
+        });
 
         return $query->whereNotNull('no_permohonan')->oldest('id')->get();
     }
@@ -219,7 +267,7 @@ trait QueryScopeKhTrait
      * @param int $wilker_id
      * @return collections
      */
-    public function scopeLaporanRekapitulasiKomoditi($query, $year, $month = null, $wilker_id = null)
+    public function scopeLaporanRekapitulasiKomoditi($query, $year, $month = false, $wilkerId = false)
     {
         $query->selectRaw(
              '  wilker_id,    
@@ -233,9 +281,15 @@ trait QueryScopeKhTrait
                 tujuan '
          )->whereYear('bulan', $year);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('bulan', $month);
+        $query->when($month && $month != 'all', function ($query) use ($month) {
 
-        if (isset($wilker_id) and $wilker_id != '' and $wilker_id != 1) $query->whereWilkerId($wilker_id);
+            return $query->whereMonth('bulan', $month);
+
+        })->when($wilkerId, function ($query, $wilkerId) {
+
+            return $query->whereWilkerId($wilkerId);
+
+        });
 
         return $query->with('wilker')
                      ->groupBy('wilker_id', 'nama_mp', 'kota_asal', 'kota_tuju')

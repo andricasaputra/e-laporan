@@ -8,7 +8,7 @@ use App\Models\Operasional\SerahTerimaKt as Operasional;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
 use App\Http\Controllers\Operasional\UploadOperasionalController as Upload;
 
-ini_set('max_execution_time', '200');
+ini_set('max_execution_time', '500');
 
 class SerahTerimaKtController extends BaseOperasionalController implements BaseOperasionalInterface
 {

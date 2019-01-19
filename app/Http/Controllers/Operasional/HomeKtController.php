@@ -114,7 +114,7 @@ class HomeKtController extends Controller
     public function homeRekapitulasi()
     {
         return view('intern.operasional.kt.data.rekapitulasi.home')
-                ->with('datas', $this->rekapitulasiDataOperasionalKt());
+                ->withDatas($this->rekapitulasiDataOperasionalKt());
     }
 
     /**
@@ -125,7 +125,7 @@ class HomeKtController extends Controller
     public function homeStatistik()
     {
         return view('intern.operasional.kt.data.statistik.home')
-                ->with('datas', $this->statistikDataOperasionalKt());
+                ->withDatas($this->statistikDataOperasionalKt());
     }
 
     /**
@@ -169,7 +169,7 @@ class HomeKtController extends Controller
     {
         $this->ktRepository->rollback($request);
 
-        return back()->with('success', 'Laporan Operasional Berhasil Ditarik Kembali');
+        return back()->withSuccess('Laporan Operasional Berhasil Ditarik Kembali');
     }
     
 }

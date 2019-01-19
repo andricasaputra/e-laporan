@@ -19,16 +19,10 @@ class IsAdmin
 
             $cek = auth()->user()->role->first()->id;
 
-            if ($cek  === 2 || $cek  === 3) {
-
-                return $next($request);
+            if ($cek  === 2 || $cek  === 3) return $next($request);
                 
-            }else{
-
-                return redirect(route('welcome'))
-                        ->with('warning', "Maaf anda tidak mempunyai hak akses ke halaman ini");
-
-            }
+            return redirect(route('welcome'))
+                    ->withWarning('Maaf anda tidak mempunyai hak akses ke halaman ini');
 
         }
          

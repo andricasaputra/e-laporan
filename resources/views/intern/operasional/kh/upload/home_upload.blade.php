@@ -191,6 +191,12 @@
                  
         @if(count($wilkers) > 0)
 
+            @if(admin())
+
+            <option value="1">Semua Wilker</option>
+
+            @endif
+
             @foreach($wilkers as $wilker)
 
               <option value="{{ $wilker['id'] }}">{{ $wilker['nama_wilker'] }}</option>
@@ -315,7 +321,7 @@
 
   $(document).ready(function(){
 
-    let wilker  = '{{ $wilker->id }}';
+    let wilker  = '{{ admin() ? 1 : $wilker->id }}';
 
     let year    = '{{ $year }}';
 
@@ -329,16 +335,13 @@
       { "data" : "type" },
       { "data" : "bulan" },
       { "data" : "wilker.nama_wilker" },
-      { "data" : null, 
-        render: function (data, type, row) {
-          let details = row.status + " " + row.rolledback_at;
-          return details 
-        }
-      },
+      { "data" : "rolledbackAtStatus"},
       { "data" : "created_at" },
       { "data" : "action" , orderable: false, searchable: false}
 
-    ]
+    ];
+
+    console.log(wilker)
 
     changeLog(wilker, year, month, type);
 

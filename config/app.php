@@ -152,6 +152,7 @@ return [
          */
         Yajra\DataTables\DataTablesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Mavinoo\LaravelBatch\LaravelBatchServiceProvider::class,
         
         /*
          * Application Service Providers...
@@ -213,6 +214,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Carbon' => Carbon\Carbon::class,
+        'Batch' => Mavinoo\LaravelBatch\LaravelBatchFacade::class,
 
     ],
 

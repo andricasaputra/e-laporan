@@ -10,6 +10,7 @@
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "~2.1.0",
+        "mavinoo/laravel-batch": "dev-master",
         "pusher/pusher-php-server": "^3.2",
         "spipu/html2pdf": "^5.2",
         "yajra/laravel-datatables-oracle": "~8.0"

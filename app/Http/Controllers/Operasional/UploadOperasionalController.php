@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Operasional;
 
 use App\Models\User;
 use App\Models\Wilker;
+use Mavinoo\LaravelBatch\Batch;
 use App\Events\DataOperasionalUploadedEvent;
 use App\Contracts\ModelOperasionalInterface as Model;
 use App\Http\Requests\UploadOperasionalRequest as Request;
@@ -88,6 +89,8 @@ class UploadOperasionalController extends BaseOperasionalController
      * @var string 
      */
     public  $table;
+
+    public  $index = 'no_permohonan';
 
     /**
      * Untuk menyimpan wilker dan digunakan sebagai notifikasi 
@@ -209,76 +212,34 @@ class UploadOperasionalController extends BaseOperasionalController
            return $singledata->prepend($this->request->wilker_id, 'wilker_id')
                              ->prepend($this->request->user_id, 'user_id')
                              ->prepend($this->tanggal, 'bulan')
-                             ->put('created_at', \Carbon::now())
+                             ->put('created_at', now())
                              ->all();
 
         });
 
-        /*Pengecekan PNBP Berdasarkan Type Karantina & Dokumen Pelepasan*/
-        if ($this->type_karantina === 'kt') {
+        /*Pengecekan PNBP yang tidak boleh 0 pada dokumen pelepasan yang dikenakan tarif*/
+        if (! $this->checkPnbp($datas)) return false;
+ 
+        /*Jika Laporan belum pernah diupload, maka insert*/  
+        $datas->when((int) $this->forInsertOrUpdate($datas) === 0, function ($datas) {
 
-            $cekPnbp = $datas->whereIn('dok_pelepasan', $this->dokumenKt)
-                             ->where('total_pnbp', 0.0)
-                             ->first();
+            $this->model->insert( $datas->all() ); 
 
-        }else{
+            $this->success = 1;
 
-            $cekPnbp = $datas->whereIn('dok_pelepasan', $this->dokumenKh)
-                             ->where('total_pnbp', 0.0)
-                             ->first();
-
-        }
-        
-        /*Jika Pada Pengecekan ditemukan data PNBP 0 Pada Dokumen pelepasan yang seharusnya dikenakan tarif PNBP -> maka kirim pesan error*/
-        if (! is_null($cekPnbp) || $cekPnbp !== null) {
-            
-            $this->success = -1;
-
-            return false;
-        }
-
-        /*Pengecekan Laporan Bulanan Sudah Pernah Diupload atau belum, jika sudah lakukan update, jika belum insert baru*/
-        $no_permohonan      = $datas->whereNotIn('no_permohonan', ['IDEM'])
-                                    ->pluck('no_permohonan')
-                                    ->all();
-
-        $forinsertOrUpdate  = $this->model::whereNotIn('no_permohonan', ['IDEM'])
-                                   ->whereIn('no_permohonan', $no_permohonan)
-                                   ->get();
-
-        /*Jika Data Kosong artinya laporan belum pernah diupload -> maka insert*/                           
-        if ($forinsertOrUpdate === null || count($forinsertOrUpdate) === 0) {
-
-            $insertOrUpdate = $this->model->insert( $datas->all() ); 
-
-        /*Laporan sudah pernah diupload -> maka update laporan*/
-        } else {
-
-            foreach ($datas as $key => $value) {
-
-               $this->model->whereNotIn('no_permohonan', ['IDEM'])
-                           ->whereNoPermohonan($value['no_permohonan'])
-                           ->whereKodeHs($value['kode_hs'])
-                           ->update($value);
-
-            }
-
-            $insertOrUpdate = false;
-        }
-
-        /*Set success untuk menampilkan pesan kepada user setelah upload*/
-        $insertOrUpdate === true ? $this->success = 1 : $this->success = 2;
-
-        /*Kirim notifikasi kepada user setelah upload*/
-        if ($insertOrUpdate) {
-
-            /*Set Notifications Properties*/
+            /*Kirim notifikasi kepada user setelah upload*/
             $this->setNotificationsProperties((int) $this->request->wilker_id);
 
             /*Call Event to Notify*/
             $this->eventNotifyHandler();
-            
-        }
+
+        }, function($datas){
+
+            Batch::update($this->table, $datas, $this->index);
+
+            $this->success = 2;
+
+        });                         
 
     }
 
@@ -311,6 +272,67 @@ class UploadOperasionalController extends BaseOperasionalController
 
         /*Call Event to Notify*/
         $this->eventNotifyHandler();
+    }
+
+    /**
+     * Digunakan untuk pengecekan tarif pnbp pada laporan yang diupload
+     * untuk kasus tarif 0 pada permohonan yang seharusnya terdapat 
+     * jasa karantina, biasanya kesalahan dalam export laporan pada IQFAST
+     *
+     * @param array $datas
+     * @return bool
+     */
+    private function checkPnbp($datas)
+    {
+        /*Pengecekan PNBP Berdasarkan Type Karantina & Dokumen Pelepasan*/
+        if ($this->type_karantina === 'kt') {
+
+            $cekPnbp = $datas->whereIn('dok_pelepasan', $this->dokumenKt)
+                             ->where('total_pnbp', 0.0)
+                             ->first();
+
+        } else {
+
+            $cekPnbp = $datas->whereIn('dok_pelepasan', $this->dokumenKh)
+                             ->where('total_pnbp', 0.0)
+                             ->first();
+
+        }
+        
+        /*Jika Pada Pengecekan ditemukan data PNBP 0 Pada Dokumen pelepasan yang seharusnya dikenakan tarif PNBP -> maka kirim pesan error*/
+        return collect($cekPnbp)->when(! is_null($cekPnbp) || $cekPnbp !== null, function($i){
+
+            $this->success = -1;
+
+            return false;
+
+        }, function($i){
+
+            return true;
+
+        });
+    }
+
+    /**
+     * Digunakan untuk pengecekan apakah laporan sudah pernah diupload
+     * atau belum, jika laporan sudah pernah diupload, maka update
+     * sebaliknya, insert data baru ke database
+     *
+     * @param array $datas
+     * @return int
+     */
+    private function forInsertOrUpdate($datas)
+    {
+        /*Pengecekan Laporan Bulanan Sudah Pernah Diupload atau belum, jika sudah lakukan update, jika belum insert baru*/
+        $no_permohonan  = $datas->whereNotIn('no_permohonan', ['IDEM'])
+                                ->pluck('no_permohonan')
+                                ->all();
+
+        $result         = $this->model::whereNotIn('no_permohonan', ['IDEM'])
+                               ->whereIn('no_permohonan', $no_permohonan)
+                               ->first();
+
+        return $result === null ? 0 : $result->count();
     }
 
     /**
@@ -363,15 +385,21 @@ class UploadOperasionalController extends BaseOperasionalController
 
         $this->usersToNotify    =   User::whereIn('id', [1, 2, 3, 4, 5])->get();
 
-        $this->linkNotify       =   $this->type_karantina === 'kt' 
-                                    ? route('kt.view.page.detail.frekuensi.'. $this->model->alias)
-                                    : route('kh.view.page.detail.frekuensi.'. $this->model->alias);
+        $this->linkNotify       =   route($this->type_karantina .
+                                          '.view.page.detail.bigtable.'. 
+                                           $this->model->alias,
+                                           [
+                                            \Carbon::parse($this->tanggal)->format('Y'),
+                                            \Carbon::parse($this->tanggal)->format('m'),
+                                            $wilker_id
+                                           ]
+                                        );
 
         $this->notifyMessage    =   "Laporan 
                                     {$this->request->jenis_permohonan} 
                                     {$this->model->karantina} 
                                     {$this->wilker->nama_wilker} Bulan 
-                                    " .bulan( (int) date('m', strtotime($this->tanggal)) ). " 
+                                    " .bulan( \Carbon::parse($this->tanggal)->format('m') ). " 
                                     Sudah Terikirim";
     }
 

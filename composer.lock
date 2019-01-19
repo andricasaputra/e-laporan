@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "908d4b3d2d691eeb301a7898dee6f0eb",
+    "content-hash": "a3f9de64a14395e7e82f1ea6b2aa19f4",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1237,6 +1237,39 @@
                 "laravel"
             ],
             "time": "2018-09-04T19:00:09+00:00"
+        },
+        {
+            "name": "mavinoo/laravel-batch",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mavinoo/laravelBatch.git",
+                "reference": "0c2b0dfec5419faf5f80499fc84813501af3bd3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mavinoo/laravelBatch/zipball/0c2b0dfec5419faf5f80499fc84813501af3bd3d",
+                "reference": "0c2b0dfec5419faf5f80499fc84813501af3bd3d",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mavinoo\\LaravelBatch\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohammad Ghanbari",
+                    "email": "wordpress.iran@gmail.com"
+                }
+            ],
+            "description": "Insert and update batch (bulk) in laravel",
+            "time": "2018-09-20T09:20:00+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -5559,7 +5592,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "mavinoo/laravel-batch": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

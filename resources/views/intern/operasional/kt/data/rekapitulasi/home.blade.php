@@ -82,7 +82,8 @@
     <div class="col-md-4 col-sm-12">
       <label for="month">Pilih Bulan</label>
       <select class="form-control" name="month" id="month">
-        <option value="all">Semua</option>
+        <option value="all">Semua Bulan</option>
+        
         @for($i = 1; $i < 13 ; $i++)
     
           @if($i == $datas['bulan'])

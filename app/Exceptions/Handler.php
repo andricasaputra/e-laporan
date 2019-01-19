@@ -51,21 +51,19 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof TokenMismatchException) {
 
-            return redirect(route('login'))
-            ->with('warning', 'Harap Login Terlebih Dahulu');
+            return redirect(route('login'))->withWarning('Harap Login Terlebih Dahulu');
 
         }
 
         if ($exception instanceof AuthenticationException) {
 
-            return redirect(route('login'))
-            ->with('warning', 'Harap Login Terlebih Dahulu');
+            return redirect(route('login'))->withWarning('Harap Login Terlebih Dahulu');
 
         }
 
         if ($exception instanceof ModelNotFoundException) {
 
-            return back()->with('warning', 'Mohon Maaf Terjadi Kesalahan Pada Server :(');
+            return back()->withWarning('Mohon Maaf Terjadi Kesalahan Pada Server :(');
 
         }
 

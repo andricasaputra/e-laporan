@@ -10,7 +10,7 @@ use App\Models\Operasional\EksporKh as Operasional;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
 use App\Http\Controllers\Operasional\UploadOperasionalController as Upload;
 
-ini_set('max_execution_time', '200');
+ini_set('max_execution_time', '500');
 
 class EksporKhController extends BaseOperasionalController implements BaseOperasionalInterface
 {

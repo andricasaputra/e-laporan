@@ -11,7 +11,8 @@ class MainNotificationController extends Controller
     public function readNotifications(Request $request)
     {
         auth()->user()->notifications
-                      ->whereIdAndNotifiableId($request->id, $request->notifiable_id)
+                      ->where('id', $request->id)
+                      ->where('notifiable_id', $request->notifiable_id)
                       ->markAsRead();
 
         return redirect($request->redirect);

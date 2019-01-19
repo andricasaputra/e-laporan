@@ -25,10 +25,6 @@
 @section('content')
 
 <style type="text/css">
-
-</style>
-
-<style type="text/css">
   table td{
     font-size: 12pt;
     font-weight: 600;
