@@ -48,13 +48,19 @@
     color: #fff
   }
 
+  .fa-file{
+    background-color: #16C2D0;
+    color: #fff
+  }
+
+
 </style>
 
 <div class="row">
-  <div class="col-md-4 col-sm-12">
+  <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
-        Detail Data, Statistik Dan Grafik!
+        Detail Rekapitulasi, Statistik Dan Grafik!
       </div>
       <div class="card-body">
         <i class="fa fa-expand fa-2x mb-4"></i>
@@ -68,10 +74,10 @@
       </div>
     </div>
   </div>  
-  <div class="col-md-4 col-sm-12">
+  <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
-        Upload Laporan Operasional Bulanan!
+        Upload Laporan Operasional!
       </div>
       <div class="card-body">
         <i class="fa fa-upload fa-2x mb-4"></i>
@@ -85,7 +91,7 @@
       </div>
     </div>
   </div> 
-  <div class="col-md-4 col-sm-12">
+  <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
         Download Laporan Operasional!
@@ -99,6 +105,23 @@
       </div>
       <div class="card-footer bg-transparent">
         <a href="{{ route('kt.homedownload') }}" class="btn btn-default">Masuk</a>
+      </div>
+    </div>
+  </div> 
+  <div class="col-md-3 col-sm-12">
+    <div class="card text-center">
+      <div class="card-header">
+        Tambah Stok & Permintaan Dokumen Operasional!
+      </div>
+      <div class="card-body">
+        <i class="fa fa-file fa-2x mb-4"></i>
+        <h4 class="card-text">
+          Dokumen Operasional
+        </h4>
+        <p>Karantina Tumbuhan</p>
+      </div>
+      <div class="card-footer bg-transparent">
+        <a href="{{ route('kt.dokumen.index') }}" class="btn btn-default">Masuk</a>
       </div>
     </div>
   </div> 

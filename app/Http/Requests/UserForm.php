@@ -30,7 +30,7 @@ class UserForm extends FormRequest
 
             $this->uniqueRules = 'required|string|max:255|unique:users,username';
             
-        }else{
+        } else {
 
             $this->uniqueRules = 'required|string|max:255|unique:users,username,' .$this->masterPegawai->id. ',id';
 

@@ -30,6 +30,11 @@ class GrafikController
         $this->repository = $repository;
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(int $id = null)
     {
     	$this->id      = $id ?? $this->repository->default();
@@ -39,7 +44,11 @@ class GrafikController
     	return view('intern.ikm.grafik.index')->withKeterangan($keterangan);	           
     }
 
-    /*create JSON chart data*/
+    /**
+     * Create JSON chart data
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function chartApi(int $id = null)
     {
     	$this->id = $id ?? $this->repository->default();

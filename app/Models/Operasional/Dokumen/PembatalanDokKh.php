@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models\Operasional;
+namespace App\Models\Operasional\Dokumen;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\ModelOperasionalInterface;
+use App\Models\Operasional\QueryScopeKhTrait;
 
 class PembatalanDokKh extends Model implements ModelOperasionalInterface
 {
@@ -11,7 +12,7 @@ class PembatalanDokKh extends Model implements ModelOperasionalInterface
 
     protected $table 	= 'pembatalan_dok_kh';
     protected $guarded  = ['id', 'created_at', 'updated_at'];
-    protected $hidden   = ['id', 'user_id', 'wilker_id', 'no', 'created_at', 'updated_at'];
+    protected $hidden   = ['id', 'no', 'created_at', 'updated_at'];
 
     /**
      * Untuk alias dari jenis permohonan untuk set parameter route
@@ -67,5 +68,54 @@ class PembatalanDokKh extends Model implements ModelOperasionalInterface
         if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
                      
         return $query->groupBy('dokumen')->orderBy('total', 'desc');
+    }
+
+    /**
+     * Untuk memfilter pembatalan dokumen
+     *
+     * @param $query
+     * @param array $params
+     * @return collections
+     */
+    public function scopeGetPembatalan($query, array $params)
+    {
+        $query->whereYear('bulan', $params['year']);
+
+        $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
+
+            return $query->whereMonth('bulan', $params['month']);
+
+        })->when($params['wilkerId'] && $params['wilkerId'] != 'all', function ($query) use ($params) {
+
+            return $query->whereWilkerId($params['wilkerId']);
+
+        });
+
+        return $query->get();
+    }
+
+    /**
+     * Untuk mmenghitung jumlah pembatalan dokumen
+     *
+     * @param $query
+     * @param array $params
+     * @return collections
+     */
+    public function scopeGetJumlahKhDokumen($query, array $params)
+    {
+        $query->selectRaw('count(*) as total, dokumen, wilker_id, nomor_seri as no_seri')
+              ->whereYear('bulan', $params['year']);
+
+        $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
+
+            return $query->whereMonth('bulan', $params['month']);
+
+        })->when($params['wilkerId'] && $params['wilkerId'] != 'all', function ($query) use ($params) {
+
+            return $query->whereWilkerId($params['wilkerId']);
+
+        });
+
+        return $query->groupBy('dokumen', 'wilker_id')->get();
     }
 }

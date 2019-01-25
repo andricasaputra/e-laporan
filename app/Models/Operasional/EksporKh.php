@@ -49,7 +49,7 @@ class EksporKh extends Model implements ModelOperasionalInterface
     }
 
     /**
-     * One to many relations
+     * One to many relations with Wilker
      *
      * @return void
      */

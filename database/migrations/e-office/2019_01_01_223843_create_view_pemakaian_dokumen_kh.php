@@ -18,7 +18,8 @@ class CreateViewPemakaianDokumenKh extends Migration
                         SELECT  wilker_id,
                                 dok_pelepasan as dokumen, 
                                 bulan,
-                                count(dok_pelepasan) as total
+                                count(dok_pelepasan) as jumlah,
+                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
                         FROM dokel_kh
                         WHERE dok_pelepasan IS NOT NULL
                         GROUP BY dokumen, bulan, wilker_id
@@ -28,7 +29,8 @@ class CreateViewPemakaianDokumenKh extends Migration
                         SELECT  wilker_id,
                                 dok_pelepasan as dokumen, 
                                 bulan,
-                                count(dok_pelepasan) as total
+                                count(dok_pelepasan) as jumlah,
+                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
                         FROM domas_kh
                         WHERE dok_pelepasan IS NOT NULL
                         GROUP BY dokumen, bulan, wilker_id
@@ -38,7 +40,8 @@ class CreateViewPemakaianDokumenKh extends Migration
                         SELECT  wilker_id,
                                 dok_pelepasan as dokumen, 
                                 bulan,
-                                count(dok_pelepasan) as total
+                                count(dok_pelepasan) as jumlah,
+                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
                         FROM ekspor_kh
                         WHERE dok_pelepasan IS NOT NULL
                         GROUP BY dokumen, bulan, wilker_id
@@ -48,7 +51,8 @@ class CreateViewPemakaianDokumenKh extends Migration
                         SELECT  wilker_id,
                                 dok_pelepasan as dokumen, 
                                 bulan,
-                                count(dok_pelepasan) as total
+                                count(dok_pelepasan) as jumlah,
+                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
                         FROM impor_kh
                         WHERE dok_pelepasan IS NOT NULL
                         GROUP BY dokumen, bulan, wilker_id

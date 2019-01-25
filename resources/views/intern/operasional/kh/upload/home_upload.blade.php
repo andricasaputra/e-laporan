@@ -341,8 +341,6 @@
 
     ];
 
-    console.log(wilker)
-
     changeLog(wilker, year, month, type);
 
     $('#logProperty').on('submit', function(e){

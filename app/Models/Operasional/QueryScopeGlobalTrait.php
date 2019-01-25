@@ -22,9 +22,9 @@ trait QueryScopeGlobalTrait
      * Untuk Mensortir Detail Table (Table Global)
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @return void
      */
     public function scopeSortTableDetail($query, $year = null, $month = false, $wilkerId = false)
@@ -45,9 +45,9 @@ trait QueryScopeGlobalTrait
      * Untuk menghitung pemakaian dokumen dalam bulan dan tanggal tertentu
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @param bool $excel
      * @return collections
      */
@@ -101,9 +101,9 @@ trait QueryScopeGlobalTrait
      * Untuk menghitung total pemakaian dokumen dalam satu tahun
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @return collections
      */
     public function scopeCountTotalPemakaianDokumen($query, $year, $month = false, $wilkerId = false)
@@ -146,9 +146,9 @@ trait QueryScopeGlobalTrait
      * Untuk menghitung total PNBP
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @return collections
      */
     public function scopeCountTotalPnbp($query, $year, $month = false, $wilkerId = false)

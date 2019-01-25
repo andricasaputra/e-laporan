@@ -6,7 +6,6 @@ use App\Models\Ikm\Result;
 use App\Traits\Repository;
 use App\Models\Ikm\Question;
 use App\Models\MasterPegawai;
-use Spipu\Html2Pdf\Html2Pdf as PDF;
 use App\Contracts\RepositoryInterface;
 
 class StatistikRepository implements RepositoryInterface

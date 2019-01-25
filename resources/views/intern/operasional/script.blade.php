@@ -2,7 +2,8 @@
 
   $(document).ready(function(){
 
-    $(".container-fluid").addClass("loading");
+    /*add loader*/
+    loader();
 
     let year      = $('#year').val();
 
@@ -41,6 +42,9 @@
     $('#change_data').on('submit', function(e){
 
       e.preventDefault();
+
+      /*add loader*/
+      loader();
 
       year        = $('#year').val();
 
@@ -180,7 +184,6 @@
 
         `);
 
-        $(".container-fluid").removeClass("loading");
 
         /*top Five Komoditi Kh*/
         $('#topFiveKh').empty();
@@ -375,6 +378,17 @@
 
     });/*End Select KT*/
 
+    function loader()
+    {
+      /*table data loader*/
+      $('#table-dashboard tbody').html(`<td colspan="4" style="text-align: center;"><img src='{{ asset('images/ajax-loader.gif') }}'></td>`);
+      /*top 5 komoditi loader*/
+      $('#topFiveKh').html(`<div class='text-center'><img src='{{ asset('images/ajax-loader.gif') }}'></div>`);
+      $('#topFiveKt').html(`<div class='text-center'><img src='{{ asset('images/ajax-loader.gif') }}'></div>`);
+      /*charts loader*/
+      $('#chartFrekuensiKh').html(`<div class='text-center'><img src='{{ asset('images/ajax-loader.gif') }}'></div>`);
+      $('#chartFrekuensiKt').html(`<div class='text-center'><img src='{{ asset('images/ajax-loader.gif') }}'></div>`);
+    }
 
   });/*End Ready*/
 

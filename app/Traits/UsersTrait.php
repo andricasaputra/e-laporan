@@ -110,7 +110,7 @@ trait UsersTrait
                 $this->getUserRoleId() === 2 ||
                 $this->getUserRoleId() === 3
 
-                ? Wilker::where('id', '!=', 1)->get()
+                ? Wilker::all()
 
                 : User::find($this->getUserId())->wilker;
     }

@@ -20,7 +20,7 @@
   
   <title> @yield('title', config('app.name')) </title>
   
-{{--   <link rel="manifest" href="{{ asset('manifest.json') }}"> --}}
+  <link rel="manifest" href="{{ asset('manifest-e-office.json') }}">
   <link rel="icon" type="image/png" href="{{ asset('images/favicon-32x32.png') }}" sizes="32x32">
   <link rel="icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
   <link rel="apple-touch-icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
@@ -32,12 +32,16 @@
   <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="{{ asset('images/web-sumbawa4x.png') }}">
   
   <link rel="icon" href="{{asset('images/favicon-32x32.png')}}" type="image/png" sizes="32x32">
-  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
+
+  {{-- Font --}}
+  {{--  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet"> --}}
     
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
 
   <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ asset('css/icons/themify-icons/themify-icons.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/icons/material-design-iconic-font/css/materialdesignicons.min.css') }}">
   <link rel="stylesheet" href="{{ asset('css/style.min.css') }}">
 
   <style type="text/css">
@@ -280,7 +284,7 @@
   {{-- <script src="{{asset('js/main.js')}}"></script> --}}
   <!-- End custom js for this page-->
 
-  <script src="{{ asset('js/pusher.min.js') }}"></script>
+  {{-- <script src="{{ asset('js/pusher.min.js') }}"></script> --}}
 
   @include('intern.inc.notifications_script')
 

@@ -15,9 +15,9 @@ class CreateMasterDokumenTable extends Migration
     {
         Schema::create('master_dokumen', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('dokumen', 10)->index();
+            $table->string('dokumen', 50)->index();
             $table->string('deskripsi')->index()->nullable();
-            $table->string('karantina', 10)->index();
+            $table->string('karantina', 50)->index();
             $table->timestamps();
         });
     }

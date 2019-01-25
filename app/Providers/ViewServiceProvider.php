@@ -99,7 +99,8 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kt.data.statistik.detail.bigtable.domas',
                 'intern.operasional.kt.data.statistik.detail.bigtable.ekspor',
                 'intern.operasional.kt.data.statistik.detail.bigtable.impor',
-                'intern.operasional.kt.data.statistik.detail.dokumen.pembatalan_dokumen',
+                'intern.operasional.kt.dokumen.pembatalan.index',
+                'intern.operasional.kt.dokumen.penerimaan.index',
             ],
 
             $this->namespace . '\Operasional\TableDetailKtComposer'
@@ -139,7 +140,6 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kt.upload.pembatalan_dokumen',
                 'intern.operasional.kt.upload.reekspor',
                 'intern.operasional.kt.upload.serah_terima',
-                'intern.operasional.kt.upload.permintaan_dokumen',
             ],
 
             $this->namespace . '\Operasional\UploadPageComposer'
@@ -155,6 +155,27 @@ class ViewServiceProvider extends ServiceProvider
             ],
 
             $this->namespace . '\Operasional\HomeDownloadPageComposer'
+
+        );
+
+        /*Share Data For Dokumen Page*/
+        View::composer(
+
+            [
+                /*KH views*/
+                'intern.operasional.kh.dokumen.menu',
+                'intern.operasional.kh.dokumen.data',
+                'intern.operasional.kh.dokumen.penerimaan.create',
+                'intern.operasional.kh.dokumen.penerimaan.edit',
+
+                /*KT views*/
+                'intern.operasional.kt.dokumen.menu',
+                'intern.operasional.kt.dokumen.data',
+                'intern.operasional.kt.dokumen.penerimaan.create',
+                'intern.operasional.kt.dokumen.penerimaan.edit',
+            ],
+
+            $this->namespace . '\Operasional\HomeDokumenPageComposer'
 
         );
 

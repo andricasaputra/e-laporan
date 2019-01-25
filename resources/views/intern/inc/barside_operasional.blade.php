@@ -49,6 +49,16 @@
                     </a>
                 </li>
                 <li class="sidebar-item"> 
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i class="mdi mdi-access-point"></i><span class="hide-menu">Info Update Aplikasi</span>
+                    </a>
+                </li>
+                @if(admin())
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('admin.home') }}" aria-expanded="false"><i class="mdi mdi-settings"></i><span class="hide-menu">Setting Aplikasi</span>
+                    </a>
+                </li>
+                @endif
+                <li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ asset('storage/e-operasional/guides-e-operasional.pdf') }}" aria-expanded="false" target="_blank" rel="noreferrer"><i class="mdi mdi-book-open-page-variant"></i><span class="hide-menu">Manual E - Operasional</span>
                     </a>
                 </li>

@@ -91,7 +91,7 @@ class User extends Authenticatable
                 }]);
     }
 
-    public function nonSuperAdmin($query)
+    public function scopeNonSuperAdmin($query)
     {
         return $query->where('id', '!=', 1);
     }

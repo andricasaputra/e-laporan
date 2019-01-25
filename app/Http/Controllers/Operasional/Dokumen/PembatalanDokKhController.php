@@ -1,16 +1,35 @@
 <?php
 
-namespace App\Http\Controllers\Operasional;
+namespace App\Http\Controllers\Operasional\Dokumen;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
-use App\Models\Operasional\PembatalanDokKh as Operasional;
+use App\Http\Controllers\Operasional\BaseOperasionalController;
+use App\Models\Operasional\Dokumen\PembatalanDokKh as Operasional;
 use App\Http\Controllers\Operasional\UploadPembatalanController as Upload;
 
 ini_set('max_execution_time', '500');
 
 class PembatalanDokKhController extends BaseOperasionalController
 {
+    /**
+     * menyimpan instance dari repository yang dipakai
+     *
+     * @var App\Repositories\Operasional\DokumenRepository
+     */
+    private $repository;
+
+    /**
+     * Set properties untuk class ini
+     *
+     * @param Illuminate\Http\Request $request
+     * @return void
+     */
+    public function __construct(Request $request)
+    {
+        $this->repository = (new DokumenController($request))->getRepository();
+    }
+
     /**
      * Untuk Halaman Detail Laporan 
      *
@@ -19,7 +38,7 @@ class PembatalanDokKhController extends BaseOperasionalController
      */
     public function tableDetailPembatalanView(Request $request)
     {
-        return view('intern.operasional.kh.data.statistik.detail.dokumen.pembatalan_dokumen');
+        return view('intern.operasional.kh.data.dokumen.pembatalan_dokumen');
     }
 
     /**
@@ -50,7 +69,7 @@ class PembatalanDokKhController extends BaseOperasionalController
      * @return void
      */
     public function imports(Validation $request) 
-	{
+    {
         /*Filter Data Sebelum Insert Database*/
         if (! $this->setDataProperty($request, new Operasional)->checkingData() ) return back();
 
@@ -58,20 +77,24 @@ class PembatalanDokKhController extends BaseOperasionalController
         (new Upload( new Operasional, $request ))->uploadData();
 
         return back();
-	}
+    }
 
     /**
-     * API untuk detail tabel 
+     * API data pembatalan dokumen 
      *
      * @param int $year
+     * @param int $month
+     * @param int $wilker_id
      * @return datatables JSON
      */
     public function api($year = null, $month =  null, $wilker_id = null)
     {
-        $dokBatal  = Operasional::sortTableDetail($year, $month, $wilker_id)
-                        ->with('wilker')
-                        ->get();
-
-        return app('DataTables')::of($dokBatal)->addIndexColumn()->make(true);
+        return datatables($this->repository->pembatalanTableKh())
+            ->addIndexColumn()->addColumn('action', function ($data){
+                return '
+                <a href="#" class="btn btn-primary">
+                    <i class="fa fa-edit"></i> Edit
+                </a>';
+            })->make(true);
     }
 }

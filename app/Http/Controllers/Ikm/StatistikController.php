@@ -41,6 +41,11 @@ class StatistikController extends Controller
         $this->compose      = StatistikComposer::construct($this);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(int $id = null)
     {
     	$this->id = $id ?? $this->repository->default();
@@ -50,6 +55,11 @@ class StatistikController extends Controller
     	return view('intern.ikm.statistik.index');
     }
 
+    /**
+     * Display API
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function api(int $id = null)
     {
         $this->id = $id ?? $this->repository->default();
@@ -57,11 +67,21 @@ class StatistikController extends Controller
         return $this->repository->api($this->id);
     }
 
+    /**
+     * API source
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function apiSource()
     {
   		  return $this->repository->apiSource($this->id);
     }
 
+    /**
+     * Print Rekapitulasi Document
+     *
+     * @return PDF
+     */
     public function cetakRekap(int $id)
     {
         $datas = $this->repository->cetakRekap($id);

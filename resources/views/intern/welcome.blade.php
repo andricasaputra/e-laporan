@@ -67,7 +67,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-3 text-center">
-               <i class="fa fa-book fa-5x"></i>
+               <i class="mdi mdi-library-books fa-5x"></i>
             </div>
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">E - Laporan Operasional</h3>
@@ -83,7 +83,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-3 text-center">
-               <i class="fa fa-file-text fa-5x"></i>
+               <i class="fa fa-envelope fa-4x"></i>
             </div>
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">E - Persuratan</h3>
@@ -100,19 +100,11 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-3 text-center">
-               <i class="fa fa-check-circle fa-5x"></i>
+               <i class="mdi mdi-checkbox-marked-circle fa-5x"></i>
             </div>
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">E - IKM</h3>
-                @if($ikm !== null )
-                
-                <p class="card-text">Status : {{ $ikm->keterangan }}</p>
-                
-                @else
-                
-                <p class="card-text">Status : Tidak ada survey ikm yang aktif untuk saat ini</p>
-                
-                @endif
+                <p class="card-text">Status : {{ $ikm->keterangan ?? 'Tidak ada survey ikm yang aktif untuk saat ini' }}</p>
                 <a href="{{ route('intern.ikm.home.index') }}" class="btn btn-default">Masuk Ke Aplikasi!</a>
             </div>
           </div>
@@ -124,7 +116,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-3 text-center">
-               <i class="fa fa-file fa-5x"></i>
+               <i class="mdi mdi-file-check fa-5x"></i>
             </div>
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">E - IPNBK</h3>
@@ -141,7 +133,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-3 text-center">
-               <i class="fa fa-user fa-5x"></i>
+               <i class="mdi mdi-web fa-5x"></i>
             </div>
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">Website Admin Panel</h3>
@@ -157,7 +149,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-3 text-center">
-               <i class="fa fa-gear fa-5x"></i>
+               <i class="mdi mdi-settings fa-5x"></i>
             </div>
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">Aplikasi Manajemen</h3>

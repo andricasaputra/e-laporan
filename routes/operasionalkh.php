@@ -100,7 +100,7 @@ Route::middleware('kh')->group(function(){
 	Route::get('upload/impor', 'ImporKhController@uploadPageView')
 	->name('kh.upload.page.impor');
 
-	Route::get('upload/pembatalan_dokumen', 'PembatalanDokKhController@uploadPageView')
+	Route::get('upload/pembatalan_dokumen', 'Dokumen\\PembatalanDokKhController@uploadPageView')
 	->name('kh.upload.page.pembatalan_dokumen');
 
 	Route::get('upload/reekspor', 'ReeksporKhController@uploadPageView')
@@ -127,7 +127,7 @@ Route::middleware('kh')->group(function(){
 	Route::post('impor/importdata', 'ImporKhController@imports')
 	->name('kh.upload.proses.impor');
 
-	Route::post('pembatalan_dokumen/importdata', 'PembatalanDokKhController@imports')
+	Route::post('pembatalan_dokumen/importdata', 'Dokumen\\PembatalanDokKhController@imports')
 	->name('kh.upload.proses.pembatalan_dokumen');
 
 	Route::post('reekspor/importdata', 'ReeksporKhController@imports')
@@ -156,6 +156,29 @@ Route::middleware('kh')->group(function(){
 	});/*End Download Namespace*/
 
 });/*End Middleware KH*/
+
+/*
+*-------------------------------------
+* KH Dokumen
+* ------------------------------------
+*/
+
+Route::namespace('Dokumen')->prefix('dokumen')->group(function () {
+
+	Route::get('home/{year?}/{month?}/{wilkerId?}', 'DokumenController@indexKh')->name('kh.dokumen.index');
+
+	Route::get('data/{year?}/{month?}/{wilkerId?}', 'DokumenController@dataDokumenKh')
+		->name('kh.dokumen.data');
+
+	Route::middleware('kh')->group(function(){
+
+		Route::resource('penerimaan', 'PenerimaanDokumenKhController', [
+	    	'names' => 'kh.dokumen.penerimaan'
+		])->except(['index', 'show', 'destroy']);
+
+	});/*End KH Middleware*/
+
+});/*End Dokumen Namespace*/
 
 
 

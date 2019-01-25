@@ -12,9 +12,9 @@ trait QueryScopeKtTrait
      * Untuk Menghitung Total Frekuensi Dari KT
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @return int
      */
     public function scopeCountFrekuensi($query, $year, $month = false, $wilkerId = false)
@@ -40,9 +40,9 @@ trait QueryScopeKtTrait
      * Untuk Menghitung Total Volume Berdasarkan Satuan Dari KT
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @return int
      */
     public function scopeCountVolume($query, $year, $month = false, $wilkerId = false)
@@ -68,9 +68,9 @@ trait QueryScopeKtTrait
      * Untuk menghitung total frekuensi berdasarkan komoditas dan bulan
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @return collections
      */
     public function scopeCountFrekuensiKomoditi($query, $year, $month = false, $wilkerId = false)
@@ -97,9 +97,9 @@ trait QueryScopeKtTrait
      * berdasarkan nama komoditas dan bulan
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @return collections
      */
     public function scopeCountRekapitulasi($query, $year, $month = false, $wilkerId = false)
@@ -125,9 +125,9 @@ trait QueryScopeKtTrait
      * Untuk menghitung top 5 frekuensi berdasarkan komoditas dan bulan
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @return collections
      */
     public function scopeTopFiveFrekuensiKomoditi($query, $year, $month = false, $wilkerId = false)
@@ -200,9 +200,9 @@ trait QueryScopeKtTrait
      * Untuk mendownload Excel File laporan operasional 
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @return collections
      */
     public function scopeLaporanOperasional($query, $year, $month = false, $wilkerId = false)
@@ -263,9 +263,9 @@ trait QueryScopeKtTrait
      * Untuk mendownload Excel File laporan rekapitulasi komoditi 
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilkerId
+     * @param int|bool $year
+     * @param int|bool $month
+     * @param int|bool $wilkerId
      * @return collections
      */
     public function scopeLaporanRekapitulasiKomoditi($query, $year, $month = false, $wilkerId = false)

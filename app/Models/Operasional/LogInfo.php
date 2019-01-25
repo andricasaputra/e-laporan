@@ -102,10 +102,10 @@ class LogInfo extends Model
                             : 'Laporan Berhasil Diupload';
 
         $rolledBackAt   =   $this->rolledback_at !== null 
-                            ? \Carbon::parse($this->rolledback_at)->format('d-m-Y')
+                            ? 'Pada ' . \Carbon::parse($this->rolledback_at)->format('d-m-Y')
                             : '';
 
-        return $status.' Pada '.$rolledBackAt;
+        return $status.' '.$rolledBackAt;
     }
 
     /**

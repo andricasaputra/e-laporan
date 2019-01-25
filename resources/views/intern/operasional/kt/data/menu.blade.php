@@ -48,6 +48,11 @@
     background-color: #FF8F29;
     color: #fff
   }
+
+  .fa-file{
+    background-color: #F62D51;
+    color: #fff
+  }
   
 </style>
 

@@ -68,6 +68,7 @@ Route::get(
 	'data/statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'PembatalanDokKtController@tableDetailPembatalanView'
 )->name('kt.view.page.detail.dokumen.pembatalan_dokumen');
 
+/*KT Middleware*/
 Route::middleware('kt')->group(function(){
 
 	/*Home Upload View (Domas, Dokel, DLL)*/
@@ -100,7 +101,7 @@ Route::middleware('kt')->group(function(){
 	Route::get('upload/impor', 'ImporKtController@uploadPageView')
 	->name('kt.upload.page.impor'); 
 
-	Route::get('upload/pembatalan_dokumen', 'PembatalanDokKtController@uploadPageView')
+	Route::get('upload/pembatalan_dokumen', 'Dokumen\\PembatalanDokKtController@uploadPageView')
 	->name('kt.upload.page.pembatalan_dokumen');
 
 	Route::get('upload/reekspor', 'ReeksporKtController@uploadPageView')
@@ -108,9 +109,6 @@ Route::middleware('kt')->group(function(){
 
 	Route::get('upload/serah_terima', 'SerahTerimaKtController@uploadPageView')
 	->name('kt.upload.page.serah_terima');
-
-	Route::get('upload/permintaan_dokumen', 'PermintaanDokumenKtController@uploadPageView')
-	->name('kt.upload.page.permintaan_dokumen');
 
 	/*
 	*-------------------------------------
@@ -130,7 +128,7 @@ Route::middleware('kt')->group(function(){
 	Route::post('impor/importdata', 'ImporKtController@imports')
 	->name('kt.upload.proses.impor');
 
-	Route::post('pembatalan_dokumen/importdata', 'PembatalanDokKtController@imports')
+	Route::post('pembatalan_dokumen/importdata', 'Dokumen\\PembatalanDokKtController@imports')
 	->name('kt.upload.proses.pembatalan_dokumen');
 
 	Route::post('reekspor/importdata', 'ReeksporKtController@imports')
@@ -138,9 +136,6 @@ Route::middleware('kt')->group(function(){
 
 	Route::post('serah_terima/importdata', 'SerahTerimaKtController@imports')
 	->name('kt.upload.proses.serah_terima');
-
-	Route::post('permintaan_dokumen/importdata', 'PermintaanDokumenKtController@create')
-	->name('kt.upload.proses.permintaan_dokumen');
 
 	/*
 	*-------------------------------------
@@ -161,7 +156,32 @@ Route::middleware('kt')->group(function(){
 
 	});/*End Download Namespace*/
 
+	
+
 });/*End Middleware KT*/
+
+/*
+*-------------------------------------
+* KT Dokumen
+* ------------------------------------
+*/
+
+Route::namespace('Dokumen')->prefix('dokumen')->group(function () {
+
+	Route::get('home/{year?}/{month?}/{wilkerId?}', 'DokumenController@indexKt')->name('kt.dokumen.index');
+
+	Route::get('data/{year?}/{month?}/{wilkerId?}', 'DokumenController@dataDokumenKt')
+		->name('kt.dokumen.data');
+
+	Route::middleware('kt')->group(function(){
+
+		Route::resource('penerimaan', 'PenerimaanDokumenKtController', [
+	    	'names' => 'kt.dokumen.penerimaan'
+		])->except(['index', 'show', 'destroy']);
+
+	});/*End KT Middleware*/
+
+});/*End Dokumen Namespace*/
 
 
 

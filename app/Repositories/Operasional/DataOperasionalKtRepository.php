@@ -3,8 +3,8 @@
 namespace App\Repositories\Operasional;
 
 use App\Models\Operasional\LogInfo;
-use App\Models\Operasional\PembatalanDokKt;
-use App\Models\Operasional\PemakaianDokumenKt as DokumenKt;
+use App\Models\Operasional\Dokumen\PembatalanDokKt;
+use App\Models\Operasional\Dokumen\PemakaianDokumenKt as DokumenKt;
 use App\Models\Operasional\RekapitulasiKomoditiDokelKt as RekapDokelKt;
 use App\Models\Operasional\RekapitulasiKomoditiDomasKt as RekapDomasKt;
 use App\Models\Operasional\RekapitulasiKomoditiImporKt as RekapImporKt;

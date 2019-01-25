@@ -58,7 +58,7 @@ if (! function_exists('bulan_tahun')) {
 	 * @param string $tanggal
 	 * @return string
 	 */
-	function bulan_tahun(string $tanggal) : string
+	function bulan_tahun(string $tanggal) : ?string
 	{
 	    $bulan = [
 
@@ -103,7 +103,7 @@ if (! function_exists('tanggal_indo')) {
 	 * @param string $tanggal
 	 * @return string
 	 */
-	function tanggal_indo(string $tanggal) : string
+	function tanggal_indo(string $tanggal) : ?string
 	{
 	    $bulan = [
 
@@ -147,7 +147,7 @@ if (! function_exists('bulan')) {
 	 * @param string $bulan
 	 * @return string
 	 */
-	function bulan($bulan) : string
+	function bulan($bulan) : ?string
 	{
 	    switch ($bulan) {
 

@@ -126,6 +126,12 @@ class HomeController extends Controller
                 ->withSuccess('Data Berhasil Dihapus');
     }
 
+    /**
+     * Cetak semua hasil survey responden
+     *
+     * @param  Jadwal  $ikmId
+     * @return PDF
+     */
     public function cetakMultiple(Jadwal $ikmId)
     {
         $datas              = $ikmId;
@@ -141,6 +147,11 @@ class HomeController extends Controller
         return pdf()->output('Rekapitulasi Responden Survey Kepuasan Masyarakat.pdf');
     }
 
+    /**
+     * Set default IKM id jika tidak ada yang terpilih
+     *
+     * @return int
+     */
     private function setIkmId()
     {
         return Jadwal::active()->first() ?? 1;

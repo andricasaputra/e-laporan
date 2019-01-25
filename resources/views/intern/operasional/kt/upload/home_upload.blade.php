@@ -120,7 +120,7 @@
 </div>
 
 <div class="row" id="advancedMenu">
-  <div class="col-md-3 col-sm-12">
+  <div class="col-md-4 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
         Upload Laporan Serah Terima
@@ -134,7 +134,7 @@
       </div>
     </div>
   </div>  
-  <div class="col-md-3 col-sm-12">
+  <div class="col-md-4 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
         Upload Laporan Re Ekspor
@@ -148,7 +148,7 @@
       </div>
     </div>
   </div> 
-  <div class="col-md-3 col-sm-12">
+  <div class="col-md-4 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
         Upload Laporan Pembatalan Dokumen
@@ -162,20 +162,6 @@
       </div>
     </div>
   </div> 
-  <div class="col-md-3 col-sm-12">
-    <div class="card text-center">
-      <div class="card-header">
-        Tambah Data Permintaan Dokumen
-      </div>
-      <div class="card-body">
-        <i class="fa fa-file fa-2x mb-3"></i>
-        <h4 class="card-text mb-3">
-          Permintaan Dokumen
-        </h4>
-        <a href="{{ route('kt.upload.page.permintaan_dokumen') }}" class="btn btn-primary">Masuk</a>
-      </div>
-    </div>
-  </div>
 </div>
 
 <a href="#" id="showMoreMenu" class="badge badge-pill badge-danger">
@@ -419,13 +405,13 @@
 
     });  
 
-    $('#advancedMenu .col-md-3').hide();
+    $('#advancedMenu .col-md-4').hide();
 
     $('#showMoreMenu').click(function(e){
 
       e.preventDefault();
 
-      $('#advancedMenu .col-md-3').slideToggle();
+      $('#advancedMenu .col-md-4').slideToggle();
 
     });
 

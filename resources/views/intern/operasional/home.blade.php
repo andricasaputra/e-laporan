@@ -64,7 +64,7 @@
 
     <h4 id="judul"></h4>
 
-    <form id="change_data" class="form-loader">
+    <form id="change_data">
       <div class="row mb-3">
         <div class="col-md-4 col-sm-12">
           <label for="year">Pilih Tahun</label>
@@ -107,10 +107,8 @@
 
             @foreach($wilkers as $wilker)
 
-
             <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
 
-              
             @endforeach
 
           </select>
@@ -127,88 +125,89 @@
 
     <hr>
 
-    <div class="row mt-3">
-      <!-- column -->   
-        <div class="col-12">
+      <div class="row mt-3">
+          <div class="col-12">
+              <div class="card">
+                  <div class="table-responsive">
+                      <table class="table v-middle" id="table-dashboard">
+                          <thead>
+                              <tr class="bg-light">
+                                  <th class="border-top-0">Data</th>
+                                  <th class="border-top-0">Karantina Hewan</th>
+                                  <th class="border-top-0">Karantina Tumbuhan</th>
+                                  <th class="border-top-0">Keterangan</th>
+                              </tr>
+                          </thead>
+                          <tbody></tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label for="frekKh">Pilih Jenis Permohonan</label>
+          <select name="frekKh" id="selectCatKh" class="form-control">
+            <option value="Domestik Keluar Karantina Hewan">Domestik Keluar</option>
+            <option value="Domestik Masuk Karantina Hewan">Domestik Masuk</option>
+            <option value="Ekspor Karantina Hewan">Ekspor</option>
+            <option value="Impor Karantina Hewan">Impor</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-8">
             <div class="card">
-                <div class="table-responsive">
-                    <table class="table v-middle" id="table-dashboard">
-                        <thead>
-                            <tr class="bg-light">
-                                <th class="border-top-0">Data</th>
-                                <th class="border-top-0">Karantina Hewan</th>
-                                <th class="border-top-0">Karantina Tumbuhan</th>
-                                <th class="border-top-0">Keterangan</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                <div class="card-body" id="chartFrekuensiKh"></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><i class="fa fa-history" aria-hidden="true"></i> &nbsp;&nbsp;Top 5 Komoditi Karantina Hewan  </h4>
+                    <h6>Berdasarkan Frekuensi</h6>
+                    <div class="feed-widget">
+                        <ul class="list-style-none feed-body m-0 p-b-20" id="topFiveKh"></ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-4">
-        <label for="frekKh">Pilih Jenis Permohonan</label>
-        <select name="frekKh" id="selectCatKh" class="form-control">
-          <option value="Domestik Keluar Karantina Hewan">Domestik Keluar</option>
-          <option value="Domestik Masuk Karantina Hewan">Domestik Masuk</option>
-          <option value="Ekspor Karantina Hewan">Ekspor</option>
-          <option value="Impor Karantina Hewan">Impor</option>
-        </select>
       </div>
-    </div>
 
-    <div class="row mt-3">
-      <div class="col-md-8">
-          <div class="card">
-              <div class="card-body" id="chartFrekuensiKh"></div>
-          </div>
-      </div>
-      <div class="col-md-4">
-          <div class="card">
-              <div class="card-body">
-                  <h4 class="card-title"><i class="fa fa-history" aria-hidden="true"></i> &nbsp;&nbsp;Top 5 Komoditi Karantina Hewan  </h4>
-                  <h6>Berdasarkan Frekuensi</h6>
-                  <div class="feed-widget">
-                      <ul class="list-style-none feed-body m-0 p-b-20" id="topFiveKh"></ul>
-                  </div>
-              </div>
-          </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-4">
-        <label for="frekKt">Pilih Jenis Permohonan</label>
-        <select name="frekKt" id="selectCatKt" class="form-control">
-          <option value="Domestik Keluar Karantina Tumbuhan">Domestik Keluar</option>
-          <option value="Domestik Masuk Karantina Tumbuhan">Domestik Masuk</option>
-          <option value="Ekspor Karantina Tumbuhan">Ekspor</option>
-          <option value="Impor Karantina Tumbuhan">Impor</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row mt-3">
-      <div class="col-md-8">
-        <div class="card">
-            <div class="card-body" id="chartFrekuensiKt"></div>
+      <div class="row">
+        <div class="col-md-4">
+          <label for="frekKt">Pilih Jenis Permohonan</label>
+          <select name="frekKt" id="selectCatKt" class="form-control">
+            <option value="Domestik Keluar Karantina Tumbuhan">Domestik Keluar</option>
+            <option value="Domestik Masuk Karantina Tumbuhan">Domestik Masuk</option>
+            <option value="Ekspor Karantina Tumbuhan">Ekspor</option>
+            <option value="Impor Karantina Tumbuhan">Impor</option>
+          </select>
         </div>
       </div>
-      <div class="col-md-4">
+
+      <div class="row mt-3">
+        <div class="col-md-8">
           <div class="card">
-              <div class="card-body">
-                  <h4 class="card-title"><i class="fa fa-history" aria-hidden="true"></i> &nbsp;&nbsp;Top 5 Komoditi Karantina Tumbuhan  </h4>
-                  <h6>Berdasarkan Frekuensi</h6>
-                  <div class="feed-widget">
-                      <ul class="list-style-none feed-body m-0 p-b-20" id="topFiveKt"></ul>
-                  </div>
-              </div>
+              <div class="card-body" id="chartFrekuensiKt"></div>
           </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><i class="fa fa-history" aria-hidden="true"></i> &nbsp;&nbsp;Top 5 Komoditi Karantina Tumbuhan  </h4>
+                    <h6>Berdasarkan Frekuensi</h6>
+                    <div class="feed-widget">
+                        <ul class="list-style-none feed-body m-0 p-b-20" id="topFiveKt"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
       </div>
-    </div>
+
+
 
 @endsection
 

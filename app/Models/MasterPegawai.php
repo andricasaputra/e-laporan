@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class MasterPegawai extends Model
 {
-    protected $table = 'master_pegawai';
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $table    = 'master_pegawai';
+    protected $guarded  = ['id', 'created_at', 'updated_at'];
+    protected $hidden   = ['id', 'created_at', 'updated_at'];
 
     public function getIsActiveAttribute($value)
     {

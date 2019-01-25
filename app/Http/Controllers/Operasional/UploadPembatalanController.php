@@ -141,9 +141,7 @@ class UploadPembatalanController extends BaseOperasionalController
         $this->datas 	= 	$this->excelData(7, false)->get();
 
         /*set tanggal format Y-m-d*/
-        $tanggal 	    = explode(' ', strtolower($this->headings->first()));
-
-        $this->tanggal  = $tanggal[2];
+        $this->tanggal  =   \Carbon::now()->startOfMonth()->subMonth()->toDateString();
 
     	/*Jika semua validasi berhasil & jika file tidak kosong maka insert ke database*/
         if (! empty($this->datas) && $this->datas->count() > 0) :
@@ -195,13 +193,11 @@ class UploadPembatalanController extends BaseOperasionalController
 
            return $singledata->prepend($this->request->wilker_id, 'wilker_id')
                              ->prepend($this->request->user_id, 'user_id')
-                             ->prepend($this->tanggal, 'bulan')
+                             ->prepend($singledata->tanggal_batal, 'bulan')
                              ->put('created_at', now())
                              ->all();
 
         });
-
-
 
         /*Pengecekan Laporan Bulanan Sudah Pernah Diupload atau belum, jika sudah lakukan update, jika belum insert baru*/
         $no_permohonan      = $datas->whereNotIn('no_permohonan', ['IDEM'])
