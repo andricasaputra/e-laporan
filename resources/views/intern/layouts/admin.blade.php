@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -17,7 +17,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="msapplication-starturl" content="/login">
   
-    <link rel="manifest" href="{{ asset('manifest-e-ikm.json') }}">
+    {{-- <link rel="manifest" href="{{ asset('manifest-e-ikm.json') }}"> --}}
     <link rel="icon" type="image/png" href="{{ asset('images/favicon-32x32.png') }}" sizes="32x32">
     <link rel="icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
     <link rel="apple-touch-icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
@@ -136,7 +136,7 @@
     <script src="{{asset('intern/build/js/custom.min.js')}}"></script>
     <script src="{{asset('intern/build/js/mywebadmin.js')}}"></script>
 
-    <script src="{{ asset('js/pusher.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/pusher.min.js') }}"></script> --}}
 
     @include('intern.inc.notifications_script')
 

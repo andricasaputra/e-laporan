@@ -171,16 +171,18 @@
 
               @foreach($bigdata as $wilker => $data) 
 
-                @foreach($data as $d)
-
-                  <tr>
-                    <td>{{ $wilker }}</td>
-                    <td>{{ $dok }}</td>
-                    <td>{{ $d['total'] }}</td>
-                    <td>{{ $d['no_seri'] }}</td>
-                  </tr>
-
-                 @endforeach
+                <tr>
+                  <td>{{ $wilker }}</td>
+                  <td>{{ $dok }}</td>
+                  <td>{{ $data->sum('total') }} set</td>
+                  <td>
+                    @foreach($data as $d)
+                    <div>
+                      {{ $d['no_seri'] }}
+                    </div>
+                     @endforeach
+                  </td>
+                </tr>
 
               @endforeach
 
@@ -368,13 +370,13 @@
 
       wilker = $('#wilker').val();
 
-      window.location = '{{ route('kh.dokumen.index') }}/' + year + '/' + month + '/' + wilker;
+      window.location = '{{ route('kh.dokumen.data') }}/' + year + '/' + month + '/' + wilker;
 
     });
 
     /*set datatable for ringkasan data dokumen*/
     $('.table-ringkasan').DataTable({
-        "order": [[ 2, "asc" ]]
+        "order": [[ 1, "asc" ]]
     });
 
   });/*End Ready*/

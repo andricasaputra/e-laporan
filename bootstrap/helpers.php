@@ -49,6 +49,29 @@ if (! function_exists('admin')) {
 
 }
 
+if (! function_exists('superadmin')) {
+	
+	/**
+	 * Authentifikasi jika user adalah superadmin
+	 *
+	 * @return boll|null
+	 */
+	function superadmin()
+	{
+		if(auth()->check()) {
+
+			$cek = auth()->user()->role->first()->id;
+
+			if ($cek  === 1) return true;
+
+			return;
+
+		}
+	
+	}
+
+}
+
 if (! function_exists('bulan_tahun')) {
 	
 	/**
@@ -221,6 +244,27 @@ if (! function_exists('rp')) {
 
    		return str_replace(",00", ",-", $rupiah);
 
+	}
+}
+
+if (! function_exists('in_range')) {
+
+	/**
+	 * Cek angka apakah terdapat di dalam sebuah range(urutan) 
+	 *
+	 * @param string $rupiah
+	 * @return bool
+	 */
+	function in_range($number, $min, $max, $inclusive = false)
+	{
+	    if (is_int($number) && is_int($min) && is_int($max))
+	    {
+	        return $inclusive
+	            ? ($number >= $min && $number <= $max)
+	            : ($number > $min && $number < $max) ;
+	    }
+
+	    return false;
 	}
 }
 

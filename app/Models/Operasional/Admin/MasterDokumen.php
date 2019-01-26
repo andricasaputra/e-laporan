@@ -54,33 +54,6 @@ class MasterDokumen extends Model
     }
 
     /**
-     * Untuk mengubah alias karantina, ex : kt -> Tumbuhan
-     *
-     * @param string $value
-     * @return string
-     */
-    /*public function getKarantinaAttribute($value)
-    {
-    	switch ($value) {
-    		case 'KT':
-    		case 'Kt':
-    		case 'kt':
-    			$value = 'Tumbuhan';
-    			break;
-    		case 'KH':
-    		case 'Kh':
-    		case 'kh':
-    			$value = 'Hewan';
-    			break;
-    		default:
-    			$value = 'Hewan & Tumbuhan';
-    			break;
-    	}
-
-    	return strtoupper($value);
-    }*/
-
-    /**
      * Untuk mencari dokumen dan diubah tanpa tanda strip '-', ex : KT-12 -> KT12
      *
      * @param self $query

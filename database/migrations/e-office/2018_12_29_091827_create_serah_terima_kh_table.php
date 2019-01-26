@@ -64,7 +64,7 @@ class CreateSerahTerimaKhTable extends Migration
             $table->string('dok_pelepasan', 50)->index()->nullable();
             $table->string('nomor_dok_pelepasan', 50)->index()->nullable();
             $table->date('tanggal_pelepasan')->index()->nullable();
-            $table->integer('no_seri')->index()->nullable();
+            $table->string('no_seri', 30)->index()->nullable();
             $table->text('dokumen_pendukung')->nullable();
             $table->text('kontainer')->nullable();
             $table->integer('biaya_perjadin')->default(0)->nullable();

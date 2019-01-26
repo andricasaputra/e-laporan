@@ -44,6 +44,27 @@ class LaporanPemakaianDokumenKhController extends DownloadController
      *
      * @var array
      */
+    private $penerimaanBulanLalu = [];
+
+    /**
+     * Untuk menyimpan jumlah penerimaan dokumen bulan ini
+     *
+     * @var array
+     */
+    private $penerimaanBulanIni = [];
+
+    /**
+     * Untuk menyimpan total penerimaan dokumen sejak awal tahun
+     *
+     * @var array
+     */
+    private $totalPenerimaan = [];
+
+    /**
+     * Untuk menyimpan jumlah pemakaian dokumen bulan lalu
+     *
+     * @var array
+     */
     private $pemakaianBulanLalu = [];
 
     /**
@@ -59,6 +80,13 @@ class LaporanPemakaianDokumenKhController extends DownloadController
      * @var array
      */
     private $totalPemakaian = [];
+
+    /**
+     * Untuk menyimpan total pembatalan dokumen sejak awal tahun
+     *
+     * @var array
+     */
+    private $totalPembatalan = [];
 
     /**
      * Populasi property yang dibutuhkan
@@ -154,7 +182,29 @@ class LaporanPemakaianDokumenKhController extends DownloadController
      */
     protected function setData()
     {
-        /*set data*/
+        /*set data penerimaan*/
+        $this->penerimaanBulanIni   =   $this->repository->penerimaanDokumen(true)
+                                             ->mapWithKeys(function ($item) {
+                                                return [
+                                                    str_replace('-', '', $item->dokumen->dokumen) => (int) $item['total']
+                                                ];
+                                            })->sortKeys();
+
+        $this->penerimaanBulanLalu  =   $this->repository->penerimaanDokumenBulanLalu(true)
+                                             ->mapWithKeys(function ($item) {
+                                                return [
+                                                   str_replace('-', '', $item->dokumen->dokumen) => (int) $item['total']
+                                                ];
+                                            })->sortKeys();
+
+        $this->totalPenerimaan      =   $this->repository->totalPenerimaanDokumen()
+                                             ->mapWithKeys(function ($item) {
+                                                return [
+                                                   str_replace('-', '', $item->dokumen->dokumen) => (int) $item['total']
+                                                ];
+                                            })->sortKeys();
+
+        /*set data pemakaian*/
         $this->pemakaianBulanIni    =   $this->repository->pemakaianDokumen(true)
                                              ->mapWithKeys(function ($item) {
                                                 return [$item['dokumen'] => (int) $item['total']];
@@ -170,6 +220,15 @@ class LaporanPemakaianDokumenKhController extends DownloadController
                                                 return [$item['dokumen'] => (int) $item['total']];
                                             })->sortKeys();
 
+        $this->totalPembatalan      =   $this->repository->pembatalanDokumen()
+                                             ->mapWithKeys(function ($item) {
+                                                 return [
+                                                    $item['dokumen'] => [
+                                                        'total' => $item->count(),
+                                                        'no_seri' => $item->no_seri
+                                                    ],
+                                                ];
+                                            })->sortKeys();
         return $this;
     }
 
@@ -183,9 +242,13 @@ class LaporanPemakaianDokumenKhController extends DownloadController
         /*get data*/
         return [
 
-           'bulanIni'   => $this->setData()->pemakaianBulanIni->all(),
-           'bulanLalu'  => $this->setData()->pemakaianBulanLalu->all(),
-           'total'      => $this->setData()->totalPemakaian->all(),
+           'penerimaanbulanIni'  => $this->setData()->penerimaanBulanIni->all(),
+           'penerimaanbulanLalu' => $this->setData()->penerimaanBulanLalu->all(),
+           'penerimaantotal'     => $this->setData()->totalPenerimaan->all(),
+           'pemakaianbulanIni'   => $this->setData()->pemakaianBulanIni->all(),
+           'pemakaianbulanLalu'  => $this->setData()->pemakaianBulanLalu->all(),
+           'pemakaiantotal'      => $this->setData()->totalPemakaian->all(),
+           'pembatalantotal'     => $this->setData()->totalPembatalan->all(),
 
         ];
     }

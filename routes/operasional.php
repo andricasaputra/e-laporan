@@ -3,6 +3,9 @@
 Route::get('home/{year?}/{month?}/{wilker_id?}', 'HomeController@show')
 ->name('show.operasional');
 
+/*route halaman info update aplikasi untuk user*/
+Route::get('pengumuman/info', 'Admin\\PengumumanController@info')->name('page.info');
+
 /*routes untuk admin*/
 Route::namespace('Admin')->prefix('admin')->middleware('admin')->group(function(){
 
@@ -11,6 +14,12 @@ Route::namespace('Admin')->prefix('admin')->middleware('admin')->group(function(
 	Route::resource('dokumen', 'DokumenSettingController', [
 	    'names' => 'admin.setting.dokumen'
 	])->except(['create', 'show']);
+
+	Route::get('pengumuman/menu', 'PengumumanController@menu')->name('admin.pengumuman.menu');
+
+	Route::resource('pengumuman', 'PengumumanController', [
+	    'names' => 'admin.pengumuman'
+	]);
 
 });
 

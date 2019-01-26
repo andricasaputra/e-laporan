@@ -42,7 +42,7 @@ class SurveyPageComposer
         view()->composer('ikm.survey', function ($view){
 
             $is_open    = Jadwal::active()->first();
-            $questions  = Question::withAnswer()->get();
+            $questions  = Question::with('answer')->get();
             $layanan    = Layanan::all();
             $umur       = Umur::all();
             $pendidikan = Pendidikan::all();

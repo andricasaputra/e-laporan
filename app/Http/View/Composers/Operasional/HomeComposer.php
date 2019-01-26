@@ -7,11 +7,6 @@ use Illuminate\View\View;
 
 class HomeComposer
 {
-    public function __construct()
-    {
-        // 
-    }
-
     /**
      * Bind data to the view.
      *

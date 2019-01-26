@@ -58,8 +58,7 @@ class DokumenController extends Controller
      */
     public function indexKt()
     {
-        return view('intern.operasional.kt.dokumen.menu')
-        		->withDatas($this->datasKt());
+        return view('intern.operasional.kt.dokumen.menu');
     }	
 
     /**
@@ -69,9 +68,30 @@ class DokumenController extends Controller
      */
     public function indexKh()
     {
-        return view('intern.operasional.kh.dokumen.menu')
-        		->withDatas($this->datasKh());
-    }		
+        return view('intern.operasional.kh.dokumen.menu');
+    }	
+
+    /**
+     * Display detail data dokumen KT
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dataDokumenKt()
+    {
+        return view('intern.operasional.kt.dokumen.data')
+                ->withDatas($this->datasKt());
+    }
+
+    /**
+     * Display detail data dokumen KH
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dataDokumenKh()
+    {
+        return view('intern.operasional.kh.dokumen.data')
+                ->withDatas($this->datasKh());
+    }	
 
     /**
      * menyimpan instance dari repository yang dipakai
@@ -101,18 +121,6 @@ class DokumenController extends Controller
     public function datasKh()
     {
     	return $this->repository->dokumenKhDataSource();
-    }
-
-    public function dataDokumenKt()
-    {
-    	return view('intern.operasional.kt.dokumen.data')
-    			->withDatas($this->datasKt());
-    }
-
-    public function dataDokumenKh()
-    {
-    	return view('intern.operasional.kh.dokumen.data')
-    			->withDatas($this->datasKh());
     }
 
 }

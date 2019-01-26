@@ -61,13 +61,19 @@ class PembatalanDokKh extends Model implements ModelOperasionalInterface
     {
         $query->selectRaw('dokumen, count(dokumen) as total')
               ->whereNotNull('dokumen')
-              ->where('bulan', $year);
+              ->whereYear('bulan', $year);
 
-        if (isset($month) and $month != 'all') $query->whereMonth('tanggal_batal', $month);
+        $query->when($month && $month != 'all', function ($query) use ($month) {
 
-        if (isset($wilker_id)) $query->where('wilker_id', $wilker_id);
+            return $query->whereMonth('tanggal_batal', $month);
+
+        })->when($wilker_id && $wilker_id != 'all', function ($query) use ($wilker_id) {
+
+            return $query->whereWilkerId($wilker_id);
+
+        });
                      
-        return $query->groupBy('dokumen')->orderBy('total', 'desc');
+        return $query->groupBy('dokumen');
     }
 
     /**
@@ -116,6 +122,6 @@ class PembatalanDokKh extends Model implements ModelOperasionalInterface
 
         });
 
-        return $query->groupBy('dokumen', 'wilker_id')->get();
+        return $query->groupBy('dokumen', 'no_seri')->get();
     }
 }

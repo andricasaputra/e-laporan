@@ -36,7 +36,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OperasionalRollbackEvent' => [
             'App\Listeners\OperasionalRollbackListener',
         ],
-
     ];
 
     /**

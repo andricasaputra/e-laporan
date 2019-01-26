@@ -80,7 +80,7 @@
             <td>{{ $loop->index  + 1 }}</td>
             <td>{{ $dokumen->dokumen }}</td>
             <td>{{ $dokumen->deskripsi }}</td>
-            <td>{{ $dokumen->karantina }}</td>
+            <td>{{ strtoupper($dokumen->karantina) }}</td>
             <td>
 
               <a href="{{ route('admin.setting.dokumen.edit', $dokumen->id) }}" class="btn btn-success">

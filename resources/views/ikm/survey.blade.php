@@ -22,7 +22,6 @@
 
   @include('inc.ikm_navbar')
 
-  @php use App\Http\Controllers\TanggalController as Tanggal; @endphp
   <!--==========================
     Intro Section
   ============================-->
@@ -38,7 +37,7 @@
 
           <div class="col-12 text-center mt-5" style="margin-bottom: 5%">
             <h5 class="judul">{{ $is_open->keterangan }}</h5>
-            <p class="judul">{{ Tanggal::tanggalIndo($is_open->start_date) }} s/d {{ Tanggal::tanggalIndo($is_open->end_date) }}</p>
+            <p class="judul">{{ tanggal_indo($is_open->start_date) }} s/d {{ tanggal_indo($is_open->end_date) }}</p>
             <hr>
           </div>
 

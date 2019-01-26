@@ -98,7 +98,7 @@
         <p>Pegumuman Update Aplikasi</p>
       </div>
       <div class="card-footer bg-transparent">
-        <a href="{{ route('kt.homedownload') }}" class="btn btn-primary">Masuk</a>
+        <a href="{{ route('admin.pengumuman.index') }}" class="btn btn-primary">Masuk</a>
       </div>
     </div>
   </div> 

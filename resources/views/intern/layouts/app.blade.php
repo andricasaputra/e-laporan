@@ -160,8 +160,7 @@
               Route::current()->getName() == 'register' || 
               Route::current()->getName() == 'users.edit')
 
-            @if(Auth::user()->role->first()->id === 1 || 
-                Auth::user()->role->first()->id === 2)
+            @if(superadmin() || admin())
 
               @include('intern.inc.barside_manajemen')
 

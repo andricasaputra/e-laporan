@@ -5,6 +5,7 @@ namespace App\Repositories\Operasional;
 use App\Models\Operasional\LogInfo;
 use App\Models\Operasional\Dokumen\PembatalanDokKt;
 use App\Models\Operasional\Dokumen\PemakaianDokumenKt as DokumenKt;
+use App\Models\Operasional\Dokumen\PenerimaanDokumenKt as Penerimaan;
 use App\Models\Operasional\RekapitulasiKomoditiDokelKt as RekapDokelKt;
 use App\Models\Operasional\RekapitulasiKomoditiDomasKt as RekapDomasKt;
 use App\Models\Operasional\RekapitulasiKomoditiImporKt as RekapImporKt;
@@ -158,82 +159,6 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
     }
 
     /**
-     * Mengatur Total Pemakaian Dokumen semua kegiatan untuk tanggal tertentu |
-     * memakai local scope pada model
-     *
-     * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
-     * @return array
-     */
-    public function pemakaianDokumen($excel = false)
-    {
-        return  DokumenKt::countPemakaianDokumen(
-                    $this->year, $this->month, $this->wilker_id, $excel
-                )->get();
-    }
-
-    /**
-     * Mengatur Total Pemakaian Dokumen bulan sebelumnya, untuk tanggal tertentu |
-     * memakai local scope pada model
-     *
-     * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
-     * @return array
-     */
-    public function pemakaianDokumenBulanLalu($excel = false)
-    {
-        if ($this->month == 'all') {
-
-            $lastMonth = \Carbon::parse($this->year)->subMonth()->month;
-
-            $year  = \Carbon::parse($this->year)->subYear()->year;
-
-        } else {
-
-            $lastMonth = \Carbon::parse($this->year .'-'. $this->month)->subMonth()->month;
-
-            if ($this->month == 1) {
-
-                $year  = \Carbon::parse($this->year .'-'. $this->month)->subYear()->year;
-
-            } else {
-
-                $year  = $this->year;
-
-            }
-
-        }
-
-        return  DokumenKt::countPemakaianDokumen(
-                    $year, $lastMonth, $this->wilker_id, $excel
-                )->get();
-    }
-
-    /**
-     * Mengatur Total Pemakaian Dokumen semua kegiatan |
-     * memakai local scope pada model
-     *
-     * @return array
-     */
-    public function totalPemakaianDokumen()
-    {
-        return  DokumenKt::countTotalPemakaianDokumen(
-                    $this->year, $this->month, $this->wilker_id
-                )->get();
-    }
-
-    /**
-     * Mengatur Total Pembatalan Dokumen semua kegiatan |
-     * memakai local scope pada model
-     *
-     * @return void
-     */
-    public function pembatalanDokumen()
-    {
-        return  PembatalanDokKt::countPembatalanDokumen(
-                    $this->year, $this->month, $this->wilker_id
-                )->get();
-    }
-
-    /**
      * Mengatur Total Frekuensi Per Bulan
      * memakai local scope pada model
      *
@@ -302,6 +227,132 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
                                     $this->year, $this->month, $this->wilker_id
                                 )->get(),
 
+        ];
+    }
+
+    /**
+     * Mengatur Total Penerimaan Dokumen semua kegiatan |
+     * memakai local scope pada model
+     *
+     * @return void
+     */
+    public function penerimaanDokumen($excel = false)
+    {
+        return  Penerimaan::countPenerimaanDokumen(
+                  $this->year, $this->month, $this->wilker_id, $excel
+                );
+    }
+
+    /**
+     * Mengatur Total Penerimaan Dokumen bulan sebelumnya, untuk tanggal tertentu |
+     * memakai local scope pada model
+     *
+     * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
+     * @return array
+     */
+    public function penerimaanDokumenBulanLalu($excel = true)
+    {
+        return  Penerimaan::countPenerimaanDokumen(
+                    $this->bulanLalu()['year'], $this->bulanLalu()['lastMonth'], $this->wilker_id, $excel
+                );
+    }
+
+    /**
+     * Mengatur Total Pemakaian Dokumen semua kegiatan |
+     * memakai local scope pada model
+     *
+     * @return array
+     */
+    public function totalPenerimaanDokumen()
+    {
+        return  Penerimaan::countTotalPemakaianDokumen(
+                    $this->year, $this->month, $this->wilker_id
+                );
+    }
+
+    /**
+     * Mengatur Total Pemakaian Dokumen semua kegiatan untuk tanggal tertentu |
+     * memakai local scope pada model
+     *
+     * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
+     * @return array
+     */
+    public function pemakaianDokumen($excel = false)
+    {
+        return  DokumenKt::countPemakaianDokumen(
+                    $this->year, $this->month, $this->wilker_id, $excel
+                )->get();
+    }
+
+    /**
+     * Mengatur Total Pemakaian Dokumen bulan sebelumnya, untuk tanggal tertentu |
+     * memakai local scope pada model
+     *
+     * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
+     * @return array
+     */
+    public function pemakaianDokumenBulanLalu($excel = false)
+    {
+        return  DokumenKt::countPemakaianDokumen(
+                    $this->bulanLalu()['year'], $this->bulanLalu()['lastMonth'], $this->wilker_id, $excel
+                )->get();
+    }
+
+    /**
+     * Mengatur Total Pemakaian Dokumen semua kegiatan |
+     * memakai local scope pada model
+     *
+     * @return array
+     */
+    public function totalPemakaianDokumen()
+    {
+        return  DokumenKt::countTotalPemakaianDokumen(
+                    $this->year, $this->month, $this->wilker_id
+                )->get();
+    }
+
+    /**
+     * Mengatur Total Pembatalan Dokumen semua kegiatan |
+     * memakai local scope pada model
+     *
+     * @return void
+     */
+    public function pembatalanDokumen()
+    {
+        return  PembatalanDokKt::getJumlahKtDokumen(
+                    ['year' => $this->year, 'month' => $this->month, 'wilkerId' => $this->wilker_id]
+                );
+    }
+
+
+    private function bulanLalu()
+    {
+        if ($this->month == 'all') {
+
+            $lastMonth = \Carbon::parse($this->year)->subMonth()->month;
+
+            $year  = \Carbon::parse($this->year)->subYear()->year;
+
+        } else {
+
+            $lastMonth = \Carbon::parse($this->year .'-'. $this->month)->subMonth()->month;
+
+            if ($this->month == 1) {
+
+                $year  = \Carbon::parse($this->year .'-'. $this->month)->subYear()->year;
+
+            } else {
+
+                $year  = $this->year;
+
+            }
+
+        }
+
+        return [
+
+            'lastMonth' => $lastMonth,
+            'year' => $year
         ];
     }
 

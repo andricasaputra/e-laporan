@@ -9,11 +9,6 @@ class UploadPageComposer
 {
     use UsersTrait;
 
-    public function __construct()
-    {
-        // 
-    }
-
     /**
      * Bind data to the view.
      *

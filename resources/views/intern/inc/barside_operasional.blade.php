@@ -49,10 +49,10 @@
                     </a>
                 </li>
                 <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i class="mdi mdi-access-point"></i><span class="hide-menu">Info Update Aplikasi</span>
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('page.info') }}" aria-expanded="false"><i class="mdi mdi-access-point"></i><span class="hide-menu">Info Update Aplikasi</span>
                     </a>
                 </li>
-                @if(admin())
+                @if(superadmin() || admin())
                 <li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('admin.home') }}" aria-expanded="false"><i class="mdi mdi-settings"></i><span class="hide-menu">Setting Aplikasi</span>
                     </a>

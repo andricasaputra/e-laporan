@@ -140,6 +140,10 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kt.upload.pembatalan_dokumen',
                 'intern.operasional.kt.upload.reekspor',
                 'intern.operasional.kt.upload.serah_terima',
+
+                /*Admin Pengumuman*/
+                'intern.operasional.admin.pengumuman.create.create',
+                'intern.operasional.admin.pengumuman.create.edit',
             ],
 
             $this->namespace . '\Operasional\UploadPageComposer'

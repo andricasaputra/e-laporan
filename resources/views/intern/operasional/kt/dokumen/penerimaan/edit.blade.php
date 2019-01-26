@@ -97,12 +97,12 @@
 
             <div class="form-group">
               <label for="jumlah">Jumlah <i>(dalam satuan set)</i></label>
-              <input type="number" min="0" oninput="this.value = Math.abs(this.value)" name="jumlah" class="form-control" value="{{ $penerimaan->jumlah }}" required>
+              <input type="number" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" oninput="this.value = Math.abs(this.value)" name="jumlah" class="form-control" required value="{{ $penerimaan->jumlah }}">
             </div>
 
             <div class="form-group">
               <label for="no_seri">No Seri</i></label>
-              <input type="text" name="no_seri" class="form-control" required placeholder="pisahkan dengan tanda (-) apabila no seri dokumen berjumlah lebih dari 1" value="{{ $penerimaan->no_seri }}">
+              <input type="text" name="no_seri[]" class="form-control" placeholder="pisahkan dengan tanda (-) apabila no seri dokumen berjumlah lebih dari 1" value="{{ $penerimaan->no_seri }}">
             </div>
 
             <button type="submit" class="btn btn-success">Simpan</button>
@@ -111,12 +111,12 @@
     </div>
     <div class="col">
       <div class="text-center">
-        <a href="{{ url()->previous() }}" class="btn btn-default"><i class="fa fa-angle-double-left"></i> Kembali</a>
+        <a href="{{ route('kt.dokumen.index') }}" class="btn btn-default"><i class="fa fa-angle-double-left"></i> Kembali</a>
       </div>
     </div>
   </div>  
 
-  @include('intern.operasional.rules.rule')
+  @include('intern.operasional.rules.rule_dokumen')
 
 </div>
 

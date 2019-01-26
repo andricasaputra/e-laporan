@@ -112,7 +112,12 @@
 
 @endforelse
 
+@if(count($notifications) > 6)
+
 	<li class="text-center" role="menuitem" tabindex="0">
 	  <i class="fa fa-eye"></i> <a href="{{ route('show.all.notifications') }}">Lihat semua pemberitahuan</a>
 	</li>
+
+@endif
+	
 

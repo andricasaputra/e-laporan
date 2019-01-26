@@ -19,7 +19,7 @@ class CreatePembatalanDokKhTable extends Migration
             $table->foreign('wilker_id')->references('id')->on('wilker');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('bulan')->index()->nullable();
+            $table->date('bulan')->index()->nullable();
             $table->integer('no')->default(0)->nullable();
             $table->string('no_permohonan', 50)->nullable();
             $table->string('no_aju', 50)->index()->nullable();

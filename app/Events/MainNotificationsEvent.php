@@ -21,6 +21,8 @@ class MainNotificationsEvent /*implements ShouldBroadcast*/
     /**
      * Create a new event instance.
      *
+     * @param App\Contracts\NotificationsInterface $classToNotify (delegated class in notifications folder)
+     * @param App\Contracts\NotificationsEventInterface $notification (data attributes)
      * @return void
      */
     public function __construct(NotificationsInterface $classToNotify, 

@@ -2,7 +2,6 @@
 <html>
 <head></head>
 <body>
-
 	{{-- judul laporan --}}
 	KEMENTERIAN PERTANIAN <br>
 	
@@ -69,55 +68,146 @@
 		{{-- Body --}}
 
 		<tr>
-			<td style="border: 1px solid #000; text-align: center">1</td>
-			<td style="border: 1px solid #000; text-align: center">KT 12</td>
-			<td style="border: 1px solid #000; text-align: center">1000 set</td>
-			<td style="border: 1px solid #000; text-align: center">0 set</td>
-			<td style="border: 1px solid #000; text-align: center">2 set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['total']['KT12'] ?? 0) - ($datas['bodies']['bulanIni']['KT12'] ?? 0) }} set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['bulanIni']['KT12'] ?? 0 }} set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['total']['KT12'] ?? 0 }} set</td>
-			<td style="border: 1px solid #000; text-align: center">-</td>
-			<td style="border: 1px solid #000; text-align: center">-</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">1</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">KT 12</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['penerimaantotal']['KT12'] ?? 0) - ($datas['bodies']['penerimaanbulanIni']['KT12'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['penerimaanbulanIni']['KT12'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['penerimaantotal']['KT12'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['pemakaiantotal']['KT12'] ?? 0) - ($datas['bodies']['pemakaianbulanIni']['KT12'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['pemakaianbulanIni']['KT12'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['pemakaiantotal']['KT12'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">
+				{{ 
+					($datas['bodies']['penerimaantotal']['KT12'] ?? 0) - 
+					($datas['bodies']['pemakaiantotal']['KT12'] ?? 0) - 
+					($datas['bodies']['pembatalantotal']['KT12']['total'] ?? 0)
+				}}
+			</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: left">
+				@if(isset($datas['bodies']['pembatalantotal']['KT12']))
+					@forelse($datas['bodies']['pembatalantotal']['KT12'] as $dokumen => $value)
+						@if($loop->first)
+							Pembatalan KT12, <br> jumlah : {{ $value }} <br>
+						@else
+							no seri : {{ $value }}
+						@endif
+					@empty
+						-
+					@endforelse
+				@endif
+			</td>
 		</tr>
 
 		<tr>
-			<td style="border: 1px solid #000; text-align: center">2</td>
-			<td style="border: 1px solid #000; text-align: center">KT 10</td>
-			<td style="border: 1px solid #000; text-align: center">1000 set</td>
-			<td style="border: 1px solid #000; text-align: center">0 set</td>
-			<td style="border: 1px solid #000; text-align: center">2 set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['total']['KT10'] ?? 0) - ($datas['bodies']['bulanIni']['KT10'] ?? 0) }} set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['bulanIni']['KT10'] ?? 0 }} set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['total']['KT10'] ?? 0) }} set</td>
-			<td style="border: 1px solid #000; text-align: center">-</td>
-			<td style="border: 1px solid #000; text-align: center">-</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">2</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">KT 10</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['penerimaantotal']['KT10'] ?? 0) - ($datas['bodies']['penerimaanbulanIni']['KT10'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['penerimaanbulanIni']['KT10'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['penerimaantotal']['KT10'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['pemakaiantotal']['KT10'] ?? 0) - ($datas['bodies']['pemakaianbulanIni']['KT10'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['pemakaianbulanIni']['KT10'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['pemakaiantotal']['KT10'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">
+				{{ 
+					($datas['bodies']['penerimaantotal']['KT10'] ?? 0) - 
+					($datas['bodies']['pemakaiantotal']['KT10'] ?? 0) - 
+					($datas['bodies']['pembatalantotal']['KT10']['total'] ?? 0)
+				}}
+			</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: left">
+				@if(isset($datas['bodies']['pembatalantotal']['KT10']))
+					@forelse($datas['bodies']['pembatalantotal']['KT10'] as $dokumen => $value)
+						@if($loop->first)
+							Pembatalan KT10, <br> jumlah : {{ $value }} <br>
+						@else
+							no seri : {{ $value }}
+						@endif
+					@empty
+						-
+					@endforelse
+				@endif
+			</td>
 		</tr>
 
 		<tr>
-			<td style="border: 1px solid #000; text-align: center">3</td>
-			<td style="border: 1px solid #000; text-align: center">KT 9</td>
-			<td style="border: 1px solid #000; text-align: center">1000 set</td>
-			<td style="border: 1px solid #000; text-align: center">0 set</td>
-			<td style="border: 1px solid #000; text-align: center">2 set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['total']['KT9'] ?? 0) - ($datas['bodies']['bulanIni']['KT9'] ?? 0) }} set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['bulanIni']['KT9'] ?? 0 }} set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['total']['KT9'] ?? 0)}} set</td>
-			<td style="border: 1px solid #000; text-align: center">-</td>
-			<td style="border: 1px solid #000; text-align: center">-</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">3</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">KT 9</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['penerimaantotal']['KT9'] ?? 0) - ($datas['bodies']['penerimaanbulanIni']['KT9'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['penerimaanbulanIni']['KT9'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['penerimaantotal']['KT9'] ?? 0)}} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['pemakaiantotal']['KT9'] ?? 0) - ($datas['bodies']['pemakaianbulanIni']['KT9'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['pemakaianbulanIni']['KT9'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['pemakaiantotal']['KT9'] ?? 0)}} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">
+				{{ 
+					($datas['bodies']['penerimaantotal']['KT9'] ?? 0) - 
+					($datas['bodies']['pemakaiantotal']['KT9'] ?? 0) - 
+					($datas['bodies']['pembatalantotal']['KT9']['total'] ?? 0)
+				}}
+			</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: left">
+				@if(isset($datas['bodies']['pembatalantotal']['KT9']))
+					@forelse($datas['bodies']['pembatalantotal']['KT9'] as $dokumen => $value)
+						@if($loop->first)
+							Pembatalan KT9, <br> jumlah : {{ $value }} <br>
+						@else
+							no seri : {{ $value }}
+						@endif
+					@empty
+						-
+					@endforelse
+				@endif
+			</td>
 		</tr>
 
 		<tr>
-			<td style="border: 1px solid #000; text-align: center">3</td>
-			<td style="border: 1px solid #000; text-align: center">SP 5</td>
-			<td style="border: 1px solid #000; text-align: center">1000 set</td>
-			<td style="border: 1px solid #000; text-align: center">0 set</td>
-			<td style="border: 1px solid #000; text-align: center">2 set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['total']['SP5'] ?? 0) - ($datas['bodies']['bulanIni']['SP5'] ?? 0) }} set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['bulanIni']['SP5'] ?? 0 }} set</td>
-			<td style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['total']['SP5'] ?? 0) }} set</td>
-			<td style="border: 1px solid #000; text-align: center">-</td>
-			<td style="border: 1px solid #000; text-align: center">-</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">4</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">SP 5</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['penerimaantotal']['SP5'] ?? 0) - ($datas['bodies']['penerimaanbulanIni']['SP5'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['penerimaanbulanIni']['SP5'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['penerimaantotal']['SP5'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['pemakaiantotal']['SP5'] ?? 0) - ($datas['bodies']['pemakaianbulanIni']['SP5'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['pemakaianbulanIni']['SP5'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['pemakaiantotal']['SP5'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">
+				{{ 
+					($datas['bodies']['penerimaantotal']['SP5'] ?? 0) - 
+					($datas['bodies']['pemakaiantotal']['SP5'] ?? 0) - 
+					($datas['bodies']['pembatalantotal']['SP5']['total'] ?? 0)
+				}}
+			</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center"></td>
+		</tr>
+
+		<tr>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">5</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">KWITANSI</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['penerimaantotal']['KWITANSI'] ?? 0) - ($datas['bodies']['penerimaanbulanIni']['KWITANSI'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['penerimaanbulanIni']['KWITANSI'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['penerimaantotal']['KWITANSI'] ?? 0)}} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['pemakaiantotal']['KWITANSI'] ?? 0) - ($datas['bodies']['pemakaianbulanIni']['KWITANSI'] ?? 0) }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ $datas['bodies']['pemakaianbulanIni']['KWITANSI'] ?? 0 }} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">{{ ($datas['bodies']['pemakaiantotal']['KWITANSI'] ?? 0)}} set</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: center">
+				{{ 
+					($datas['bodies']['penerimaantotal']['KWITANSI'] ?? 0) - 
+					($datas['bodies']['pemakaiantotal']['KWITANSI'] ?? 0) - 
+					($datas['bodies']['pembatalantotal']['KWITANSI']['total'] ?? 0)
+				}}
+			</td>
+			<td valign="middle" style="border: 1px solid #000; text-align: left">
+				@if(isset($datas['bodies']['pembatalantotal']['KWITANSI']))
+					@forelse($datas['bodies']['pembatalantotal']['KWITANSI'] as $dokumen => $value)
+						@if($loop->first)
+							Pembatalan KWITANSI, <br> jumlah : {{ $value }} <br>
+						@else
+							no seri : {{ $value }}
+						@endif
+					@empty
+						-
+					@endforelse
+				@endif
+			</td>
 		</tr>
 		{{-- End Body --}}
 

@@ -53,7 +53,7 @@ trait QueryScopeGlobalTrait
      */
     public function scopeCountPemakaianDokumen($query, $year, $month = false, $wilkerId = false, $excel =  false)
     {
-        $query->selectRaw('dokumen, sum(total) as total')
+        $query->selectRaw('dokumen, sum(jumlah) as total')
               ->whereYear('bulan', $year);
 
         /*
@@ -66,7 +66,6 @@ trait QueryScopeGlobalTrait
             /*
             * jika semua bulan dipilih maka gunakan bulan ke 12 untuk dokumen yang digunakan
             */
-
             $query->when($month && $month != 'all', function ($query) use ($month) {
 
                 return $query->whereMonth('bulan', $month);
@@ -89,7 +88,7 @@ trait QueryScopeGlobalTrait
             });
 
         }
-
+       
         return  $query->when($wilkerId, function ($query, $wilkerId) {
 
                     return $query->whereWilkerId($wilkerId);
@@ -121,19 +120,18 @@ trait QueryScopeGlobalTrait
         /*
         * jika laporan yang dipilih semua bulan maka kita set tanggal akhir ke akhir tahun
         */
-        if ($month && $month != 'all') {
-
-            $end    = $date->copy()->endOfYear()->toDateString();
-
+        if ($month && $month !== 'all') {
+            
+            $end    = $date->copy()->endOfMonth()->toDateString();
         /*
         * jika laporan yang dipilih pada bulan tertentu maka kita set tanggal akhir ke akhir bulan tsb
         */    
         } else {
 
-            $end    = $date->copy()->endOfMonth()->toDateString();
+            $end    = $date->copy()->endOfYear()->toDateString();
         }
 
-        return  $query->selectRaw('dokumen, sum(total) as total')
+        return  $query->selectRaw('dokumen, sum(jumlah) as total')
                       ->whereBetween('bulan', [$start, $end])
                       ->when($wilkerId, function ($query, $wilkerId) {
 

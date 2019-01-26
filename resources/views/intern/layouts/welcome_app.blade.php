@@ -31,7 +31,7 @@
   <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('images/web-sumbawa4x.png') }}">
   <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="{{ asset('images/web-sumbawa4x.png') }}">
   
-  <link rel="icon" href="{{asset('images/favicon-32x32.png')}}" type="image/png" sizes="32x32">
+  <link rel="icon" href="{{ asset('images/favicon-32x32.png') }}" type="image/png" sizes="32x32">
 
   {{-- Font --}}
   {{--  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet"> --}}

@@ -15,7 +15,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
-            <li class="breadcrumb-item" aria-current="page">Menu</li>
+            <li class="breadcrumb-item" aria-current="page">Menu Karantina Tumbuhan</li>
         </ol>
     </nav>
 </div>
@@ -111,7 +111,7 @@
   <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
-        Tambah Stok & Permintaan Dokumen Operasional!
+       Data & Penerimaan Dokumen Operasional!
       </div>
       <div class="card-body">
         <i class="fa fa-file fa-2x mb-4"></i>

@@ -15,7 +15,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
-            <li class="breadcrumb-item" aria-current="page">Menu</li>
+            <li class="breadcrumb-item" aria-current="page">Menu Karantina Hewan</li>
         </ol>
     </nav>
 </div>
@@ -67,7 +67,7 @@
         <h4 class="card-text">
           Lihat Data Operasional
         </h4>
-        <p>Karantina Tumbuhan</p>
+        <p>Karantina Hewan</p>
       </div>
       <div class="card-footer bg-transparent">
         <a href="{{ route('showmenu.data.operasional.kh') }}" class="btn btn-default">Masuk</a>
@@ -84,7 +84,7 @@
         <h4 class="card-text">
           Upload Laporan Operasional
         </h4>
-        <p>Karantina Tumbuhan</p>
+        <p>Karantina Hewan</p>
       </div>
       <div class="card-footer bg-transparent">
         <a href="{{ route('kh.homeupload') }}" class="btn btn-default">Masuk</a>
@@ -101,7 +101,7 @@
         <h4 class="card-text">
           Donwload Laporan Operasional
         </h4>
-        <p>Karantina Tumbuhan</p>
+        <p>Karantina Hewan</p>
       </div>
       <div class="card-footer bg-transparent">
         <a href="{{ route('kh.homedownload') }}" class="btn btn-default">Masuk</a>
@@ -111,14 +111,14 @@
   <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
-        Tambah Stok & Permintaan Dokumen Operasional!
+        Data & Penerimaan Dokumen Operasional!
       </div>
       <div class="card-body">
         <i class="fa fa-file fa-2x mb-4"></i>
         <h4 class="card-text">
           Dokumen Operasional
         </h4>
-        <p>Karantina Tumbuhan</p>
+        <p>Karantina Hewan</p>
       </div>
       <div class="card-footer bg-transparent">
         <a href="{{ route('kh.dokumen.index') }}" class="btn btn-default">Masuk</a>

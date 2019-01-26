@@ -46,47 +46,46 @@ class PenerimaanDokumenKtController extends DokumenController
     {
         $request->validate([
 
-            'wilker_id' => 'required'
+            'wilker_id' => 'required',
+            'tanggal' => 'required',
+            'jumlah' => 'required'
 
         ]);
-
-        if (is_array($request->no_seri)) {
             
-            foreach ($request->no_seri as $key => $value) {
+        foreach ($request->no_seri as $key => $value) {
 
-                if ($key === 0) {
+            if (strrpos($value, ',')) {
 
-                    Penerimaan::create([
-
-                        'user_id' => $request->user_id,
-                        'wilker_id' => $request->wilker_id,
-                        'tanggal' => $request->tanggal,
-                        'dokumen_id' => $request->dokumen_id,
-                        'jumlah' => $request->jumlah,
-                        'no_seri' => $value
-
-                    ]);
-
-                } else {
-
-                    Penerimaan::create([
-
-                        'user_id' => $request->user_id,
-                        'wilker_id' => $request->wilker_id,
-                        'tanggal' => $request->tanggal,
-                        'dokumen_id' => $request->dokumen_id,
-                        'jumlah' => 0,
-                        'no_seri' => $value
-
-                    ]);
-
-                }
+                return back()->withWarning('penulisan nomor seri tidak valid');
             }
 
-        } else {
+            if ($key === 0) {
 
-            Penerimaan::create($request->all());
+                Penerimaan::create([
 
+                    'user_id' => $request->user_id,
+                    'wilker_id' => $request->wilker_id,
+                    'tanggal' => $request->tanggal,
+                    'dokumen_id' => $request->dokumen_id,
+                    'jumlah' => $request->jumlah,
+                    'no_seri' => $value
+
+                ]);
+
+            } else {
+
+                Penerimaan::create([
+
+                    'user_id' => $request->user_id,
+                    'wilker_id' => $request->wilker_id,
+                    'tanggal' => $request->tanggal,
+                    'dokumen_id' => $request->dokumen_id,
+                    'jumlah' => 0,
+                    'no_seri' => $value
+
+                ]);
+
+            }
         }
 
         return redirect(route('kt.dokumen.index'))
@@ -103,47 +102,46 @@ class PenerimaanDokumenKtController extends DokumenController
     {
         $request->validate([
 
-            'wilker_id' => 'required'
+            'wilker_id' => 'required',
+            'tanggal' => 'required',
+            'jumlah' => 'required'
 
         ]);
-
-        if (is_array($request->no_seri)) {
             
-            foreach ($request->no_seri as $key => $value) {
+        foreach ($request->no_seri as $key => $value) {
 
-                if ($key === 0) {
+            if (strrpos($value, ',')) {
 
-                   $penerimaan->update([
-
-                        'user_id' => $request->user_id,
-                        'wilker_id' => $request->wilker_id,
-                        'tanggal' => $request->tanggal,
-                        'dokumen_id' => $request->dokumen_id,
-                        'jumlah' => $request->jumlah,
-                        'no_seri' => $value
-
-                    ]);
-
-                } else {
-
-                    $penerimaan->update([
-
-                        'user_id' => $request->user_id,
-                        'wilker_id' => $request->wilker_id,
-                        'tanggal' => $request->tanggal,
-                        'dokumen_id' => $request->dokumen_id,
-                        'jumlah' => 0,
-                        'no_seri' => $value
-
-                    ]);
-
-                }
+                return back()->withWarning('penulisan nomor seri tidak valid');
             }
 
-        } else {
+            if ($key === 0) {
 
-            $penerimaan->update($request->all());
+               $penerimaan->update([
 
+                    'user_id' => $request->user_id,
+                    'wilker_id' => $request->wilker_id,
+                    'tanggal' => $request->tanggal,
+                    'dokumen_id' => $request->dokumen_id,
+                    'jumlah' => $request->jumlah,
+                    'no_seri' => $value
+
+                ]);
+
+            } else {
+
+                $penerimaan->update([
+
+                    'user_id' => $request->user_id,
+                    'wilker_id' => $request->wilker_id,
+                    'tanggal' => $request->tanggal,
+                    'dokumen_id' => $request->dokumen_id,
+                    'jumlah' => 0,
+                    'no_seri' => $value
+
+                ]);
+
+            }
         }
 
         return redirect(route('kt.dokumen.index'))

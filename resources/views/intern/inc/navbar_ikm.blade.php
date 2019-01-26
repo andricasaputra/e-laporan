@@ -91,7 +91,7 @@
               <li><a href="{{ route('intern.ikm.grafik.index') }}" >Grafik & Statistik</a></li>
             </ul>
           </li>
-          @if(Auth::user()->role->first()->id == 1 || Auth::user()->role->first()->id == 2)
+          @if(superadmin() || admin())
 
             <li><a><i class="fa fa-gear"></i> Setting Aplikasi <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
