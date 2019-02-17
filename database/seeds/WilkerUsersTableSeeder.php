@@ -23,7 +23,6 @@ class WilkerUsersTableSeeder extends Seeder
         		'wilker_id' => 1
         	],
 
-
         ]);
     }
 }

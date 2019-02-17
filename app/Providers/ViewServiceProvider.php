@@ -19,8 +19,6 @@ class ViewServiceProvider extends ServiceProvider
         $this->mapUserAuth();
 
         $this->mapOperasional();
-
-        // $this->mapIkmView();
     }
 
     /**

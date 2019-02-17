@@ -94,7 +94,7 @@
 			@else
 			@foreach($datas['totalVolume'] as $totalVolume)
 			<td style="font-weight: bold;text-align: right;font-size: 16">
-				{{ $totalVolume->volume == 0 ? '0' : number_format($totalVolume->volume, 0, ',', '.') }} {{ ucwords($totalVolume->satuan) }}
+				{{ $totalVolume->volume == 0 ? '0' : $totalVolume->volume }} {{ ucwords($totalVolume->satuan) }}
 			</td>
 			@endforeach
 			@endif
@@ -126,7 +126,7 @@
 			<td></td>
 			<td colspan="2" style="text-align: left;font-weight: bold;font-size: 18">{{ ucwords(strtolower($volumeKomoditi['nama_mp'])) }}</td>
 			<td style="text-align: center;font-weight: bold;font-size: 18"> = </td>
-			<td style="text-align: right;font-weight: bold;font-size: 18">{{ number_format($volumeKomoditi['volume'], 0, ',', '.') }}</td>
+			<td style="text-align: right;font-weight: bold;font-size: 18">{{ $volumeKomoditi['volume'] }}</td>
 			<td style="font-weight: bold;text-align: center;font-size: 18">{{ ucwords($volumeKomoditi['satuan']) }}</td>
 		</tr>
 		
@@ -146,7 +146,7 @@
 			@for($i=1; $i < 28; $i++)
 			<td></td>
 			@endfor
-			<td colspan="6" style="font-weight: bold;text-align: center;font-size: 34">Sumbawa Besar, {{ date('d/m/Y') }} </td>
+			<td colspan="6" style="font-weight: bold;text-align: center;font-size: 34">Sumbawa Besar, {{ reverse_tanggal_indo(date('d-m-Y')) }}</td>
 		</tr>
 		<tr>
 			@for($i=1; $i < 28; $i++)

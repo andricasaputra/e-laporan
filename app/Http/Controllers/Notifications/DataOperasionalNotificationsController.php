@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 
 class DataOperasionalNotificationsController extends MainNotificationController
 {
-    public function operasionalApi($user_id)
+	/**
+     * Khusus menampilkan notifikasi dari Operasional
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function operasionalApi(User $user)
     {
-    	$user = User::find($user_id);
-
     	return $user->unreadNotifications()
     				->whereType('App\Notifications\DataOperasionalUploaded')
     				->get();

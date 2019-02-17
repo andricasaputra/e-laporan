@@ -30,8 +30,10 @@ class NewIkmSurveyEvent implements NotificationsEventInterface
         $this->periode          = Jadwal::whereId($periode)->first()->keterangan;
         $this->jenis_layanan    = Layanan::whereId($jenis_layanan)->first()->jenis_layanan;
         $this->link             = $link;
-        $this->message          = "Seorang responden baru saja mengikuti survey {$this->periode} untuk layanan {$this->jenis_layanan}";
+        $this->message          = "Seorang responden baru saja mengikuti survey {$this->periode} 
+                                    untuk layanan {$this->jenis_layanan}";
 
+        /*Fire main notification event*/
         event( new MainNotificationsEvent(new Notifications(), $this) );
     }
 

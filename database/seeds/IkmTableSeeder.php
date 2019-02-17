@@ -32,13 +32,13 @@ class IkmTableSeeder extends Seeder
 	        	'start_date' => $start1,
 	        	'end_date' => $end1,
 	        	'is_open' => $is_open1,
-	        	'keterangan' => 'IKM Periode I Tahun ' .date('Y')
+	        	'keterangan' => 'IKM Periode I Tahun ' . date('Y')
         	],
         	[
 	        	'start_date' => $start2,
 	        	'end_date' => $end2,
 	        	'is_open' => $is_open2,
-	        	'keterangan' => 'IKM Periode II Tahun ' .date('Y')
+	        	'keterangan' => 'IKM Periode II Tahun ' . date('Y')
         	],
         	
         ]);

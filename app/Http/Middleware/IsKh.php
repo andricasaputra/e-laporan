@@ -19,6 +19,7 @@ class IsKh
 
             $cek = auth()->user()->pegawai->jenis_karantina;
 
+            /*NULL berarti untuk superadmin dan admin yang tidak mempunyai jenis karantina*/
             if ($cek === NULL || $cek === 'kh' ) return $next($request); 
 
             return back()->withWarning('Anda Tidak Mempunyai Hak Akses Ke Halaman Ini!');

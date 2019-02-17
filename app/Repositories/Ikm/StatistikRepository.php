@@ -206,7 +206,7 @@ class StatistikRepository implements RepositoryInterface
 
         if (is_null($id)) return 1;
 
-        if (is_null($id->ikm))  return 1;
+        if (is_null($id->ikm)) return 1;
 
         return $id->ikm->id;
 	}

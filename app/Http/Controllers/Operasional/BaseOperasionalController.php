@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contracts\ModelOperasionalInterface as Model;
 
-ini_set('max_execution_time', '200');
+ini_set('max_execution_time', '500');
 
 class BaseOperasionalController extends Controller
 {
@@ -128,7 +128,7 @@ class BaseOperasionalController extends Controller
         $value  = $this->getLaporanClue(1)->first();
 
         /*Cek isi file kosong atau tidak*/
-        if(strpos($value, 'Karantina Pertanian') === false && 
+        if(strpos((string) $value, 'Karantina Pertanian') === false && 
            strpos($key, $this->jenisKarantina) === false ) return 'not our format';
 
         return $this->cleanString( trim(explode(":", $value)[2]) );
@@ -146,7 +146,7 @@ class BaseOperasionalController extends Controller
         $value  = $this->getLaporanClue(1)->first();
 
         /*Cek isi file kosong atau tidak*/
-        if(strpos($value, 'Karantina Pertanian') === false && 
+        if(strpos((string) $value, 'Karantina Pertanian') === false && 
            strpos($key, $this->jenisKarantina) === false ) return 'not our format';
 
         /*Cek dari value Kosong atau tidak*/
@@ -181,7 +181,7 @@ class BaseOperasionalController extends Controller
         * Apabila laporan bukan merupakan pembatalan dokumen  
         * ambil data pada laporan yang diupload dimulai dari row ke 2
         */
-        }else{
+        } else {
 
             return  trim(explode(
 

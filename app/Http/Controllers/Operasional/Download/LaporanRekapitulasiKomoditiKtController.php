@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Operasional\Download;
 use Illuminate\Http\Request;
 use App\Repositories\Operasional\DataOperasionalKtRepository as Repository;
 
-ini_set('max_execution_time', '200');
+ini_set('max_execution_time', '500');
 
 class LaporanRekapitulasiKomoditiKtController extends DownloadController
 {
@@ -153,25 +153,23 @@ class LaporanRekapitulasiKomoditiKtController extends DownloadController
 
         return  $model->groupBy('wilker_id')->map(function($data){
 
-                    return $data->groupBy('nama_komoditas')->map(function($subdata){
-                       
+                    return $data->groupBy('nama_komoditas')->map(function($subdata) use ($data){
+
                         return [
 
                             'wilker'      => $subdata->first()->wilker->nama_wilker,
-                            'volume'      => $subdata->sum('volume'), 
+                            'volume'      => $subdata->sum('volume_netto'), 
                             'frekuensi'   => $subdata->count(),
                             'satuan'      => $subdata->pluck('sat_netto')->flatten(1)->first(),
                             'kota_asal'   => $subdata->groupBy('kota_asal'),
                             'kota_tuju'   => $subdata->groupBy('kota_tuju'),
                             'negara_asal' => $subdata->groupBy('asal'),
                             'negara_tuju' => $subdata->groupBy('tujuan')
-
                         ];
 
                     });
 
                 });
-
 
     }
 

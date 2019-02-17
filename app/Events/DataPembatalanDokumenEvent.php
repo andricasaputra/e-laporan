@@ -32,8 +32,10 @@ class DataPembatalanDokumenEvent implements NotificationsEventInterface
         $this->link     = $data->linkNotify;
         $this->table    = $data->table;
 
+        /*Fire log operasional event*/
         event( new LogInfoOperasionalEvent($this) );
 
+        /*Fire main notifications event*/
         event( new MainNotificationsEvent(new Notifications(), $this) );
     }
 

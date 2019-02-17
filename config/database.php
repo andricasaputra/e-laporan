@@ -61,7 +61,7 @@ return [
                 'NO_AUTO_CREATE_USER',
                 'NO_ENGINE_SUBSTITUTION',
             ],
-            'options'   => [
+            'options' => [
                 \PDO::ATTR_EMULATE_PREPARES => true
             ],
         ],
@@ -88,7 +88,7 @@ return [
                 'NO_AUTO_CREATE_USER',
                 'NO_ENGINE_SUBSTITUTION',
             ],
-            'options'   => [
+            'options' => [
                 \PDO::ATTR_EMULATE_PREPARES => true
             ],
         ],

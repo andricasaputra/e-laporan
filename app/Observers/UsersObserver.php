@@ -9,8 +9,18 @@ use App\Events\RegisterPegawai;
 
 class UsersObserver
 {
+    /**
+     * For keep repository instance on the bag
+     *
+     * @var Request $request
+     */
     private $request;
 
+    /**
+     * Set instance of request
+     *
+     * @return void
+     */
     public function __construct(Request $request)
     {
         $this->request = $request;
@@ -24,7 +34,7 @@ class UsersObserver
      */
     public function created(MasterPegawai $masterPegawai)
     {
-        event(new RegisterPegawai($masterPegawai, $this->request)); 
+        event( new RegisterPegawai($masterPegawai, $this->request) ); 
     }
 
     /**
@@ -35,7 +45,6 @@ class UsersObserver
      */
     public function updated(MasterPegawai $masterPegawai)
     {
-        event(new UpdatePegawai($masterPegawai, $this->request)); 
+        event( new UpdatePegawai($masterPegawai, $this->request) ); 
     }
-
 }

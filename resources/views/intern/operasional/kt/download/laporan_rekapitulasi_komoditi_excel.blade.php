@@ -29,7 +29,8 @@
 		</tr>
 		
 		{{-- table body --}}
-			
+		@php $no = 0; @endphp
+
 		@forelse($datas['bodies'] as $subdatas)
 			
 			@foreach($subdatas as $komoditi => $data)
@@ -39,7 +40,7 @@
 					<tr>
 						
 						<td valign="middle" style="text-align: center;border: 1px solid #000">
-							{{ $loop->index + 1 }}
+							{{ $no += 1 }}
 						</td>
 						
 						<td valign="middle" style="text-align: center;border: 1px solid #000">
@@ -83,7 +84,7 @@
 						<tr>
 							
 							<td valign="middle" style="text-align: center;border: 1px solid #000">
-								{{ $loop->index + 1 }}
+								{{ $no += 1 }}
 							</td>
 							
 							<td valign="middle" style="text-align: center;border: 1px solid #000">
@@ -95,7 +96,7 @@
 							</td>
 							
 							<td valign="middle" style="text-align: center;border: 1px solid #000">
-								{{ number_format($data['volume'], 0, ',', '.') ?? '-' }}
+								{{ $data['volume'] ?? '-' }}
 							</td>
 							
 							<td valign="middle" style="text-align: center;border: 1px solid #000">
@@ -103,7 +104,7 @@
 							</td>
 							
 							<td valign="middle" style="text-align: center;border: 1px solid #000">
-								{{ number_format($data['frekuensi'], 0, ',', '.') ?? '-' }}
+								{{ $data['frekuensi'] ?? '-' }}
 							</td>
 							
 							<td valign="middle" style="text-align: center;border: 1px solid #000;width:30;font-size: 9">
@@ -232,7 +233,7 @@
 				<td></td>
 			@endfor
 			<td colspan="4" valign="bottom" style="font-weight: bold;text-align: center;font-size: 16">
-				Sumbawa Besar, {{ date('d/m/Y') }}
+				Sumbawa Besar, {{ reverse_tanggal_indo(date('d-m-Y')) }}
 			</td>
 		</tr>
 		

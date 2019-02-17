@@ -99,7 +99,7 @@
       <div class="card-body">
         <i class="fa fa-download fa-2x mb-4"></i>
         <h4 class="card-text">
-          Donwload Laporan Operasional
+          Download Laporan Operasional
         </h4>
         <p>Karantina Hewan</p>
       </div>

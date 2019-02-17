@@ -218,7 +218,7 @@
 		<tr>
 			<td colspan="5"></td>
 			<td colspan="5" valign="bottom" style="font-weight: bold;text-align: center;font-size: 12">
-				Sumbawa Besar, {{ date('d/m/Y') }}
+				Sumbawa Besar, {{ reverse_tanggal_indo(date('d-m-Y')) }}
 			</td>
 		</tr>
 		

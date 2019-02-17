@@ -270,16 +270,8 @@ trait QueryScopeKtTrait
      */
     public function scopeLaporanRekapitulasiKomoditi($query, $year, $month = false, $wilkerId = false)
     {
-        $query->selectRaw(
-             '  wilker_id,    
-                nama_komoditas,
-                sum(volume_netto) as volume,
-                sat_netto,
-                count(*) as frekuensi,
-                kota_asal,
-                asal,
-                kota_tuju,
-                tujuan '
+        $query->select(
+             'wilker_id', 'nama_komoditas', 'kota_asal', 'kota_tuju', 'asal', 'tujuan', 'volume_netto', 'sat_netto'
         )->whereYear('bulan', $year);
 
         $query->when($month && $month != 'all', function ($query) use ($month) {
@@ -292,10 +284,7 @@ trait QueryScopeKtTrait
 
         });
 
-        return $query->with('wilker')
-                     ->groupBy('wilker_id', 'nama_komoditas', 'kota_asal', 'kota_tuju')
-                     ->oldest('wilker_id')
-                     ->get();
+        return $query->with('wilker')->oldest('wilker_id')->orderBy('nama_komoditas', 'asc')->get();
     }
     
 }

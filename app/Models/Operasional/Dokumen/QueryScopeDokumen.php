@@ -13,7 +13,7 @@ trait QueryScopeDokumen
      *
      * @return void
      */
-	public function wilker()
+    public function wilker()
     {
         return $this->belongsTo(Wilker::class);
     }
@@ -44,9 +44,9 @@ trait QueryScopeDokumen
      * @param $query
      * @return collections
      */
-	public function scopeKtDokumen($query)
+    public function scopeKtDokumen($query)
     {
-    	return $query->with(['dokumen' => function($q){
+        return $query->with(['dokumen' => function($q){
 
             $q->whereIn('karantina', ['kt', 'both']);
 
@@ -61,7 +61,7 @@ trait QueryScopeDokumen
      */
     public function scopeKhDokumen($query)
     {
-    	return $query->with(['dokumen' => function($q){
+        return $query->with(['dokumen' => function($q){
 
            $q->whereIn('karantina', ['kh', 'both']);
             
@@ -75,7 +75,7 @@ trait QueryScopeDokumen
      * @param array $params
      * @return collections
      */
-	public function scopeGetJumlahKtDokumen($query, array $params)
+    public function scopeGetJumlahKtDokumen($query, array $params)
     {
         $query->selectRaw('sum(jumlah) as total, dokumen_id, wilker_id, no_seri')
               ->ktDokumen()->whereYear('created_at', $params['year']);
@@ -95,7 +95,7 @@ trait QueryScopeDokumen
     }
 
     /**
-     * Untuk mmenghitung jumlah persediaan/penerimaan dokumen KT
+     * Untuk mmenghitung jumlah persediaan/penerimaan dokumen KH
      *
      * @param $query
      * @param array $params
@@ -141,8 +141,7 @@ trait QueryScopeDokumen
 
         });
 
-        return $query->whereIn('dokumen_id', $this->setDokumenKt())
-                     ->groupBy('dokumen_id', 'no_seri')->get();
+        return $query->whereIn('dokumen_id', $this->setDokumenKt())->get();
     }
 
     /**
@@ -166,8 +165,7 @@ trait QueryScopeDokumen
 
         });
 
-        return $query->whereIn('dokumen_id', $this->setDokumenKh())
-                     ->groupBy('dokumen_id', 'no_seri')->get();
+        return $query->whereIn('dokumen_id', $this->setDokumenKh())->get();
     }
 
     /**

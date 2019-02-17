@@ -2,6 +2,7 @@
 
 namespace App\Models\Operasional;
 
+use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\ModelOperasionalInterface;
 
@@ -45,5 +46,15 @@ class SerahTerimaKh extends Model implements ModelOperasionalInterface
  	public function getBulanAttribute($value)
     {
         return bulan_tahun($value);
+    }
+
+    /**
+     * One to many relations
+     *
+     * @return void
+     */
+    public function wilker()
+    {
+        return $this->belongsTo(Wilker::class);
     }
 }

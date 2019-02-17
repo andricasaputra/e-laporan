@@ -43,7 +43,7 @@ class UserRepository implements RepositoryInterface
                         <a href="'. route('users.edit', $users->pegawai->id) .'" class="btn btn-primary">
                             <i class="fa fa-edit"></i> Edit
                         </a> 
-                        <a href="#" data-id = "'.$users->pegawai->id.'"  class="btn btn-danger" id="deleteUser">
+                        <a href="#" data-id = "'. $users->pegawai->id .'"  class="btn btn-danger" id="deleteUser">
                             <i class="fa fa-trash"></i> Delete
                         </a>';
                 })->make(true);

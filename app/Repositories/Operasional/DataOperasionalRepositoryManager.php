@@ -283,7 +283,7 @@ class DataOperasionalRepositoryManager implements RepositoryInterface
         $log->update([
 
             "status" => 1,
-            "rolledback_at" => \Carbon::now()
+            "rolledback_at" => now()
 
         ]);
     }

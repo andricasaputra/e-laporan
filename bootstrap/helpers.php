@@ -33,7 +33,7 @@ if (! function_exists('admin')) {
 	 *
 	 * @return boll|null
 	 */
-	function admin()
+	function admin() : ?bool
 	{
 		if(auth()->check()) {
 
@@ -41,7 +41,7 @@ if (! function_exists('admin')) {
 
 			if ($cek  === 2 || $cek  === 3) return true;
 
-			return;
+			return null;
 
 		}
 	
@@ -56,7 +56,7 @@ if (! function_exists('superadmin')) {
 	 *
 	 * @return boll|null
 	 */
-	function superadmin()
+	function superadmin() : ?bool
 	{
 		if(auth()->check()) {
 
@@ -64,7 +64,7 @@ if (! function_exists('superadmin')) {
 
 			if ($cek  === 1) return true;
 
-			return;
+			return null;
 
 		}
 	
@@ -122,6 +122,7 @@ if (! function_exists('tanggal_indo')) {
 	
 	/**
 	 * Merubah date format menjadi string
+	 * Format tahun bulan tanggal
 	 *
 	 * @param string $tanggal
 	 * @return string
@@ -159,6 +160,51 @@ if (! function_exists('tanggal_indo')) {
 	    $ex = explode('-', $tanggal);
 
 	    return $ex[2] . ' ' . $bulan[(int) $ex[1]] . ' ' . $ex[0];
+	}
+}
+
+if (! function_exists('reverse_tanggal_indo')) {
+	
+	/**
+	 * Merubah date format menjadi string
+	 * Format tanggal bulan tahun
+	 *
+	 * @param string $tanggal
+	 * @return string
+	 */
+	function reverse_tanggal_indo(string $tanggal) : ?string
+	{
+	    $bulan = [
+
+	        1 => 'Januari',
+
+	        'Februari',
+
+	        'Maret',
+
+	        'April',
+
+	        'Mei',
+
+	        'Juni',
+
+	        'Juli',
+
+	        'Agustus',
+
+	        'September',
+
+	        'Oktober',
+
+	        'November',
+
+	        'Desember',
+
+	    ];
+
+	    $ex = explode('-', $tanggal);
+
+	    return  $ex[0]. ' ' . $bulan[(int) $ex[1]] . ' ' . $ex[2];
 	}
 }
 
@@ -237,7 +283,7 @@ if (! function_exists('rp')) {
 	 * @param string $rupiah
 	 * @return string
 	 */
-	function rp($rupiah)
+	function rp($rupiah) : ?string
 	{
 
 		$rupiah = "Rp " . number_format($rupiah , 2 , "," , "."); 

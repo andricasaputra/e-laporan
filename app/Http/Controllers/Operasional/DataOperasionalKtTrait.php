@@ -311,7 +311,7 @@ trait DataOperasionalKtTrait
 
         )->addColumn('action', function ($mp){
             return '
-            <a href="#" data-mp="'.$mp["nama_komoditas"].'" class="btn btn-primary detail-mp">
+            <a href="#" data-mp="'. $mp["nama_komoditas"] .'" class="btn btn-primary detail-mp">
                 <i class="fa fa-edit"></i> Detail MP
             </a>';
         })->make(true);
@@ -330,7 +330,7 @@ trait DataOperasionalKtTrait
 
         )->addColumn('action', function ($mp){
             return '
-            <a href="#" data-mp="'.$mp["nama_komoditas"].'" class="btn btn-primary detail-mp">
+            <a href="#" data-mp="'. $mp["nama_komoditas"] .'" class="btn btn-primary detail-mp">
                 <i class="fa fa-edit"></i> Detail MP
             </a>';
         })->make(true);
@@ -349,7 +349,7 @@ trait DataOperasionalKtTrait
 
         )->addColumn('action', function ($mp){
             return '
-            <a href="#" data-mp="'.$mp["nama_komoditas"].'" class="btn btn-primary detail-mp">
+            <a href="#" data-mp="'. $mp["nama_komoditas"] .'" class="btn btn-primary detail-mp">
                 <i class="fa fa-edit"></i> Detail MP
             </a>';
         })->make(true);
@@ -368,7 +368,7 @@ trait DataOperasionalKtTrait
 
         )->addColumn('action', function ($mp){
             return '
-            <a href="#" data-mp="'.$mp["nama_komoditas"].'" class="btn btn-primary detail-mp">
+            <a href="#" data-mp="'. $mp["nama_komoditas"] .'" class="btn btn-primary detail-mp">
                 <i class="fa fa-edit"></i> Detail MP
             </a>';
         })->make(true);
@@ -439,7 +439,7 @@ trait DataOperasionalKtTrait
                     <td style = "font-weight: 500">'. $kota_tuju .'</td>
                     <td style = "font-weight: 500">'. $value["tujuan"] .'</td>
                     <td style = "font-weight: 500">'. $value["total"] .'</td>
-                    <td style = "font-weight: 500">'. number_format((int) $value["volume"], 0, ".", ",") .'</td>
+                    <td style = "font-weight: 500">'. $value["volume"] .'</td>
                     <td style = "font-weight: 500">'. $value["satuan"] .'</td>
                     <td style = "font-weight: 500">'. $dok_pelepasan .'</td>
                     <td style = "font-weight: 500">'. $value["pemakaian_dokumen"] .' Dokumen</td>

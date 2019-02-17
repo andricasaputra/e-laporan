@@ -94,8 +94,7 @@ class UserController extends Controller
     {
         $request->persistUpdate($masterPegawai);
 
-        return redirect()->route('users.index')
-                ->withSuccess('Data User Berhasil Diubah');
+        return redirect(route('users.index'))->withSuccess('Data User Berhasil Diubah');
     }
 
     /**
@@ -113,8 +112,7 @@ class UserController extends Controller
         /*Delete pegawai from master pegawai*/
         $user->pegawai()->delete();
 
-        return redirect()->route('users.index')
-                ->withSuccess('Data User Berhasil Dihapus');
+        return redirect(route('users.index'))->withSuccess('Data User Berhasil Dihapus');
     }
 
     /**

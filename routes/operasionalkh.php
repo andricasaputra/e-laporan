@@ -141,7 +141,6 @@ Route::middleware('kh')->group(function(){
 	* KH Proses Download
 	* ------------------------------------
 	*/
-
 	Route::namespace('Download')->group(function () {
 
 	    Route::post('donwload/operasional', 'LaporanOperasionalKhController@laporanOperasionalKh')

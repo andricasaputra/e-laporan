@@ -8,6 +8,11 @@ use App\Http\Controllers\Controller;
 
 class MainNotificationController extends Controller
 {
+    /**
+     * Untuk membaca single notifications
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function readNotifications(Request $request)
     {
         auth()->user()->notifications
@@ -18,6 +23,11 @@ class MainNotificationController extends Controller
         return redirect($request->redirect);
     }
 
+    /**
+     * Untuk melihat semua notifications
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function showAllNotifications()
     {
         return view('intern.notifications')
@@ -25,6 +35,11 @@ class MainNotificationController extends Controller
                     ->withNotifications(auth()->user()->notifications()->paginate(10));
     }
 
+    /**
+     * Untuk melihat notifications pada icon notifikasi
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function mapNotifications()
     {
         return view('intern.mapnotifications')
@@ -32,11 +47,22 @@ class MainNotificationController extends Controller
                     ->withNotifications(auth()->user()->unreadNotifications);
     }
 
+    /**
+     * Resource dari semua notifikasi yang belum terbaca
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function mainApiNotifications(User $user)
     {
     	return $user->unreadNotifications;
     }
 
+    /**
+     * Untuk marked semua notifikasi apabila tombol
+     * "tandai baca semua ditekan"
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function markAsReadAllNotifications(Request $request)
     {
         auth()->user()->unreadNotifications->markAsRead();
@@ -44,6 +70,12 @@ class MainNotificationController extends Controller
         return redirect(route('show.all.notifications'));
     }
 
+    /**
+     * Untuk menghapus semua notifikasi apabila tombol
+     * "hapus semua notifikasi ditekan"
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function deleteNotifications(Request $request)
     {
         auth()->user()->notifications()->delete();
