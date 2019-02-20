@@ -24,6 +24,7 @@ class CreateViewRekapKomoditiSerahterimaKh extends Migration
                                 sum(total_pnbp) as pnbp,
                                 count(satuan) as frekuensi 
                         FROM serah_terima_kh
+                        WHERE nama_mp != ''
                         GROUP BY nama_mp, bulan, wilker_id
                     ");
     }

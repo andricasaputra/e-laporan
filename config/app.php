@@ -153,7 +153,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Mavinoo\LaravelBatch\LaravelBatchServiceProvider::class,
-        
+     
         /*
          * Application Service Providers...
          */

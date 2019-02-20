@@ -75,7 +75,7 @@ trait QueryScopeKhTrait
      */
     public function scopeCountFrekuensiKomoditi($query, $year, $month = false, $wilkerId = false)
     {
-        $query->selectRaw('year(bulan) as year, monthname(bulan) as bln, count(*) as data')
+        $query->selectRaw('year(bulan) as year, monthname(bulan) as bln, sum(frekuensi) as data')
               ->whereNotNull('nama_mp')
               ->whereYear('bulan', $year);
 

@@ -21,6 +21,19 @@ Route::namespace('Admin')->prefix('admin')->middleware('admin')->group(function(
 	    'names' => 'admin.pengumuman'
 	]);
 
+	/*route untuk database setting*/
+	Route::prefix('database')->group(function(){
+
+		Route::get('menu', 'DatabaseManagerController@menu')->name('database.menu');
+
+		Route::post('export', 'DatabaseManagerController@export')->name('database.export');
+
+		Route::get('impor', 'DatabaseManagerController@importPage')->name('database.page.impor');
+
+		Route::post('impor', 'DatabaseManagerController@import')->name('database.impor');
+
+	});
+
 });
 
 

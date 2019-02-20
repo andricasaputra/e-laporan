@@ -65,7 +65,7 @@ Route::get(
 
 /*View Page Table Detail Pembatalan Dokumen*/
 Route::get(
-	'data/statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'PembatalanDokKtController@tableDetailPembatalanView'
+	'data/statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'Dokumen\\PembatalanDokKtController@tableDetailPembatalanView'
 )->name('kt.view.page.detail.dokumen.pembatalan_dokumen');
 
 /*KT Middleware*/

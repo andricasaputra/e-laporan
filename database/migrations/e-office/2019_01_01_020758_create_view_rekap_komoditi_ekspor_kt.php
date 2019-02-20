@@ -24,6 +24,7 @@ class CreateViewRekapKomoditiEksporKt extends Migration
                                 sum(total_pnbp) as pnbp,
                                 count(sat_netto) as frekuensi 
                         FROM ekspor_kt
+                        WHERE nama_komoditas != ''
                         GROUP BY nama_komoditas, bulan, wilker_id
                     ");
     }

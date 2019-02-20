@@ -1,3 +1,20 @@
+## e-office-v5 | writed on : 20/02/2019
+
+# SYSTEM UPDATE
+
+* Perbaikan views table migration (add where condition)
+* Perbaikan data frekuensi chart pada home/ dashboard
+
+# FOR ADMIN PAGE
+
+* Add database management (backup & restore)
+
+# INFO UPDATE APLIKASI (TO USER)
+
+* Perbaikan kolom volume pada download excel rekapitulasi komoditi
+
+----------------------------------------------------------------------------------------------------------
+
 ## e-office-v4 | writed on : 22/01/2019
 
 # TODO

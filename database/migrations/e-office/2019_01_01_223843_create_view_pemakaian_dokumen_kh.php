@@ -21,7 +21,7 @@ class CreateViewPemakaianDokumenKh extends Migration
                                 count(dok_pelepasan) as jumlah,
                                 CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
                         FROM dokel_kh
-                        WHERE dok_pelepasan IS NOT NULL
+                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
                         GROUP BY dokumen, bulan, wilker_id
 
                         UNION 
@@ -32,7 +32,7 @@ class CreateViewPemakaianDokumenKh extends Migration
                                 count(dok_pelepasan) as jumlah,
                                 CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
                         FROM domas_kh
-                        WHERE dok_pelepasan IS NOT NULL
+                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
                         GROUP BY dokumen, bulan, wilker_id
 
                         UNION
@@ -43,7 +43,7 @@ class CreateViewPemakaianDokumenKh extends Migration
                                 count(dok_pelepasan) as jumlah,
                                 CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
                         FROM ekspor_kh
-                        WHERE dok_pelepasan IS NOT NULL
+                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
                         GROUP BY dokumen, bulan, wilker_id
 
                         UNION
@@ -54,7 +54,7 @@ class CreateViewPemakaianDokumenKh extends Migration
                                 count(dok_pelepasan) as jumlah,
                                 CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
                         FROM impor_kh
-                        WHERE dok_pelepasan IS NOT NULL
+                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
                         GROUP BY dokumen, bulan, wilker_id
                     ");
     }

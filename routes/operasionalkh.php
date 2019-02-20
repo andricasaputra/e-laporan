@@ -65,7 +65,7 @@ Route::get(
 
 /*View Page Table Detail Pembatalan Dokumen*/
 Route::get(
-	'data/statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'PembatalanDokKhController@tableDetailPembatalanView'
+	'data/statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'Dokumen\\PembatalanDokKhController@tableDetailPembatalanView'
 )->name('kh.view.page.detail.dokumen.pembatalan_dokumen');
 
 Route::middleware('kh')->group(function(){

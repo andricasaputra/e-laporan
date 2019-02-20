@@ -97,12 +97,12 @@ class LogInfo extends Model
      */
     public function getRolledbackAtStatusAttribute()
     {
-        $status         =   $this->status == 1 
+        $status         =   (int) $this->status == 1 
                             ? 'Laporan Berhasil Ditarik Kembali' 
                             : 'Laporan Berhasil Diupload';
 
-        $rolledBackAt   =   $this->rolledback_at !== null 
-                            ? 'Pada ' . \Carbon::parse($this->rolledback_at)->format('d-m-Y')
+        $rolledBackAt   =   $this->rolledback_at !== null && (int) $this->status == 1 
+                            ? 'Pada ' . reverse_tanggal_indo(\Carbon::parse($this->rolledback_at)->format('d-m-Y'))
                             : '';
 
         return $status.' '.$rolledBackAt;

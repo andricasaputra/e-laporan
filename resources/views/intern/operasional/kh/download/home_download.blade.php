@@ -34,31 +34,20 @@
     padding: 0.5em 0.6em;
   }
 
-  .fa-bus, .fa-exchange{
-    background-color: #f73b5e;
-    color: #fff
-  }
-
   .fa-truck{
-    background-color: #2962FF;
+    background-color: #f73b5e;
     color: #fff;
   }
 
-  .fa-ship, .fa-file-excel-o{
+  .fa-file-o{
     background-color: #FF8F29;
     color: #fff;
   }
 
-  .fa-plane, .card-body > .fa-repeat{
+  .fa-paw{
     background-color: #12AFAF;
     color: #fff;
   }
-
-  .badge{
-    padding: 4px 13px !important;
-  }
-
-
 
 </style>
 
@@ -69,7 +58,7 @@
         Download Laporan Operasional
       </div>
       <div class="card-body">
-        <i class="fa fa-exchange fa-2x mb-3"></i>
+        <i class="fa fa-truck fa-2x mb-3"></i>
         <h4 class="card-text mb-3">
           Laporan Operasional
         </h4>
@@ -83,7 +72,7 @@
         Download Laporan Rekapitulasi Komoditas
       </div>
       <div class="card-body">
-        <i class="fa fa-repeat fa-2x mb-3"></i>
+        <i class="fa fa-paw fa-2x mb-3"></i>
         <h4 class="card-text mb-3">
           Laporan Rekapitulasi Komoditas
         </h4>
@@ -97,7 +86,7 @@
         Download Laporan Penggunaan Dokumen
       </div>
       <div class="card-body">
-        <i class="fa fa-file-excel-o fa-2x mb-3"></i>
+        <i class="fa fa-file-o fa-2x mb-3"></i>
         <h4 class="card-text mb-3">
           Laporan Penggunaan Dokumen
         </h4>
@@ -105,6 +94,16 @@
       </div>
     </div>
   </div> 
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col text-center">
+    <a href="{{ route('showmenu.operasional.kh') }}" class="btn btn-danger">
+          <i class="fa fa-angle-double-left"></i> Kembali
+        </a>
+  </div>
 </div>
 
 <!-- Modal Laporan Operasional -->

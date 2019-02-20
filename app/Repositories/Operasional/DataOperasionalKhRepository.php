@@ -377,7 +377,7 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
             *    karena jika sudah lebih dari seminggu, laporan kita asumsikan valid
             *    dan tidak dapat di rollback kembali
             */
-            return $datas->when(is_null($datas->rolledback_at) , function($i) use ($datas){
+            return $datas->when(is_null($datas->rolledback_at) && (int) $datas->status == 1 , function($i) use ($datas){
 
                 return  now() > \Carbon::parse($datas->created_at)->addWeek() 
                         ? '-'

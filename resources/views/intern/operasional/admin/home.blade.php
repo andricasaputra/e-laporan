@@ -43,7 +43,7 @@
     color: #fff
   }
 
-  .fa-line-chart{
+  .fa-bullhorn{
     background-color: #F24656;
     color: #fff
   }
@@ -81,7 +81,7 @@
         <p>Backup & Restore Database</p>
       </div>
       <div class="card-footer bg-transparent">
-        <a href="{{ route('kt.homeupload') }}" class="btn btn-primary">Masuk</a>
+        <a href="{{ route('database.menu') }}" class="btn btn-primary">Masuk</a>
       </div>
     </div>
   </div> 
@@ -91,7 +91,7 @@
         Pengumuman Update Aplikasi
       </div>
       <div class="card-body">
-        <i class="fa fa-line-chart fa-2x mb-4"></i>
+        <i class="fa fa-bullhorn fa-2x mb-4"></i>
         <h4 class="card-text">
           Pengumuman
         </h4>

@@ -23,9 +23,9 @@
 
     let ktUrl       = '{{ route('api.kt.detail.frekuensi.chart') }}';
 
-    let chartKhUrl  = khUrl + '/' + khValue + '/' + year;
+    let chartKhUrl  = khUrl + '/' + khValue + '/' + year + '/' + month + '/' + wilker;
 
-    let chartKtUrl  = ktUrl + '/' + ktValue + '/' + year;
+    let chartKtUrl  = ktUrl + '/' + ktValue + '/' + year + '/' + month + '/' + wilker;
 
     /*set judul halaman*/
 
@@ -54,9 +54,9 @@
 
       tableUrl    = '{{ route('api.operasional.dashboard') }}/' + year + '/' + month + '/' + wilker;
 
-      chartKhUrl  = khUrl + '/' + khValue + '/' + year;
+      chartKhUrl  = khUrl + '/' + khValue + '/' + year + '/' + month + '/' + wilker;
 
-      chartKtUrl  = ktUrl + '/' + ktValue + '/' + year;
+      chartKtUrl  = ktUrl + '/' + ktValue + '/' + year + '/' + month + '/' + wilker;
 
       /*update judul halaman*/
 
@@ -362,7 +362,7 @@
 
         khValue     = $('#selectCatKh').val();
 
-        chartKhUrl  = khUrl + '/' + khValue + '/' + year;
+        chartKhUrl  = khUrl + '/' + khValue + '/' + year + '/' + month + '/' + wilker;
 
         chartKh(chartKhUrl, khValue);
 
@@ -372,7 +372,7 @@
 
       ktValue = $('#selectCatKt').val();
 
-      chartKtUrl  = ktUrl + '/' + ktValue + '/' + year;
+      chartKtUrl  = ktUrl + '/' + ktValue + '/' + year + '/' + month + '/' + wilker;
 
       chartKt(chartKtUrl, ktValue);
 

@@ -15,7 +15,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.home') }}"> Home Admin </a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.home') }}">Menu Admin </a></li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.setting.dokumen.index') }}">Dokumen</a></li>
             <li class="breadcrumb-item" aria-current="page">Edit Dokumen</li>
         </ol>

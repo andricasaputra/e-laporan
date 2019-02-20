@@ -116,6 +116,14 @@
   </div> 
 </div>
 
+<div class="row">
+  <div class="col text-center">
+    <a href="{{ route('showmenu.operasional.kt') }}" class="btn btn-danger">
+          <i class="fa fa-angle-double-left"></i> Kembali
+        </a>
+  </div>
+</div>
+
 <hr>
 
 <div class="row mb-3">
