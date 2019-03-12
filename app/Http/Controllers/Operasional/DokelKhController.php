@@ -7,8 +7,8 @@ namespace App\Http\Controllers\Operasional;
 use Illuminate\Http\Request;
 use App\Contracts\BaseOperasionalInterface;
 use App\Models\Operasional\DokelKh as Operasional;
+use App\Http\Controllers\Operasional\Upload\UploadFactory;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
-use App\Http\Controllers\Operasional\UploadOperasionalController as Upload;
 
 ini_set('max_execution_time', '500');
 
@@ -54,11 +54,15 @@ class DokelKhController extends BaseOperasionalController implements BaseOperasi
      */
     public function imports(Validation $request) 
 	{
-        /*Filter Data Sebelum Insert Database*/
+        // Filter Data Sebelum Insert Ke Database
         if (! $this->setDataProperty($request, new Operasional)->checkingData() ) return back();
 
-        /*Delegate Upload Process to Upload Class*/
-        (new Upload( new Operasional, $request ))->uploadData();
+        // Upload Data
+        $factory = new UploadFactory();
+
+        $upload  = $factory->initializeUploadType(new Operasional, $request);
+
+        $upload->uploadData();
 
         return back();
 	}
@@ -71,7 +75,7 @@ class DokelKhController extends BaseOperasionalController implements BaseOperasi
      */
     public function api($year = null, $month =  null, $wilker_id = null)
     {
-        $dokel  = Operasional::sortTableDetail($year, $month, $wilker_id)
+        $dokel  = Operasional::sortTableDetail([$year, $month, $wilker_id])
                     ->with('wilker')
                     ->get();
 

@@ -2,15 +2,17 @@
 
 declare(strict_types = 1);
 
-namespace App\Http\Controllers\Operasional;
+namespace App\Http\Controllers\Operasional\Upload;
 
 use App\Models\User;
 use App\Models\Wilker;
 use App\Events\DataOperasionalUploadedEvent;
 use App\Contracts\ModelOperasionalInterface as Model;
 use App\Http\Requests\UploadOperasionalRequest as Request;
+use App\Http\Controllers\Operasional\Upload\UploaderInterface;
+use App\Http\Controllers\Operasional\BaseOperasionalController;
 
-class UploadPembatalanController extends BaseOperasionalController
+class UploadLaporanPembatalan extends BaseOperasionalController implements UploaderInterface
 {
     /**
      * Untuk menyimpan model instance
@@ -134,30 +136,30 @@ class UploadPembatalanController extends BaseOperasionalController
      */
     public function uploadData()
     {
-    	/*Ambil Bulan Dan Tahun Pada Laporan Di Row 3*/
+    	// Ambil Bulan Dan Tahun Pada Laporan Di Row 3
         $this->headings	= 	$this->excelData(3)->first();
 
-        /*Data Asli Dimulai Dari Row Ke 7*/
+        // Data Asli Dimulai Dari Row Ke 7
         $this->datas 	= 	$this->excelData(7, false)->get();
 
-        /*set tanggal format Y-m-d*/
+        // set tanggal format Y-m-d
         $this->tanggal  =   \Carbon::now()->startOfMonth()->subMonth()->toDateString();
 
-    	/*Jika semua validasi berhasil & jika file tidak kosong maka insert ke database*/
+    	// Jika semua validasi berhasil & jika file tidak kosong maka insert ke database
         if (! empty($this->datas) && $this->datas->count() > 0) :
 
-    		/*Run Upload Proccess*/
+    		// Run Upload Proccess
             $this->uploadProccess(); 
 
-        /*File laporan yang diupload benar tetapi data nihil*/
+        // File laporan yang diupload benar tetapi data nihil
         else:
 
-            /*Run Upload Proccess*/
+            // Run Upload Proccess
             $this->uploadProccessNihil();
 
         endif;
 
-        /*berikan feedback pesan kepada user setelah upload laporan*/
+        // berikan feedback pesan kepada user setelah upload laporan
         return $this->setMessageType()->flashMessage();
     }
 
@@ -188,7 +190,7 @@ class UploadPembatalanController extends BaseOperasionalController
      */
     private function uploadProccess()
     {
-        /*Set kebutuhan data untuk insert / update*/
+        // Set kebutuhan data untuk insert / update
     	$datas = $this->datas->map(function($singledata){
 
            return $singledata->prepend($this->request->wilker_id, 'wilker_id')
@@ -199,7 +201,8 @@ class UploadPembatalanController extends BaseOperasionalController
 
         });
 
-        /*Pengecekan Laporan Bulanan Sudah Pernah Diupload atau belum, jika sudah lakukan update, jika belum insert baru*/
+        // Pengecekan Laporan Bulanan Sudah Pernah Diupload atau belum, 
+        // jika sudah lakukan update, jika belum insert baru
         $no_permohonan      = $datas->whereNotIn('no_permohonan', ['IDEM'])
                                     ->pluck('no_permohonan')
                                     ->all();
@@ -208,12 +211,12 @@ class UploadPembatalanController extends BaseOperasionalController
                                    ->whereIn('no_permohonan', $no_permohonan)
                                    ->get();
 
-        /*Jika Data Kosong artinya laporan belum pernah diupload -> maka insert*/                           
+        // Jika Data Kosong artinya laporan belum pernah diupload -> maka insert                           
         if ($forinsertOrUpdate === null || count($forinsertOrUpdate) === 0) {
 
             $insertOrUpdate = $this->model->insert( $datas->all() ); 
 
-        /*Laporan sudah pernah diupload -> maka update laporan*/
+        // Laporan sudah pernah diupload -> maka update laporan
         } else {
 
             foreach ($datas as $key => $value) {
@@ -229,16 +232,16 @@ class UploadPembatalanController extends BaseOperasionalController
 
         }
 
-        /*Set success untuk menampilkan pesan kepada user setelah upload*/
+        // Set success untuk menampilkan pesan kepada user setelah upload
         $insertOrUpdate === true ? $this->success = 1 : $this->success = 2;
 
-        /*Kirim notifikasi kepada user setelah upload*/
+        // Kirim notifikasi kepada user setelah upload
         if ($insertOrUpdate) {
 
-            /*Set Notifications Properties*/
+            // Set Notifications Properties
             $this->setNotificationsProperties((int) $this->request->wilker_id);
 
-            /*Call Event to Notify*/
+            // Call Event to Notify
             $this->eventNotifyHandler();
             
         }
@@ -271,10 +274,10 @@ class UploadPembatalanController extends BaseOperasionalController
 
         $this->success = 1;
 
-        /*Set Notifications Properties*/
+        // Set Notifications Properties
         $this->setNotificationsProperties((int) $this->request->wilker_id);
 
-        /*Call Event to Notify*/
+        // Call Event to Notify
         $this->eventNotifyHandler();
     }
 
@@ -297,12 +300,6 @@ class UploadPembatalanController extends BaseOperasionalController
 
                 $this->messageType = 'success';
                 $this->message = 'Data Berhasil Diperbarui!'; 
-                break;
-
-            case -1:
-
-                $this->messageType = 'warning';
-                $this->message = 'Ketidaksesuaian data antara Dokumen Sertifikat dan Total PNBP ditemukan!, Total PNBP Tidak Boleh 0 pada Dokumen Sertifikat Yang dipakai';
                 break;
 
             default:

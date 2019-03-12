@@ -4,6 +4,7 @@ namespace App\Models\Operasional;
 
 use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Operasional\ReportBillingKt;
 use App\Contracts\ModelOperasionalInterface;
 
 class DokelKt extends Model implements ModelOperasionalInterface

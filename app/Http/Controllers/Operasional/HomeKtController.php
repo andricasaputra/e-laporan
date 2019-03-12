@@ -51,7 +51,7 @@ class HomeKtController extends Controller
      * @param DataOperasionalKtRepository $repository, Request $request
      * @return void
      */
-    public function __construct(Repository $ktRepository, Request $request)
+    public function __construct(Request $request)
     {
         $this->year         = $request->year ?? date('Y');
 
@@ -61,7 +61,7 @@ class HomeKtController extends Controller
 
         $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
 
-        $this->ktRepository = new $ktRepository($this->year, $this->month, $this->wilker_id);
+        $this->ktRepository = new Repository($request);
     }
 
     /**
@@ -156,7 +156,7 @@ class HomeKtController extends Controller
      */
     public function logApi(int $year, $month , $wilker, string $type)
     {
-        return $this->ktRepository->log($year, $month ,$wilker, $type);
+        return $this->ktRepository->log($year, $month, $wilker, $type);
     }
 
     /**

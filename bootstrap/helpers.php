@@ -314,6 +314,22 @@ if (! function_exists('in_range')) {
 	}
 }
 
+if (! function_exists('clean_string')) {
+
+	/**
+     * Menghapus titik, spasi beserta koma pada string dan menjadikan string huruf kecil
+     *
+     * @param string $value
+     * @return string
+     */
+	function clean_string(string $value)
+    {   
+        $value = str_replace('.', ' ', $value);
+
+        return strtolower(trim(str_replace(' ', '', $value)));
+    }
+}
+
 
 
 

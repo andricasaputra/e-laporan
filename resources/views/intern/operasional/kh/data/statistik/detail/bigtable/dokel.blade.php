@@ -112,7 +112,17 @@
       <div class="col-md-12 card">
         @include('intern.inc.message')
         <div class="card-header">
-          Data Domestik Keluar Karantina Hewan Tahun <span id="yearSelect">{{ $tahun }}</span>
+          <i><b>
+
+            Detail Domestik Keluar Karantina Hewan
+
+            , <span id="wilkerSelect">{{ $userWilker }}</span>
+
+            Bulan <span id="monthSelect">{{ $bulan }}</span>
+
+            Tahun <span id="yearSelect">{{ $tahun }}</span>
+
+          </b></i>
         </div>
         <div class="card-body">
            <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="dokelkh">
@@ -138,29 +148,54 @@
 @section('script')
 
   <script>
+
     $(document).ready(function() {
 
       let container = $('#dokelkh');
 
+      let year = $('#year').val();
+
+      let month = $('#month').val();
+
+      let monthName = $('#month option:selected').text();
+
+      let wilker = {{ $userWilker }};
+
+      let wilkerName = $('#wilker option:selected').text();
+
       datatablesOperasional(
         container, 
-        '{{ route('api.kh.statistik.detail.bigtable.dokel', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
+        '{{ route('api.kh.statistik.detail.bigtable.dokel') }}/' + year + '/' + month + '/' + wilker, 
         'kh'
       );
 
+      $('#yearSelect').html(`${year}`);
+
+      $('#monthSelect').html(`${monthName}`);
+
+      $('#wilkerSelect').html(`${wilkerName}`);
+
       $('#change_data').on('submit', function(e){
 
-        e.preventDefault();
-
-        let year = $('#year').val();
-
-        let month = $('#month').val();
-
-        let wilker = $('#wilker').val();
+        e.preventDefault()
 
         container.DataTable().destroy();
 
+        year = $('#year').val();
+
+        month = $('#month').val();
+
+        monthName = $('#month option:selected').text();
+
+        wilker = $('#wilker').val();
+
+        wilkerName = $('#wilker option:selected').text();
+
         $('#yearSelect').html(`${year}`);
+
+        $('#monthSelect').html(`${monthName}`);
+
+        $('#wilkerSelect').html(`${wilkerName}`);
 
         if (year != '' && month == '' && wilker == '') {
 
@@ -185,6 +220,7 @@
       });
 
     });
+
   </script>
 
 @endsection

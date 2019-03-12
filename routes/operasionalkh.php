@@ -63,6 +63,11 @@ Route::get(
 	'data/statistik/detail/maintable/serah_terima/{year?}/{month?}/{wilker_id?}', 'SerahTerimaKhController@tableDetailFrekuensiView'
 )->name('kh.view.page.detail.bigtable.serah_terima');
 
+/*View Page Table Detail Setor PNBP*/
+Route::get(
+	'data/statistik/detail/maintable/billing/{year?}/{month?}/{wilker_id?}', 'ReportBillingKhController@tableDetailBillingView'
+)->name('kh.view.page.detail.pnbp.setor');
+
 /*View Page Table Detail Pembatalan Dokumen*/
 Route::get(
 	'data/statistik/detail/dokumen/pembatalan_dokumen/{year?}/{month?}/{wilker_id?}', 'Dokumen\\PembatalanDokKhController@tableDetailPembatalanView'
@@ -109,6 +114,9 @@ Route::middleware('kh')->group(function(){
 	Route::get('upload/serah_terima', 'SerahTerimaKhController@uploadPageView')
 	->name('kh.upload.page.serah_terima');
 
+	Route::get('upload/report_billing', 'ReportBillingKhController@uploadPageView')
+	->name('kh.upload.page.report_billing');
+
 	/*
 	*-------------------------------------
 	* KH Proses Upload
@@ -135,6 +143,9 @@ Route::middleware('kh')->group(function(){
 
 	Route::post('serah_terima/importdata', 'SerahTerimaKhController@imports')
 	->name('kh.upload.proses.serah_terima');
+
+	Route::post('report_billing/importdata', 'ReportBillingKhController@imports')
+	->name('kh.upload.proses.report_billing');
 
 	/*
 	*-------------------------------------

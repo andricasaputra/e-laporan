@@ -127,7 +127,7 @@ class BaseOperasionalController extends Controller
 
         $value  = $this->getLaporanClue(1)->first();
 
-        /*Cek isi file kosong atau tidak*/
+        // Cek isi file kosong atau tidak
         if(strpos((string) $value, 'Karantina Pertanian') === false && 
            strpos($key, $this->jenisKarantina) === false ) return 'not our format';
 
@@ -145,14 +145,14 @@ class BaseOperasionalController extends Controller
 
         $value  = $this->getLaporanClue(1)->first();
 
-        /*Cek isi file kosong atau tidak*/
+        // Cek isi file kosong atau tidak
         if(strpos((string) $value, 'Karantina Pertanian') === false && 
            strpos($key, $this->jenisKarantina) === false ) return 'not our format';
 
-        /*Cek dari value Kosong atau tidak*/
+        // Cek dari value Kosong atau tidak
         if ($value == null || strpos($key, $this->jenisKarantina) === false) return false;
 
-        /*Cek Jika File Yang Diunggah Sudah Sesuai Dengan Jenis Karantinanya */
+        // Cek Jika File Yang Diunggah Sudah Sesuai Dengan Jenis Karantinanya 
         return strpos($key, $this->jenisKarantina) !== false ? true : false;
     }
 
@@ -163,12 +163,10 @@ class BaseOperasionalController extends Controller
      */
     protected function checkJenisPermohonan()
     {
-        /*Cek Jika File Yang Diunggah Sesuai Dengan Jenis Permohonannya */
+        // Cek Jika File Yang Diunggah Sesuai Dengan Jenis Permohonannya 
 
-        /*
-        * Apabila laporan yang diupload merupakan pembatalan dokumen 
-        * ambil data pada laporan yang diupload dimulai dari row ke 0
-        */
+        // Apabila laporan yang diupload merupakan pembatalan dokumen 
+        // ambil data pada laporan yang diupload dimulai dari row ke 0
         if ($this->jenisPermohonan === 'pembatalan dokumen') {
 
             return  strpos(strtolower(
@@ -177,10 +175,9 @@ class BaseOperasionalController extends Controller
 
                     ), $this->jenisPermohonan) !== false ? true : false;
             
-        /*
-        * Apabila laporan bukan merupakan pembatalan dokumen  
-        * ambil data pada laporan yang diupload dimulai dari row ke 2
-        */
+        
+        // Apabila laporan bukan merupakan pembatalan dokumen  
+        // ambil data pada laporan yang diupload dimulai dari row ke 2
         } else {
 
             return  trim(explode(
@@ -230,7 +227,7 @@ class BaseOperasionalController extends Controller
      */
     protected function checkingData()
     {   
-        /*Cek Format Laporan*/
+        // Cek Format Laporan
         if ($this->checkJenisKarantina() === 'not our format') {
 
             $this->messageType  = "warning";
@@ -243,7 +240,7 @@ class BaseOperasionalController extends Controller
             return false;
         }
 
-        /*Cek Jenis Karantina*/
+        // Cek Jenis Karantina
         if(! $this->checkJenisKarantina()) {
 
             $this->messageType  = "warning";
@@ -257,7 +254,7 @@ class BaseOperasionalController extends Controller
 
         }
 
-        /*Cek Jenis Permohonan*/
+        // Cek Jenis Permohonan
         if (! $this->checkJenisPermohonan()) {
 
             $this->messageType  = "warning";
@@ -270,13 +267,10 @@ class BaseOperasionalController extends Controller
             return false;
 
         }
-
-        /*
-        * Cek Wilker User dengan wilker yang diupload pada laporan, 
-        * harus sesuai kecuali wilker brangbiji
-        * Note : Wilker Pada IQFAST -> Brangbiji,
-        *        Pada E - Office -> Sultan M. Kaharuddin
-        */
+        
+        // Cek Wilker User dengan wilker yang diupload pada laporan, 
+        // harus sesuai kecuali wilker brangbiji
+        // Note : Wilker Pada IQFAST -> Brangbiji, Pada E - Office -> Sultan M. Kaharuddin
         if ($this->getUserRoleId() !== 1 && 
             $this->getUserRoleId() !== 2 && 
             strpos($this->checkUserWilker(), 'brangbiji') === false) {

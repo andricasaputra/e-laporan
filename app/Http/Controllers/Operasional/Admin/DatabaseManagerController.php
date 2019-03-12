@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Operasional\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseManagerController extends Controller
 {
@@ -46,128 +47,166 @@ class DatabaseManagerController extends Controller
     {
     	set_time_limit(3000);
 
-    	$pdo = DB::connection()->getPdo();
+    	try {
 
-        $queryTables = DB::statement("SET NAMES 'utf8'");
+            $pdo = DB::connection()->getPdo();
 
-        $allTables = DB::select('SHOW TABLES');
+            $queryTables = DB::statement("SET NAMES 'utf8'");
 
-        $db = $this->getDbName();
+            $allTables = DB::select('SHOW TABLES');
 
-        foreach ($allTables as $table) {
+            $db = $this->getDbName();
 
-        	// ignore backup views table
-        	if(strpos($table->{$this->db}, 'v_') === false){
+            foreach ($allTables as $table) {
 
-        		$targetTables[] = $table->{$this->db};
+                // ignore backup views table
+                if (@$table->{$db}) {
 
-        	}
+                    if(strpos($table->{$db}, 'v_') === false){
 
-        }
-   
-        $content = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\r\nSET time_zone = \"+00:00\";\r\n\r\n\r\n/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;\r\n/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\r\n/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\r\n/*!40101 SET NAMES utf8 */;\r\n--\r\n-- Database: `" . DB::getDatabaseName() . "` \r\n--\r\n\r\n\r\n";
-
-        foreach ($targetTables as $table) {
-
-            if (empty($table)) {
-
-                continue;
-
-            }
-
-        	$result        = $pdo->prepare('SELECT * FROM `' . $table . '`');
-
-            $result->execute();
-
-            $fieldsAmount  = $result->columnCount();
-
-            $rowsNum       = $result->rowCount();
-
-            $res           = $pdo->prepare('SHOW CREATE TABLE ' . $table);
-
-            $res->execute();
-
-            $TableMLine    = $res->fetchAll(\PDO::FETCH_NUM)[0];
-
-            $content 	  .= "\n\n" . $TableMLine[1] . ";\n\n";
-
-            $TableMLine[1] = str_ireplace('CREATE TABLE `', 'CREATE TABLE IF NOT EXISTS `', $TableMLine[1]);
-
-            for ($i = 0, $stCounter = 0; $i < $fieldsAmount; $i++, $stCounter = 0) {
-
-            	foreach ($result->fetchAll(\PDO::FETCH_NUM) as $row) :
-
-                    //when started (and every after 100 command cycle):
-                    if ($stCounter % 100 == 0 || $stCounter == 0) {
-
-                        $content .= "\nINSERT INTO " . $table . " VALUES";
+                        $targetTables[] = $table->{$db};
 
                     }
 
-                    $content .= "\n(";
+                } else {
 
-                    for ($j = 0; $j < $fieldsAmount; $j++) {
+                    return false;
 
-                        $row[$j] = str_replace("\n", "\\n", addslashes($row[$j]));
+                }
 
-                        if (isset($row[$j])) {
+            }
+       
+            $content = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\r\nSET time_zone = \"+00:00\";\r\n\r\n\r\n/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;\r\n/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\r\n/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\r\n/*!40101 SET NAMES utf8 */;\r\n--\r\n-- Database: `" . DB::getDatabaseName() . "` \r\n--\r\n\r\n\r\n";
 
-                            $content .= '"' . $row[$j] . '"';
+            foreach ($targetTables as $table) {
+
+                if (empty($table)) {
+
+                    continue;
+
+                }
+
+                $result        = $pdo->prepare('SELECT * FROM `' . $table . '`');
+
+                $result->execute();
+
+                $fieldsAmount  = $result->columnCount();
+
+                $rowsNum       = $result->rowCount();
+
+                $res           = $pdo->prepare('SHOW CREATE TABLE ' . $table);
+
+                $res->execute();
+
+                $TableMLine    = $res->fetchAll(\PDO::FETCH_NUM)[0];
+
+                $content      .= "\n\n" . $TableMLine[1] . ";\n\n";
+
+                $TableMLine[1] = str_ireplace('CREATE TABLE `', 'CREATE TABLE IF NOT EXISTS `', $TableMLine[1]);
+
+                for ($i = 0, $stCounter = 0; $i < $fieldsAmount; $i++, $stCounter = 0) {
+
+                    foreach ($result->fetchAll(\PDO::FETCH_NUM) as $row) :
+
+                        //when started (and every after 100 command cycle):
+                        if ($stCounter % 100 == 0 || $stCounter == 0) {
+
+                            $content .= "\nINSERT INTO `" . $table . "` VALUES";
+
+                        }
+
+                        $content .= "\n(";
+
+                        for ($j = 0; $j < $fieldsAmount; $j++) {
+
+                            $row[$j] = str_replace("\n", "\\n", addslashes($row[$j]));
+
+                            if (isset($row[$j])) {
+
+                                $content .= empty($row[$j]) ? 'NULL' : "'" . $row[$j] . "'";
+
+                            } else {
+
+                                $content .= "''";
+                            }
+                            
+                            if ($j < ($fieldsAmount - 1)) {
+
+                                $content .= ',';
+
+                            }
+                        }
+
+                        $content .= ")";
+
+                        //every after 100 command cycle [or at last line] ....p.s. but should be inserted 1 cycle eariler
+                        if ((($stCounter + 1) % 100 == 0 && $stCounter != 0) || $stCounter + 1 == $rowsNum) {
+
+                            $content .= ";";
 
                         } else {
 
-                            $content .= '""';
-                        }
-
-                        if ($j < ($fieldsAmount - 1)) {
-
-                            $content .= ',';
+                            $content .= ",";
 
                         }
-                    }
 
-                    $content .= ")";
+                        $stCounter = $stCounter + 1;
 
-                    //every after 100 command cycle [or at last line] ....p.s. but should be inserted 1 cycle eariler
-                    if ((($stCounter + 1) % 100 == 0 && $stCounter != 0) || $stCounter + 1 == $rowsNum) {
+                    endforeach;
+                }
 
-                        $content .= ";";
-
-                    } else {
-
-                        $content .= ",";
-
-                    }
-
-                    $stCounter = $stCounter + 1;
-
-                endforeach;
+                $content .= "\n\n\n";
+               
             }
 
-            $content .= "\n\n\n";
-           
-        }
+            $content .= "\r\n\r\n/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\r\n/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\r\n/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;";
 
-        $content .= "\r\n\r\n/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\r\n/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\r\n/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;";
+            $zip = new \ZipArchive();
 
-        $backupName =  DB::getDatabaseName().'_(' . date('H:i:s') . '_' . date('d-m-Y') . ').sql';
+            // set unique file name
+            $fileName = DB::getDatabaseName() . '_' . str_random(7) . microtime(true);
 
-        ob_get_clean();
+            // set file to sql extension
+            $fileSql  = $fileName  . '.sql';
 
-        header('Content-Type: application/octet-stream');
+            // put to storage
+            Storage::put($fileSql, $content);
 
-        header("Content-Transfer-Encoding: Binary");
+            // then move it to desire folder
+            Storage::move($fileSql, 'backup/e-operasional/'. $fileSql); 
 
-        header('Content-Length: ' . (function_exists('mb_strlen') 
-        		? mb_strlen($content, '8bit') 
-        		: strlen($content))
-    		  );
+            // now if file sql exist in storage we going to zip this file
+            if (file_exists(storage_path('app/backup/e-operasional/' . $fileSql))) {
 
-        header("Content-disposition: attachment; filename=\"" . $backupName . "\"");
+                // set file to zip extension
+                $fileZip = $fileName . '.zip';
 
-        echo $content;
+                // create zip file
+                if ($zip->open($fileZip, \ZipArchive::CREATE) !== true) {
 
-        exit;
+                    exit("cannot open $fileName \n");
+
+                }
+
+                // add file to public directory
+                $zip->addFile(storage_path('app/backup/e-operasional/' . $fileSql));
+
+                // close zipping proccess
+                $zip->close();
+
+                // lastly we move sql file from public folder to our storage directory
+                rename(public_path() . '/' . $fileZip, storage_path('app/backup/e-operasional/' . $fileZip));
+
+                return true;
+
+            }
+
+            return false;
+                 
+        } catch (Exception $e) {
+                
+            return false;
+        }     
     }
 
     /**
@@ -175,32 +214,21 @@ class DatabaseManagerController extends Controller
      *
      * @return void
      */
-    private function importProccess($sqlFile)
+    private function importProccess(Request $sqlFile)
     {
     	set_time_limit(3000);
 
-        $sqlFileContent = (strlen($sqlFile->file('filesql')->getRealPath()) > 300 
-        					? $sqlFile->file('filesql')->getRealPath() 
-        					: file_get_contents($sqlFile->file('filesql')->getRealPath()));
+        $sqlFileContent = $this->sqlFileRequest($sqlFile);
 
         $allLines    	= explode("\n", $sqlFileContent);
 
         $setkey 		= DB::statement('SET foreign_key_checks = 0');
 
-        // normal table
         preg_match_all("/\nCREATE TABLE(.*?)\`(.*?)\`/si", "\n" . $sqlFileContent, $targetTables);
-
-        // view table
-        preg_match_all("/SQL SECURITY DEFINER VIEW(.*?)\`(.*?)\`/si", "\n" . $sqlFileContent, $targetViewTables);
 
         foreach ($targetTables[2] as $table) {
 
-            $tableName = DB::statement('DROP TABLE IF EXISTS ' . $table);
-        }
-
-        foreach ($targetViewTables[2] as $tableView) {
-
-            $tableViewName = DB::statement('DROP VIEW ' . $tableView);
+            DB::statement('DROP TABLE IF EXISTS ' . $table);
         }
 
         $setutf 	= DB::statement("SET NAMES 'utf8'");
@@ -234,303 +262,30 @@ class DatabaseManagerController extends Controller
             }
         }
 
-        $this->restoreViewTables();
-
         return back()->withSuccess('Restore Database Berhasil!');
     }
 
     /**
-     * Berfungsi sebagai creator views table
+     * Mengambil content dari file .sql
      *
-     * @return void
+     * @return string
      */
-    private function restoreViewTables()
+    private function sqlFileRequest(Request $sqlFile)
     {
-    	DB::statement("DROP VIEW v_rekap_komoditi_dokel_kh");
+        return (strlen($sqlFile->file('filesql')->getRealPath()) > 300 
+                ? $sqlFile->file('filesql')->getRealPath() 
+                : file_get_contents($sqlFile->file('filesql')->getRealPath()));
 
-    	DB::statement("DROP VIEW v_rekap_komoditi_dokel_kt");
+    }
 
-    	DB::statement("DROP VIEW v_rekap_komoditi_domas_kh");
-
-    	DB::statement("DROP VIEW v_rekap_komoditi_domas_kt");
-
-    	DB::statement("DROP VIEW v_rekap_komoditi_ekspor_kh");
-
-    	DB::statement("DROP VIEW v_rekap_komoditi_ekspor_kt");
-
-    	DB::statement("DROP VIEW v_rekap_komoditi_impor_kh");
-
-    	DB::statement("DROP VIEW v_rekap_komoditi_impor_kt");
-
-    	DB::statement("DROP VIEW v_rekap_komoditi_reekspor_kh");
-
-    	DB::statement("DROP VIEW v_rekap_komoditi_reekspor_kt");
-
-    	DB::statement("DROP VIEW v_rekap_komoditi_serah_terima_kh");
-
-    	DB::statement("DROP VIEW v_rekap_komoditi_serah_terima_kt");
-
-    	DB::statement("DROP VIEW v_pemakaian_dokumen_kh");
-
-    	DB::statement("DROP VIEW v_pemakaian_dokumen_kt");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_dokel_kh AS
-                        SELECT  id, 
-                                wilker_id,
-                                satuan, 
-                                nama_mp,
-                                bulan, 
-                                sum(jumlah) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(satuan) as frekuensi 
-                        FROM dokel_kh
-                        WHERE nama_mp != ''
-                        GROUP BY nama_mp, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_dokel_kt AS
-                        SELECT  id, 
-                                wilker_id,
-                                sat_netto, 
-                                nama_komoditas,
-                                bulan,
-                                sum(volume_netto) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(sat_netto) as frekuensi 
-                        FROM dokel_kt
-                        WHERE nama_komoditas != ''
-                        GROUP BY nama_komoditas, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_domas_kh AS
-                        SELECT  id, 
-                                wilker_id,
-                                satuan, 
-                                nama_mp,
-                                bulan, 
-                                sum(jumlah) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(satuan) as frekuensi  
-                        FROM domas_kh
-                        WHERE nama_mp != ''
-                        GROUP BY nama_mp, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_domas_kt AS
-                        SELECT  id, 
-                                wilker_id,
-                                sat_netto, 
-                                nama_komoditas,
-                                bulan, 
-                                sum(volume_netto) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(sat_netto) as frekuensi 
-                        FROM domas_kt
-                        WHERE nama_komoditas != ''
-                        GROUP BY nama_komoditas, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_ekspor_kh AS
-                        SELECT  id, 
-                                wilker_id,
-                                satuan, 
-                                nama_mp,
-                                bulan, 
-                                sum(jumlah) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(satuan) as frekuensi 
-                        FROM ekspor_kh
-                        WHERE nama_mp != ''
-                        GROUP BY nama_mp, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_ekspor_kt AS
-                        SELECT  id, 
-                                wilker_id,
-                                sat_netto, 
-                                nama_komoditas,
-                                bulan, 
-                                sum(volume_netto) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(sat_netto) as frekuensi 
-                        FROM ekspor_kt
-                        WHERE nama_komoditas != ''
-                        GROUP BY nama_komoditas, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_impor_kh AS
-                        SELECT  id, 
-                                wilker_id,
-                                satuan, 
-                                nama_mp,
-                                bulan, 
-                                sum(jumlah) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(satuan) as frekuensi 
-                        FROM impor_kh
-                        WHERE nama_mp != ''
-                        GROUP BY nama_mp, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_impor_kt AS
-                        SELECT  id, 
-                                wilker_id,
-                                sat_netto, 
-                                nama_komoditas,
-                                bulan, 
-                                sum(volume_netto) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(sat_netto) as frekuensi 
-                        FROM impor_kt
-                        WHERE nama_komoditas != ''
-                        GROUP BY nama_komoditas, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_reekspor_kh AS
-                        SELECT  id, 
-                                wilker_id,
-                                satuan, 
-                                nama_mp,
-                                bulan, 
-                                sum(jumlah) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(satuan) as frekuensi 
-                        FROM reekspor_kh
-                        WHERE nama_mp != ''
-                        GROUP BY nama_mp, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_reekspor_kt AS
-                        SELECT  id, 
-                                wilker_id,
-                                sat_netto, 
-                                nama_komoditas,
-                                bulan, 
-                                sum(volume_netto) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(sat_netto) as frekuensi 
-                        FROM reekspor_kt
-                        WHERE nama_komoditas != ''
-                        GROUP BY nama_komoditas, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_serah_terima_kh AS
-                        SELECT  id, 
-                                wilker_id,
-                                satuan, 
-                                nama_mp,
-                                bulan, 
-                                sum(jumlah) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(satuan) as frekuensi 
-                        FROM serah_terima_kh
-                        WHERE nama_mp != ''
-                        GROUP BY nama_mp, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_rekap_komoditi_serah_terima_kt AS
-                        SELECT  id, 
-                                wilker_id,
-                                sat_netto, 
-                                nama_komoditas,
-                                bulan, 
-                                sum(volume_netto) as volume, 
-                                sum(total_pnbp) as pnbp,
-                                count(sat_netto) as frekuensi 
-                        FROM serah_terima_kt
-                        WHERE nama_komoditas != ''
-                        GROUP BY nama_komoditas, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_pemakaian_dokumen_kh AS
-
-                        SELECT  wilker_id,
-                                dok_pelepasan as dokumen, 
-                                bulan,
-                                count(dok_pelepasan) as jumlah,
-                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
-                        FROM dokel_kh
-                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
-                        GROUP BY dokumen, bulan, wilker_id
-
-                        UNION 
-
-                        SELECT  wilker_id,
-                                dok_pelepasan as dokumen, 
-                                bulan,
-                                count(dok_pelepasan) as jumlah,
-                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
-                        FROM domas_kh
-                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
-                        GROUP BY dokumen, bulan, wilker_id
-
-                        UNION
-
-                        SELECT  wilker_id,
-                                dok_pelepasan as dokumen, 
-                                bulan,
-                                count(dok_pelepasan) as jumlah,
-                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
-                        FROM ekspor_kh
-                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
-                        GROUP BY dokumen, bulan, wilker_id
-
-                        UNION
-
-                        SELECT  wilker_id,
-                                dok_pelepasan as dokumen, 
-                                bulan,
-                                count(dok_pelepasan) as jumlah,
-                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
-                        FROM impor_kh
-                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
-                        GROUP BY dokumen, bulan, wilker_id
-                    ");
-
-    	DB::statement("CREATE VIEW v_pemakaian_dokumen_kt AS
-
-                        SELECT  wilker_id,
-                                dok_pelepasan as dokumen, 
-                                bulan,
-                                count(dok_pelepasan) as jumlah,
-                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
-                        FROM dokel_kt
-                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
-                        GROUP BY dokumen, bulan, wilker_id
-
-                        UNION 
-
-                        SELECT  wilker_id,
-                                dok_pelepasan as dokumen, 
-                                bulan,
-                                count(dok_pelepasan) as jumlah,
-                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
-                        FROM domas_kt
-                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
-                        GROUP BY dokumen, bulan, wilker_id
-
-                        UNION
-
-                        SELECT  wilker_id,
-                                dok_pelepasan as dokumen, 
-                                bulan,
-                                count(dok_pelepasan) as jumlah,
-                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
-                        FROM ekspor_kt
-                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
-                        GROUP BY dokumen, bulan, wilker_id
-
-                        UNION
-
-                        SELECT  wilker_id,
-                                dok_pelepasan as dokumen, 
-                                bulan,
-                                count(dok_pelepasan) as jumlah,
-                                CONCAT(min(no_seri), '-', max(no_seri)) as no_seri
-                        FROM impor_kt
-                        WHERE dok_pelepasan IS NOT NULL AND dok_pelepasan != ''
-                        GROUP BY dokumen, bulan, wilker_id
-                    ");
+    /**
+     * Mengambil content dari file .zip
+     *
+     * @return string
+     */
+    private function zipFileRequest(Request $zipFile)
+    {
+        // soon
     }
 
     /**
@@ -540,7 +295,14 @@ class DatabaseManagerController extends Controller
      */
     public function export()
     {
-    	$this->exportProccess();
+    	if ($this->exportProccess()) {
+
+            return redirect(route('database.menu'))
+                    ->withSuccess('Berhasil unduh database');
+        }
+
+        return redirect(route('database.menu'))
+                ->withWarning('Terjadi kesalahan pada server, harap coba kembali dalam beberapa saat :(');
     }
 
     /**
@@ -560,13 +322,13 @@ class DatabaseManagerController extends Controller
 
     	$extension = $sqlFile->file('filesql')->getClientOriginalExtension();
 
-    	if ($extension == 'sql' || $extension == 'zip' || $extension == 'rar') {
+    	if ($extension == 'sql') {
 
     		return $this->importProccess($sqlFile);
 
     	}
 
-    	return back()->withWarning('File yang diunggah harus berupa sql, zip atau rar');	
+    	return back()->withWarning('File yang diunggah harus berupa sql');	
     }
 
     /**

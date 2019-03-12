@@ -257,11 +257,13 @@
           </thead>
           <tbody>
             @if(count($datas['dataKh']['PembatalanDokumen']['pembatalan_dokumen']) > 0)
-              @foreach($datas['dataKh']['PembatalanDokumen']['pembatalan_dokumen'] as $key => $data)
-                <tr>
-                  <td>{{ $data->dokumen }}</td>
-                  <td>{{ $data->total }}</td>
-                </tr>
+              @foreach(collect($datas['dataKh']['PembatalanDokumen']['pembatalan_dokumen'])->groupBy('dokumen') as $key => $data)
+                
+                  <tr>
+                    <td>{{ $data->first()->dokumen }}</td>
+                    <td>{{ $data->count() }}</td>
+                  </tr>
+              
               @endforeach
             @else
               <tr>

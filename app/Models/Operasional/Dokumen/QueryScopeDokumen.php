@@ -46,9 +46,9 @@ trait QueryScopeDokumen
      */
     public function scopeKtDokumen($query)
     {
-        return $query->with(['dokumen' => function($q){
+        return $query->with(['dokumen' => function($query){
 
-            $q->whereIn('karantina', ['kt', 'both']);
+            $query->whereIn('karantina', ['kt', 'both']);
 
         }]);
     }
@@ -61,9 +61,9 @@ trait QueryScopeDokumen
      */
     public function scopeKhDokumen($query)
     {
-        return $query->with(['dokumen' => function($q){
+        return $query->with(['dokumen' => function($query){
 
-           $q->whereIn('karantina', ['kh', 'both']);
+           $query->whereIn('karantina', ['kh', 'both']);
             
         }]);
     }

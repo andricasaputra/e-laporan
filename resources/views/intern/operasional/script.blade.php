@@ -15,13 +15,17 @@
 
     /*chart properties*/
 
-    let khValue     = 'Domestik Keluar Karantina Hewan';
+    let khValue     = 'dokelkh';
 
-    let ktValue     = 'Domestik Keluar Karantina Tumbuhan';
+    let ktValue     = 'dokelkt';
 
     let khUrl       = '{{ route('api.kh.detail.frekuensi.chart') }}';
 
     let ktUrl       = '{{ route('api.kt.detail.frekuensi.chart') }}';
+
+    let typeKh      = $('#selectCatKh option:selected').text();
+
+    let typeKt      = $('#selectCatKh option:selected').text();
 
     let chartKhUrl  = khUrl + '/' + khValue + '/' + year + '/' + month + '/' + wilker;
 
@@ -35,9 +39,9 @@
 
     tableInfo();
 
-    chartKh(chartKhUrl, khValue);
+    chartKh(chartKhUrl, typeKh);
 
-    chartKt(chartKtUrl, ktValue);
+    chartKt(chartKtUrl, typeKt);
 
     $('#change_data').on('submit', function(e){
 
@@ -70,9 +74,9 @@
 
       tableInfo();
 
-      chartKh(chartKhUrl, khValue);
+      chartKh(chartKhUrl, typeKh);
 
-      chartKt(chartKtUrl, ktValue);
+      chartKt(chartKtUrl, typeKt);
 
     });
 
@@ -133,7 +137,7 @@
               ${response.kt.frekuensi} Kali
             </td>
             <td>
-                <label class="label label-primary">Berdasarkan Komoditas</label>
+                <label class="label label-primary">Berdasarkan Sertifikasi</label>
             </td>
           </tr>
 
@@ -188,25 +192,11 @@
         /*top Five Komoditi Kh*/
         $('#topFiveKh').empty();
 
-        $.each(response.kh.topFive, function(key, value){
+        if (response.kh.topFive.length !== 0) {
 
-          $('#topFiveKh').append(
+          $.each(response.kh.topFive, function(key, value){
 
-            `<li class="feed-item">
-              ${key}
-              <span class="ml-auto font-14 text-muted" style="color: #000 !important; font-weight: bold;">${value}</span>
-            </li>`
-
-            );
-
-        });
-
-        /*top Five Komoditi Kt*/
-        $('#topFiveKt').empty();
-
-        $.each(response.kt.topFive, function(key, value){
-
-          $('#topFiveKt').append(
+            $('#topFiveKh').append(
 
             `<li class="feed-item">
               ${key}
@@ -215,8 +205,50 @@
 
             );
            
-        });
+          });
 
+        } else {
+
+          $('#topFiveKh').html(
+
+            `<div class="text-center">
+              <span class="font-14 text-muted" style="color: #000 !important; font-weight: bold;">Data tidak ditemukan</span>
+            </div>`
+
+          );
+
+        }
+
+        /*top Five Komoditi Kt*/
+        $('#topFiveKt').empty();
+
+        if (response.kt.topFive.length !== 0) {
+
+          $.each(response.kt.topFive, function(key, value){
+
+            $('#topFiveKt').append(
+
+            `<li class="feed-item">
+              ${key}
+              <span class="ml-auto font-14 text-muted" style="color: #000 !important; font-weight: bold;">${value}</span>
+            </li>`
+
+            );
+           
+          });
+
+        } else {
+
+          $('#topFiveKt').html(
+
+            `<div class="text-center">
+              <span class="font-14 text-muted" style="color: #000 !important; font-weight: bold;">Data tidak ditemukan</span>
+            </div>`
+
+          );
+
+        } 
+          
       });/*end table ajax*/
     }
 
@@ -259,7 +291,7 @@
                 text: 'Frekuensi Operasional Karantina Hewan'
             },
             subtitle: {
-                text: type
+                text: type + '<br/><br/> Berdasarkan jumlah komoditas'
             },
             xAxis: {
                 categories:  dataKh.name,
@@ -327,7 +359,7 @@
                 text: 'Frekuensi Operasional Karantina Tumbuhan'
             },
             subtitle: {
-                text: type
+                text: type + '<br/><br/> Berdasarkan jumlah komoditas'
             },
             xAxis: {
                 categories:  dataKt.name,
@@ -360,21 +392,25 @@
 
     $('#selectCatKh').change(function(){
 
-        khValue     = $('#selectCatKh').val();
+        khValue     = $(this).val();
+
+        typeKh      = $('#selectCatKh option:selected').text();
 
         chartKhUrl  = khUrl + '/' + khValue + '/' + year + '/' + month + '/' + wilker;
 
-        chartKh(chartKhUrl, khValue);
+        chartKh(chartKhUrl, typeKh);
 
     });/*End Select KH*/
 
     $('#selectCatKt').change(function(){
 
-      ktValue = $('#selectCatKt').val();
+      ktValue     = $(this).val();
+
+      typeKt      = $('#selectCatKt option:selected').text();
 
       chartKtUrl  = ktUrl + '/' + ktValue + '/' + year + '/' + month + '/' + wilker;
 
-      chartKt(chartKtUrl, ktValue);
+      chartKt(chartKtUrl, typeKt);
 
     });/*End Select KT*/
 

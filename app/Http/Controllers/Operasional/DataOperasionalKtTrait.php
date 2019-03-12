@@ -23,6 +23,69 @@ trait DataOperasionalKtTrait
     */
 
     /**
+     * Untuk Menampilkan Ringkasan Data Pada Dashboard
+     *
+     * @return array
+     */
+    public function sourceDashboardApiKt()
+    {
+        return [
+
+            'tahun'     =>  $this->year,
+
+            'bulan'     =>  $this->month,
+
+            'wilker'    =>  Wilker::whereId($this->wilker_id)->pluck('nama_wilker')->first(),
+
+            'frekuensi' =>  $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDomas +
+                            $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDokel +
+                            $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor +
+                            $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
+
+            'frekuensiPerKegiatan' =>  [
+
+              'domas' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
+              'dokel' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
+              'ekspor' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
+              'impor' => $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
+
+
+            ],
+
+            'volume'    =>  collect($this->ktRepository->totalVolumePerSatuan())
+                            ->flatten(1)
+                            ->groupBy('sat_netto')
+                            ->map(function($value, $key){
+
+                                return number_format($value->sum('volume'), 0, ',', '.') . ' ' . ucfirst($key);
+
+                            }),
+
+            'pnbp'      =>  rp(
+                                $this->ktRepository->totalPnbp()->pnbpDomas +
+                                $this->ktRepository->totalPnbp()->pnbpDokel +
+                                $this->ktRepository->totalPnbp()->pnbpEkspor +
+                                $this->ktRepository->totalPnbp()->pnbpImpor
+                            ),
+
+            'dokumen'   =>  $this->ktRepository->pemakaianDokumen(),
+
+            'topFive'   =>  collect($this->ktRepository->topFiveFrekuensiKomoditiKt())
+                            ->flatten(1)
+                            ->groupBy('name')
+                            ->sortByDesc('data')
+                            ->take(5)
+                            ->map(function($value, $key){
+
+                                return number_format($value->sum('data'), 0, ',', '.');
+
+                            }),
+
+        ];
+    }
+
+
+    /**
      * Untuk Mengumpulkan data statistik yang akan digunakan oleh
      * method show pada class HomektController dan class HomeAdmin
      *
@@ -117,7 +180,7 @@ trait DataOperasionalKtTrait
                     'Domestik Masuk Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpDomas,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
+                        'link' => route('kt.view.page.detail.pnbp.setor', $this->routeParams)
 
 
                     ],
@@ -125,7 +188,7 @@ trait DataOperasionalKtTrait
                     'Domestik Keluar Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpDokel,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
+                        'link' => route('kt.view.page.detail.pnbp.setor', $this->routeParams)
 
 
                     ],
@@ -133,7 +196,7 @@ trait DataOperasionalKtTrait
                     'Ekspor Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpEkspor,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
+                        'link' => route('kt.view.page.detail.pnbp.setor', $this->routeParams)
 
 
                     ],
@@ -141,7 +204,7 @@ trait DataOperasionalKtTrait
                     'Impor Karantina Tumbuhan' => [
 
                         'pnbp' => $this->ktRepository->totalPnbp()->pnbpImpor,
-                        'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
+                        'link' => route('kt.view.page.detail.pnbp.setor', $this->routeParams)
 
 
                     ],
@@ -151,26 +214,14 @@ trait DataOperasionalKtTrait
                'Dokumen' =>  [
 
                     'dokumen' => $this->ktRepository->pemakaianDokumen(),
-                    'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
+                    'link' => ''
 
                ],
 
                'PembatalanDokumen' =>  [
 
                     'pembatalan_dokumen' => $this->ktRepository->pembatalanDokumen(),
-                    'link' => route('show.rekapitulasi.operasional.kt', $this->routeParams)
-
-               ],
-
-               'frekuensiKomoditiPerMonth' =>  [
-
-                    'Domestik Masuk Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDomas,
-
-                    'Domestik Keluar Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDokel,
-
-                    'Ekspor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiEkspor,   
-
-                    'Impor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiImpor
+                    'link' => ''
 
                ],
 
@@ -244,58 +295,6 @@ trait DataOperasionalKtTrait
         ];
 
         return $data[$this->year];
-    }
-
-    /**
-     * Untuk Menampilkan Ringkasan Data Pada Dashboard
-     *
-     * @return array
-     */
-    public function sourceDashboardApiKt()
-    {
-        return [
-
-            'tahun'     =>  $this->year,
-
-            'bulan'     =>  $this->month,
-
-            'wilker'    =>  Wilker::whereId($this->wilker_id)->pluck('nama_wilker')->first(),
-
-            'frekuensi' =>  $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDomas +
-                            $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiDokel +
-                            $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor +
-                            $this->ktRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
-
-            'volume'    =>  collect($this->ktRepository->totalVolumePerSatuan())
-                            ->flatten(1)
-                            ->groupBy('sat_netto')
-                            ->map(function($value, $key){
-
-                                return number_format($value->sum('volume'), 0, ',', '.') . ' ' . ucfirst($key);
-
-                            }),
-
-            'pnbp'      =>  rp(
-                                $this->ktRepository->totalPnbp()->pnbpDomas +
-                                $this->ktRepository->totalPnbp()->pnbpDokel +
-                                $this->ktRepository->totalPnbp()->pnbpEkspor +
-                                $this->ktRepository->totalPnbp()->pnbpImpor
-                            ),
-
-            'dokumen'   =>  $this->ktRepository->pemakaianDokumen(),
-
-            'topFive'   =>  collect($this->ktRepository->topFiveFrekuensiKomoditiKt())
-                            ->flatten(1)
-                            ->groupBy('name')
-                            ->sortByDesc('data')
-                            ->take(5)
-                            ->map(function($value, $key){
-
-                                return number_format($value->sum('data'), 0, ',', '.');
-
-                            }),
-
-        ];
     }
 
     /**
@@ -375,22 +374,22 @@ trait DataOperasionalKtTrait
     }
 
     /**
-     * Untuk Tampilan chart frekuensi
+     * Untuk Tampilan chart frekuensi (digunakan pada route api)
      *
      * @param string $tipe_karantina
      * @return array
      */
-    public function frekuensiPerMonthChartKt($type_karantina = null)
+    public function frekuensiChartKt($type_karantina = null)
     {
         $frekuensi = [
 
-            'Domestik Masuk Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDomas,
+            'domaskt' => $this->ktRepository->frekuensiByKomoditiKt()->frekuensiKomoditiDomas,
 
-            'Domestik Keluar Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiDokel,
+            'dokelkt' => $this->ktRepository->frekuensiByKomoditiKt()->frekuensiKomoditiDokel,
 
-            'Ekspor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiEkspor,   
+            'eksporkt' => $this->ktRepository->frekuensiByKomoditiKt()->frekuensiKomoditiEkspor,   
 
-            'Impor Karantina Tumbuhan' => $this->ktRepository->frekuensiKomoditiPerMonthKt()->frekuensiKomoditiImpor
+            'imporkt' => $this->ktRepository->frekuensiByKomoditiKt()->frekuensiKomoditiImpor
 
        ];
 

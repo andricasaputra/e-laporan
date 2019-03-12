@@ -114,7 +114,17 @@
       <div class="col-md-12 card">
           @include('intern.inc.message')
           <div class="card-header">
-            Data Domestik Masuk Karantina Tumbuhan Tahun <span id="yearSelect">{{ $tahun }}</span>
+            <i><b>
+
+              Detail Domestik Masuk Karantina Tumbuhan
+
+              , <span id="wilkerSelect">{{ $userWilker }}</span>
+
+              Bulan <span id="monthSelect">{{ $bulan }}</span>
+
+              Tahun <span id="yearSelect">{{ $tahun }}</span>
+
+            </b></i>
           </div>
           <div class="card-body">
              <table class="table table-responsive table-bordered w-100 d-block d-md-table" id="domaskt">
@@ -140,29 +150,54 @@
 @section('script')
 
   <script>
+
     $(document).ready(function() {
 
       let container = $('#domaskt');
 
+      let year = $('#year').val();
+
+      let month = $('#month').val();
+
+      let monthName = $('#month option:selected').text();
+
+      let wilker = {{ $userWilker }};
+
+      let wilkerName = $('#wilker option:selected').text();
+
       datatablesOperasional(
         container, 
-        '{{ route('api.kt.statistik.detail.bigtable.domas', [$tahun, $bulan, $userWilker === 1 ? null : $userWilker]) }}', 
+        '{{ route('api.kt.statistik.detail.bigtable.domas') }}/' + year + '/' + month + '/' + wilker, 
         'kt'
       );
 
+      $('#yearSelect').html(`${year}`);
+
+      $('#monthSelect').html(`${monthName}`);
+
+      $('#wilkerSelect').html(`${wilkerName}`);
+
       $('#change_data').on('submit', function(e){
 
-        e.preventDefault();
-
-        let year = $('#year').val();
-
-        let month = $('#month').val();
-
-        let wilker = $('#wilker').val();
+        e.preventDefault()
 
         container.DataTable().destroy();
 
+        year = $('#year').val();
+
+        month = $('#month').val();
+
+        monthName = $('#month option:selected').text();
+
+        wilker = $('#wilker').val();
+
+        wilkerName = $('#wilker option:selected').text();
+
         $('#yearSelect').html(`${year}`);
+
+        $('#monthSelect').html(`${monthName}`);
+
+        $('#wilkerSelect').html(`${wilkerName}`);
 
         if (year != '' && month == '' && wilker == '') {
 
@@ -187,6 +222,7 @@
       });
 
     });
+    
   </script>
 
 @endsection

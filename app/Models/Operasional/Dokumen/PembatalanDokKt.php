@@ -4,11 +4,11 @@ namespace App\Models\Operasional\Dokumen;
 
 use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
-use App\Contracts\ModelOperasionalInterface;
+use App\Contracts\ModelPembatalanInterface;
 use App\Models\Operasional\QueryScopeKtTrait;
 use App\Models\Operasional\Admin\MasterDokumen;
 
-class PembatalanDokKt extends Model implements ModelOperasionalInterface
+class PembatalanDokKt extends Model implements ModelPembatalanInterface
 {
 	use QueryScopeKtTrait;
 	
@@ -58,6 +58,7 @@ class PembatalanDokKt extends Model implements ModelOperasionalInterface
      */
     public function getDokumenAttribute($value)
     {
+        $value = str_replace(' ', '', $value);
         return MasterDokumen::dokumenKtWithOutStripe()[$value];
     }
 
@@ -108,7 +109,7 @@ class PembatalanDokKt extends Model implements ModelOperasionalInterface
      */
     public function scopeGetPembatalan($query, array $params)
     {
-        $query->whereYear('bulan', $params['year']);
+        $query->whereNotNull('dokumen')->whereYear('bulan', $params['year']);
 
         $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
 
@@ -133,6 +134,7 @@ class PembatalanDokKt extends Model implements ModelOperasionalInterface
     public function scopeGetJumlahKtDokumen($query, array $params)
     {
         $query->selectRaw('count(*) as total, dokumen, wilker_id, nomor_seri as no_seri')
+              ->whereNotNull('dokumen')
               ->whereYear('bulan', $params['year']);
 
         $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {

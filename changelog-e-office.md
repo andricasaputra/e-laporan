@@ -8,6 +8,8 @@
 # FOR ADMIN PAGE
 
 * Add database management (backup & restore)
+* File backup tersimpan di dalam storage folder, tipe file adalah sql & zip
+* File restore harus berupa .sql untuk saat ini
 
 # INFO UPDATE APLIKASI (TO USER)
 

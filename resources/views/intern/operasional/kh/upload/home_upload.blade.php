@@ -39,7 +39,7 @@
     color: #fff
   }
 
-  .fa-truck{
+  .fa-truck, .fa-money{
     background-color: #2962FF;
     color: #fff;
   }
@@ -120,7 +120,7 @@
 </div>
 
 <div class="row" id="advancedMenu">
-  <div class="col-md-4 col-sm-12">
+  <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
         Upload Laporan Serah Terima
@@ -134,7 +134,7 @@
       </div>
     </div>
   </div>  
-  <div class="col-md-4 col-sm-12">
+  <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
         Upload Laporan Re Ekspor
@@ -148,7 +148,7 @@
       </div>
     </div>
   </div> 
-  <div class="col-md-4 col-sm-12">
+  <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
         Upload Laporan Pembatalan Dokumen
@@ -162,6 +162,20 @@
       </div>
     </div>
   </div> 
+  <div class="col-md-3 col-sm-12">
+    <div class="card text-center">
+      <div class="card-header">
+        Upload Laporan Penyetoran PNBP
+      </div>
+      <div class="card-body">
+        <i class="fa fa-money fa-2x mb-3"></i>
+        <h4 class="card-text mb-3">
+          Penyetoran PNBP
+        </h4>
+        <a href="{{ route('kh.upload.page.report_billing') }}" class="btn btn-default">Masuk</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <a href="#" id="showMoreMenu" class="badge badge-pill badge-danger">
@@ -246,7 +260,8 @@
         <option value="impor_kh">Impor</option>
         <option value="reekspor_kh">Re Ekspor</option>
         <option value="serah_terima_kh">Serah Terima</option>
-        <option value="pembatalan_dok_kh">Pembatalan Dokumen</option>    
+        <option value="pembatalan_dok_kh">Pembatalan Dokumen</option>  
+        <option value="report_billing_kh">Setor Billing</option>   
       </select>
     </div>
     <div class="col-md-2 text-center">
@@ -406,13 +421,13 @@
 
     }); 
 
-    $('#advancedMenu .col-md-4').hide();
+    $('#advancedMenu .col-md-3').hide();
 
     $('#showMoreMenu').click(function(e){
 
       e.preventDefault();
 
-      $('#advancedMenu .col-md-4').slideToggle();
+      $('#advancedMenu .col-md-3').slideToggle();
 
     }); 
 

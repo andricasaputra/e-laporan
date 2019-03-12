@@ -8,7 +8,6 @@
 | Routing untuk API / Endpoint hanya untuk view resource
 | atau tampilan data saja sehingga tidak perlu menggunakan authentifikasi
 | untuk dapat melihat data - data  dari route ini
-| Total : 26 API
 |
 */
 
@@ -97,6 +96,9 @@ Route::namespace('Operasional')->group(function () {
 	Route::post('kt/statistik/detail/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@api')
 	->name('api.kt.statistik.detail.bigtable.impor');
 
+	Route::post('kt/statistik/detail/pnbp/{year?}/{month?}/{wilker_id?}', 'ReportBillingKtController@api')
+	->name('api.kt.statistik.detail.bigtable.pnbp');
+
 	Route::post('kh/statistik/detail/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKhController@api')
 	->name('api.kh.statistik.detail.bigtable.dokel');
 
@@ -109,16 +111,19 @@ Route::namespace('Operasional')->group(function () {
 	Route::post('kh/statistik/detail/impor/{year?}/{month?}/{wilker_id?}', 'ImporKhController@api')
 	->name('api.kh.statistik.detail.bigtable.impor');
 
+	Route::post('kh/statistik/detail/pnbp/{year?}/{month?}/{wilker_id?}', 'ReportBillingKhController@api')
+	->name('api.kh.statistik.detail.bigtable.pnbp');
+
 	/*
 	* ------------------------------------
 	* Route API For Chart Rekapitulasi
 	* ------------------------------------
 	*/
 
-	Route::get('kh/rekapitulasi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKhController@frekuensiPerMonthChartKh')
+	Route::get('kh/rekapitulasi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKhController@frekuensiChartKh')
 	->name('api.kh.detail.frekuensi.chart');
 
-	Route::get('kt/rekapitulasi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKtController@frekuensiPerMonthChartKt')
+	Route::get('kt/rekapitulasi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKtController@frekuensiChartKt')
 	->name('api.kt.detail.frekuensi.chart');
 
 	/*

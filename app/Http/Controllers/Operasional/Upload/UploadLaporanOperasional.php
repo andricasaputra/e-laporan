@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Http\Controllers\Operasional;
+namespace App\Http\Controllers\Operasional\Upload;
 
 use App\Models\User;
 use App\Models\Wilker;
@@ -10,8 +10,10 @@ use Mavinoo\LaravelBatch\Batch;
 use App\Events\DataOperasionalUploadedEvent;
 use App\Contracts\ModelOperasionalInterface as Model;
 use App\Http\Requests\UploadOperasionalRequest as Request;
+use App\Http\Controllers\Operasional\Upload\UploaderInterface;
+use App\Http\Controllers\Operasional\BaseOperasionalController;
 
-class UploadOperasionalController extends BaseOperasionalController
+class UploadLaporanOperasional extends BaseOperasionalController implements UploaderInterface
 {
     /**
      * Untuk menyimpan model instance
@@ -90,6 +92,11 @@ class UploadOperasionalController extends BaseOperasionalController
      */
     public  $table;
 
+    /**
+     * Untuk menyimpan kolom index dari table
+     *
+     * @var string 
+     */
     public  $index = 'no_permohonan';
 
     /**
@@ -149,33 +156,33 @@ class UploadOperasionalController extends BaseOperasionalController
      */
     public function uploadData()
     {
-    	/*Ambil Bulan Dan Tahun Pada Laporan Di Row 3*/
+    	// Ambil Bulan Dan Tahun Pada Laporan Di Row 3
         $this->headings	= 	$this->excelData(3)->first();
 
-        /*Data Asli Dimulai Dari Row Ke 7*/
+        // Data Asli Dimulai Dari Row Ke 7
         $this->datas 	= 	$this->excelData(7, false)->get();
 
-        /*set tanggal format Y-m-d*/
+        // set tanggal format Y-m-d
         $tanggal 	    = explode(' ', strtolower($this->headings->first()));
         $bulan      	= $tanggal[2];
         $tahun      	= $tanggal[6];
         $this->tanggal 	= "{$tahun}-{$bulan}-01";
 
-    	/*Jika semua validasi berhasil & jika file tidak kosong maka insert ke database*/
+    	// Jika semua validasi berhasil & jika file tidak kosong maka insert ke database
         if (! empty($this->datas) && $this->datas->count() > 0) :
 
-    		/*Run Upload Proccess*/
+    		// Run Upload Proccess
             $this->uploadProccess(); 
 
-        /*File laporan yang diupload benar tetapi data nihil*/
+        // File laporan yang diupload benar tetapi data nihil
         else:
 
-            /*Run Upload Proccess*/
+            // Run Upload Proccess
             $this->uploadProccessNihil();
 
         endif;
 
-        /*berikan feedback pesan kepada user setelah upload laporan*/
+        // berikan feedback pesan kepada user setelah upload laporan
         return $this->setMessageType()->flashMessage();
     }
 
@@ -206,36 +213,37 @@ class UploadOperasionalController extends BaseOperasionalController
      */
     private function uploadProccess()
     {
-        /*Set kebutuhan data untuk insert / update*/
+        // Set kebutuhan data untuk insert / update
     	$datas = $this->datas->map(function($singledata){
 
            return $singledata->prepend($this->request->wilker_id, 'wilker_id')
                              ->prepend($this->request->user_id, 'user_id')
                              ->prepend($this->tanggal, 'bulan')
                              ->put('created_at', now())
+                             ->put('no_kwitansi', $this->buildNoKwitansi($singledata) )
                              ->all();
 
         });
-
-        /*Pengecekan PNBP yang tidak boleh 0 pada dokumen pelepasan yang dikenakan tarif*/
+      
+        // Pengecekan PNBP yang tidak boleh 0 pada dokumen pelepasan yang dikenakan tarif
         if (! $this->checkPnbp($datas)) return false;
  
-        /*Jika Laporan belum pernah diupload, maka insert*/  
+        // Jika Laporan belum pernah diupload, maka insert 
         $datas->when((int) $this->forInsertOrUpdate($datas) === 0, function ($datas) {
 
             $this->model->insert( $datas->all() ); 
 
             $this->success = 1;
 
-            /*Kirim notifikasi kepada user setelah upload*/
+            // Kirim notifikasi kepada user setelah upload
             $this->setNotificationsProperties((int) $this->request->wilker_id);
 
-            /*Call Event to Notify*/
+            // Call Event to Notify
             $this->eventNotifyHandler();
 
         }, function($datas){
 
-            Batch::update($this->table, $datas, $this->index);
+            (new Batch)->update($this->table, $datas, $this->index);
 
             $this->success = 2;
 
@@ -267,10 +275,10 @@ class UploadOperasionalController extends BaseOperasionalController
 
         $this->success = 1;
 
-        /*Set Notifications Properties*/
+        // Set Notifications Properties
         $this->setNotificationsProperties((int) $this->request->wilker_id);
 
-        /*Call Event to Notify*/
+        // Call Event to Notify
         $this->eventNotifyHandler();
     }
 
@@ -284,7 +292,7 @@ class UploadOperasionalController extends BaseOperasionalController
      */
     private function checkPnbp($datas)
     {
-        /*Pengecekan PNBP Berdasarkan Type Karantina & Dokumen Pelepasan*/
+        // Pengecekan PNBP Berdasarkan Type Karantina & Dokumen Pelepasan
         if ($this->type_karantina === 'kt') {
 
             $cekPnbp = $datas->whereIn('dok_pelepasan', $this->dokumenKt)
@@ -299,7 +307,8 @@ class UploadOperasionalController extends BaseOperasionalController
 
         }
         
-        /*Jika Pada Pengecekan ditemukan data PNBP 0 Pada Dokumen pelepasan yang seharusnya dikenakan tarif PNBP -> maka kirim pesan error*/
+        // Jika Pada Pengecekan ditemukan data PNBP 0 Pada Dokumen pelepasan yang seharusnya 
+        // dikenakan tarif PNBP -> maka kirim pesan error
         return collect($cekPnbp)->when(! is_null($cekPnbp) || $cekPnbp !== null, function($i){
 
             $this->success = -1;
@@ -314,6 +323,23 @@ class UploadOperasionalController extends BaseOperasionalController
     }
 
     /**
+     * Menubah nomor sertifikat menjadi nomor kwitansi
+     *
+     * @param array $datas
+     * @return string|null
+     */
+    private function buildNoKwitansi($datas)
+    {
+        // Jika terdapat pnbp maka rangkai nomor kwitansi
+        if (! is_null($datas['no_seri']) && (int) $datas['total_pnbp'] !== 0) {
+
+            $ex = explode('.', $datas['nomor_dok_pelepasan']);
+
+            return "$ex[0].$ex[1].$ex[2].$ex[3].KWI.$ex[5].$ex[6]/1";
+        }
+    }
+
+    /**
      * Digunakan untuk pengecekan apakah laporan sudah pernah diupload
      * atau belum, jika laporan sudah pernah diupload, maka update
      * sebaliknya, insert data baru ke database
@@ -323,7 +349,8 @@ class UploadOperasionalController extends BaseOperasionalController
      */
     private function forInsertOrUpdate($datas)
     {
-        /*Pengecekan Laporan Bulanan Sudah Pernah Diupload atau belum, jika sudah lakukan update, jika belum insert baru*/
+        // Pengecekan Laporan Bulanan Sudah Pernah Diupload atau belum, 
+        // jika sudah lakukan update, jika belum insert baru
         $no_permohonan  = $datas->whereNotIn('no_permohonan', ['IDEM'])
                                 ->pluck('no_permohonan')
                                 ->all();

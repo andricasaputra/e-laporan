@@ -1,6 +1,6 @@
 <?php
 
-Route::get('home/{year?}/{month?}/{wilker_id?}', 'HomeController@show')
+Route::get('home/{year?}/{month?}/{wilker_id?}', 'HomeController@dashboard')
 ->name('show.operasional');
 
 /*route halaman info update aplikasi untuk user*/

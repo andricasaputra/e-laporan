@@ -122,7 +122,7 @@
     @forelse($notifications as $notification)    
 
       <div class="card mt-4">
-        <div class="card-body {{ $notification->read_at === null ? 'readed' : '' }}">
+        <div class="card-body {{ $notification->read_at === null || $notification->read_at === '0000-00-00 00:00:00'  ? 'readed' : '' }}">
           <div class="row">
             <div class="col-sm-9">
                <a class="notification-message" href="{{ $notification->data['link'] }}">{{ $notification->data['message'] }}</a>

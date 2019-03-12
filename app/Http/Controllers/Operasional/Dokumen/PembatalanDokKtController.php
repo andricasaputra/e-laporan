@@ -40,17 +40,6 @@ class PembatalanDokKtController extends BaseOperasionalController
     {
         return view('intern.operasional.kt.data.dokumen.pembatalan_dokumen');
     }
-
-    /**
-     * Untuk Halaman Rekapitulasi Laporan 
-     *
-     * @param Illuminate\Http\Request $request
-     * @return to view
-     */
-    public function rekapitulasiTableDetail(Request $request)
-    {
-        // return view('intern.operasional.kt.data.rekapitulasi.dokel_rekapitulasi');
-    }
     
     /**
      * Untuk Halaman Upload Laporan 

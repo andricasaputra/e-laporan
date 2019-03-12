@@ -41,7 +41,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapIkmRoutes();
 
-        $this->mapMainOperasionalRoutes();
+        $this->mapOperasionalRoutes();
 
         $this->mapOperasionalKhRoutes();
 
@@ -69,14 +69,14 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "auth" routes for the application.
+     * Define the "Global Operasional" routes for the application.
      *
      * Route utama untuk aplikasi E - Operasional, 
      * mengharuskan user untuk login terlebih dahulu
      *
      * @return void
      */
-    protected function mapMainOperasionalRoutes()
+    protected function mapOperasionalRoutes()
     {
         Route::middleware('web', 'auth')
              ->prefix('intern')

@@ -72,7 +72,7 @@
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">E - Laporan Operasional</h3>
                 <p class="card-text">Status : In Progress</p>
-                <a href="{{ route('intern.operasional.home') }}" class="btn btn-success">Masuk Ke Aplikasi!</a> 
+                <a href="{{ route('show.operasional') }}" class="btn btn-success">Masuk Ke Aplikasi!</a> 
             </div>
           </div>
         </div>

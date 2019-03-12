@@ -82,6 +82,12 @@ class LogInfo extends Model
             case 'serah_terima_kt':
                 $type = 'Serah Terima Karantina Tumbuhan';
                 break;
+            case 'report_billing_kh':
+                $type = 'Setor Billing Karantina Hewan';
+                break;
+            case 'report_billing_kt':
+                $type = 'Setor Billing Karantina Tumbuhan';
+                break;
         	default:
         		$type = 'Data Operasional Tidak Ditemukan';
         		break;
@@ -143,7 +149,7 @@ class LogInfo extends Model
 
             return  $query->whereIn('type', 
                         ['dokel_kt', 'domas_kt', 'ekspor_kt', 'impor_kt', 
-                        'serah_terima_kt', 'reekspor_kt', 'pembatalan_dok_kt']
+                        'serah_terima_kt', 'reekspor_kt', 'pembatalan_dok_kt', 'report_billing_kt']
                     );
 
         });
@@ -176,7 +182,7 @@ class LogInfo extends Model
 
             return  $query->whereIn('type', 
                         ['dokel_kh', 'domas_kh', 'ekspor_kh', 'impor_kh', 
-                        'serah_terima_kh', 'reekspor_kh', 'pembatalan_dok_kh']
+                        'serah_terima_kh', 'reekspor_kh', 'pembatalan_dok_kh', 'report_billing_kh']
                     );
 
         });

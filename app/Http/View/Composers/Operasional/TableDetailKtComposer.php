@@ -36,7 +36,7 @@ class TableDetailKtComposer
 
         $view->with('tahun', $this->year ?? date('Y'));
 
-        $view->with('bulan', $this->month);
+        $view->with('bulan', $this->month ?? str_replace('0', '', date('m')));
 
         $view->with('userWilker', $this->wilker_id ?? auth()->user()->wilker->first()->id);
     }

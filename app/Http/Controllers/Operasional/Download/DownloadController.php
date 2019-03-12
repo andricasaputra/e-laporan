@@ -73,7 +73,7 @@ class DownloadController extends Controller
     *
     * @var array
     */
-    protected $all = ['Dokel', 'Domas', 'Ekspor', 'Impor', 'Reekspor' ,'SerahTerima'];
+    protected $all = ['Dokel', 'Domas', 'Ekspor', 'Impor', 'Reekspor', 'SerahTerima'];
 
     /**
     * Untuk Menyimpan namespace model yang akan dipakai

@@ -9,27 +9,28 @@ trait QueryScopeKhTrait
     use QueryScopeGlobalTrait;
 
     /**
-     * Untuk Menghitung Total Frekuensi Dari KH
+     * Untuk Menghitung Total Frekuensi Dari KH Berdasarkan permohonan
+     * Kita ambil data bukan dari tabel view melainkan dari tabel utama
      *
      * @param $query
-     * @param int|bool $year
-     * @param int|bool $month
-     * @param int|bool $wilker_id
+     * @param array $params
      * @return int
      */
-    public function scopeCountFrekuensi($query, $year, $month = false, $wilkerId = false)
+    public function scopeCountFrekuensiByPermohonan($query, array $params)
     {
-        $query->selectRaw('sum(frekuensi) as frekuensi')
+        $query->selectRaw('count(*) as frekuensi')
+              ->where('no_permohonan', '!=', 'IDEM')
+              ->where('no_permohonan', '!=', '')
               ->whereNotNull('nama_mp')
-              ->whereYear('bulan', $year);
+              ->whereYear('bulan', $params[0]);
 
-        $query->when($month && $month != 'all', function ($query) use ($month) {
+        $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
 
-            return $query->whereMonth('bulan', $month);
+            return $query->whereMonth('bulan', $params[1]);
 
-        })->when($wilkerId, function ($query, $wilkerId) {
+        })->when($params[2], function ($query, $wilker) {
 
-            return $query->whereWilkerId($wilkerId);
+            return $query->whereWilkerId($wilker);
 
         });
                      
@@ -40,24 +41,22 @@ trait QueryScopeKhTrait
      * Untuk Menghitung Total Volume Berdasarkan Satuan Dari KH
      *
      * @param $query
-     * @param int|bool $year
-     * @param int|bool $month
-     * @param int|bool $wilker_id
+     * @param array $params
      * @return int
      */
-    public function scopeCountVolume($query, $year, $month = false, $wilkerId = false)
+    public function scopeCountVolume($query, array $params)
     {
         $query->selectRaw('sum(volume) as volume, satuan')
               ->whereNotNull('nama_mp')
-              ->whereYear('bulan', $year);
+              ->whereYear('bulan', $params[0]);
 
-        $query->when($month && $month != 'all', function ($query) use ($month) {
+        $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
 
-            return $query->whereMonth('bulan', $month);
+            return $query->whereMonth('bulan', $params[1]);
 
-        })->when($wilkerId, function ($query, $wilkerId) {
+        })->when($params[2], function ($query, $wilker) {
 
-            return $query->whereWilkerId($wilkerId);
+            return $query->whereWilkerId($wilker);
 
         });
                      
@@ -68,24 +67,22 @@ trait QueryScopeKhTrait
      * Untuk menghitung total frekuensi berdasarkan komoditas dan bulan
      *
      * @param $query
-     * @param int|bool $year
-     * @param int|bool $month
-     * @param int|bool $wilker_id
+     * @param array $params
      * @return collections
      */
-    public function scopeCountFrekuensiKomoditi($query, $year, $month = false, $wilkerId = false)
+    public function scopeCountFrekuensiByKomoditi($query, array $params)
     {
         $query->selectRaw('year(bulan) as year, monthname(bulan) as bln, sum(frekuensi) as data')
               ->whereNotNull('nama_mp')
-              ->whereYear('bulan', $year);
+              ->whereYear('bulan', $params[0]);
 
-        $query->when($month && $month != 'all', function ($query) use ($month) {
+        $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
 
-            return $query->whereMonth('bulan', $month);
+            return $query->whereMonth('bulan', $params[1]);
 
-        })->when($wilkerId, function ($query, $wilkerId) {
+        })->when($params[2], function ($query, $wilker) {
 
-            return $query->whereWilkerId($wilkerId);
+            return $query->whereWilkerId($wilker);
 
         });
 
@@ -97,24 +94,22 @@ trait QueryScopeKhTrait
      * berdasarkan nama komoditas dan bulan
      *
      * @param $query
-     * @param int|bool $year
-     * @param int|bool $month
-     * @param int|bool $wilker_id
+     * @param array $params
      * @return collections
      */
-    public function scopeCountRekapitulasi($query, $year, $month = false, $wilkerId = false)
+    public function scopeCountRekapitulasi($query, array $params)
     {   
         $query->selectRaw(' *, sum(volume) as volume, sum(pnbp) as pnbp, sum(frekuensi) as frekuensi')
               ->whereNotNull('nama_mp')
-              ->whereYear('bulan', $year);
+              ->whereYear('bulan', $params[0]);
 
-        $query->when($month && $month != 'all', function ($query) use ($month) {
+        $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
 
-            return $query->whereMonth('bulan', $month);
+            return $query->whereMonth('bulan', $params[1]);
 
-        })->when($wilkerId, function ($query, $wilkerId) {
+        })->when($params[2], function ($query, $wilker) {
 
-            return $query->whereWilkerId($wilkerId);
+            return $query->whereWilkerId($wilker);
 
         });
            
@@ -125,24 +120,22 @@ trait QueryScopeKhTrait
      * Untuk menghitung top 5 frekuensi berdasarkan komoditas dan bulan
      *
      * @param $query
-     * @param int|bool $year
-     * @param int|bool $month
-     * @param int|bool $wilker_id
+     * @param array $params
      * @return collections
      */
-    public function scopeTopFiveFrekuensiKomoditi($query, $year, $month = false, $wilkerId = false)
+    public function scopeTopFiveFrekuensiKomoditi($query, array $params)
     {
         $query->selectRaw('nama_mp as name, sum(frekuensi) as data')
               ->whereNotNull('nama_mp') 
-              ->whereYear('bulan', $year);
+              ->whereYear('bulan', $params[0]);
 
-        $query->when($month && $month != 'all', function ($query) use ($month) {
+        $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
 
-            return $query->whereMonth('bulan', $month);
+            return $query->whereMonth('bulan', $params[1]);
 
-        })->when($wilkerId, function ($query, $wilkerId) {
+        })->when($params[2], function ($query, $wilker) {
 
-            return $query->whereWilkerId($wilkerId);
+            return $query->whereWilkerId($wilker);
 
         });
            
@@ -179,9 +172,9 @@ trait QueryScopeKhTrait
 
             return $query->whereMonth('bulan', $month);
 
-        })->when($wilkerId, function ($query, $wilkerId) {
+        })->when($wilkerId, function ($query, $wilker) {
 
-            return $query->whereWilkerId($wilkerId);
+            return $query->whereWilkerId($wilker);
 
         })->when($year, function ($query, $year) {
 
@@ -200,12 +193,10 @@ trait QueryScopeKhTrait
      * Untuk mendownload Excel File laporan operasional 
      *
      * @param $query
-     * @param int|bool $year
-     * @param int|bool $month
-     * @param int|bool $wilker_id
+     * @param array $params
      * @return collections
      */
-    public function scopeLaporanOperasional($query, $year, $month = false, $wilkerId = false)
+    public function scopeLaporanOperasional($query, array $params)
     {
         $query->select(
              'no_permohonan',
@@ -243,15 +234,15 @@ trait QueryScopeKhTrait
              'satuan',
              'no_seri',
              'total_pnbp'
-         )->whereYear('bulan', $year);
+         )->whereYear('bulan', $params[0]);
 
-        $query->when($month && $month != 'all', function ($query) use ($month) {
+        $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
 
-            return $query->whereMonth('bulan', $month);
+            return $query->whereMonth('bulan', $params[1]);
 
-        })->when($wilkerId, function ($query, $wilkerId) {
+        })->when($params[2], function ($query, $wilker) {
 
-            return $query->whereWilkerId($wilkerId);
+            return $query->whereWilkerId($wilker);
 
         });
 
@@ -262,24 +253,22 @@ trait QueryScopeKhTrait
      * Untuk mendownload Excel File laporan rekapitulasi komoditi 
      *
      * @param $query
-     * @param int|bool $year
-     * @param int|bool $month
-     * @param int|bool $wilker_id
+     * @param array $params
      * @return collections
      */
-    public function scopeLaporanRekapitulasiKomoditi($query, $year, $month = false, $wilkerId = false)
+    public function scopeLaporanRekapitulasiKomoditi($query, array $params)
     {
         $query->select(
              'wilker_id', 'nama_mp', 'kota_asal', 'kota_tuju', 'asal', 'tujuan', 'jumlah', 'satuan'
-        )->whereYear('bulan', $year);
+        )->whereYear('bulan', $params[0]);
 
-        $query->when($month && $month != 'all', function ($query) use ($month) {
+        $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
 
-            return $query->whereMonth('bulan', $month);
+            return $query->whereMonth('bulan', $params[1]);
 
-        })->when($wilkerId, function ($query, $wilkerId) {
+        })->when($params[2], function ($query, $wilker) {
 
-            return $query->whereWilkerId($wilkerId);
+            return $query->whereWilkerId($wilker);
 
         });
 

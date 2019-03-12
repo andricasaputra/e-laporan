@@ -57,6 +57,7 @@ trait TableOperasionalProperty
              'nomor_dok_pelepasan',
              'tanggal_pelepasan',
              'no_seri',
+             'no_kwitansi',
              'dokumen_pendukung',
              'kontainer',
              'biaya_perjalanan_dinas',
@@ -119,6 +120,7 @@ trait TableOperasionalProperty
             'nomor_dok_pelepasan',
             'tanggal_pelepasan',
             'no_seri',
+            'no_kwitansi',
             'dokumen_pendukung',
             'kontainer',
             'biaya_perjalanan_dinas',
@@ -218,6 +220,31 @@ trait TableOperasionalProperty
              'Satuan',
              'No Seri',
              'PNBP (Rp)'
+            ];
+    }
+
+    /**
+     * Table head dari laporan setor PNBP
+     *
+     * @return array
+     */
+    protected function tableHeaderSetorBilling() : array
+    {
+        return [
+             'No',
+             'Bulan',
+             'UPT',
+             'Wilker',
+             'Kode Transaksi',
+             'No Kwitansi',
+             'Tanggal Kwitansi',
+             'Jumlah',
+             'Kode Billing',
+             'Tanggal Billing',
+             'Kode Transaksi Simponi',
+             'NTPN',
+             'Tanggal Bayar',
+             'Bank Persepsi',
             ];
     }
 

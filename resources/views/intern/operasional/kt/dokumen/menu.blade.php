@@ -293,7 +293,7 @@
           { "data" : "dokumen.deskripsi" },
           { "data" : "jumlah" },
           { "data" : "no_seri" },
-          { "data" : "created_at" },
+          { "data" : "tanggal" },
           { "data" : "action", orderable: false, searchable: false},
         ]
 

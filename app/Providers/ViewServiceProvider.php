@@ -82,7 +82,10 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kh.data.statistik.detail.bigtable.domas',
                 'intern.operasional.kh.data.statistik.detail.bigtable.ekspor',
                 'intern.operasional.kh.data.statistik.detail.bigtable.impor',
-                'intern.operasional.kh.data.statistik.detail.dokumen.pembatalan_dokumen',
+                // halaman dokumen belum terpakai
+                'intern.operasional.kh.dokumen.pembatalan.index',
+                'intern.operasional.kh.dokumen.penerimaan.index',
+                'intern.operasional.kh.data.statistik.detail.pnbp.billing',
             ],
 
             $this->namespace . '\Operasional\TableDetailKhComposer'
@@ -97,11 +100,25 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kt.data.statistik.detail.bigtable.domas',
                 'intern.operasional.kt.data.statistik.detail.bigtable.ekspor',
                 'intern.operasional.kt.data.statistik.detail.bigtable.impor',
+                // halaman dokumen belum terpakai
                 'intern.operasional.kt.dokumen.pembatalan.index',
                 'intern.operasional.kt.dokumen.penerimaan.index',
+                'intern.operasional.kt.data.statistik.detail.pnbp.billing',
             ],
 
             $this->namespace . '\Operasional\TableDetailKtComposer'
+
+        );
+
+        /*Share Data For Page Detail Table PNBP*/
+        View::composer(
+
+            [
+                'intern.operasional.kh.data.statistik.detail.pnbp.billing',
+                'intern.operasional.kt.data.statistik.detail.pnbp.billing', 
+            ],
+
+            $this->namespace . '\Operasional\TableSetorPnbp'
 
         );
 
@@ -129,6 +146,7 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kh.upload.pembatalan_dokumen',
                 'intern.operasional.kh.upload.reekspor',
                 'intern.operasional.kh.upload.serah_terima',
+                'intern.operasional.kh.upload.billing',
 
                 /*KT views*/
                 'intern.operasional.kt.upload.dokel', 
@@ -138,6 +156,7 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kt.upload.pembatalan_dokumen',
                 'intern.operasional.kt.upload.reekspor',
                 'intern.operasional.kt.upload.serah_terima',
+                'intern.operasional.kt.upload.billing',
 
                 /*Admin Pengumuman*/
                 'intern.operasional.admin.pengumuman.create.create',

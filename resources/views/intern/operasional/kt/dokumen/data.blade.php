@@ -322,7 +322,7 @@
   
               <tr>
                 <td>{{ $data->wilker->nama_wilker }}</td>
-                <td>{{ $data->dokumen }}</td>
+                <td>{{ str_replace(' ', '', $data->dokumen) }}</td>
                 <td>{{ $data->total }}</td>
                 <td>{{ $data->no_seri }}</td>
               </tr>

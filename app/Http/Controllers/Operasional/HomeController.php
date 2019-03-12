@@ -63,7 +63,7 @@ class HomeController extends Controller
      * @param Request $request
      * @return void
      */
-    public function __construct(KhRepository $khRepository, KtRepository $ktRepository, Request $request)
+    public function __construct(Request $request)
     {
         $this->year         = $request->year ?? date('Y');
 
@@ -73,9 +73,9 @@ class HomeController extends Controller
 
         $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
 
-        $this->khRepository = new $khRepository($this->year, $this->month, $this->wilker_id);
+        $this->khRepository = new KhRepository($request);
 
-        $this->ktRepository = new $ktRepository($this->year, $this->month, $this->wilker_id);
+        $this->ktRepository = new KtRepository($request);
     }
 
     /**
@@ -83,7 +83,7 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function show()
+    public function dashboard()
     {
     	return view('intern.operasional.home');
     }

@@ -222,13 +222,13 @@ class DataOperasionalRepositoryManager implements RepositoryInterface
      * @param  $year, $month, $wilker_id
      * @return void 
      */
-    public function __construct($year = null, $month = null, $wilker_id = null)
+    public function __construct(?Request $request)
     {
-        $this->year         = $year ?? date('Y');
+        $this->year         = $request->year ?? date('Y');
 
-        $this->month        = $month;
+        $this->month        = $request->month ?? false;
 
-        $this->wilker_id    = $wilker_id;
+        $this->wilker_id    = $request->wilker_id ?? false;
 
         $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
     }

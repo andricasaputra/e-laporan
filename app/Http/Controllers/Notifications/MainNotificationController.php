@@ -30,7 +30,7 @@ class MainNotificationController extends Controller
      */
     public function showAllNotifications()
     {
-        return view('intern.notifications')
+        return view('intern.notifications.allnotifications')
                     ->withUser(auth()->user())
                     ->withNotifications(auth()->user()->notifications()->paginate(10));
     }
@@ -42,9 +42,9 @@ class MainNotificationController extends Controller
      */
     public function mapNotifications()
     {
-        return view('intern.mapnotifications')
+        return view('intern.notifications.mapnotifications')
                     ->withUser(auth()->user())
-                    ->withNotifications(auth()->user()->unreadNotifications);
+                    ->withNotifications(auth()->user()->unreadNotifications->take(50));
     }
 
     /**

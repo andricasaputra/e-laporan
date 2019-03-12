@@ -149,10 +149,10 @@
         <div class="col-md-4">
           <label for="frekKh">Pilih Jenis Permohonan</label>
           <select name="frekKh" id="selectCatKh" class="form-control">
-            <option value="Domestik Keluar Karantina Hewan">Domestik Keluar</option>
-            <option value="Domestik Masuk Karantina Hewan">Domestik Masuk</option>
-            <option value="Ekspor Karantina Hewan">Ekspor</option>
-            <option value="Impor Karantina Hewan">Impor</option>
+            <option value="dokelkh">Domestik Keluar</option>
+            <option value="domaskh">Domestik Masuk</option>
+            <option value="eksporkh">Ekspor</option>
+            <option value="imporkh">Impor</option>
           </select>
         </div>
       </div>
@@ -180,10 +180,10 @@
         <div class="col-md-4">
           <label for="frekKt">Pilih Jenis Permohonan</label>
           <select name="frekKt" id="selectCatKt" class="form-control">
-            <option value="Domestik Keluar Karantina Tumbuhan">Domestik Keluar</option>
-            <option value="Domestik Masuk Karantina Tumbuhan">Domestik Masuk</option>
-            <option value="Ekspor Karantina Tumbuhan">Ekspor</option>
-            <option value="Impor Karantina Tumbuhan">Impor</option>
+            <option value="dokelkt">Domestik Keluar</option>
+            <option value="domaskt">Domestik Masuk</option>
+            <option value="eksporkt">Ekspor</option>
+            <option value="imporkt">Impor</option>
           </select>
         </div>
       </div>

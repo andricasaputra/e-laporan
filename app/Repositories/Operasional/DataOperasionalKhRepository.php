@@ -3,6 +3,12 @@
 namespace App\Repositories\Operasional;
 
 use App\Models\Operasional\LogInfo;
+use App\Models\Operasional\DokelKh;
+use App\Models\Operasional\DomasKh;
+use App\Models\Operasional\ImporKh;
+use App\Models\Operasional\EksporKh;
+use App\Models\Operasional\ReeksporKh;
+use App\Models\Operasional\SerahTerimaKh;
 use App\Models\Operasional\Dokumen\PembatalanDokKh;
 use App\Models\Operasional\Dokumen\PemakaianDokumenKh as DokumenKh;
 use App\Models\Operasional\Dokumen\PenerimaanDokumenKh as Penerimaan;
@@ -16,42 +22,32 @@ use App\Models\Operasional\RekapitulasiKomoditiSerahTerimaKh as RekapSerahTerima
 class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
 {
     /**
-     * Mengatur total frekuensi berdasakan jenis Kegiatan |
+     * Mengatur total frekuensi berdasarkan jenis Kegiatan 
+     * penghitungan frekuensi diambil dari jumlah permohonan 
+     * (bukan jumlah frekuensi komoditas)
      * memakai scope local pada Model
      *
      * @return array
      */
     public function totalFrekuensiPerKegiatan()
     {
-        $this->frekuensiDomas       =   RekapDomasKh::countFrekuensi(
-                                            $this->year, $this->month, $this->wilker_id
-                                        )->frekuensi;
+        $this->frekuensiDomas       =  DomasKh::countFrekuensiByPermohonan($this->routeParams)->frekuensi;
 
-        $this->frekuensiDokel       =   RekapDokelKh::countFrekuensi(
-                                            $this->year, $this->month, $this->wilker_id
-                                        )->frekuensi;
+        $this->frekuensiDokel       =  DokelKh::countFrekuensiByPermohonan($this->routeParams)->frekuensi;
 
-        $this->frekuensiEkspor      =   RekapEksporKh::countFrekuensi(
-                                            $this->year, $this->month, $this->wilker_id
-                                        )->frekuensi;
+        $this->frekuensiEkspor      =  EksporKh::countFrekuensiByPermohonan($this->routeParams)->frekuensi;
 
-        $this->frekuensiImpor       =   RekapImporKh::countFrekuensi(
-                                            $this->year, $this->month, $this->wilker_id
-                                        )->frekuensi;
+        $this->frekuensiImpor       =  ImporKh::countFrekuensiByPermohonan($this->routeParams)->frekuensi;
 
-        $this->frekuensiReekspor    =   RekapReeksporKh::countFrekuensi(
-                                            $this->year, $this->month, $this->wilker_id
-                                        )->frekuensi;
+        $this->frekuensiReekspor    =  ReeksporKh::countFrekuensiByPermohonan($this->routeParams)->frekuensi;
 
-        $this->frekuensiSerahTerima =   RekapSerahTerimaKh::countFrekuensi(
-                                            $this->year, $this->month, $this->wilker_id
-                                        )->frekuensi;
+        $this->frekuensiSerahTerima =  SerahTerimaKh::countFrekuensiByPermohonan($this->routeParams)->frekuensi;
 
         return $this;
     }
 
     /**
-     * Mengatur total volume komoditi per satuan |
+     * Mengatur total volume komoditi per satuan
      * memakai scope local pada Model
      *
      * @return array
@@ -60,133 +56,110 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
     {
         return  [
 
-            'dokel'         =>  RekapDokelKh::countVolume(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'dokel'         =>  RekapDokelKh::countVolume($this->routeParams)->get(),
 
-            'domas'         =>  RekapDomasKh::countVolume(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'domas'         =>  RekapDomasKh::countVolume($this->routeParams)->get(),
 
-            'ekspor'        =>  RekapEksporKh::countVolume(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'ekspor'        =>  RekapEksporKh::countVolume($this->routeParams)->get(),
 
-            'impor'         =>  RekapImporKh::countVolume(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'impor'         =>  RekapImporKh::countVolume($this->routeParams)->get(),
 
-            'reekspor'      =>  RekapReeksporKh::countVolume(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'reekspor'      =>  RekapReeksporKh::countVolume($this->routeParams)->get(),
 
-            'serahterima'   =>  RekapSerahTerimaKh::countVolume(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'serahterima'   =>  RekapSerahTerimaKh::countVolume($this->routeParams)->get(),
 
         ];
     }
 
     /**
-     * Mengatur total rekapitulasi frekuensi, volume, pnbp berdasakan komoditi |
+     * Mengatur total rekapitulasi frekuensi, volume, pnbp berdasakan komoditi
      * memakai scope local pada Model
      *
      * @return this
      */
     public function totalRekapitulasi()
     {
-        $this->dokelTotalVolume         =  parent::castNumberFormat(RekapDokelKh::countRekapitulasi(
-                                                $this->year, $this->month, $this->wilker_id
+        $this->dokelTotalVolume         =   parent::castNumberFormat(RekapDokelKh::countRekapitulasi(
+                                                $this->routeParams
                                             )->get());
 
-        $this->domasTotalVolume         =  parent::castNumberFormat(RekapDomasKh::countRekapitulasi(
-                                                $this->year, $this->month, $this->wilker_id
+        $this->domasTotalVolume         =   parent::castNumberFormat(RekapDomasKh::countRekapitulasi(
+                                                $this->routeParams
                                             )->get());
 
-        $this->eksporTotalVolume        =  parent::castNumberFormat(RekapEksporKh::countRekapitulasi(
-                                                $this->year, $this->month, $this->wilker_id
+        $this->eksporTotalVolume        =   parent::castNumberFormat(RekapEksporKh::countRekapitulasi(
+                                                $this->routeParams
                                             )->get());
 
-        $this->imporTotalVolume          =  parent::castNumberFormat(RekapImporKh::countRekapitulasi(
-                                                $this->year, $this->month, $this->wilker_id
+        $this->imporTotalVolume         =   parent::castNumberFormat(RekapImporKh::countRekapitulasi(
+                                                $this->routeParams
                                             )->get());
 
-        $this->reeksporTotalVolume      =  parent::castNumberFormat(RekapReeksporKh::countRekapitulasi(
-                                                $this->year, $this->month, $this->wilker_id
+        $this->reeksporTotalVolume      =   parent::castNumberFormat(RekapReeksporKh::countRekapitulasi(
+                                                $this->routeParams
                                             )->get());
 
-        $this->serahTerimaTotalVolume   =  parent::castNumberFormat(RekapSerahTerimaKh::countRekapitulasi(
-                                                $this->year, $this->month, $this->wilker_id
+        $this->serahTerimaTotalVolume   =   parent::castNumberFormat(RekapSerahTerimaKh::countRekapitulasi(
+                                                $this->routeParams
                                             )->get());
 
         return $this; 
     }
 
+
     /**
-     * Mengatur Total PNBP semua kegiatan |
+     * Mengatur Total PNBP semua kegiatan
      * memakai local scope pada model
      *
      * @return void
      */
     public function totalPnbp()
     {
-        $this->pnbpDomas        =   RekapDomasKh::countTotalPnbp(
-                                        $this->year, $this->month, $this->wilker_id
-                                    )->pnbp;
+        $this->pnbpDomas        =  RekapDomasKh::countTotalPnbp($this->routeParams)->pnbp;
 
-        $this->pnbpDokel        =   RekapDokelKh::countTotalPnbp(
-                                        $this->year, $this->month, $this->wilker_id
-                                    )->pnbp;
+        $this->pnbpDokel        =  RekapDokelKh::countTotalPnbp($this->routeParams)->pnbp;
 
-        $this->pnbpEkspor       =   RekapEksporKh::countTotalPnbp(
-                                        $this->year, $this->month, $this->wilker_id
-                                    )->pnbp;
+        $this->pnbpEkspor       =  RekapEksporKh::countTotalPnbp($this->routeParams)->pnbp;
 
-        $this->pnbpImpor        =   RekapImporKh::countTotalPnbp(
-                                        $this->year, $this->month, $this->wilker_id
-                                    )->pnbp;
+        $this->pnbpImpor        =  RekapImporKh::countTotalPnbp($this->routeParams)->pnbp;
 
-        $this->pnbpReekspor     =   RekapReeksporKh::countTotalPnbp(
-                                        $this->year, $this->month, $this->wilker_id
-                                    )->pnbp;
+        $this->pnbpReekspor     =  RekapReeksporKh::countTotalPnbp($this->routeParams)->pnbp;
 
-        $this->pnbpSerahTerima  =   RekapSerahTerimaKh::countTotalPnbp(
-                                        $this->year, $this->month, $this->wilker_id
-                                    )->pnbp;
+        $this->pnbpSerahTerima  =  RekapSerahTerimaKh::countTotalPnbp($this->routeParams)->pnbp;
 
         return $this;
     }
 
     /**
-     * Mengatur Total Frekuensi Per Bulan
+     * Mengatur Total Frekuensi Berdasarkan Komoditas
      * memakai local scope pada model
      *
      * @return void
      */
-    public function frekuensiKomoditiPerMonthKh()
+    public function frekuensiByKomoditiKh()
     {
-        $this->frekuensiKomoditiDokel           =   RekapDokelKh::countFrekuensiKomoditi(
-                                                        $this->year, $this->month, $this->wilker_id
+        $this->frekuensiKomoditiDokel           =   RekapDokelKh::countFrekuensiByKomoditi(
+                                                        $this->routeParams
                                                     )->get();
 
-        $this->frekuensiKomoditiDomas           =   RekapDomasKh::countFrekuensiKomoditi(
-                                                        $this->year, $this->month, $this->wilker_id
+        $this->frekuensiKomoditiDomas           =   RekapDomasKh::countFrekuensiByKomoditi(
+                                                        $this->routeParams
                                                     )->get();
 
-        $this->frekuensiKomoditiEkspor          =   RekapEksporKh::countFrekuensiKomoditi(
-                                                        $this->year, $this->month, $this->wilker_id
+        $this->frekuensiKomoditiEkspor          =   RekapEksporKh::countFrekuensiByKomoditi(
+                                                        $this->routeParams
                                                     )->get();
 
-        $this->frekuensiKomoditiImpor           =   RekapImporKh::countFrekuensiKomoditi(
-                                                        $this->year, $this->month, $this->wilker_id
+        $this->frekuensiKomoditiImpor           =   RekapImporKh::countFrekuensiByKomoditi(
+                                                        $this->routeParams
                                                     )->get();
 
-        $this->frekuensiKomoditiReekspor        =   RekapReeksporKh::countFrekuensiKomoditi(
-                                                        $this->year, $this->month, $this->wilker_id
+        $this->frekuensiKomoditiReekspor        =   RekapReeksporKh::countFrekuensiByKomoditi(
+                                                        $this->routeParams
                                                     )->get();
 
-        $this->frekuensiKomoditiSerahTerima     =   RekapSerahTerimaKh::countFrekuensiKomoditi(
-                                                        $this->year, $this->month, $this->wilker_id
+        $this->frekuensiKomoditiSerahTerima     =   RekapSerahTerimaKh::countFrekuensiByKomoditi(
+                                                        $this->routeParams
                                                     )->get();
 
         return $this;
@@ -202,54 +175,40 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
     {
         return  [
 
-            'dokel'         =>  RekapDokelKh::topFiveFrekuensiKomoditi(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'dokel'         =>  RekapDokelKh::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
-            'domas'         =>  RekapDomasKh::topFiveFrekuensiKomoditi(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'domas'         =>  RekapDomasKh::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
-            'ekspor'        =>  RekapEksporKh::topFiveFrekuensiKomoditi(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'ekspor'        =>  RekapEksporKh::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
-            'impor'         =>  RekapImporKh::topFiveFrekuensiKomoditi(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'impor'         =>  RekapImporKh::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
-            'reekspor'      =>  RekapReeksporKh::topFiveFrekuensiKomoditi(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'reekspor'      =>  RekapReeksporKh::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
-            'serahterima'   =>  RekapSerahTerimaKh::topFiveFrekuensiKomoditi(
-                                    $this->year, $this->month, $this->wilker_id
-                                )->get(),
+            'serahterima'   =>  RekapSerahTerimaKh::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
         ];
     }
 
     /**
-     * Mengatur Total Penerimaan Dokumen semua kegiatan |
+     * Mengatur Total Penerimaan Dokumen semua kegiatan
      * memakai local scope pada model
      *
      * @return void
      */
     public function penerimaanDokumen($excel = false)
     {
-        return  Penerimaan::countPenerimaanDokumen(
-                  $this->year, $this->month, $this->wilker_id, $excel
-                );
+        return Penerimaan::countPenerimaanDokumen($this->routeParams, $excel);
     }
 
     /**
-     * Mengatur Total Penerimaan Dokumen bulan sebelumnya, untuk tanggal tertentu |
+     * Mengatur Total Penerimaan Dokumen bulan sebelumnya, untuk tanggal tertentu
      * memakai local scope pada model
      *
      * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
      * @return array
      */
-    public function penerimaanDokumenBulanLalu($excel = false)
+    public function penerimaanDokumenBulanLalu($excel = true)
     {
         return  Penerimaan::countPenerimaanDokumen(
                     $this->bulanLalu()['year'], $this->bulanLalu()['lastMonth'], $this->wilker_id, $excel
@@ -257,20 +216,18 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
     }
 
     /**
-     * Mengatur Total Pemakaian Dokumen semua kegiatan |
+     * Mengatur Total Pemakaian Dokumen semua kegiatan
      * memakai local scope pada model
      *
      * @return array
      */
     public function totalPenerimaanDokumen()
     {
-        return  Penerimaan::countTotalPemakaianDokumen(
-                    $this->year, $this->month, $this->wilker_id
-                );
+        return Penerimaan::countTotalPemakaianDokumen($this->routeParams);
     }
 
     /**
-     * Mengatur Total Pemakaian Dokumen semua kegiatan untuk tanggal tertentu |
+     * Mengatur Total Pemakaian Dokumen semua kegiatan untuk tanggal tertentu
      * memakai local scope pada model
      *
      * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
@@ -278,13 +235,11 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
      */
     public function pemakaianDokumen($excel = false)
     {
-        return  DokumenKh::countPemakaianDokumen(
-                    $this->year, $this->month, $this->wilker_id, $excel
-                )->get();
+        return DokumenKh::countPemakaianDokumen($this->routeParams, $excel)->get();
     }
 
     /**
-     * Mengatur Total Pemakaian Dokumen bulan sebelumnya, untuk tanggal tertentu |
+     * Mengatur Total Pemakaian Dokumen bulan sebelumnya, untuk tanggal tertentu
      * memakai local scope pada model
      *
      * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
@@ -298,20 +253,18 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
     }
 
     /**
-     * Mengatur Total Pemakaian Dokumen semua kegiatan |
+     * Mengatur Total Pemakaian Dokumen semua kegiatan
      * memakai local scope pada model
      *
      * @return array
      */
     public function totalPemakaianDokumen()
     {
-        return  DokumenKh::countTotalPemakaianDokumen(
-                    $this->year, $this->month, $this->wilker_id
-                )->get();
+        return DokumenKh::countTotalPemakaianDokumen($this->routeParams)->get();
     }
 
     /**
-     * Mengatur Total Pembatalan Dokumen semua kegiatan |
+     * Mengatur Total Pembatalan Dokumen semua kegiatan
      * memakai local scope pada model
      *
      * @return void
@@ -323,14 +276,18 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
                 );
     }
 
-
+    /**
+     * Atur bulan lalu untuk keperluan penerimaan dokumen
+     *
+     * @return array
+     */
     private function bulanLalu()
     {
         if ($this->month == 'all') {
 
             $lastMonth = \Carbon::parse($this->year)->subMonth()->month;
 
-            $year  = \Carbon::parse($this->year)->subYear()->year;
+            $year      = \Carbon::parse($this->year)->subYear()->year;
 
         } else {
 
@@ -367,8 +324,7 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
     {
         $log = LogInfo::karantinaHewanType($year, $month, $wilker, $type)->get();
 
-        return datatables($log)->addIndexColumn()
-         ->addColumn('action', function ($datas) {
+        return datatables($log)->addIndexColumn()->addColumn('action', function ($datas) {
 
             /*
             * Hilangkan tombol rollback jika :
@@ -377,7 +333,7 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
             *    karena jika sudah lebih dari seminggu, laporan kita asumsikan valid
             *    dan tidak dapat di rollback kembali
             */
-            return $datas->when(is_null($datas->rolledback_at) && (int) $datas->status == 1 , function($i) use ($datas){
+            return $datas->when(is_null($datas->rolledback_at) && is_null($datas->status) , function() use ($datas){
 
                 return  now() > \Carbon::parse($datas->created_at)->addWeek() 
                         ? '-'
@@ -385,7 +341,7 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
                             <i class="fa fa-repeat fa-fw"></i> Rollback
                          </a>';
 
-            }, function($i) {
+            }, function() {
 
                 return '-';
 

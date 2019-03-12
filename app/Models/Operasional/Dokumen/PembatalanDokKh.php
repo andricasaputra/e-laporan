@@ -2,17 +2,20 @@
 
 namespace App\Models\Operasional\Dokumen;
 
+use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
-use App\Contracts\ModelOperasionalInterface;
+use App\Contracts\ModelPembatalanInterface;
 use App\Models\Operasional\QueryScopeKhTrait;
+use App\Models\Operasional\Admin\MasterDokumen;
 
-class PembatalanDokKh extends Model implements ModelOperasionalInterface
+class PembatalanDokKh extends Model implements ModelPembatalanInterface
 {
 	use QueryScopeKhTrait;
 
     protected $table 	= 'pembatalan_dok_kh';
     protected $guarded  = ['id', 'created_at', 'updated_at'];
     protected $hidden   = ['id', 'no', 'created_at', 'updated_at'];
+    protected $with     = ['wilker'];
 
     /**
      * Untuk alias dari jenis permohonan untuk set parameter route
@@ -37,6 +40,27 @@ class PembatalanDokKh extends Model implements ModelOperasionalInterface
      * @var string
      */
     public $karantina   = 'Karantina Hewan';
+
+    /**
+     * One to many relations with Wilker
+     *
+     * @return void
+     */
+    public function wilker()
+    {
+        return $this->belongsTo(Wilker::class);
+    }
+
+    /**
+     * Untuk mencari nama dokumen yang sesuai dengan master dokumen
+     *
+     * @var string
+     */
+    public function getDokumenAttribute($value)
+    {
+        $value = str_replace(' ', '', $value);
+        return MasterDokumen::dokumenKhWithOutStripe()[$value];
+    }
 
     /**
      * Custom nama bulan
@@ -85,7 +109,7 @@ class PembatalanDokKh extends Model implements ModelOperasionalInterface
      */
     public function scopeGetPembatalan($query, array $params)
     {
-        $query->whereYear('bulan', $params['year']);
+        $query->whereNotNull('dokumen')->whereYear('bulan', $params['year']);
 
         $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
 
@@ -110,6 +134,7 @@ class PembatalanDokKh extends Model implements ModelOperasionalInterface
     public function scopeGetJumlahKhDokumen($query, array $params)
     {
         $query->selectRaw('count(*) as total, dokumen, wilker_id, nomor_seri as no_seri')
+              ->whereNotNull('dokumen')
               ->whereYear('bulan', $params['year']);
 
         $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {

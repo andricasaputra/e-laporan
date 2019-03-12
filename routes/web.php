@@ -18,7 +18,7 @@
 
     Route::namespace('Operasional')->group(function () {
 
-        Route::get('intern/operasional', 'HomeMiddleware@operasional')->name('intern.operasional.home');
+        Route::get('intern/operasional', 'RoleSetterController@handle');
 
     });
 

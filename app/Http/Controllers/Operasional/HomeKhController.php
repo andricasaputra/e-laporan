@@ -51,7 +51,7 @@ class HomeKhController extends Controller
      * @param DataOperasionalKhRepository $repository, Request $request
      * @return void
      */
-    public function __construct(Repository $khRepository, Request $request)
+    public function __construct(Request $request)
     {
         $this->year         = $request->year ?? date('Y');
 
@@ -61,7 +61,7 @@ class HomeKhController extends Controller
 
         $this->routeParams  = [$this->year, $this->month, $this->wilker_id];
 
-        $this->khRepository = new $khRepository($this->year, $this->month, $this->wilker_id);
+        $this->khRepository = new Repository($request);
     }
 
     /**
@@ -156,7 +156,7 @@ class HomeKhController extends Controller
      */
     public function logApi(int $year, $month , $wilker, string $type)
     {
-        return $this->khRepository->log($year, $month ,$wilker, $type);
+        return $this->khRepository->log($year, $month, $wilker, $type);
     }
 
     /**

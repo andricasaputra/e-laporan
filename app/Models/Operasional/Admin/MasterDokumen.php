@@ -64,7 +64,32 @@ class MasterDokumen extends Model
         $dok = $query->select('dokumen')->whereKarantina('kt')->get();
         
         return $dok->mapWithKeys(function($items){
-            return [str_replace('-', '', $items->dokumen) => str_replace('-', '', $items->dokumen)];
+            
+            $dok = str_replace('-', '', $items->dokumen);
+            $dok = str_replace(' ', '', $dok);
+            
+            return [$dok => $dok];
+            
+        });
+    }
+
+    /**
+     * Untuk mencari dokumen dan diubah tanpa tanda strip '-', ex : KH-11 -> KH-14
+     *
+     * @param self $query
+     * @return array
+     */
+    public function scopeDokumenKhWithOutStripe($query)
+    {
+        $dok = $query->select('dokumen')->whereKarantina('kh')->get();
+        
+        return $dok->mapWithKeys(function($items){
+            
+            $dok = str_replace('-', '', $items->dokumen);
+            $dok = str_replace(' ', '', $dok);
+            
+            return [$dok => $dok];
+            
         });
     }
 }

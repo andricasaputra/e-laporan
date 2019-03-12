@@ -23,6 +23,67 @@ trait DataOperasionalKhTrait
     */
 
     /**
+     * Untuk Menampilkan Ringkasan Data Pada Dashboard
+     *
+     * @return array
+     */
+    public function sourceDashboardApiKh()
+    {
+        return [
+
+            'tahun'     =>  $this->year,
+
+            'bulan'     =>  $this->month,
+
+            'wilker'    =>  Wilker::whereId($this->wilker_id)->pluck('nama_wilker')->first(),
+
+            'frekuensi' =>  $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDomas +
+                            $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDokel +
+                            $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor +
+                            $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
+
+            'frekuensiPerKegiatan' =>  [
+
+              'domas' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDomas,
+              'dokel' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDokel,
+              'ekspor' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor,
+              'impor' => $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
+              
+            ],
+
+            'volume'    =>  collect($this->khRepository->totalVolumePerSatuan())
+                            ->flatten(1)
+                            ->groupBy('satuan')
+                            ->map(function($value, $key){
+
+                                return number_format($value->sum('volume'), 0, ',', '.') . ' ' . ucfirst($key);
+
+                            }),
+
+            'pnbp'      =>  rp(
+                                $this->khRepository->totalPnbp()->pnbpDomas +
+                                $this->khRepository->totalPnbp()->pnbpDokel +
+                                $this->khRepository->totalPnbp()->pnbpEkspor +
+                                $this->khRepository->totalPnbp()->pnbpImpor
+                            ),
+
+            'dokumen'   =>  $this->khRepository->pemakaianDokumen(),
+
+            'topFive'   =>  collect($this->khRepository->topFiveFrekuensiKomoditiKh())
+                            ->flatten(1)
+                            ->groupBy('name')
+                            ->sortByDesc('data')
+                            ->take(5)
+                            ->map(function($value, $key){
+
+                                return number_format($value->sum('data'), 0, ',', '.');
+
+                            }),
+
+        ];
+    }
+
+    /**
      * Untuk Mengumpulkan data statistik yang akan digunakan oleh
      * method show pada class HomeKhController dan class HomeAdmin
      *
@@ -118,28 +179,28 @@ trait DataOperasionalKhTrait
                     'Domestik Masuk Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpDomas,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
+                        'link' => route('kh.view.page.detail.pnbp.setor', $this->routeParams)
 
                     ],
 
                     'Domestik Keluar Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpDokel,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
+                        'link' => route('kh.view.page.detail.pnbp.setor', $this->routeParams)
 
                     ],
 
                     'Ekspor Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpEkspor,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
+                        'link' => route('kh.view.page.detail.pnbp.setor', $this->routeParams)
 
                     ],
 
                     'Impor Karantina Hewan' => [
 
                         'pnbp' => $this->khRepository->totalPnbp()->pnbpImpor,
-                        'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
+                        'link' => route('kh.view.page.detail.pnbp.setor', $this->routeParams)
 
                     ],
 
@@ -156,18 +217,6 @@ trait DataOperasionalKhTrait
 
                     'pembatalan_dokumen' => $this->khRepository->pembatalanDokumen(),
                     'link' => route('show.rekapitulasi.operasional.kh', $this->routeParams)
-
-               ],
-
-               'frekuensiKomoditiPerMonth' =>  [
-
-                    'Domestik Masuk Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiDomas,
-
-                    'Domestik Keluar Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiDokel,
-
-                    'Ekspor Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiEkspor,   
-
-                    'Impor Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiImpor
 
                ],
 
@@ -244,74 +293,22 @@ trait DataOperasionalKhTrait
     }
 
     /**
-     * Untuk Menampilkan Ringkasan Data Pada Dashboard
-     *
-     * @return array
-     */
-    public function sourceDashboardApiKh()
-    {
-        return [
-
-            'tahun'     =>  $this->year,
-
-            'bulan'     =>  $this->month,
-
-            'wilker'    =>  Wilker::whereId($this->wilker_id)->pluck('nama_wilker')->first(),
-
-            'frekuensi' =>  $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDomas +
-                            $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiDokel +
-                            $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiEkspor +
-                            $this->khRepository->totalFrekuensiPerKegiatan()->frekuensiImpor,
-
-            'volume'    =>  collect($this->khRepository->totalVolumePerSatuan())
-                            ->flatten(1)
-                            ->groupBy('satuan')
-                            ->map(function($value, $key){
-
-                                return number_format($value->sum('volume'), 0, ',', '.') . ' ' . ucfirst($key);
-
-                            }),
-
-            'pnbp'      =>  rp(
-                                $this->khRepository->totalPnbp()->pnbpDomas +
-                                $this->khRepository->totalPnbp()->pnbpDokel +
-                                $this->khRepository->totalPnbp()->pnbpEkspor +
-                                $this->khRepository->totalPnbp()->pnbpImpor
-                            ),
-
-            'dokumen'   =>  $this->khRepository->pemakaianDokumen(),
-
-            'topFive'   =>  collect($this->khRepository->topFiveFrekuensiKomoditiKh())
-                            ->flatten(1)
-                            ->groupBy('name')
-                            ->sortByDesc('data')
-                            ->take(5)
-                            ->map(function($value, $key){
-
-                                return number_format($value->sum('data'), 0, ',', '.');
-
-                            }),
-
-        ];
-    }
-
-    /**
      * Untuk Tampilan chart frekuensi
      *
      * @param string $tipe_karantina
      * @return array
      */
-    public function frekuensiPerMonthChartKh($type_karantina = null)
+    public function frekuensiChartKh($type_karantina = null)
     {
         $frekuensi = [
 
-            'Domestik Masuk Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiDomas,
+            'domaskh' => $this->khRepository->frekuensiByKomoditiKh()->frekuensiKomoditiDomas,
 
-            'Domestik Keluar Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiDokel,
+            'dokelkh' => $this->khRepository->frekuensiByKomoditiKh()->frekuensiKomoditiDokel,
 
-            'Ekspor Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiEkspor,   
+            'eksporkh' => $this->khRepository->frekuensiByKomoditiKh()->frekuensiKomoditiEkspor,   
 
-            'Impor Karantina Hewan' => $this->khRepository->frekuensiKomoditiPerMonthKh()->frekuensiKomoditiImpor
+            'imporkh' => $this->khRepository->frekuensiByKomoditiKh()->frekuensiKomoditiImpor
 
        ];
 
