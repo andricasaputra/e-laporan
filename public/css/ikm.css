@@ -1,0 +1,333 @@
+html, body {
+  position: relative;
+  height: 100%;
+}
+body {
+  background: #fff;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color:#000;
+  margin: 0;
+  padding: 0;
+}
+
+select{
+    cursor: pointer;
+    text-indent: 5px;
+}
+
+.radio label,.radio-inline label{
+    padding-left:55px
+}
+
+.radio input[type="radio"],.radio input[type="checkbox"],.radio-inline input[type="radio"],.checkbox input[type="radio"],.checkbox-inline input[type="radio"]{
+    margin-left:-25px
+}
+
+input[type="radio"],.radio input[type="radio"],.radio-inline input[type="radio"]{
+    position:relative;
+    margin-right:10px;
+    vertical-align:text-top;
+    margin-top: -10px;
+    border:none;
+    background-color:transparent;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer
+}
+
+input[type="radio"]:focus,.radio input[type="radio"]:focus,.radio-inline input[type="radio"]:focus{
+    outline:none
+}
+
+input[type="radio"]:before,input[type="radio"]:after,.radio input[type="radio"]:before,.radio input[type="radio"]:after,.radio-inline input[type="radio"]:before,.radio-inline input[type="radio"]:after{
+    content:"";
+    display:block;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    -webkit-transition:240ms;
+    transition:240ms
+}
+
+input[type="radio"]:before,.radio input[type="radio"]:before,.radio-inline input[type="radio"]:before{
+    position:absolute;
+    left:14px;
+    top:10px;
+    background-color:#FFB300;
+    -webkit-transform:scale(0);
+    transform:scale(0)
+}
+
+input[type="radio"]:after,.radio input[type="radio"]:after,.radio-inline input[type="radio"]:after{
+    position:relative;
+    top:0px;
+    border:2px solid #bbb
+}
+
+input[type="radio"]:checked:before,.radio input[type="radio"]:checked:before,.radio-inline input[type="radio"]:checked:before{
+    -webkit-transform:scale(0.5);
+    transform:scale(0.5)
+}
+
+input[type="radio"]:disabled:checked:before,.radio input[type="radio"]:disabled:checked:before,.radio-inline input[type="radio"]:disabled:checked:before{
+    background-color:#dee2e6
+}
+
+input[type="radio"]:checked:after,.radio input[type="radio"]:checked:after,.radio-inline input[type="radio"]:checked:after{
+    border-color:#FFB300
+}
+
+input[type="radio"]:disabled:after,input[type="radio"]:disabled:checked:after,.radio input[type="radio"]:disabled:after,.radio input[type="radio"]:disabled:checked:after,.radio-inline input[type="radio"]:disabled:after,.radio-inline input[type="radio"]:disabled:checked:after{
+    border-color:#dee2e6
+}
+
+h5{
+	color: #0C2E8A;
+	font-size: 15pt;
+	font-weight: 600;
+}
+
+
+h5.judul{
+    font-size: 18pt;
+}
+
+p.judul{
+
+    font-style: normal;
+    text-decoration: none;
+    font-size: 10pt;
+    margin-top: -1%
+}
+
+h3.faq_intro {
+    font-weight: 600;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: #0c2e8a
+}
+
+.accordion-section .panel-default > .panel-heading {
+    border: 0;
+    background: #ffc233;
+    padding: 0;
+}
+
+.accordion-section .panel-default .panel-title a {
+    display: block;
+    font-size: 13pt;
+    font-weight: normal;
+    color: #000 !important;
+}
+
+.accordion-section .panel-default .panel-title a:after {
+    font-family: 'FontAwesome';
+    font-style: normal;
+    font-size: 2rem;
+    content: "\f106";
+    float: right;
+    margin-top: -12px;
+}
+
+.accordion-section .panel-default .panel-title a.collapsed:after {
+    content: "\f107";
+}
+
+.accordion-section .panel-default .panel-body {
+    font-size: 1rem;
+    font-style: italic;
+}
+
+button, .alert, .btn{
+    border-radius: 0 !important;
+}
+
+button.send_ikm{
+    font-family: "Raleway", sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 8px 32px;
+    border-radius: 2px;
+    transition: 0.5s;
+    margin: 10px;
+    color: #fff;
+    background: #0c2e8a;
+    border: 2px solid #0c2e8a;
+    cursor: pointer;
+}
+
+button.send_ikm:hover {
+  background: none;
+  color: #0c2e8a;
+}
+
+/*Form Layout*/
+
+
+section#survey{
+
+  height: auto;
+  margin-bottom: 5%
+
+}
+
+#survey .form input, #survey .form textarea {
+  padding: 10px 14px;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 15px;
+}
+
+#survey .form select:not([multiple]):not([size]) {
+  height: 44px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#survey .form select[size='10'], select[multiple] {
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#survey .form button[type="submit"] {
+  background: #ffb300;
+  border: 0;
+  border-radius: 3px;
+  padding: 10px 30px;
+  color: #fff;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+#survey .form button[type="submit"]:hover {
+  background: #2dc899;
+}
+
+h5.survey-questions{
+  position: relative; 
+  font-size: 15pt;
+  font-weight: 600;
+  color: #0C2E8A;
+  margin-top: -5%;
+}
+
+p.sub{
+  position: relative;
+  margin-top: -40px;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+div.survey-questions,  div.survey-responden{
+  text-align: center; 
+  margin-top: 50px;
+}
+
+div.form-group{
+  padding-bottom: 20px
+}
+
+/*Swiper*/
+
+.swiper-wrapper {
+  margin-top: 10%;
+}
+
+.swiper-container {
+  width: 100%;
+  height: auto;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+}
+
+.swiper-slide .container{
+  text-align: center;
+  width: 80%
+}
+
+.swiper-button-next, .swiper-button-prev {
+    top: 70%;
+    fill: #0C2E8A;
+}
+
+.swiper-button-next,
+.swiper-container-rtl .swiper-button-prev,
+.swiper-button-prev, 
+.swiper-container-rtl .swiper-button-next{
+    background-image: none;
+}
+
+/*.swiper-pagination-progressbar .swiper-pagination-progressbar-fill{
+   background: #0C2E8A
+}*/
+
+@media only screen and (max-width: 700px){
+
+    .radio label,.radio-inline label{
+        padding-left:45px;
+        margin-bottom: -10%
+    }
+
+
+	input[type="radio"], .radio input[type="radio"], .radio-inline input[type="radio"]{
+	    margin-right:0px;
+        margin-top: -13px;
+	}
+
+	.radio label,.radio-inline label{
+    	font-size: 10pt;
+	}
+
+	h5{
+		font-size: 11pt;
+		line-height: 25px;
+	}
+
+    h5.judul{
+        display: none;
+    }
+
+    h5.survey-questions{
+      font-size: 11pt;
+    }
+
+    p.judul{
+        display: none;
+    }
+
+	p.mb-3{
+		font-size: 11pt;
+	}
+
+    div.form-group{
+      padding-bottom: 10px
+    }
+
+    .swiper-button-next, .swiper-button-prev {
+        top: 50%;
+    }
+
+    div.survey-questions,  div.survey-responden{
+       text-align: center; 
+       margin-top: 20px;
+    }
+
+
+    div#counter{
+        position: relative;
+        margin-top: -32%;
+        margin-bottom: 40%
+    }
+
+
+
+}
