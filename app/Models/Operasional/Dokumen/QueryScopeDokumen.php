@@ -42,7 +42,7 @@ trait QueryScopeDokumen
      * Untuk set tipe dokumen KT
      *
      * @param $query
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
     public function scopeKtDokumen($query)
     {
@@ -57,7 +57,7 @@ trait QueryScopeDokumen
      * Untuk set tipe dokumen KH
      *
      * @param $query
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
     public function scopeKhDokumen($query)
     {
@@ -73,12 +73,13 @@ trait QueryScopeDokumen
      *
      * @param $query
      * @param array $params
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
     public function scopeGetJumlahKtDokumen($query, array $params)
     {
         $query->selectRaw('sum(jumlah) as total, dokumen_id, wilker_id, no_seri')
-              ->ktDokumen()->whereYear('created_at', $params['year']);
+              ->ktDokumen()
+              ->whereYear('created_at', $params['year']);
 
         $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
 
@@ -91,7 +92,8 @@ trait QueryScopeDokumen
         });
 
         return $query->whereIn('dokumen_id', $this->setDokumenKt())
-                     ->groupBy('dokumen_id', 'wilker_id', 'no_seri')->get();
+                     ->groupBy('dokumen_id', 'wilker_id', 'no_seri')
+                     ->get();
     }
 
     /**
@@ -99,12 +101,13 @@ trait QueryScopeDokumen
      *
      * @param $query
      * @param array $params
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
     public function scopeGetJumlahKhDokumen($query, array $params)
     {
         $query->selectRaw('sum(jumlah) as total, dokumen_id, wilker_id, no_seri')
-              ->khDokumen()->whereYear('created_at', $params['year']);
+              ->khDokumen()
+              ->whereYear('created_at', $params['year']);
 
         $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
 
@@ -117,7 +120,8 @@ trait QueryScopeDokumen
         });
 
         return $query->whereIn('dokumen_id', $this->setDokumenKh())
-                     ->groupBy('dokumen_id', 'wilker_id', 'no_seri')->get();
+                     ->groupBy('dokumen_id', 'wilker_id', 'no_seri')
+                     ->get();
     }
 
     /**
@@ -125,7 +129,7 @@ trait QueryScopeDokumen
      *
      * @param $query
      * @param array $params
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
     public function scopeGetByNamaDokumenKt($query, array $params)
     {
@@ -149,7 +153,7 @@ trait QueryScopeDokumen
      *
      * @param $query
      * @param array $params
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
     public function scopeGetByNamaDokumenKh($query, array $params)
     {

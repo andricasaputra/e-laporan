@@ -21,24 +21,17 @@ class PenerimaanDokumenKt extends Model
      * @param int|bool $month
      * @param int|bool $wilkerId
      * @param bool $excel
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
-    public function scopeCountPenerimaanDokumen($query, $year, $month = false, $wilkerId = false, $excel =  false)
+    public function scopeCountPenerimaanDokumen($query, $year, $month = false, $wilkerId = false, $excel = false)
     {
         $query->selectRaw('dokumen_id, sum(jumlah) as total')
               ->whereYear('created_at', $year);
 
-        /*
-        * untuk cek apakah pemakain dokumen digunakan pada laporan excel
-        * untuk mendapatkan bulan terakhir apabila laporan dicetak dalam format tahunan
-        * untuk laporan yang dipilih pada semua bulan
-        */      
+        // Untuk cek apakah pemakain dokumen digunakan pada laporan excel   
         if ($excel) {
 
-            /*
-            * jika semua bulan dipilih maka gunakan bulan ke 12 untuk dokumen yang digunakan
-            */
-
+            // Jika semua bulan dipilih maka gunakan bulan ke 12 untuk dokumen yang digunakan
             $query->when($month && $month != 'all', function ($query) use ($month) {
 
                 return $query->whereMonth('created_at', $month);
@@ -49,9 +42,7 @@ class PenerimaanDokumenKt extends Model
 
             });
 
-        /*
-        * untuk menampilkan data pada statistik atau detail pemakaian dokumen saja
-        */
+        // Untuk menampilkan data pada statistik atau detail pemakaian dokumen saja
         } else {
 
             $query->when($month && $month != 'all', function ($query) use ($month) {
@@ -77,33 +68,25 @@ class PenerimaanDokumenKt extends Model
      * @param int|bool $year
      * @param int|bool $month
      * @param int|bool $wilkerId
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
     public function scopeCountTotalPemakaianDokumen($query, $year, $month = false, $wilkerId = false)
     {
-        /*
-        * init carbon set tanggal
-        */
+        // Init carbon set tanggal
         $date   = Carbon::createFromDate((int) $year, $month == 'all' ? null : (int) $month, 1);
 
-        /*
-        * untuk menghitung dari awal tahun pemakaian
-        */
+        // Untuk menghitung dari awal tahun pemakaian
         $start  = $date->copy()->startOfYear()->toDateString();
 
-        /*
-        * jika laporan yang dipilih semua bulan maka kita set tanggal akhir ke akhir tahun
-        */
+        // Jika laporan yang dipilih semua bulan maka kita set tanggal akhir ke akhir tahun
         if ($month && $month != 'all') {
 
-            $end    = $date->copy()->endOfYear()->toDateString();
+            $end = $date->copy()->endOfYear()->toDateString();
 
-        /*
-        * jika laporan yang dipilih pada bulan tertentu maka kita set tanggal akhir ke akhir bulan tsb
-        */    
+        // Jika laporan yang dipilih pada bulan tertentu maka kita set tanggal akhir ke akhir bulan tsb  
         } else {
 
-            $end    = $date->copy()->endOfMonth()->toDateString();
+            $end = $date->copy()->endOfMonth()->toDateString();
         }
 
         return  $query->selectRaw('dokumen_id, sum(jumlah) as total')

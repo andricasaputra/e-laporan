@@ -16,12 +16,13 @@ class PemakaianDokumenKt extends Model
      *
      * @param $query
      * @param array $params
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
 	public function scopeGetJumlahKtDokumen($query, array $params)
     {
         $query->selectRaw('sum(jumlah) as total, dokumen, wilker_id, no_seri')
-              ->with('wilker')->whereYear('bulan', $params['year']);
+              ->with('wilker')
+              ->whereYear('bulan', $params['year']);
 
         $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
 

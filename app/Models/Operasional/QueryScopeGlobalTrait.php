@@ -22,28 +22,30 @@ trait QueryScopeGlobalTrait
     | * Digunakan untuk keperluan menampilkan data dari table views 
     |   untuk nama kolom yang sama saja
     |
+    | * Hints : $arguments[0] => tahun, $arguments[1] => bulan, $arguments[2] => wilker id
+    |
     */
 
     /**
      * Untuk Mensortir Detail Table (Table Global)
      *
      * @param $query
-     * @param array $params
+     * @param array $arguments
      * @return void
      */
-    public function scopeSortTableDetail($query, array $params)
+    public function scopeSortTableDetail($query, array $arguments)
     {
-        $query->whereYear('bulan', $params[0] ?? date('Y'));
+        $query->whereYear('bulan', $arguments[0] ?? date('Y'));
 
-        $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
+        $query->when($arguments[1] && $arguments[1] != 'all', function ($query) use ($arguments) {
 
-          return $query->whereMonth('bulan', $params[1]);
+          return $query->whereMonth('bulan', $arguments[1]);
 
         });
 
-        $query->when(! is_null($params[2]) && (int) $params[2] !== 1, function ($query) use ($params) {
+        $query->when(! is_null($arguments[2]) && (int) $arguments[2] !== 1, function ($query) use ($arguments) {
 
-          return $query->whereWilkerId($params[2]);
+          return $query->whereWilkerId($arguments[2]);
 
         });
 
@@ -54,22 +56,22 @@ trait QueryScopeGlobalTrait
      * Untuk menghitung pemakaian dokumen dalam bulan dan tanggal tertentu
      *
      * @param $query
-     * @param array $params
+     * @param array $arguments
      * @param bool $excel
      * @return Illuminate\Support\Collection
      */
-    public function scopeCountPemakaianDokumen($query, array $params, $excel =  false)
+    public function scopeCountPemakaianDokumen($query, array $arguments, $excel =  false)
     {
         $query->selectRaw('dokumen, sum(jumlah) as total')
-              ->whereYear('bulan', $params[0]);
+              ->whereYear('bulan', $arguments[0]);
         
         // Untuk cek apakah pemakain dokumen digunakan pada laporan excel
         if ($excel) {
 
             // Jika semua bulan dipilih maka gunakan bulan ke 12 untuk dokumen yang digunakan
-            $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
+            $query->when($arguments[1] && $arguments[1] != 'all', function ($query) use ($arguments) {
 
-                return $query->whereMonth('bulan', $params[1]);
+                return $query->whereMonth('bulan', $arguments[1]);
 
             }, function($query){
 
@@ -81,15 +83,15 @@ trait QueryScopeGlobalTrait
         // data dipakai pada halaman statistik atau detail pemakaian dokumen saja
         } else {
 
-            $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
+            $query->when($arguments[1] && $arguments[1] != 'all', function ($query) use ($arguments) {
 
-                return $query->whereMonth('bulan', $params[1]);
+                return $query->whereMonth('bulan', $arguments[1]);
 
             });
 
         }
        
-        return  $query->when($params[2], function ($query, $wilker) {
+        return  $query->when($arguments[2], function ($query, $wilker) {
 
                     return $query->whereWilkerId($wilker);
 
@@ -100,20 +102,20 @@ trait QueryScopeGlobalTrait
      * Untuk menghitung total pemakaian dokumen dalam satu tahun
      *
      * @param $query
-     * @param array $params
+     * @param array $arguments
      * @return Illuminate\Support\Collection
      */
-    public function scopeCountTotalPemakaianDokumen($query, array $params)
+    public function scopeCountTotalPemakaianDokumen($query, array $arguments)
     {
       
         // Init carbon set tanggal
-        $date   = Carbon::createFromDate((int) $params[0], $params[1] == 'all' ? null : (int) $params[1], 1);
+        $date   = Carbon::createFromDate((int) $arguments[0], $arguments[1] == 'all' ? null : (int) $arguments[1], 1);
   
         // Untuk menghitung dari awal tahun pemakaian
         $start  = $date->copy()->startOfYear()->toDateString();
 
         // Jika laporan yang dipilih semua bulan maka kita set tanggal akhir ke akhir tahun
-        if ($params[1] && $params[1] !== 'all') {
+        if ($arguments[1] && $arguments[1] !== 'all') {
             
             $end = $date->copy()->endOfMonth()->toDateString();
         
@@ -125,7 +127,7 @@ trait QueryScopeGlobalTrait
 
         return  $query->selectRaw('dokumen, sum(jumlah) as total')
                       ->whereBetween('bulan', [$start, $end])
-                      ->when($params[2], function ($query, $wilker) {
+                      ->when($arguments[2], function ($query, $wilker) {
 
                     return $query->whereWilkerId($wilker);
 
@@ -136,18 +138,18 @@ trait QueryScopeGlobalTrait
      * Untuk menghitung total PNBP
      *
      * @param $query
-     * @param array $params
+     * @param array $arguments
      * @return Illuminate\Support\Collection
      */
-    public function scopeCountTotalPnbp($query, array $params)
+    public function scopeCountTotalPnbp($query, array $arguments)
     {
         return  $query->selectRaw('sum(pnbp) as pnbp')  
-                      ->whereYear('bulan', $params[0])
-                      ->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
+                      ->whereYear('bulan', $arguments[0])
+                      ->when($arguments[1] && $arguments[1] != 'all', function ($query) use ($arguments) {
 
-                    return $query->whereMonth('bulan', $params[1]);
+                    return $query->whereMonth('bulan', $arguments[1]);
 
-                })->when($params[2], function ($query, $wilker) {
+                })->when($arguments[2], function ($query, $wilker) {
 
                     return $query->whereWilkerId($wilker);
 

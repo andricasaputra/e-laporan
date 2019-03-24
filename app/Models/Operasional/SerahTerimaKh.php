@@ -15,24 +15,23 @@ class SerahTerimaKh extends Model implements ModelOperasionalInterface
     protected $hidden   = ['id', 'user_id', 'wilker_id', 'no', 'created_at', 'updated_at'];
 
     /**
-     * Untuk alias dari jenis permohonan untuk set parameter route
-     * digunakan pada class UploadController untuk set notifikasi property
+     * Untuk alias dari jenis permohonan untuk set argument route pada link notifikasi
      *
      * @var string
      */
     public $alias       = 'serah_terima';
 
     /**
-     * Untuk alias dari jenis permohonan
-     * digunakan pada class UploadController untuk set notifikasi property
+     * Untuk menyematkan identitas permohonan yang mewakili kelas ini
+     * dipakai untuk pengecekan pada saat upload data dan lainnya
      *
      * @var string
      */
     public $permohonan  = 'serah terima';
 
     /**
-     * Untuk alias dari jenis karantina
-     * digunakan pada class UploadController untuk set notifikasi property
+     * Untuk menyematkan identitas karantina yang mewakili kelas ini
+     * dipakai untuk pengecekan pada saat upload data dan lainnya
      *
      * @var string
      */

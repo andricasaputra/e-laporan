@@ -71,7 +71,7 @@
             </div>
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">E - Laporan Operasional</h3>
-                <p class="card-text">Status : In Progress</p>
+                <p class="card-text">Status : App Version 2.0</p>
                 <a href="{{ route('show.operasional') }}" class="btn btn-success">Masuk Ke Aplikasi!</a> 
             </div>
           </div>
@@ -104,7 +104,10 @@
             </div>
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">E - IKM</h3>
-                <p class="card-text">Status : {{ $ikm->keterangan ?? 'Tidak ada survey ikm yang aktif untuk saat ini' }}</p>
+                <p class="card-text">
+                  Periode : {{ $ikm->keterangan ?? 'Tidak ada survey ikm yang aktif untuk saat ini' }}<br>
+                  Status : App Version 1.0
+                </p>
                 <a href="{{ route('intern.ikm.home.index') }}" class="btn btn-default">Masuk Ke Aplikasi!</a>
             </div>
           </div>
@@ -120,7 +123,10 @@
             </div>
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">E - IPNBK</h3>
-                <p class="card-text">Status : In Planning</p>
+                <p class="card-text">
+                  Periode : - <br>
+                  Status : In Planning
+                </p>
                 <a href="#" class="btn" style="background-color: #ffb31a; color: #fff">Masuk Ke Aplikasi!</a>
             </div>
           </div>

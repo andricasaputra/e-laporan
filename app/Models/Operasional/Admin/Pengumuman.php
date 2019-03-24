@@ -16,6 +16,12 @@ class Pengumuman extends Model
     	return $this->belongsTo(User::class);
     }
 
+    /**
+     * Untuk menjabarkan dari show attribute
+     *
+     * @param Illuminate\Support\Collection $value
+     * @return string
+     */
     public function getShowAttribute($value)
     {
     	switch ($value) {
@@ -32,6 +38,12 @@ class Pengumuman extends Model
     	return $value;
     }
 
+    /**
+     * Untuk mengambil data yang sedang aktif
+     *
+     * @param $value
+     * @return Illuminate\Support\Collection
+     */
     public function scopeActive($query)
     {
     	return $query->whereShow(1)->latest()->paginate();

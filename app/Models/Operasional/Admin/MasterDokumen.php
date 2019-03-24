@@ -3,16 +3,20 @@
 namespace App\Models\Operasional\Admin;
 
 use Illuminate\Database\Eloquent\Model;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class MasterDokumen extends Model
 {
+    //  Disable this trait if you're using shared hosting!
+    use Cachable;
+    
     protected $table 	= 'master_dokumen';
     protected $guarded 	= ['id', 'created_at', 'updated_at'];
 
     /**
      * Untuk dokumen KT
      *
-     * @param self $query
+     * @param $query
      * @return void
      */
     public function scopeKtDokumen($query)
@@ -23,7 +27,7 @@ class MasterDokumen extends Model
     /**
      * Untuk dokumen KH
      *
-     * @param self $query
+     * @param $query
      * @return void
      */
     public function scopeKhDokumen($query)
@@ -56,7 +60,7 @@ class MasterDokumen extends Model
     /**
      * Untuk mencari dokumen dan diubah tanpa tanda strip '-', ex : KT-12 -> KT12
      *
-     * @param self $query
+     * @param $query
      * @return array
      */
     public function scopeDokumenKtWithOutStripe($query)
@@ -76,7 +80,7 @@ class MasterDokumen extends Model
     /**
      * Untuk mencari dokumen dan diubah tanpa tanda strip '-', ex : KH-11 -> KH-14
      *
-     * @param self $query
+     * @param $query
      * @return array
      */
     public function scopeDokumenKhWithOutStripe($query)

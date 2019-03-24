@@ -18,24 +18,23 @@ class PembatalanDokKt extends Model implements ModelPembatalanInterface
     protected $with     = ['wilker'];
 
     /**
-     * Untuk alias dari jenis permohonan untuk set parameter route
-     * digunakan pada class UploadPembatalanController untuk set notifikasi property
+     * Untuk alias dari jenis permohonan untuk set argument route pada link notifikasi
      *
      * @var string
      */
     public $alias       = 'pembatalan_dokumen';
 
     /**
-     * Untuk alias dari jenis permohonan
-     * digunakan pada class UploadPembatalanController untuk set notifikasi property
+     * Untuk menyematkan identitas permohonan yang mewakili kelas ini
+     * dipakai untuk pengecekan pada saat upload data dan lainnya
      *
      * @var string
      */
     public $permohonan  = 'pembatalan dokumen';
 
     /**
-     * Untuk alias dari jenis karantina
-     * digunakan pada class UploadPembatalanController untuk set notifikasi property
+     * Untuk menyematkan identitas karantina yang mewakili kelas ini
+     * dipakai untuk pengecekan pada saat upload data dan lainnya
      *
      * @var string
      */
@@ -54,7 +53,7 @@ class PembatalanDokKt extends Model implements ModelPembatalanInterface
     /**
      * Untuk mencari nama dokumen yang sesuai dengan master dokumen
      *
-     * @var string
+     * @return string
      */
     public function getDokumenAttribute($value)
     {
@@ -76,10 +75,10 @@ class PembatalanDokKt extends Model implements ModelPembatalanInterface
      * Untuk menghitung total pemakaian dokumen
      *
      * @param $query
-     * @param int $year
-     * @param int $month
-     * @param int $wilker_id
-     * @return collections
+     * @param int|null $year
+     * @param int|null $month
+     * @param int|null $wilker_id
+     * @return Illuminate\Support\Collections
      */
     public function scopeCountPembatalanDokumen($query, $year, $month = null, $wilker_id = null)
     {
@@ -105,7 +104,7 @@ class PembatalanDokKt extends Model implements ModelPembatalanInterface
      *
      * @param $query
      * @param array $params
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
     public function scopeGetPembatalan($query, array $params)
     {
@@ -129,7 +128,7 @@ class PembatalanDokKt extends Model implements ModelPembatalanInterface
      *
      * @param $query
      * @param array $params
-     * @return collections
+     * @return Illuminate\Support\Collections
      */
     public function scopeGetJumlahKtDokumen($query, array $params)
     {
