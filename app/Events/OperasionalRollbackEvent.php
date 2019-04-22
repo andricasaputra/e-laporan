@@ -15,11 +15,31 @@ class OperasionalRollbackEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $type, $bulan, $wilkerId;
+    /**
+     * Untuk menyimpan type (jenis permohonan) dari laporan yang di rollback
+     *
+     * @var string
+     */
+    public $type; 
+
+    /**
+     * Untuk menyimpan bulan dari laporan yang di rollback
+     *
+     * @var string
+     */
+    public $bulan;
+
+    /**
+     * Untuk menyimpan id wilker dari laporan yang di rollback
+     *
+     * @var int
+     */
+    public $wilkerId;
 
     /**
      * Create a new event instance.
      *
+     * @param App\Models\Operasional\LogInfo $data
      * @return void
      */
     public function __construct(LogInfo $data)

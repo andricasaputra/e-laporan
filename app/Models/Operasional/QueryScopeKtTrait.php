@@ -219,7 +219,6 @@ trait QueryScopeKtTrait
              'tipe_alat_angkut_terakhir',
              'nama_alat_angkut_terakhir',
              'status_internal',
-             'lokasi_mp',
              'tempat_produksi',
              'nama_tempat_pelaksanaan',
              'peruntukan',

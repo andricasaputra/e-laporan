@@ -157,7 +157,6 @@ trait TableOperasionalHeader
              'Tipe Alat Angkut Terakhir',
              'Nama Alat Angkut Terakhir',
              'Status Internal',
-             'Lokasi Media Pembawa',
              'Tempat Produksi',
              'Nama Tempat Pelaksanaan',
              'Peruntukan',
@@ -253,7 +252,7 @@ trait TableOperasionalHeader
      *
      * @return array
      */
-    protected function tableHeaderLaporanRekapitulasiKomoditiKt()
+    protected function tableHeaderLaporanRekapitulasiKomoditiKt() : array
     {
         return [
 
@@ -274,7 +273,7 @@ trait TableOperasionalHeader
      *
      * @return array
      */
-    protected function tableHeaderLaporanRekapitulasiKomoditiKh()
+    protected function tableHeaderLaporanRekapitulasiKomoditiKh() : array
     {
         return [
 
@@ -295,7 +294,7 @@ trait TableOperasionalHeader
      *
      * @return array
      */
-    protected function tableHeaderLaporanPemakaianDokumenKt()
+    protected function tableHeaderLaporanPemakaianDokumenKt() : array
     {
         return [
 

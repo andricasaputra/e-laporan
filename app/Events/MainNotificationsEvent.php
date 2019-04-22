@@ -16,7 +16,37 @@ class MainNotificationsEvent /*implements ShouldBroadcast*/
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $classToNotify, $message, $users, $link;
+    /**
+     * Untuk instance dari class yang mengimplementasikan
+     * class App\Contracts\NotificationsInterface;
+     *
+     * @var App\Notifications\DataOperasionalUploaded |
+     *      App\Notifications\IkmSurvey |
+     *      App\Notifications\UpdateAplikasiNotification |
+     */
+    public $classToNotify;
+
+    /**
+     * Untuk menyimpan isi pesan notifikasi
+     *
+     * @var string
+     */
+    public $message;
+
+    /**
+     * Untuk menyimpan users yang akan diberikan notifikasi
+     *
+     * @var \Illuminate\Support\Collection|mixed
+     */
+    public $users; 
+
+    /**
+     * Untuk menyimpan link yang akan dituju apabila 
+     * pesan notifikasi di click
+     *
+     * @var string
+     */
+    public $link;
 
     /**
      * Create a new event instance.

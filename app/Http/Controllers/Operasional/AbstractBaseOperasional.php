@@ -101,7 +101,7 @@ abstract class AbstractBaseOperasional extends Controller
         // Kemudian set beberapa properti untuk keperluan validasi data laporan
         $fileValidation->setValidationProperties();
 
-        // Setelah semua properti siap kita jalankan validasi 
+        // Setelah semua properti siap, kita jalankan validasi 
         // dan berikan feedback kepada user apabila ada kesalahan upload
         if(! $fileValidation->runValidation()) {
 

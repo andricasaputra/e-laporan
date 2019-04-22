@@ -14,11 +14,31 @@ class LogInfoOperasionalEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $table, $wilker, $tanggal;
+    /**
+     * Untuk menyimpan nama tabel yang dikirim
+     *
+     * @var string
+     */
+    public $table;
+
+    /**
+     * Untuk menyimpan nama wilker
+     *
+     * @var string
+     */
+    public $wilker;
+
+    /**
+     * Untuk menyimpan tanggal laporan
+     *
+     * @var string
+     */
+    public $tanggal;
 
     /**
      * Create a new event instance.
      *
+     * @param App\Events\DataOperasionalUploadedEvent $data
      * @return void
      */
     public function __construct(DataOperasionalUploadedEvent $data)

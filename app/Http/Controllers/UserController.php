@@ -115,7 +115,7 @@ class UserController extends Controller
     {
         $user = User::pegawaiDetail($request->only('id'))->first();
 
-        event(new DeletePegawai($user, $user->pegawai));
+        event( new DeletePegawai($user, $user->pegawai) );
 
         /*Delete pegawai from master pegawai*/
         $user->pegawai()->delete();

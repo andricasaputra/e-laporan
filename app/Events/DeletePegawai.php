@@ -16,12 +16,25 @@ class DeletePegawai
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * Untuk instance dari class User
+     *
+     * @var App\Models\User
+     */
     public $user;
+
+    /**
+     * Untuk instance dari class MasterPegawai
+     *
+     * @var App\Models\MasterPegawai
+     */
     public $pegawai;
 
     /**
      * Create a new event instance.
      *
+     * @param App\Models\User $user
+     * @param App\Models\MasterPegawai $pegawai
      * @return void
      */
     public function __construct(User $user, MasterPegawai $pegawai)

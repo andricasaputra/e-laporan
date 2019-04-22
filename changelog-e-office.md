@@ -1,4 +1,36 @@
+## e-office-v2 | writed on : 22/04/2019
+
+# E-Laporan Operasional v2
+# E-IKM v1
+
+# SYSTEM UPDATE
+
+* Upgrade PHP version dari 7.2 ke 7.3
+* Upgrade Laravel Framework dari 5.7 ke 5.8
+* Upgrade Maatwesite Excel Package dari v2.0 ke v.3.1 
+* Penambahan Model Caching dari Genea Lab
+* Pergantian Cache driver dari file ke Redis
+
+# INFO UPDATE APLIKASI (TO USER)
+
+* Penambahan Upload Laporan Billing Dari Simponi Barantan | E-Laporan Operasional
+
+# TODO For Next Update
+
+* Penambahan Laporan BKU (Buku Kas Umum) | E-Laporan Operasional
+* Pergantian Skema Pelaporan Penerimaan dan Pemakaian Dokumen Terkait Blank Certificate | E-Laporan Operasional
+* Penambahan Halaman Informasi Dalam Bentuk Grafik/Chart | E-Laporan Operasional
+* Pergantian Tampilan Halaman Statistik | E-Laporan Operasional
+* Penambahan Custom Download Laporan | E-Laporan Operasional
+
+* Chunk Jumlah Print Rekapitulasi Responden IKM / Cicil print | E-IKM
+
+----------------------------------------------------------------------------------------------------------
+
 ## e-office-v1 | writed on : 20/02/2019
+
+# E-Laporan Operasional v1
+# E-IKM v1
 
 # SYSTEM UPDATE
 
@@ -18,6 +50,9 @@
 ----------------------------------------------------------------------------------------------------------
 
 ## e-office-v1 | writed on : 22/01/2019
+
+# E-Laporan Operasional v1
+# E-IKM v1
 
 # TODO
 

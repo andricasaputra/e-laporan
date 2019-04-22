@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Contracts\BaseOperasionalInterface;
-use App\Factories\Operasional\UploadFactory;
 use App\Models\Operasional\ReportBillingKh as SetorBilling;
 use App\Http\Requests\UploadOperasionalRequest as Validation;
 
@@ -39,19 +37,22 @@ class ReportBillingKhController extends BaseReportBillingController
      * @return \Illuminate\Http\Response
      */
     public function imports(Validation $request) 
-	{
-        // Filter Data Sebelum Insert Ke Database
-        if (! $this->setDataProperty($request, new Operasional)->checkingData() ) return back();
+    {
+        // Pertama kita harus memvalidasi laporan yang diuplaod oleh user
+        // apabila gagal melakukan validasi maka redirect user kembali
+        if (! $this->validateLaporan(new SetorBilling, $request)) {
 
-        // Upload Data
-        $factory = new UploadFactory();
+            return back()->withWarning($this->warning);
 
-        $upload  = $factory->initializeUploadType(new Operasional, $request);
-
-        $upload->uploadData();
+        }
+        
+        // Apabila dokumen laporan valid maka jalankan proses import
+        // data kedalam database dan beri notifikasi kepada admin
+        // dan pejabat struktural jika laporan belum pernah diupload
+        $this->runImportProcess(new SetorBilling);
 
         return back();
-	}
+    }
 
     /**
      * API untuk detail big tabel 
@@ -63,10 +64,10 @@ class ReportBillingKhController extends BaseReportBillingController
      */
     public function api($year = null, $month =  null, $wilker_id = null)
     {
-        $setor  = SetorBilling::sortTableDetail([$year, $month, $wilker_id])
-                    ->with('wilker')
-                    ->get();
+        $params = [$year, $month, $wilker_id];
 
-        return datatables($setor)->addIndexColumn()->make(true);;
+        $setor  = SetorBilling::sortTableDetail($params)->with('wilker')->get();
+
+        return datatables($setor)->addIndexColumn()->make(true);
     }
 }

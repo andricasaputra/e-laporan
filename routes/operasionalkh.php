@@ -166,18 +166,16 @@ Route::middleware('kh')->group(function(){
 
 	Route::namespace('Download')->prefix('download')->group(function () {
 
-	    Route::post('operasional', 'LaporanOperasionalKhController@laporanOperasionalKh')
+	    Route::post('operasional', 'LaporanOperasionalController@laporanOperasionalKh')
 		->name('kh.download.operasional');
 
-		Route::post('rekapitulasi', 'LaporanRekapitulasiKomoditiKhController@laporanRekapitulasiKomoditiKh')
+		Route::post('rekapitulasi', 'LaporanRekpitulasiKomoditiController@laporanRekapitulasiKomoditiKh')
 		->name('kh.download.rekapitulasi');
 
 		Route::post('pemakaian_dokumen', 'LaporanPemakaianDokumenKhController@laporanPemakaianDokumenKh')
 		->name('kh.download.pemakaian_dokumen');
 
 	});/*End Download Namespace*/
-
-	
 
 });/*End Middleware KH*/
 

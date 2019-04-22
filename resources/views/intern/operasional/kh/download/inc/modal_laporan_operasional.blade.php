@@ -16,6 +16,8 @@
 					
 					@csrf
 					@method('POST')
+
+					<input type="hidden" name="jenisLaporan" value="laporan_operasional">
 					
 					<div class="form-group">
 						<label for="year">Pilih Tahun</label>

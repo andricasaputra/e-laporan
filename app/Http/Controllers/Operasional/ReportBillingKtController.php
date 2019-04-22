@@ -64,9 +64,9 @@ class ReportBillingKtController extends BaseReportBillingController
      */
     public function api($year = null, $month =  null, $wilker_id = null)
     {
-        $setor  = SetorBilling::sortTableDetail([$year, $month, $wilker_id])
-                    ->with('wilker')
-                    ->get();
+        $params = [$year, $month, $wilker_id];
+
+        $setor  = SetorBilling::sortTableDetail($params)->with('wilker')->get();
 
         return datatables($setor)->addIndexColumn()->make(true);
     }

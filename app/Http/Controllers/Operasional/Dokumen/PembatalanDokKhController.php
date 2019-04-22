@@ -34,7 +34,7 @@ class PembatalanDokKhController extends BasePembatalanDokumenController
      * Untuk Halaman Detail Laporan 
      *
      * @param Illuminate\Http\Request $request
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function tableDetailPage(Request $request)
     {
@@ -46,7 +46,7 @@ class PembatalanDokKhController extends BasePembatalanDokumenController
      * Untuk Halaman Upload Laporan 
      *
      * @param Illuminate\Http\Request $request
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function uploadPage()
     {

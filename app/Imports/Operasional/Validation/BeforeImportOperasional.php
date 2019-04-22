@@ -38,6 +38,8 @@ class BeforeImportOperasional extends BeforeImport
         $this->jenisPermohonan = $this->validator[2] ?? null;
 
         $this->tanggalLaporan  = $this->validator[3] ?? null;
+
+        $this->laporanHasValue = $this->validator[7] ?? null;
     }
 
     /**
@@ -89,6 +91,15 @@ class BeforeImportOperasional extends BeforeImport
     		return false;
 
     	}
+
+        //  Validasi isi laporan
+        if (! $this->validateLaporanHasValue()) {
+
+            $this->setWarning("Laporan Yang Nihil Tidak Perlu Untuk Diupload");
+
+            return false;
+
+        }
 
     	return true;
     }

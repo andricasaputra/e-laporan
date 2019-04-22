@@ -16,12 +16,25 @@ class RegisterPegawai
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * Untuk instance dari class MasterPegawai
+     *
+     * @var App\Models\MasterPegawai
+     */
     public $pegawai;
+
+    /**
+     * Untuk instance dari class Request
+     *
+     * @var \Illuminate\Http\Request
+     */
     public $request;
 
     /**
      * Create a new event instance.
      *
+     * @param App\Models\MasterPegawai $pegawai
+     * @param \Illuminate\Http\Request $request
      * @return void
      */
     public function __construct(MasterPegawai $pegawai, Request $request)

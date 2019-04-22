@@ -12,9 +12,7 @@
 	
 	{{ strtoupper($datas['wilker']) }} <br>
 	
-	{{ empty($datas['bulan']) ? '' : 'BULAN : '. strtoupper($datas['bulan']) }} TAHUN : {{ $datas['tahun'] }} <br>
-	
-	<br>
+	{{ empty($datas['bulan']) ? '' : 'BULAN : '. strtoupper($datas['bulan']) }} TAHUN : {{ $datas['tahun'] }} <br><br>
 	
 	<table>
 		{{-- table header --}}
@@ -22,7 +20,7 @@
 			
 			@foreach($datas['headers'] as $header)
 			
-			<td valign="middle" style="text-align: center;font-weight: bold;border: 1px solid #000;font-size: 12">{{ $header }}</td>
+				<td>{{ $header }}</td>
 			
 			@endforeach
 			
@@ -39,41 +37,21 @@
 				
 					<tr>
 						
-						<td valign="middle" style="text-align: center;border: 1px solid #000">
-							{{ $no += 1 }}
-						</td>
+						<td>{{ $no += 1 }}</td>
 						
-						<td valign="middle" style="text-align: center;border: 1px solid #000">
-							{{ $data['wilker'] }}
-						</td>
+						<td>{{ $data['wilker'] }}</td>
 						
-						<td valign="middle" style="text-align: center;border: 1px solid #000">
-							Nihil
-						</td>
+						<td>Nihil</td>
 						
-						<td valign="middle" style="text-align: center;border: 1px solid #000">
-							Nihil
-						</td>
+						<td>Nihil</td>
 						
-						<td valign="middle" style="text-align: center;border: 1px solid #000">
-							Nihil
-						</td>
+						<td>Nihil</td>
 						
-						<td valign="middle" style="text-align: center;border: 1px solid #000">
-							Nihil
-						</td>
+						<td>Nihil</td>
 						
-						<td valign="middle" style="text-align: center;border: 1px solid #000;width:30;font-size: 9">
-							
-							Nihil
-							
-						</td>
+						<td>Nihil</td>
 						
-						<td valign="middle" style="text-align: center;border: 1px solid #000;width:30;font-size: 9">
-							
-							Nihil
-							
-						</td>
+						<td>Nihil</td>
 						
 					</tr>
 				
@@ -83,32 +61,19 @@
 						
 						<tr>
 							
-							<td valign="middle" style="text-align: center;border: 1px solid #000">
-								{{ $no += 1 }}
-							</td>
+							<td>{{ $no += 1 }}</td>
 							
-							<td valign="middle" style="text-align: center;border: 1px solid #000">
-								{{ $data['wilker'] }}
-							</td>
+							<td>{{ $data['wilker'] }}</td>
 							
-							<td valign="middle" style="text-align: center;border: 1px solid #000">
-								{{ $komoditi ?? '-' }}
-							</td>
+							<td>{{ $komoditi ?? '-' }}</td>
 							
-							<td valign="middle" style="text-align: center;border: 1px solid #000">
-								{{ $data['volume'] ?? '-' }}
-							</td>
+							<td>{{ $data['volume'] ?? '-' }}</td>
 							
-							<td valign="middle" style="text-align: center;border: 1px solid #000">
-								{{ $data['satuan'] ?? '-' }}
-							</td>
+							<td>{{ $data['satuan'] ?? '-' }}</td>
 							
-							<td valign="middle" style="text-align: center;border: 1px solid #000">
-								{{ $data['frekuensi'] ?? '-' }}
-							</td>
+							<td>{{ $data['frekuensi'] ?? '-' }}</td>
 							
-							<td valign="middle" style="text-align: center;border: 1px solid #000;width:30;font-size: 9">
-
+							<td>
 								{{-- jika permohonan seperti kondisi dibawah ini, maka pakai negara untuk asal --}}
 								@if($datas['permohonan'] == 'Ekspor' || $datas['permohonan'] == 'Impor' || $datas['permohonan'] == 'Reekspor')
 								
@@ -136,10 +101,10 @@
 									@endforeach
 
 								@endif
-								
+
 							</td>
 							
-							<td valign="middle" style="text-align: center;border: 1px solid #000;width:30;font-size: 9">
+							<td>
 
 								{{-- jika permohonan seperti kondisi dibawah ini, maka pakai negara untuk tujuan --}}
 								@if($datas['permohonan'] == 'Ekspor' || $datas['permohonan'] == 'Impor' || $datas['permohonan'] == 'Reekspor')
@@ -179,47 +144,10 @@
 			
 			@endforeach
 			
-		
 		@empty
 		
 			<tr>
-				
-				<td valign="middle" style="text-align: center;border: 1px solid #000">
-					1
-				</td>
-				
-				<td valign="middle" style="text-align: center;border: 1px solid #000">
-					Nihil
-				</td>
-				
-				<td valign="middle" style="text-align: center;border: 1px solid #000">
-					Nihil
-				</td>
-				
-				<td valign="middle" style="text-align: center;border: 1px solid #000">
-					Nihil
-				</td>
-				
-				<td valign="middle" style="text-align: center;border: 1px solid #000">
-					Nihil
-				</td>
-				
-				<td valign="middle" style="text-align: center;border: 1px solid #000">
-					Nihil
-				</td>
-				
-				<td valign="middle" style="text-align: center;border: 1px solid #000;width:30;font-size: 9">
-					
-					Nihil
-					
-				</td>
-				
-				<td valign="middle" style="text-align: center;border: 1px solid #000;width:30;font-size: 9">
-					
-					Nihil
-					
-				</td>
-				
+				<td colspan="8">Nihil</td>
 			</tr>
 			
 		@endforelse
@@ -229,47 +157,48 @@
 		</tr>
 		
 		<tr>
-			@for($i=1; $i < 5; $i++)
+			@for($i = 1; $i < 5; $i++)
 				<td></td>
 			@endfor
-			<td colspan="4" valign="bottom" style="font-weight: bold;text-align: center;font-size: 16">
+			<td colspan="4">
 				Sumbawa Besar, {{ reverse_tanggal_indo(date('d-m-Y')) }}
 			</td>
 		</tr>
 		
 		<tr>
-			@for($i=1; $i < 5; $i++)
+			@for($i = 1; $i < 5; $i++)
 				<td></td>
 			@endfor
-			<td colspan="4" valign="top" style="font-weight: bold;text-align: center;font-size: 16">
+			<td colspan="4">
 				{{ $datas['signatory']->jabatan->jabatan }}
 			</td>
 		</tr>
-		
-		<tr>
-			<td style="height: 100"></td>
-		</tr>
+
+		@for($i = 0; $i < 4; $i++)
+			<tr>
+				<td></td>
+			</tr>
+		@endfor
 		
 		<tr>
 			@for($i=1; $i < 5; $i++)
 				<td></td>
 			@endfor
-			<td colspan="4" valign="bottom" style="font-weight: bold;text-align: center;font-size: 16">
+			<td colspan="4">
 				{{ $datas['signatory']->nama }}
 			</td>
 		</tr>
 		
 		<tr>
-			@for($i=1; $i < 5; $i++)
+			@for($i = 1; $i < 5; $i++)
 				<td></td>
 			@endfor
-			<td colspan="4" valign="top" style="font-weight: bold;text-align: center;font-size: 16">
-				{{ $datas['signatory']->nip }}
+			<td colspan="4">
+				'{{ $datas['signatory']->nip }}
 			</td>
 		</tr>
 		
 	</table>
-	
 	
 </body>
 </html>

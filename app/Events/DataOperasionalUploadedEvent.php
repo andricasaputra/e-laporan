@@ -62,6 +62,7 @@ class DataOperasionalUploadedEvent implements NotificationsEventInterface
     /**
      * Create a new event instance.
      *
+     * @param App\Http\Controllers\Operasional\UploadOperasionalController $data 
      * @return void
      */
     public function __construct($data)

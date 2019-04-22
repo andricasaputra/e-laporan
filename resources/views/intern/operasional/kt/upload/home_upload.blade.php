@@ -319,7 +319,7 @@
           <input type="submit" name="delete" value="Ya" class="btn btn-success">
 
           <button type="button" class="btn btn-danger" data-dismiss="modal">Tidak</button>
-      </form>
+        </form>
       </div>
       <div class="modal-footer">
       </div>

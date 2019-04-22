@@ -84,14 +84,14 @@ abstract class ImportMaster
      * @param string $content
      * @return void
      */
-	public abstract function setFeedback(string $type, string $content);
+	abstract public function setFeedback(string $type, string $content);
 
     /**
      * Untuk mengambil pesan feedback
      *
      * @return void
      */
-    public abstract function getFeedback();
+    abstract public function getFeedback();
 
 	/**
 	 * Transform tanggal menjadi object dari carbon

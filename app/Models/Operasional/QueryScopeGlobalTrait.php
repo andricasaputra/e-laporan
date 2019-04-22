@@ -60,7 +60,7 @@ trait QueryScopeGlobalTrait
      * @param bool $excel
      * @return Illuminate\Support\Collection
      */
-    public function scopeCountPemakaianDokumen($query, array $arguments, $excel =  false)
+    public function scopeCountPemakaianDokumen($query, array $arguments, $excel = false)
     {
         $query->selectRaw('dokumen, sum(jumlah) as total')
               ->whereYear('bulan', $arguments[0]);

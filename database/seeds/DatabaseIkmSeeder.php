@@ -11,17 +11,6 @@ class DatabaseIkmSeeder extends Seeder
      */
     public function run()
     {
-        /*
-        |
-        | Seeder Untuk IKM Database
-        |
-        */
-
-        $this->mapIkmSeeder();
-    }
-
-    public function mapIkmSeeder()
-    {
         $this->call(IkmTableSeeder::class);
         $this->call(IkmLayananTableSeeder::class);
         $this->call(IkmAnswerTableSeeder::class);
@@ -31,4 +20,5 @@ class DatabaseIkmSeeder extends Seeder
         $this->call(IkmPendidikanTableSeeder::class);
         $this->call(IkmUmurTableSeeder::class);
     }
+    
 }

@@ -17,11 +17,49 @@ class NewIkmSurveyEvent implements NotificationsEventInterface
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $users, $periode, $jenis_layanan, $link, $message;
+    /**
+     * Untuk menyimpan users yang akan diberikan notifikasi
+     *
+     * @var \Illuminate\Support\Collection|mixed
+     */
+    public $users;
+
+    /**
+     * Untuk menyimpan periode survey yang diikuti
+     *
+     * @var string
+     */
+    public $periode;
+
+     /**
+     * Untuk menyimpan jenis survey layanan (KH/KT)
+     *
+     * @var string
+     */
+    public $jenis_layanan; 
+
+     /**
+     * Untuk menyimpan link yang akan dituju apabila 
+     * pesan notifikasi di click
+     *
+     * @var string
+     */
+    public $link; 
+
+    /**
+     * Untuk menyimpan isi pesan notifikasi
+     *
+     * @var string
+     */
+    public $message;
 
     /**
      * Create a new event instance.
      *
+     * @param Illuminate\Support\Collection $user
+     * @param string $periode
+     * @param string $jenis_layanan
+     * @param string $link
      * @return void
      */
     public function __construct($user, $periode, $jenis_layanan, $link)

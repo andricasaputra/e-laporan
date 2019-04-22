@@ -16,6 +16,8 @@
 					
 					@csrf
 					@method('POST')
+
+					<input type="hidden" name="jenisLaporan" value="laporan_rekapitulasi_komoditi">
 					
 					<div class="form-group">
 						<label for="year">Pilih Tahun</label>
@@ -117,7 +119,7 @@
 							<div class="col-md-6 col-sm-12">
 								<div class="form-group">
 									<label for="paperSize">Scale (angka dalam %)</label>
-									<input type="number" name="scale" class="form-control" value="54">
+									<input type="number" name="scale" class="form-control" value="37">
 								</div>
 							</div>
 						</div>

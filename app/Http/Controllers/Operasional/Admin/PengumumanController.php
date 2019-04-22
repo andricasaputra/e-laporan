@@ -12,7 +12,18 @@ use App\Notifications\UpdateAplikasiNotification;
 
 class PengumumanController extends Controller
 {
+    /**
+     * Untuk menyimpan link yang berguna untuk redirect ke halaman tertentu
+     *
+     * @var string
+     */
     public $link;
+
+    /**
+     * Untuk menyimpan pesan dari pengumuman
+     *
+     * @var string
+     */
     public $message;
 
     /**

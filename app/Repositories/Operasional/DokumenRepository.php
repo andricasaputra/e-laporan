@@ -298,7 +298,7 @@ class DokumenRepository
      * Modify data pemakaian dokumen KT
      * group berdasarkan dokumen, wilker, kemudian modif beberapa propertinya
      *
-     * @return mixed
+     * @return array
      */
 	public function transformPemakaianDokumenKt()
 	{

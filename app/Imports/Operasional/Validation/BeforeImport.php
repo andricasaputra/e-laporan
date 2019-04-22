@@ -6,7 +6,7 @@ namespace App\Imports\Operasional\Validation;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Contracts\Operasional\UseImportableInterface as Excel;
+use App\Contracts\Operasional\UseImportableInterface;
 
 abstract class BeforeImport
 {
@@ -53,6 +53,13 @@ abstract class BeforeImport
     protected $tanggalLaporan;
 
     /**
+     * Untuk menyimpan isi/data laporan
+     *
+     * @var string
+     */
+    protected $laporanHasValue;
+
+    /**
      * Untuk menyimpan data pesan kesalahan
      *
      * @var string
@@ -75,15 +82,15 @@ abstract class BeforeImport
      * @param Request $request
      * @return void
      */
-    protected function __construct(object $model, Request $request, Excel $validator)
+    protected function __construct(object $model, Request $request, UseImportableInterface $validator)
     {
     	$this->model     = $model;
 
         // Pertama kita akan merubah data menjadi bentuk collection
-        // kemudian ambil satu saja data dari 5 baris awal pada laporan excel
+        // kemudian ambil satu saja data dari 8 baris awal pada laporan excel
         $this->validator = $validator->toCollection($request->file('filenya'))
                            ->flatten(1)
-                           ->take(5)
+                           ->take(8)
                            ->map(function($datas){
 
                                 return $datas->first();
@@ -215,6 +222,21 @@ abstract class BeforeImport
     }
 
     /**
+     * Untuk validasi laporan yang diupload harus mempunyai isi/tidak boleh nihil
+     *
+     * @return bool
+     */
+    protected function validateLaporanHasValue() : bool
+    {
+        if (is_null($this->laporanHasValue)) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Untuk menampung tipe dan konten dari pesan Kesalahan 
      * yang akan kita berikan kepada user setalah mengupload dokumen
      *
@@ -251,6 +273,13 @@ abstract class BeforeImport
         $bulan = trim(str_ireplace('tahun', '', $ex[1]));
 
         $tahun = trim(end($ex));
+
+        // pengecekan untuk tanggal pada laporan pembatalan dokumen,
+        // karena pada laporan pembatalan dokumen, tanggal yang tertera hanya berupa tahun saja
+        if ($tahun == $bulan) {
+
+            return Carbon::parse($tahun)->startOfMonth();
+        }
 
         return Carbon::parse("1-{$bulan}-{$tahun}")->startOfMonth();
     }

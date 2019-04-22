@@ -11,7 +11,7 @@ class ValidateLaporanBilling implements UseImportableInterface
     |--------------------------------------------------------------------------
     | Class Info
     |--------------------------------------------------------------------------
-    | Class ini dipakai pada App\Imports\Operasional\BeforeImportOperasional
+    | Class ini dipakai pada App\Imports\Operasional\BeforeReportBilling
     | untuk mengambil collection dari judul (5 row/baris awal) laporan operasional
     | e.g jenis permohonan, jenis karantina, upt/wilker, dan tanggal laporan untuk divalidasi
     |

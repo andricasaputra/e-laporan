@@ -8,6 +8,12 @@ use App\Models\Operasional\Dokumen\PenerimaanDokumenKt as Penerimaan;
 
 class PenerimaanDokumenKtController extends DokumenController
 {
+    /**
+     * Set parent property 
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
     public function __construct(Request $request)
     {
         parent::__construct($request);
@@ -16,7 +22,7 @@ class PenerimaanDokumenKtController extends DokumenController
     /**
      * Untuk Halaman Upload Laporan 
      *
-     * @return to view
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -27,7 +33,8 @@ class PenerimaanDokumenKtController extends DokumenController
     /**
      * Untuk Halaman Upload Laporan 
      *
-     * @return to view
+     * @param App\Models\Operasional\Dokumen\PenerimaanDokumenKt $penerimaan
+     * @return \Illuminate\Http\Response
      */
     public function edit(Penerimaan $penerimaan)
     {
@@ -39,8 +46,8 @@ class PenerimaanDokumenKtController extends DokumenController
     /**
      * Import valid data ke database 
      *
-     * @param App\Http\Requests\UploadOperasionalRequest $request
-     * @return void
+     * @param \Illuminate\Http\lRequest $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request) 
     {
@@ -95,8 +102,9 @@ class PenerimaanDokumenKtController extends DokumenController
     /**
      * Import valid data ke database 
      *
-     * @param App\Http\Requests\UploadOperasionalRequest $request
-     * @return void
+     * @param \Illuminate\Http\Request $request
+     * @param App\Models\Operasional\Dokumen\PenerimaanDokumenKt $penerimaan
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Penerimaan $penerimaan) 
     {
@@ -156,11 +164,11 @@ class PenerimaanDokumenKtController extends DokumenController
     public function api()
     {
         return datatables($this->repository->penerimaanTableKt())
-            ->addIndexColumn()->addColumn('action', function ($data){
-                return '
-                <a href="'. route('kt.dokumen.penerimaan.edit', $data->id) .'" class="btn btn-primary">
-                    <i class="fa fa-edit fa-fw"></i> Edit
-                </a>';
-            })->make(true);
+                ->addIndexColumn()->addColumn('action', function ($data){
+                    return '
+                    <a href="'. route('kt.dokumen.penerimaan.edit', $data->id) .'" class="btn btn-primary">
+                        <i class="fa fa-edit fa-fw"></i> Edit
+                    </a>';
+                })->make(true);
     }
 }

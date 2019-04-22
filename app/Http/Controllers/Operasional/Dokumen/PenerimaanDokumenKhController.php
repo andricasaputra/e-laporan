@@ -8,6 +8,12 @@ use App\Models\Operasional\Dokumen\PenerimaanDokumenKh as Penerimaan;
 
 class PenerimaanDokumenKhController extends DokumenController
 {
+    /**
+     * Set parent property 
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
     public function __construct(Request $request)
     {
         parent::__construct($request);
@@ -16,7 +22,7 @@ class PenerimaanDokumenKhController extends DokumenController
     /**
      * Untuk Halaman Upload Laporan 
      *
-     * @return to view
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -27,7 +33,8 @@ class PenerimaanDokumenKhController extends DokumenController
     /**
      * Untuk Halaman Upload Laporan 
      *
-     * @return to view
+     * @param App\Models\Operasional\Dokumen\PenerimaanDokumenKt $penerimaan
+     * @return \Illuminate\Http\Response
      */
     public function edit(Penerimaan $penerimaan)
     {
@@ -39,8 +46,8 @@ class PenerimaanDokumenKhController extends DokumenController
     /**
      * Import valid data ke database 
      *
-     * @param App\Http\Requests\UploadOperasionalRequest $request
-     * @return void
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request) 
 	{
@@ -54,7 +61,7 @@ class PenerimaanDokumenKhController extends DokumenController
             
         foreach ($request->no_seri as $key => $value) {
 
-            if (strrpos($value, ',')) {
+            if (strpos($value, ',')) {
 
                 return back()->withWarning('penulisan nomor seri tidak valid');
             }
@@ -88,15 +95,15 @@ class PenerimaanDokumenKhController extends DokumenController
             }
         }
 
-		return redirect(route('kh.dokumen.index'))
-                ->withSuccess('Data Penerimaan Dokumen Berhasil Ditambah');
+		return redirect(route('kh.dokumen.index'))->withSuccess('Data Penerimaan Dokumen Berhasil Ditambah');
 	}
 
     /**
      * Import valid data ke database 
      *
-     * @param App\Http\Requests\UploadOperasionalRequest $request
-     * @return void
+     * @param \Illuminate\Http\Request $request
+     * @param App\Models\Operasional\Dokumen\PenerimaanDokumenKh $penerimaan
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Penerimaan $penerimaan) 
     {
@@ -144,8 +151,7 @@ class PenerimaanDokumenKhController extends DokumenController
             }
         }
 
-        return redirect(route('kh.dokumen.index'))
-                ->withSuccess('Data Penerimaan Dokumen Berhasil Diubah');
+        return redirect(route('kh.dokumen.index'))->withSuccess('Data Penerimaan Dokumen Berhasil Diubah');
     }
 
     /**

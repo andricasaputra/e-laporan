@@ -12,11 +12,26 @@ class IkmSurvey extends Notification implements ShouldQueue, NotificationsInterf
 {
     use Queueable;
 
-    public $message, $link;
+    /**
+     * Untuk menyimpan isi pesan notifikasi
+     *
+     * @var string
+     */
+    public $message; 
+
+    /**
+     * Untuk menyimpan link yang akan dituju apabila 
+     * pesan notifikasi di click
+     *
+     * @var string
+     */
+    public $link;
 
     /**
      * Create a new notification instance.
      *
+     * @param string|null $message
+     * @param string|null $link
      * @return void
      */
     public function __construct($message = null, $link = null)
