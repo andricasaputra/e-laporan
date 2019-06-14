@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MasterPegawai extends Model
 {
+    protected $connection   = 'usersDB';
     protected $table    = 'master_pegawai';
     protected $guarded  = ['id', 'created_at', 'updated_at'];
     protected $hidden   = ['id', 'created_at', 'updated_at'];

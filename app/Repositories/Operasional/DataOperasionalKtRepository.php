@@ -272,7 +272,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      */
     public function pembatalanDokumen()
     {
-        return  PembatalanDokKt::getJumlahKtDokumen(
+        return  PembatalanDokKt::getJumlahPembatalanKtDokumen(
                     ['year' => $this->year, 'month' => $this->month, 'wilkerId' => $this->wilker_id]
                 );
     }

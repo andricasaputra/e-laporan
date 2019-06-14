@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Ikm;
 
 use App\Http\Controllers\Controller;
 use App\Http\View\Composers\Ikm\StatistikComposer;
-use App\Repositories\Ikm\StatistikRepository as Statistiks;
+use App\Repositories\Ikm\StatistikRepository as Statistik;
 
 class StatistikController extends Controller
 {
@@ -34,7 +34,7 @@ class StatistikController extends Controller
      *
      * @return Object Instance!
      */
-    public function __construct(Statistiks $repository)
+    public function __construct(Statistik $repository)
     {
         $this->repository   = $repository;
 

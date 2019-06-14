@@ -98,7 +98,7 @@ class LaporanRekapitulasiKomoditiStyle extends AbstractGlobalLaporanStyle
 				'alignment' => [
 					'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
 				],                        
-			 'font' => [
+			 	'font' => [
 					'size' => 24,
 					'bold' => true
 				]

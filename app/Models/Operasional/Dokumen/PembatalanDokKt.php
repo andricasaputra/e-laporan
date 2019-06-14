@@ -72,80 +72,54 @@ class PembatalanDokKt extends Model implements ModelPembatalanInterface
     }
 
     /**
-     * Untuk menghitung total pemakaian dokumen
+     * Untuk mmenghitung jumlah pembatalan dokumen
      *
      * @param $query
-     * @param int|null $year
-     * @param int|null $month
-     * @param int|null $wilker_id
+     * @param array $arguments
      * @return Illuminate\Support\Collections
      */
-    public function scopeCountPembatalanDokumen($query, $year, $month = null, $wilker_id = null)
+    public function scopeGetJumlahPembatalanKtDokumen($query, array $arguments)
     {
-        $query->selectRaw('dokumen, count(dokumen) as total')
+        $query->selectRaw('count(*) as total, dokumen')
               ->whereNotNull('dokumen')
-              ->whereYear('bulan', $year);
+              ->whereYear('bulan', $arguments['year']);
 
-        $query->when($month && $month != 'all', function ($query) use ($month) {
+        $query->when($arguments['month'] && $arguments['month'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereMonth('tanggal_batal', $month);
+            return $query->whereMonth('bulan', $arguments['month']);
 
-        })->when($wilker_id && $wilker_id != 'all', function ($query) use ($wilker_id) {
+        })->when($arguments['wilkerId'] && $arguments['wilkerId'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereWilkerId($wilker_id);
-
-        });
-                     
-        return $query->groupBy('dokumen');
-    }
-
-    /**
-     * Untuk memfilter pembatalan dokumen
-     *
-     * @param $query
-     * @param array $params
-     * @return Illuminate\Support\Collections
-     */
-    public function scopeGetPembatalan($query, array $params)
-    {
-        $query->whereNotNull('dokumen')->whereYear('bulan', $params['year']);
-
-        $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
-
-            return $query->whereMonth('bulan', $params['month']);
-
-        })->when($params['wilkerId'] && $params['wilkerId'] != 'all', function ($query) use ($params) {
-
-            return $query->whereWilkerId($params['wilkerId']);
+            return $query->whereWilkerId($arguments['wilkerId']);
 
         });
 
-        return $query->get();
+        return $query->groupBy('dokumen')->get();
     }
 
     /**
      * Untuk mmenghitung jumlah pembatalan dokumen
      *
      * @param $query
-     * @param array $params
+     * @param array $arguments
      * @return Illuminate\Support\Collections
      */
-    public function scopeGetJumlahKtDokumen($query, array $params)
+    public function scopeGetJumlahPembatalanPerWilkerKtDokumen($query, array $arguments)
     {
         $query->selectRaw('count(*) as total, dokumen, wilker_id, nomor_seri as no_seri')
               ->whereNotNull('dokumen')
-              ->whereYear('bulan', $params['year']);
+              ->whereYear('bulan', $arguments['year']);
 
-        $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
+        $query->when($arguments['month'] && $arguments['month'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereMonth('bulan', $params['month']);
+            return $query->whereMonth('bulan', $arguments['month']);
 
-        })->when($params['wilkerId'] && $params['wilkerId'] != 'all', function ($query) use ($params) {
+        })->when($arguments['wilkerId'] && $arguments['wilkerId'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereWilkerId($params['wilkerId']);
+            return $query->whereWilkerId($arguments['wilkerId']);
 
         });
 
-        return $query->groupBy('dokumen', 'no_seri')->get();
+        return $query->groupBy('dokumen', 'no_seri', 'wilker_id')->get();
     }
 }

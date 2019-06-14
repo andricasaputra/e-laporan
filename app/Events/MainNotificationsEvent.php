@@ -4,13 +4,13 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
-use App\Contracts\NotificationsInterface;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
-use App\Contracts\NotificationsEventInterface;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Contracts\NotificationsEventInterface as Event;
+use App\Contracts\NotificationsInterface as Notification;
 
 class MainNotificationsEvent /*implements ShouldBroadcast*/
 {
@@ -55,12 +55,12 @@ class MainNotificationsEvent /*implements ShouldBroadcast*/
      * @param App\Contracts\NotificationsEventInterface $notification (data attributes)
      * @return void
      */
-    public function __construct(NotificationsInterface $classToNotify, NotificationsEventInterface $notifications)
+    public function __construct(Notification $classToNotify, Event $notificationsData)
     {
         $this->classToNotify = $classToNotify;
-        $this->users         = $notifications->users;
-        $this->message       = $notifications->message;
-        $this->link          = $notifications->link;
+        $this->users         = $notificationsData->users;
+        $this->message       = $notificationsData->message;
+        $this->link          = $notificationsData->link;
     }
 
     /**

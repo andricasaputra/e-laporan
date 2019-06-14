@@ -72,22 +72,22 @@ trait QueryScopeDokumen
      * Untuk mmenghitung jumlah persediaan/penerimaan dokumen KT
      *
      * @param $query
-     * @param array $params
+     * @param array $arguments
      * @return Illuminate\Support\Collections
      */
-    public function scopeGetJumlahKtDokumen($query, array $params)
+    public function scopeGetJumlahKtDokumen($query, array $arguments)
     {
         $query->selectRaw('sum(jumlah) as total, dokumen_id, wilker_id, no_seri')
               ->ktDokumen()
-              ->whereYear('created_at', $params['year']);
+              ->whereYear('created_at', $arguments['year']);
 
-        $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
+        $query->when($arguments['month'] && $arguments['month'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereMonth('created_at', $params['month']);
+            return $query->whereMonth('created_at', $arguments['month']);
 
-        })->when($params['wilkerId'] && $params['wilkerId'] != 'all', function ($query) use ($params) {
+        })->when($arguments['wilkerId'] && $arguments['wilkerId'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereWilkerId($params['wilkerId']);
+            return $query->whereWilkerId($arguments['wilkerId']);
 
         });
 
@@ -100,22 +100,22 @@ trait QueryScopeDokumen
      * Untuk mmenghitung jumlah persediaan/penerimaan dokumen KH
      *
      * @param $query
-     * @param array $params
+     * @param array $arguments
      * @return Illuminate\Support\Collections
      */
-    public function scopeGetJumlahKhDokumen($query, array $params)
+    public function scopeGetJumlahKhDokumen($query, array $arguments)
     {
         $query->selectRaw('sum(jumlah) as total, dokumen_id, wilker_id, no_seri')
               ->khDokumen()
-              ->whereYear('created_at', $params['year']);
+              ->whereYear('created_at', $arguments['year']);
 
-        $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
+        $query->when($arguments['month'] && $arguments['month'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereMonth('created_at', $params['month']);
+            return $query->whereMonth('created_at', $arguments['month']);
 
-        })->when($params['wilkerId'] && $params['wilkerId'] != 'all', function ($query) use ($params) {
+        })->when($arguments['wilkerId'] && $arguments['wilkerId'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereWilkerId($params['wilkerId']);
+            return $query->whereWilkerId($arguments['wilkerId']);
 
         });
 
@@ -128,20 +128,20 @@ trait QueryScopeDokumen
      * Untuk mendapatkan pembatalan dokumen berdasarkan nama dokumen KT
      *
      * @param $query
-     * @param array $params
+     * @param array $arguments
      * @return Illuminate\Support\Collections
      */
-    public function scopeGetByNamaDokumenKt($query, array $params)
+    public function scopeGetByNamaDokumenKt($query, array $arguments)
     {
-        $query->ktDokumen()->whereYear('created_at', $params['year']);
+        $query->ktDokumen()->whereYear('created_at', $arguments['year']);
 
-        $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
+        $query->when($arguments['month'] && $arguments['month'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereMonth('created_at', $params['month']);
+            return $query->whereMonth('created_at', $arguments['month']);
 
-        })->when($params['wilkerId'] && $params['wilkerId'] != 'all', function ($query) use ($params) {
+        })->when($arguments['wilkerId'] && $arguments['wilkerId'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereWilkerId($params['wilkerId']);
+            return $query->whereWilkerId($arguments['wilkerId']);
 
         });
 
@@ -152,20 +152,20 @@ trait QueryScopeDokumen
      * Untuk mendapatkan pembatalan dokumen berdasarkan nama dokumen KT
      *
      * @param $query
-     * @param array $params
+     * @param array $arguments
      * @return Illuminate\Support\Collections
      */
-    public function scopeGetByNamaDokumenKh($query, array $params)
+    public function scopeGetByNamaDokumenKh($query, array $arguments)
     {
-        $query->khDokumen()->whereYear('created_at', $params['year']);
+        $query->khDokumen()->whereYear('created_at', $arguments['year']);
 
-        $query->when($params['month'] && $params['month'] != 'all', function ($query) use ($params) {
+        $query->when($arguments['month'] && $arguments['month'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereMonth('created_at', $params['month']);
+            return $query->whereMonth('created_at', $arguments['month']);
 
-        })->when($params['wilkerId'] && $params['wilkerId'] != 'all', function ($query) use ($params) {
+        })->when($arguments['wilkerId'] && $arguments['wilkerId'] != 'all', function ($query) use ($arguments) {
 
-            return $query->whereWilkerId($params['wilkerId']);
+            return $query->whereWilkerId($arguments['wilkerId']);
 
         });
 

@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $connection   = 'usersDB';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -75,11 +77,7 @@ class User extends Authenticatable
 
     public function scopeUserToNotify($query)
     {
-        return  $query->with(['role' => function ($query) { 
-
-                    $query->whereIn('role_id', [1, 2, 3]);
-                     
-                }]);
+        return  $query->whereIn('id', [1,2,3,4,5])->get();
     }
 
     public function scopeSendNotify($query, $wilker_id)

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wilker extends Model
 {
+    protected $connection   = 'usersDB';
     protected $table    = 'wilker';
     protected $guarded  = ['id', 'created_at', 'updated_at'];
     protected $hidden   = ['id', 'created_at', 'updated_at'];

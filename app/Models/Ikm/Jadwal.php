@@ -3,7 +3,6 @@
 namespace App\Models\Ikm;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Controllers\TanggalController as Tanggal;
 
 class Jadwal extends Model
 {

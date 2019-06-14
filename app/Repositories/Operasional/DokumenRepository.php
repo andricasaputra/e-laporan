@@ -67,7 +67,7 @@ class DokumenRepository
     }
 
 	/**
-     * Untuk mendapatkan penerimaan dokumen berdasarkan nama dokumen KT
+     * Untuk mendapatkan dokumen kt pada log penerimaan dokumen
      *
      * @return mixed
      */
@@ -77,33 +77,13 @@ class DokumenRepository
 	}
 
 	/**
-     * Untuk mendapatkan penerimaan dokumen berdasarkan nama dokumen KH
+     * Untuk mendapatkan dokumen kh pada log penerimaan dokumen
      *
      * @return mixed
      */
 	public function penerimaanTableKh()
 	{
 		return PenerimaanKh::getByNamaDokumenKh($this->params);
-	}
-
-	/**
-     * Untuk mendapatkan pembatalan dokumen
-     *
-     * @return mixed
-     */
-	public function pembatalanTableKt()
-	{
-		return PembatalanKt::getPembatalan($this->params);
-	}
-
-	/**
-     * Untuk mendapatkan pembatalan dokumen
-     *
-     * @return mixed
-     */
-	public function pembatalanTableKh()
-	{
-		return PembatalanKh::getPembatalan($this->params);
 	}
 
 	/**
@@ -118,7 +98,7 @@ class DokumenRepository
 			'persediaan' => $this->transformPersediaanDokumenKt(),
 			'penerimaan' => $this->transformPenerimaanDokumenKt(),
 			'pemakaian'  => $this->transformPemakaianDokumenKt(),
-			'pembatalan' => PembatalanKt::getJumlahKtDokumen($this->params)
+			'pembatalan' => PembatalanKt::getJumlahPembatalanPerWilkerKtDokumen($this->params)
 
 		];
 	}
@@ -135,7 +115,7 @@ class DokumenRepository
 			'persediaan' => $this->transformPersediaanDokumenKh(),
 			'penerimaan' => $this->transformPenerimaanDokumenKh(),
 			'pemakaian'  => $this->transformPemakaianDokumenKh(),
-			'pembatalan' => PembatalanKh::getJumlahKhDokumen($this->params)
+			'pembatalan' => PembatalanKh::getJumlahPembatalanPerWilkerKhDokumen($this->params)
 
 		];
 	}

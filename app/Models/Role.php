@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+	protected $connection   = 'usersDB';
 	protected $guarded = ['id', 'created_at', 'updated_at'];
 
 	public function getNameAttribute($value)

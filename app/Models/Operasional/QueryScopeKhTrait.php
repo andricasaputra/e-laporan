@@ -100,7 +100,8 @@ trait QueryScopeKhTrait
     public function scopeCountRekapitulasi($query, array $arguments)
     {   
         $query->selectRaw(' *, sum(volume) as volume, sum(pnbp) as pnbp, sum(frekuensi) as frekuensi, nama_mp')
-              ->whereYear('bulan', $arguments[0]);
+              ->whereYear('bulan', $arguments[0])
+              ->whereNotNull('nama_mp');
 
         $query->when($arguments[1] && $arguments[1] != 'all', function ($query) use ($arguments) {
 

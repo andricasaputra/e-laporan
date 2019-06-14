@@ -23,7 +23,7 @@ class BaseReportBillingController extends AbstractBaseOperasional
 
         $this->wilker           =   Wilker::find($this->request->wilker_id);
 
-        $this->usersToNotify    =   User::whereIn('id', [1, 2, 3, 4, 5])->get();
+        $this->usersToNotify    =   User::userToNotify();
 
         $this->typeKarantina    =   explode('_', $this->table);
 

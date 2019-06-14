@@ -272,7 +272,7 @@ class DataOperasionalKhRepository extends DataOperasionalRepositoryManager
      */
     public function pembatalanDokumen()
     {
-        return  PembatalanDokKh::getJumlahKhDokumen(
+        return  PembatalanDokKh::getJumlahPembatalanKhDokumen(
                     ['year' => $this->year, 'month' => $this->month, 'wilkerId' => $this->wilker_id]
                 );
     }
