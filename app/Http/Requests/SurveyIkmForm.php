@@ -55,6 +55,10 @@ class SurveyIkmForm extends FormRequest
 
         );
 
+        if (count($answer) < 9) {
+            return false;
+        }
+
         foreach ($answer as $key => $value) {
 
             $responden->result()->create([

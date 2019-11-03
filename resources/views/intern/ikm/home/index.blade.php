@@ -60,9 +60,13 @@
                 <i class="fa fa-area-chart"></i> Rekapitulasi IKM
               </a>
               <div class="give-padding"></div>
-              <a href="{{ route('intern.ikm.home.masscetak', $ikmId) }}" class="btn btn-primary" target="_blank">
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-print"></i> Cetak Rekapitulasi Responden
-              </a>
+              </button>
+              {{-- <a href="{{ route('intern.ikm.home.masscetak', $ikmId) }}" class="btn btn-primary" target="_blank">
+                <i class="fa fa-print"></i> Cetak Rekapitulasi Responden
+              </a> --}}
           </div>
         </div>
       </div>
@@ -113,6 +117,54 @@
       </div>
       <div class="modal-footer">
       </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form action="{{ route('intern.ikm.home.masscetak') }}" method="POST">
+
+        @csrf
+        @method('POST')
+
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Cetak rekapitulasi responden</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row" style="margin-bottom: 30px">
+              <div class="col-md-12">
+                  <div class="alert alert-info" style="font-weight: 500">
+                    <b>Info!</b> Jika jumlah data responden yang akan dicetak lebih dari 20,
+                  disarankan untuk cetak secara berkala / dicicil agar proses cetak lebih cepat
+                  </div>  
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="hidden" name="jadwal" value="{{ $ikmId }}">
+                <label for="halaman_awal">Halaman Awal</label>
+                <input type="number" name="halaman_awal" min="1" class="form-control" placeholder="Halaman Awal">
+              </div>
+
+              <div class="col-md-6">
+                <label for="jumlah">Jumlah Halaman</label>
+                <input type="number" name="jumlah" min="1" class="form-control" placeholder="Jumlah Halaman">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Cetak</button>
+          </div>
+      </form>
     </div>
   </div>
 </div>

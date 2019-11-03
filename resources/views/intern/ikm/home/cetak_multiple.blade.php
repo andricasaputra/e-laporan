@@ -1,6 +1,7 @@
+
 <?php
 
-if(empty($datas->responden->all()) || is_null($datas->responden)):
+if(empty($datas)):
 	
 	 header('Location: ikm');
 
@@ -27,7 +28,8 @@ endif;
 	table.table-info tr td{
 		padding-top: 5px;
 		padding-bottom:  5px;
-		width: 170px;
+		/*width: 170px;*/
+		width: 285px;
 		padding-left: 5px;
 		padding-right: 30px
 	}
@@ -40,13 +42,13 @@ endif;
     }
 </style>
 
-@foreach ($datas->responden as $key => $value)
+@foreach ($datas as $key => $value)
 
-	<page backtop="7mm" backbottom="7mm" backleft="5mm" backright="5mm">
+	<page backtop="4mm" backbottom="8mm" backleft="5mm" backright="5mm">
 
 		<page_header>
 
-			<img src="{{ asset('images/web-sumbawa4x.png') }}" style="width: 90px;position: relative;">
+			<img src="{{ asset('images/web-sumbawa3x.png') }}" style="width: 90px;position: relative;">
 
 			<div style="margin:auto; position: relative; text-align: center; margin-left: -200px">
 
@@ -56,7 +58,7 @@ endif;
 
 				<p style="margin-bottom: -10px">Jln. Pelabuhan Badas No. 01 Sumbawa Besar</p>
 
-				<p>stakabadas@gmail.com - (0371) 2629152 - www.skkp1sumbawabesar.org</p>
+				<p>stakabadas@gmail.com - (0371) 2629152 - sumbawa.pertanian.go.id</p>
 
 			</div>
 
@@ -68,42 +70,54 @@ endif;
 
 	        <hr>
 
-			<p style="text-align: center;">
-				Terimakasih Bapak/Ibu/Saudara telah bersedia mengisi lembar survei ini.
+			<p>
+				<div  style="text-align: center;">Terimakasih Bapak/Ibu/Saudara telah bersedia mengisi lembar survei ini.
 				<br>
 				Mohon lembar survey evaluasi yang telah diisi diserahkan kembali kepada petugas infoguide
+				</div>
+				<br>
+				<div style="position: relative;">
+					<div style="position: absolute;margin-bottom: 13px">
+						<small>{{ $jadwal->keterangan }}</small>
+					</div>
+					<div style="float: right; text-align: right;p">
+						<small><i>Halaman : {{ $key + 1 }}</i>
+						</small>
+					</div>
+					
+				</div>
 			</p>
-				
+
 	    </page_footer> 
 
 	    <div class="judul" style="margin-top: 120px;text-align: center;">
-	    	<b style="font-size: 16px;">Data Responden</b>
+	    	<b style="font-size: 16px;">Data Responden</b><br>
 	    </div>		
 
 		<table class="table-info" style="margin-top: 20px">
 			<tr>
 				<td >Jenis Layanan</td>
-				<td style="text-align: center;">:</td>
+				{{-- <td style="text-align: center;">:</td> --}}
 				<td><b>{{ $value->layanan->jenis_layanan }}</b></td>
 			</tr>
 			<tr>
 				<td>Jenis Kelamin</td>
-				<td style="text-align: center;">:</td>
+				{{-- <td style="text-align: center;">:</td> --}}
 				<td><b>{{ $value->jenis_kelamin }}</b></td>
 			</tr>
 			<tr>
 				<td>Umur</td>
-				<td style="text-align: center;">:</td>
+				{{-- <td style="text-align: center;">:</td> --}}
 				<td><b>{{ $value->umur->umur }}</b></td>
 			</tr>
 			<tr>
 				<td>Pendidikan Terakhir</td>
-				<td style="text-align: center;">:</td>
+				{{-- <td style="text-align: center;">:</td> --}}
 				<td><b>{{ $value->pendidikan->pendidikan }}</b></td>
 			</tr>
 			<tr>
 				<td>Pekerjaan Utama</td>
-				<td style="text-align: center;">:</td>
+				{{-- <td style="text-align: center;">:</td> --}}
 				<td><b>{{ $value->pekerjaan->pekerjaan }}</b></td>
 			</tr>
 		</table>

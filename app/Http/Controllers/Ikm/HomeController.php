@@ -13,6 +13,8 @@ use App\Models\Ikm\Responden;
 use App\Http\Controllers\Controller;
 use App\Repositories\Ikm\HomeRepository;
 
+ini_set('max_execution_time', '300');
+
 class HomeController extends Controller
 {
     /**
@@ -62,7 +64,11 @@ class HomeController extends Controller
      */
     public function index(int $ikmId = null)
     {
-        $ikmId  = $ikmId ?? $this->setIkmId();
+        if (! isset($ikmId)) {
+            $ikmId  = $this->setIkmId();
+
+            return redirect(route('intern.ikm.home.index', $ikmId));
+        }
 
         $ikm    = Jadwal::select('id', 'keterangan')->get();
 
@@ -132,17 +138,33 @@ class HomeController extends Controller
      * @param  Jadwal  $ikmId
      * @return PDF
      */
-    public function cetakMultiple(Jadwal $ikmId)
+    public function cetakMultiple(Request $request)
     {
-        $datas              = $ikmId;
+        $jadwal             = Jadwal::find($request->jadwal);
 
         $question_answer    = Question::with('question_answer')->get();
 
+        $chunk = [
+
+            // untuk mengambil halaman awal yang berada pada index 0
+            'awal' => $request->halaman_awal - 1,
+            'jumlah' => $request->jumlah 
+
+        ];
+
+        $datas = $jadwal->responden()
+                       ->orderBy('id', 'ASC')
+                       ->get()
+                       ->slice($chunk['awal'], $chunk['jumlah']);
+
+
+        $view = view('intern.ikm.home.cetak_multiple', 
+                    compact('jadwal', 'datas', 'question_answer')
+                );
+
         pdf()->pdf->setTitle('Rekapitulasi Responden Survey Kepuasan Masyarakat');
 
-        pdf()->writeHTML(
-            view('intern.ikm.home.cetak_multiple', compact('datas', 'question_answer'))
-        );
+        pdf()->writeHTML($view->render());
 
         return pdf()->output('Rekapitulasi Responden Survey Kepuasan Masyarakat.pdf');
     }

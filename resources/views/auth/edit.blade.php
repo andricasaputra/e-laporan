@@ -16,12 +16,6 @@
             Edit Users
           </div>
           <div class="card-body">
-           
-            @if($user->golongan === null)
-
-                
-
-            @endif
 
             @include('intern.inc.message')
 

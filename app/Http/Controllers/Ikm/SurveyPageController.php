@@ -90,6 +90,10 @@ class SurveyPageController extends Controller
         $this->request  = $request->all();
 
         $responden      = $request->persistCreate();
+
+        if ($responden === false) {
+           return redirect()->route('ikm.survey')->withWarning('terdapat pertanyaan yang belum dijawab, mohon untuk lebih teliti saat mengisi survey');
+        }
         
         $this->setNotification();
 
@@ -133,7 +137,7 @@ class SurveyPageController extends Controller
      */
     public function userToNotify()
     {
-        return User::userToNotify()->get();
+        return User::userToNotify();
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Events\UpdatePegawai;
 use App\Events\RegisterPegawai;
 use App\Http\Requests\UserForm;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Hash;
 use App\Models\MasterPegawai as Master;
 
 class UserController extends Controller
@@ -86,6 +87,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if ($user->id == 2) {
+           return view('auth.edit_admin')->withUser($user);
+        }
+
         if (is_null($user->golongan)) {
             return back()->withWarning('Data pegawai tidak mempunyai golongan serta jabatan!');
         }
@@ -107,6 +112,28 @@ class UserController extends Controller
         event( new UpdatePegawai($masterPegawai, $request) );
 
         return redirect(route('users.index'))->withSuccess('Data User Berhasil Diubah');
+    }
+
+    /**
+     * Update admin account
+     *
+     * @param Illuminate\Http\Request $request 
+     * @param App\Models\MasterPegawai $masterPegawai
+     * @return \Illuminate\Http\Response
+     */
+    public function updateAdmin(Request $request, User $user)
+    {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user->update([
+            'username' => $request->username,
+            'password' => Hash::make($request->password)
+        ]);
+
+        return redirect(route('users.index'))->withSuccess('Data Admin Berhasil Diubah');
     }
 
     /**

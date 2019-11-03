@@ -3,7 +3,7 @@
 namespace App\Models\Operasional;
 
 use Carbon\Carbon;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+//use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 trait QueryScopeGlobalTrait
 {
