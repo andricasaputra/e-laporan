@@ -26,7 +26,7 @@ class ImportLaporanBilling extends ImportMaster implements ToCollection, WithMul
      * Set kebutuhan upload property
      *
      * @param App\Contracts\Operasional\ModelReportBillingInterface $model
-     * @param Request $request
+     * @param Illuminate\Http\Request $request
      * @param Carbon $tanggalLaporan
      * @return void
      */
@@ -85,7 +85,7 @@ class ImportLaporanBilling extends ImportMaster implements ToCollection, WithMul
      * Menyiapkan data untuk proses upload, disini data akan 
      * kita custom untuk keperluan insert/update ke database
      *
-     * @param array $rows
+     * @param Illuminate\Support\Collection $rows
      * @return Illuminate\Support\Collection
      */
     private function prepareDatas(Collection $rows)
@@ -93,10 +93,6 @@ class ImportLaporanBilling extends ImportMaster implements ToCollection, WithMul
         // Disini kita akan lakukan penambahan beberapa data dan format beberapa tanggal
         // seperti wilker_id, user_id, no_kwitansi dan modifikasi format tanggal, dsb 
     	return $rows->map(function($row) {
-
-	        $row['tgl_kwitansi'] = $this->formatTanggal($row['tgl_kwitansi']);
-
-	        $row['tgl_bayar']  = $this->formatTanggal($row['tgl_bayar']);
 
             $row['jumlah']  = (int) $row['jumlah'];
 
@@ -160,12 +156,15 @@ class ImportLaporanBilling extends ImportMaster implements ToCollection, WithMul
 	/**
      * Method delegasi untuk menjalankan proses upload yang file
      *
-     * @return bool|void
+     * @param Illuminate\Support\Collection $datas
+     * @return void
      */
     private function runProcessUpload(Collection $datas)
     {
-        // Pengecekan PNBP yang tidak boleh 0 pada dokumen pelepasan yang dikenakan tarif
-        if (! $this->validateWilkerUser($datas)) return false;
+        // Jika superadmin atau admin, lewati validasi wilker
+        if (is_null(superadmin()) && is_null(admin())) {
+            if (! $this->validateWilkerUser($datas)) return false;
+        }
 
         // Jika Laporan belum pernah diupload, maka insert 
         $datas->when((int) $this->forInsertOrUpdate($datas) === 0, function ($datas) {

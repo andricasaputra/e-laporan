@@ -46,7 +46,7 @@ trait QueryScopeKhTrait
      */
     public function scopeCountVolume($query, array $arguments)
     {
-        $query->selectRaw('sum(volume) as volume, satuan')
+        $query->selectRaw('sum(jumlah) as volume, satuan')
               ->whereNotNull('nama_mp')
               ->whereYear('bulan', $arguments[0]);
 
@@ -72,7 +72,7 @@ trait QueryScopeKhTrait
      */
     public function scopeCountFrekuensiByKomoditi($query, array $arguments)
     {
-        $query->selectRaw('year(bulan) as year, monthname(bulan) as bln, sum(frekuensi) as data')
+        $query->selectRaw('year(bulan) as year, monthname(bulan) as bln, count(*) as data')
               ->whereNotNull('nama_mp')
               ->whereYear('bulan', $arguments[0]);
 
@@ -99,9 +99,11 @@ trait QueryScopeKhTrait
      */
     public function scopeCountRekapitulasi($query, array $arguments)
     {   
-        $query->selectRaw(' *, sum(volume) as volume, sum(pnbp) as pnbp, sum(frekuensi) as frekuensi, nama_mp')
+        $query->selectRaw(' *, sum(jumlah) as volume, sum(total_pnbp) as pnbp, count(*) as frekuensi, nama_mp')
               ->whereYear('bulan', $arguments[0])
-              ->whereNotNull('nama_mp');
+              ->whereNotNull('nama_mp')
+              ->where('no_permohonan', '!=', 'IDEM')
+              ->where('no_permohonan', '!=', '');
 
         $query->when($arguments[1] && $arguments[1] != 'all', function ($query) use ($arguments) {
 
@@ -113,7 +115,7 @@ trait QueryScopeKhTrait
 
         });
            
-        return $query->groupBy('nama_mp');
+        return $query->groupBy('nama_mp', 'satuan');
     }
 
     /**
@@ -125,7 +127,7 @@ trait QueryScopeKhTrait
      */
     public function scopeTopFiveFrekuensiKomoditi($query, array $arguments)
     {
-        $query->selectRaw('nama_mp as name, sum(frekuensi) as data')
+        $query->selectRaw('nama_mp as name, count(*) as data')
               ->whereNotNull('nama_mp') 
               ->whereYear('bulan', $arguments[0]);
 

@@ -78,8 +78,8 @@ abstract class BeforeImport
      * Set awal kebutuhan property validator
      *
      * @param object $model
-     * @param object $validator
-     * @param Request $request
+     * @param App\Contracts\Operasional\UseImportableInterface $validator
+     * @param Illuminate\Http\Request $request
      * @return void
      */
     protected function __construct(object $model, Request $request, UseImportableInterface $validator)
@@ -270,7 +270,7 @@ abstract class BeforeImport
     {
         $ex    = explode(':', $this->tanggalLaporan);
 
-        $bulan = trim(str_ireplace('tahun', '', $ex[1]));
+        $bulan = trim(str_replace('tahun', '', $ex[1]));
 
         $tahun = trim(end($ex));
 

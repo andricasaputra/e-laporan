@@ -12,7 +12,7 @@ interface UseImportableInterface
      * @param string|null              $readerType
      *
      * @throws NoFilePathGivenException
-     * @return Collection
+     * @return Illuminate\Support\Collection
      */
 	public function toCollection($filePath = null, string $disk = null, string $readerType = null) : Collection;
 }

@@ -19,7 +19,7 @@ class ImportLaporanPembatalanDokumen extends ImportMaster implements ToCollectio
      * Set kebutuhan upload property
      *
      * @param App\Contracts\Operasional\ModelPembatalanInterface $model
-     * @param Request $request
+     * @param Illuminate\Http\Request $request
      * @return void
      */
 	public function __construct(Model $model, Request $request)
@@ -36,7 +36,7 @@ class ImportLaporanPembatalanDokumen extends ImportMaster implements ToCollectio
     /**
      * Method untuk menjalankan proses upload
      *
-     * @param Collection $row
+     * @param Illuminate\Support\Collection $row
      * @return void
      */
     public function collection(Collection $rows)
@@ -79,7 +79,7 @@ class ImportLaporanPembatalanDokumen extends ImportMaster implements ToCollectio
      * Menyiapkan data untuk proses upload, disini data akan 
      * kita custom untuk keperluan insert/update ke database
      *
-     * @param array $rows
+     * @param Illuminate\Support\Collection $rows
      * @return Illuminate\Support\Collection
      */
     private function prepareDatas(Collection $rows)
@@ -129,7 +129,8 @@ class ImportLaporanPembatalanDokumen extends ImportMaster implements ToCollectio
 	/**
      * Method delegasi untuk menjalankan proses upload yang file
      *
-     * @return bool|void
+     * @param Illuminate\Support\Collection $datas
+     * @return void
      */
     private function runProcessUpload(Collection $datas)
     {

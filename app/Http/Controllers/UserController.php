@@ -86,6 +86,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if (is_null($user->golongan)) {
+            return back()->withWarning('Data pegawai tidak mempunyai golongan serta jabatan!');
+        }
+
         return view('auth.edit')->withUser($user);         
     }
 

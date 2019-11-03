@@ -13,12 +13,6 @@ use App\Models\Operasional\SerahTerimaKt;
 use App\Models\Operasional\Dokumen\PembatalanDokKt;
 use App\Models\Operasional\Dokumen\PemakaianDokumenKt as DokumenKt;
 use App\Models\Operasional\Dokumen\PenerimaanDokumenKt as Penerimaan;
-use App\Models\Operasional\RekapitulasiKomoditiDokelKt as RekapDokelKt;
-use App\Models\Operasional\RekapitulasiKomoditiDomasKt as RekapDomasKt;
-use App\Models\Operasional\RekapitulasiKomoditiImporKt as RekapImporKt;
-use App\Models\Operasional\RekapitulasiKomoditiEksporKt as RekapEksporKt;
-use App\Models\Operasional\RekapitulasiKomoditiReeksporKt as RekapReeksporKt;
-use App\Models\Operasional\RekapitulasiKomoditiSerahTerimaKt as RekapSerahTerimaKt;
 
 class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
 {
@@ -57,17 +51,17 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
     {
         return  [
 
-            'dokel'         =>  RekapDokelKt::countVolume($this->routeParams)->get(),
+            'dokel'         =>  DokelKt::countVolume($this->routeParams)->get(),
 
-            'domas'         =>  RekapDomasKt::countVolume($this->routeParams)->get(),
+            'domas'         =>  DomasKt::countVolume($this->routeParams)->get(),
 
-            'ekspor'        =>  RekapEksporKt::countVolume($this->routeParams)->get(),
+            'ekspor'        =>  EksporKt::countVolume($this->routeParams)->get(),
 
-            'impor'         =>  RekapImporKt::countVolume($this->routeParams)->get(),
+            'impor'         =>  ImporKt::countVolume($this->routeParams)->get(),
 
-            'reekspor'      =>  RekapReeksporKt::countVolume($this->routeParams)->get(),
+            'reekspor'      =>  ReeksporKt::countVolume($this->routeParams)->get(),
 
-            'serahterima'   =>  RekapSerahTerimaKt::countVolume($this->routeParams)->get(),
+            'serahterima'   =>  SerahTerimaKt::countVolume($this->routeParams)->get(),
 
         ];
     }
@@ -80,27 +74,27 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      */
     public function totalRekapitulasi()
     {
-        $this->dokelTotalVolume         =   parent::castNumberFormat(RekapDokelKt::countRekapitulasi(
+        $this->dokelTotalVolume         =   parent::castNumberFormat(DokelKt::countRekapitulasi(
                                                 $this->routeParams
                                             )->get());
 
-        $this->domasTotalVolume         =   parent::castNumberFormat(RekapDomasKt::countRekapitulasi(
+        $this->domasTotalVolume         =   parent::castNumberFormat(DomasKt::countRekapitulasi(
                                                 $this->routeParams
                                             )->get());
 
-        $this->eksporTotalVolume        =   parent::castNumberFormat(RekapEksporKt::countRekapitulasi(
+        $this->eksporTotalVolume        =   parent::castNumberFormat(EksporKt::countRekapitulasi(
                                                 $this->routeParams
                                             )->get());
 
-        $this->imporTotalVolume         =   parent::castNumberFormat(RekapImporKt::countRekapitulasi(
+        $this->imporTotalVolume         =   parent::castNumberFormat(ImporKt::countRekapitulasi(
                                                 $this->routeParams
                                             )->get());
 
-        $this->reeksporTotalVolume      =   parent::castNumberFormat(RekapReeksporKt::countRekapitulasi(
+        $this->reeksporTotalVolume      =   parent::castNumberFormat(ReeksporKt::countRekapitulasi(
                                                 $this->routeParams
                                             )->get());
 
-        $this->serahTerimaTotalVolume   =   parent::castNumberFormat(RekapSerahTerimaKt::countRekapitulasi(
+        $this->serahTerimaTotalVolume   =   parent::castNumberFormat(SerahTerimaKt::countRekapitulasi(
                                                 $this->routeParams
                                             )->get());
 
@@ -116,17 +110,17 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      */
     public function totalPnbp()
     {
-        $this->pnbpDomas        =  RekapDomasKt::countTotalPnbp($this->routeParams)->pnbp;
+        $this->pnbpDomas        =  DomasKt::countTotalPnbp($this->routeParams)->pnbp;
 
-        $this->pnbpDokel        =  RekapDokelKt::countTotalPnbp($this->routeParams)->pnbp;
+        $this->pnbpDokel        =  DokelKt::countTotalPnbp($this->routeParams)->pnbp;
 
-        $this->pnbpEkspor       =  RekapEksporKt::countTotalPnbp($this->routeParams)->pnbp;
+        $this->pnbpEkspor       =  EksporKt::countTotalPnbp($this->routeParams)->pnbp;
 
-        $this->pnbpImpor        =  RekapImporKt::countTotalPnbp($this->routeParams)->pnbp;
+        $this->pnbpImpor        =  ImporKt::countTotalPnbp($this->routeParams)->pnbp;
 
-        $this->pnbpReekspor     =  RekapReeksporKt::countTotalPnbp($this->routeParams)->pnbp;
+        $this->pnbpReekspor     =  ReeksporKt::countTotalPnbp($this->routeParams)->pnbp;
 
-        $this->pnbpSerahTerima  =  RekapSerahTerimaKt::countTotalPnbp($this->routeParams)->pnbp;
+        $this->pnbpSerahTerima  =  SerahTerimaKt::countTotalPnbp($this->routeParams)->pnbp;
 
         return $this;
     }
@@ -139,27 +133,27 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      */
     public function frekuensiByKomoditiKt()
     {
-        $this->frekuensiKomoditiDokel           =   RekapDokelKt::countFrekuensiByKomoditi(
+        $this->frekuensiKomoditiDokel           =   DokelKt::countFrekuensiByKomoditi(
                                                         $this->routeParams
                                                     )->get();
 
-        $this->frekuensiKomoditiDomas           =   RekapDomasKt::countFrekuensiByKomoditi(
+        $this->frekuensiKomoditiDomas           =   DomasKt::countFrekuensiByKomoditi(
                                                         $this->routeParams
                                                     )->get();
 
-        $this->frekuensiKomoditiEkspor          =   RekapEksporKt::countFrekuensiByKomoditi(
+        $this->frekuensiKomoditiEkspor          =   EksporKt::countFrekuensiByKomoditi(
                                                         $this->routeParams
                                                     )->get();
 
-        $this->frekuensiKomoditiImpor           =   RekapImporKt::countFrekuensiByKomoditi(
+        $this->frekuensiKomoditiImpor           =   ImporKt::countFrekuensiByKomoditi(
                                                         $this->routeParams
                                                     )->get();
 
-        $this->frekuensiKomoditiReekspor        =   RekapReeksporKt::countFrekuensiByKomoditi(
+        $this->frekuensiKomoditiReekspor        =   ReeksporKt::countFrekuensiByKomoditi(
                                                         $this->routeParams
                                                     )->get();
 
-        $this->frekuensiKomoditiSerahTerima     =   RekapSerahTerimaKt::countFrekuensiByKomoditi(
+        $this->frekuensiKomoditiSerahTerima     =   SerahTerimaKt::countFrekuensiByKomoditi(
                                                         $this->routeParams
                                                     )->get();
 
@@ -176,17 +170,17 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
     {
         return  [
 
-            'dokel'         =>  RekapDokelKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
+            'dokel'         =>  DokelKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
-            'domas'         =>  RekapDomasKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
+            'domas'         =>  DomasKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
-            'ekspor'        =>  RekapEksporKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
+            'ekspor'        =>  EksporKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
-            'impor'         =>  RekapImporKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
+            'impor'         =>  ImporKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
-            'reekspor'      =>  RekapReeksporKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
+            'reekspor'      =>  ReeksporKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
-            'serahterima'   =>  RekapSerahTerimaKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
+            'serahterima'   =>  SerahTerimaKt::topFiveFrekuensiKomoditi($this->routeParams)->get(),
 
         ];
     }

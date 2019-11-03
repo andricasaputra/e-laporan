@@ -8,7 +8,7 @@ use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 trait QueryScopeGlobalTrait
 {
     //  Disable this trait if you're using shared hosting!
-    use Cachable;
+    //use Cachable;
 
     /*
     |--------------------------------------------------------------------------
@@ -143,7 +143,7 @@ trait QueryScopeGlobalTrait
      */
     public function scopeCountTotalPnbp($query, array $arguments)
     {
-        return  $query->selectRaw('sum(pnbp) as pnbp')  
+        return  $query->selectRaw('sum(total_pnbp) as pnbp')  
                       ->whereYear('bulan', $arguments[0])
                       ->when($arguments[1] && $arguments[1] != 'all', function ($query) use ($arguments) {
 

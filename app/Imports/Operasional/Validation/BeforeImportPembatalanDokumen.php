@@ -13,7 +13,7 @@ class BeforeImportPembatalanDokumen extends BeforeImport
      * Set awal kebutuhan property validator
      *
      * @param App\Contracts\Operasional\ModelOperasionalInterface $model
-     * @param Request $request
+     * @param Illuminate\Http\Request $request
      * @return void
      */
     public function __construct(Model $model, Request $request)

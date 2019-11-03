@@ -60,12 +60,10 @@ trait DataOperasionalKtTrait
 
                             }),
 
-            'pnbp'      =>  rp(
-                                $this->ktRepository->totalPnbp()->pnbpDomas +
-                                $this->ktRepository->totalPnbp()->pnbpDokel +
-                                $this->ktRepository->totalPnbp()->pnbpEkspor +
-                                $this->ktRepository->totalPnbp()->pnbpImpor
-                            ),
+            'pnbp'      =>  $this->ktRepository->totalPnbp()->pnbpDomas +
+                            $this->ktRepository->totalPnbp()->pnbpDokel +
+                            $this->ktRepository->totalPnbp()->pnbpEkspor +
+                            $this->ktRepository->totalPnbp()->pnbpImpor,
 
             'dokumen'   =>  $this->ktRepository->pemakaianDokumen(),
 

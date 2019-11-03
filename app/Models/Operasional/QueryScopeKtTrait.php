@@ -46,7 +46,7 @@ trait QueryScopeKtTrait
      */
     public function scopeCountVolume($query, array $arguments)
     {
-        $query->selectRaw('sum(volume) as volume, sat_netto')
+        $query->selectRaw('sum(volume_netto) as volume, sat_netto')
               ->whereNotNull('nama_komoditas')
               ->whereYear('bulan', $arguments[0]);
 
@@ -73,7 +73,7 @@ trait QueryScopeKtTrait
      */
     public function scopeCountFrekuensiByKomoditi($query, array $arguments)
     {
-        $query->selectRaw('year(bulan) as year, monthname(bulan) as bln, sum(frekuensi) as data')
+        $query->selectRaw('year(bulan) as year, monthname(bulan) as bln, count(*) as data')
               ->whereNotNull('nama_komoditas')
               ->whereYear('bulan', $arguments[0]);
 
@@ -93,6 +93,7 @@ trait QueryScopeKtTrait
     /**
      * Untuk menghitung rekapitulasi kegiatan dan grouping
      * berdasarkan nama komoditas dan bulan
+     * total frekuensi berdasarkan sertifikasi, bukan komoditas
      *
      * @param $query
      * @param array $arguments
@@ -100,9 +101,11 @@ trait QueryScopeKtTrait
      */
     public function scopeCountRekapitulasi($query, array $arguments)
     {   
-        $query->selectRaw(' *, sum(volume) as volume, sum(pnbp) as pnbp, sum(frekuensi) as frekuensi, nama_komoditas')   
+        $query->selectRaw(' *, sum(volume_netto) as volume, sum(total_pnbp) as pnbp, count(*) as frekuensi, nama_komoditas')   
               ->whereYear('bulan', $arguments[0])
-              ->whereNotNull('nama_komoditas');
+              ->whereNotNull('nama_komoditas')
+              ->where('no_permohonan', '!=', 'IDEM')
+              ->where('no_permohonan', '!=', '');
 
         $query->when($arguments[1] && $arguments[1] != 'all', function ($query) use ($arguments) {
 
@@ -114,7 +117,7 @@ trait QueryScopeKtTrait
 
         });
            
-        return $query->groupBy('nama_komoditas');
+        return $query->groupBy('nama_komoditas', 'sat_netto');
     }
 
     /**
@@ -126,7 +129,7 @@ trait QueryScopeKtTrait
      */
     public function scopeTopFiveFrekuensiKomoditi($query, array $arguments)
     {
-        $query->selectRaw('nama_komoditas as name, sum(frekuensi) as data')
+        $query->selectRaw('nama_komoditas as name, count(*) as data')
               ->whereNotNull('nama_komoditas') 
               ->whereYear('bulan', $arguments[0]);
 

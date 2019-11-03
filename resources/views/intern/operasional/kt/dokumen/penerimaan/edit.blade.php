@@ -43,6 +43,7 @@
         <form action="{{ route('kt.dokumen.penerimaan.update', $penerimaan->id) }}" method="post" class="form-loader">
 
             @csrf
+            @method('PUT')
 
             <input type="hidden" name="user_id" value="{{ $user->id }}">
 

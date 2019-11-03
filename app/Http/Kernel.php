@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            \Barryvdh\Cors\HandleCors::class,
             'throttle:60,1',
             'bindings',
         ],
@@ -64,5 +65,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\IsAdmin::class,
         'kt' => \App\Http\Middleware\IsKt::class,
         'kh' => \App\Http\Middleware\IsKh::class,
+        'cors' => \App\Http\Middleware\Cors::class,
     ];
 }

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadBillingRequest as Validation;
 use App\Models\Operasional\ReportBillingKh as SetorBilling;
-use App\Http\Requests\UploadOperasionalRequest as Validation;
 
 class ReportBillingKhController extends BaseReportBillingController
 {

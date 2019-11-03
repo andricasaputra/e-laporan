@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Models\User;
 use App\Events\UpdatePegawai;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Queue\InteractsWithQueue;
@@ -27,12 +28,15 @@ class UserAccountUpdate
      */
     public function handle(UpdatePegawai $event)
     {
-        $event->pegawai->user()->update([
-            'username' => $event->request->username,
-            'password' => Hash::make($event->request->password)
-        ]);
+        $user = User::wherePegawaiId($event->pegawai->id)->first();
 
-        $user = $event->pegawai->user;
+        $user->update([
+
+            'username' => $event->request->username,
+
+            'password' => Hash::make($event->request->password)
+
+        ]);
 
         /*update user wilker*/
         $user->wilker()->sync($event->request->wilker);

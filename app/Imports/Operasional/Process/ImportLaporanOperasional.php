@@ -19,7 +19,7 @@ class ImportLaporanOperasional extends ImportMaster implements ToCollection, Wit
      * Set kebutuhan upload property
      *
      * @param App\Contracts\Operasional\ModelOperasionalInterface $model
-     * @param Request $request
+     * @param Illuminate\Http\Request $request
      * @param Carbon $tanggalLaporan
      * @return void
      */
@@ -39,7 +39,7 @@ class ImportLaporanOperasional extends ImportMaster implements ToCollection, Wit
     /**
      * Method untuk menjalankan proses upload
      *
-     * @param Collection $row
+     * @param Illuminate\Support\Collection $row
      * @return void
      */
     public function collection(Collection $rows)
@@ -82,7 +82,7 @@ class ImportLaporanOperasional extends ImportMaster implements ToCollection, Wit
      * Menyiapkan data untuk proses upload, disini data akan 
      * kita custom untuk keperluan insert/update ke database
      *
-     * @param array $rows
+     * @param Illuminate\Support\Collection $rows
      * @return Illuminate\Support\Collection
      */
     private function prepareDatas(Collection $rows)
@@ -172,7 +172,8 @@ class ImportLaporanOperasional extends ImportMaster implements ToCollection, Wit
 	/**
      * Method delegasi untuk menjalankan proses upload yang file
      *
-     * @return bool|void
+     * @param Illuminate\Support\Collection $datas
+     * @return void
      */
     private function runProcessUpload(Collection $datas)
     {

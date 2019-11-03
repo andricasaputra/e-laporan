@@ -14,7 +14,7 @@ class BeforeImportReportBilling extends BeforeImport
      * Set awal kebutuhan property validator
      *
      * @param App\Contracts\Operasional\ModelOperasionalInterface $model
-     * @param Request $request
+     * @param Illuminate\Http\Request $request
      * @return void
      */
     public function __construct(Model $model, Request $request)
@@ -71,9 +71,9 @@ class BeforeImportReportBilling extends BeforeImport
         // Ambil Bulan Dan Tahun Pada Laporan Di Row 3
         $tanggal = explode('s/d', strtolower($this->tanggalLaporan));
 
-        $dari    = Carbon::parse(trim(str_ireplace('periode :', '', $tanggal[0])));
+        $dari    = Carbon::parse(trim(str_replace('periode :', '', $tanggal[0])));
 
-        $sampai  = Carbon::parse(trim($tanggal[1]));
+        $sampai  = Carbon::parse(trim(str_replace(';', '', $tanggal[1])));
 
         $this->tanggalLaporan  = $dari->startOfMonth();
 
