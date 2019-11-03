@@ -41,21 +41,12 @@ class SurveyPageComposer
     {
         view()->composer('ikm.survey', function ($view){
 
-<<<<<<< HEAD
             $umur       = Umur::all();
             $layanan    = Layanan::all();
             $pekerjaan  = Pekerjaan::all();
             $pendidikan = Pendidikan::all();
             $is_open    = Jadwal::active()->first();
             $questions  = Question::with('answer')->get();
-=======
-            $is_open    = Jadwal::active()->first();
-            $questions  = Question::with('answer')->get();
-            $layanan    = Layanan::all();
-            $umur       = Umur::all();
-            $pendidikan = Pendidikan::all();
-            $pekerjaan  = Pekerjaan::all();
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
             $view->with(compact('is_open', 'questions', 'layanan', 'umur', 'pendidikan', 'pekerjaan'));
             
@@ -72,13 +63,8 @@ class SurveyPageComposer
     {
         view()->composer('ikm.cetak', function ($view) use ($responden) {
 
-<<<<<<< HEAD
             $answers         = $responden->answer;
             $question_answer = Question::with('question_answer')->get();
-=======
-            $answers            = $responden->answer;
-            $question_answer    = Question::with('question_answer')->get();
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
             $view->with(compact('responden', 'answers', 'question_answer'));
             

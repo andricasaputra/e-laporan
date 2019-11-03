@@ -6,19 +6,11 @@ use App\Models\Wilker;
 use Illuminate\Http\Request;
 use App\Models\MasterPegawai;
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
 use App\Traits\Operasional\TableOperasionalHeader;
 
 class DownloadController extends Controller
 {
     use TableOperasionalHeader;
-=======
-use App\Traits\TableOperasionalProperty;
-
-class DownloadController extends Controller
-{
-    use TableOperasionalProperty;
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
     /**
      * Menyimpan Instance repository yang dipakai

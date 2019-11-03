@@ -100,33 +100,14 @@
 
                     <div class="col-md-6">
 
-<<<<<<< HEAD
                             <select class="form-control" name="golongan_id">
 
                                 <option value="{{ $user->golongan->id }}">{{ $user->golongan->pangkat }} - {{ $user->golongan->golongan }}</option>
-=======
-                        @if(count($user->golongan) > 0)
-
-                            <select class="form-control" name="golongan_id">
-
-                                <option value="" selected>Pilih Golongan</option>
-
-                                @foreach($golongan as $g)
-
-                                    <option value="{{$g->id}}">{{$g->pangkat}} - {{$g->golongan}}</option>
-
-                                @endforeach
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
                                 <option value=""></option>
 
                             </select>
 
-<<<<<<< HEAD
-=======
-                        @endif
-
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
                         @if ($errors->has('pangkat'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('pangkat') }}</strong>
@@ -140,7 +121,6 @@
                     <label for="jabatan" class="col-md-4 col-form-label text-md-right">Jabatan</label>
 
                     <div class="col-md-6">
-<<<<<<< HEAD
 
                         <select class="form-control" name="jabatan_id">
 
@@ -149,27 +129,6 @@
                             <option value=""></option>      
 
                         </select>
-=======
-                        @if(count($user->jabatan) > 0)
-
-                            <select class="form-control" name="jabatan_id">
-
-                                <option value="{{ $user->jabatan->first()->id }}" selected>
-                                    {{ $user->jabatan->first()->jabatan }}
-                                </option>
-
-                                @foreach($jabatan as $j)
-
-                                    <option value="{{$j->id}}">{{$j->jabatan}}</option>
-
-                                @endforeach
-
-                                <option value=""></option>      
-
-                            </select>
-
-                        @endif
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
                         @if ($errors->has('jabatan'))
                             <span class="invalid-feedback" role="alert">
@@ -184,7 +143,6 @@
 
                     <div class="col-md-6">
                         <select class="form-control" name="jenis_karantina">
-<<<<<<< HEAD
                             
                             <option value="{{ $user->pegawai->jenis_karantina }}"> 
 
@@ -202,12 +160,6 @@
                                         {{ '' }}
                                         @break
                                 @endswitch
-=======
-
-                            <option value="{{ $user->pegawai->jenis_karantina }}"> 
-
-                                {{ $user->pegawai->jenis_karantina }} 
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
                             </option>
 

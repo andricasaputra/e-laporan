@@ -44,13 +44,9 @@ class DokumenRepository
      * Untuk set semua property yang ada di class ini 
      * -> dipanggil pada constructor class HomeKtController atau HomeKhController
      *
-<<<<<<< HEAD
      * @param int|null $year
      * @param int|null $month
      * @param int|null $wilkerId
-=======
-     * @param  $year, $month, $wilkerId
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      * @return void 
      */
     public function __construct($year = null, $month = null, $wilkerId = null)
@@ -73,11 +69,7 @@ class DokumenRepository
 	/**
      * Untuk mendapatkan penerimaan dokumen berdasarkan nama dokumen KT
      *
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array|collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
 	public function penerimaanTableKt()
 	{
@@ -87,11 +79,7 @@ class DokumenRepository
 	/**
      * Untuk mendapatkan penerimaan dokumen berdasarkan nama dokumen KH
      *
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array|collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
 	public function penerimaanTableKh()
 	{
@@ -101,11 +89,7 @@ class DokumenRepository
 	/**
      * Untuk mendapatkan pembatalan dokumen
      *
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array|collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
 	public function pembatalanTableKt()
 	{
@@ -115,11 +99,7 @@ class DokumenRepository
 	/**
      * Untuk mendapatkan pembatalan dokumen
      *
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array|collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
 	public function pembatalanTableKh()
 	{
@@ -174,11 +154,7 @@ class DokumenRepository
 
 				}, function($item, $key){
 
-<<<<<<< HEAD
 					return [$item->wilker->getOriginal('nama_wilker')];
-=======
-					return [$item->wilker['nama_wilker']];
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 				}])->map(function($items){
 
@@ -191,11 +167,7 @@ class DokumenRepository
 								'total' 	=> (int) $item->total,
 								'no_seri' 	=> $item->no_seri,
 								'dokumen' 	=> null === $item->dokumen ?: str_replace('-', '', $item->dokumen->dokumen),
-<<<<<<< HEAD
 								'wilker' 	=> null === $item->wilker ?: $item->wilker->getOriginal('nama_wilker'),
-=======
-								'wilker' 	=> null === $item->wilker ?: $item->wilker->nama_wilker,
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 							];
 
@@ -220,11 +192,7 @@ class DokumenRepository
 
 				}, function($item, $key){
 
-<<<<<<< HEAD
 					return [$item->wilker->getOriginal('nama_wilker')];
-=======
-					return [$item->wilker['nama_wilker']];
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 				}])->map(function($items){
 
@@ -237,11 +205,7 @@ class DokumenRepository
 								'total' 	=> (int) $item->total,
 								'no_seri' 	=> $item->no_seri,
 								'dokumen' 	=> null === $item->dokumen ?: str_replace('-', '', $item->dokumen->dokumen),
-<<<<<<< HEAD
 								'wilker' 	=> null === $item->wilker ?: $item->wilker->getOriginal('nama_wilker'),
-=======
-								'wilker' 	=> null === $item->wilker ?: $item->wilker->nama_wilker,
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 							];
 
@@ -267,11 +231,7 @@ class DokumenRepository
 
 				}, function($item, $key){
 
-<<<<<<< HEAD
 					return [$item->wilker->getOriginal('nama_wilker')];
-=======
-					return [$item->wilker['nama_wilker']];
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 				}])->map(function($items){
 
@@ -284,11 +244,7 @@ class DokumenRepository
 								'total' 	=> (int) $item->total,
 								'no_seri' 	=> $item->no_seri,
 								'dokumen' 	=> null === $item->dokumen ?: str_replace('-', '', $item->dokumen->dokumen),
-<<<<<<< HEAD
 								'wilker' 	=> null === $item->wilker ?: $item->wilker->getOriginal('nama_wilker'),
-=======
-								'wilker' 	=> null === $item->wilker ?: $item->wilker->nama_wilker,
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 							];
 
@@ -314,11 +270,7 @@ class DokumenRepository
 
 				}, function($item, $key){
 
-<<<<<<< HEAD
 					return [$item->wilker->getOriginal('nama_wilker')];
-=======
-					return [$item->wilker['nama_wilker']];
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 				}])->map(function($items){
 
@@ -331,11 +283,7 @@ class DokumenRepository
 								'total' 	=> (int) $item->total,
 								'no_seri' 	=> $item->no_seri,
 								'dokumen' 	=> null === $item->dokumen ?: str_replace('-', '', $item->dokumen->dokumen),
-<<<<<<< HEAD
 								'wilker' 	=> null === $item->wilker ?: $item->wilker->getOriginal('nama_wilker'),
-=======
-								'wilker' 	=> null === $item->wilker ?: $item->wilker->nama_wilker,
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 							];
 
@@ -350,11 +298,7 @@ class DokumenRepository
      * Modify data pemakaian dokumen KT
      * group berdasarkan dokumen, wilker, kemudian modif beberapa propertinya
      *
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
 	public function transformPemakaianDokumenKt()
 	{
@@ -365,11 +309,7 @@ class DokumenRepository
 
 				}, function($item, $key){
 
-<<<<<<< HEAD
 					return [$item->wilker->getOriginal('nama_wilker')];
-=======
-					return [$item->wilker['nama_wilker']];
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 				}])->map(function($item){
 
@@ -402,11 +342,7 @@ class DokumenRepository
 
 				}, function($item, $key){
 
-<<<<<<< HEAD
 					return [$item->wilker->getOriginal('nama_wilker')];
-=======
-					return [$item->wilker['nama_wilker']];
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 				}])->map(function($item){
 
@@ -430,10 +366,7 @@ class DokumenRepository
      * apabila total dokumen hanya satu, maka hilangkan "-", ex : 12345-12345 -> 12345
      * apabila lebih dari satu maka concat dari yang terkecil - terbesar saja
      *
-<<<<<<< HEAD
      * @param string $item
-=======
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      * @return string
      */
 	public function setNoSeriPemakaian($item)

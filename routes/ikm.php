@@ -5,7 +5,6 @@ Route::prefix('admin')->group(function () {
 	Route::get('home/{tahun?}', 'HomeController@index')
 	->name('intern.ikm.home.index');
 
-<<<<<<< HEAD
 	Route::prefix('ikm')->group(function(){
 
 		Route::get('show/{responden}/{tahun?}', 'HomeController@show')
@@ -24,22 +23,6 @@ Route::prefix('admin')->group(function () {
 		->name('intern.ikm.statistik.cetak');
 
 	});
-=======
-	Route::get('ikm/show/{responden}/{tahun?}', 'HomeController@show')
-	->name('intern.ikm.home.show');
-
-	Route::get('ikm/cetak_multiple/{ikmId}', 'HomeController@cetakMultiple')
-	->name('intern.ikm.home.masscetak');
-
-	Route::get('ikm/statistik/{id?}', 'StatistikController@index')
-	->name('intern.ikm.statistik.index');
-
-	Route::get('ikm/grafik/{id?}', 'GrafikController@index')
-	->name('intern.ikm.grafik.index');
-
-	Route::get('ikm/statistik/cetak/{id}', 'StatistikController@cetakRekap')
-	->name('intern.ikm.statistik.cetak');
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 	Route::middleware('admin')->group(function () {
 

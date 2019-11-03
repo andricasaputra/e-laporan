@@ -12,21 +12,12 @@ class MasterPegawai extends Model
 
     public function getIsActiveAttribute($value)
     {
-<<<<<<< HEAD
         return (int) $value === 1 ? 'Pegawai Aktif' : 'Pensiun/Mutasi';
-=======
-        return  $value === 1 || $value === "1"
-                ? 'Pegawai Aktif' : 'Pensiun/Mutasi';
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 
     public function user()
     {
-<<<<<<< HEAD
         return $this->hasOne(User::class, 'pegawai_id');
-=======
-        return $this->belongsTo(User::class, 'pegawai_id');
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 
     public function golongan()
@@ -41,10 +32,6 @@ class MasterPegawai extends Model
 
     public function profile()
     {
-<<<<<<< HEAD
         return $this->hasOne(Profile::class, 'master_pegawai_id');
-=======
-        return $this->belongsTo(Profile::class, 'master_pegawai_id');
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 }

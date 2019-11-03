@@ -22,11 +22,7 @@ class IsAdmin
             if ($cek  === 1 || $cek  === 2 || $cek  === 3) return $next($request);
                 
             return redirect(route('welcome'))
-<<<<<<< HEAD
                     ->withWarning('Maaf anda tidak mempunyai hak akses ke halaman ini!');
-=======
-                    ->withWarning('Maaf anda tidak mempunyai hak akses ke halaman ini');
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
         }
          

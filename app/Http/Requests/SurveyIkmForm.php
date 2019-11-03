@@ -36,14 +36,11 @@ class SurveyIkmForm extends FormRequest
 
     }
 
-<<<<<<< HEAD
     /**
      * Insert survey baru ke dalam database
      *
      * @return object
      */
-=======
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     public function persistCreate()
     {
         $responden = Responden::create(

@@ -21,11 +21,7 @@ class IsSuperAdmin
 
             if ($cek === 1) return $next($request);
 
-<<<<<<< HEAD
             return back()->withWarning('Maaf anda tidak mempunyai hak akses ke halaman ini!');
-=======
-            return back()->withWarning('Anda Tidak Mempunyai Hak Akses Ke Halaman Ini!');
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
         }
          

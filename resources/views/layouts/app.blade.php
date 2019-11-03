@@ -18,11 +18,7 @@
 
   <title>@yield('title', 'Survey Indeks Kepuasan Masyarakat')</title>
 
-<<<<<<< HEAD
   <link rel="manifest" href="{{ asset('manifest-e-ikm.json') }}">
-=======
-  <link rel="manifest" href="{{ asset('manifest.json') }}">
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
   <link rel="icon" type="image/png" href="{{ asset('images/favicon-32x32.png') }}" sizes="32x32">
   <link rel="icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">
   <link rel="apple-touch-icon" type="image/png" sizes="48x48" href="{{ asset('images/web-sumbawa1x.png') }}">

@@ -16,7 +16,6 @@ class DataPembatalanDokumenEvent implements NotificationsEventInterface
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-<<<<<<< HEAD
     /**
      * Untuk menyimpan wilker dan digunakan sebagai notifikasi 
      *
@@ -59,9 +58,6 @@ class DataPembatalanDokumenEvent implements NotificationsEventInterface
      * @var string 
      */
     public $table;
-=======
-    public $wilker, $message, $users, $tanggal, $link, $table;
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
     /**
      * Create a new event instance.
@@ -77,17 +73,10 @@ class DataPembatalanDokumenEvent implements NotificationsEventInterface
         $this->link     = $data->linkNotify;
         $this->table    = $data->table;
 
-<<<<<<< HEAD
         // Fire log operasional event
         event( new LogInfoOperasionalEvent($this) );
 
         // Fire main notifications event
-=======
-        /*Fire log operasional event*/
-        event( new LogInfoOperasionalEvent($this) );
-
-        /*Fire main notifications event*/
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         event( new MainNotificationsEvent(new Notifications(), $this) );
     }
 

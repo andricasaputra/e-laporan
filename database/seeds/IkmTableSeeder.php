@@ -1,9 +1,6 @@
 <?php
 
-<<<<<<< HEAD
 use Carbon\Carbon;
-=======
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +13,6 @@ class IkmTableSeeder extends Seeder
      */
     public function run()
     {
-<<<<<<< HEAD
     	$now       =  Carbon::now();
 
     	$start1    =  Carbon::create(null, 01, 01);
@@ -26,17 +22,6 @@ class IkmTableSeeder extends Seeder
     	$start2    =  Carbon::create(null, 07, 01);
 
     	$end2      =  Carbon::create(null, 12, 31);
-=======
-    	$now       = \Carbon::now();
-
-    	$start1    = \Carbon::create(null, 01, 01);
-
-    	$end1      = \Carbon::create(null, 06, 30);
-
-    	$start2    = \Carbon::create(null, 07, 01);
-
-    	$end2      = \Carbon::create(null, 12, 31);
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 		$is_open1  =  $now->between($start1, $end1) ? 1 : NULL;
 

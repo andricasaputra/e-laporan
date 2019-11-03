@@ -6,11 +6,8 @@ namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
 use App\Traits\Operasional\DataOperasionalKhTrait;
 use App\Traits\Operasional\DataOperasionalKtTrait;
-=======
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 use App\Repositories\Operasional\DataOperasionalKhRepository as KhRepository;
 use App\Repositories\Operasional\DataOperasionalKtRepository as KtRepository;
 
@@ -21,22 +18,14 @@ class HomeController extends Controller
     /**
      * Untuk menyimpan instance dari object repository KH
      *
-<<<<<<< HEAD
      * @var App\Repositories\Operasional\DataOperasionalKhRepository
-=======
-     * @var ObjectRepository
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     private $khRepository;
 
     /**
      * Untuk menyimpan instance dari object repository KT
      *
-<<<<<<< HEAD
      * @var App\Repositories\Operasional\DataOperasionalKtRepository
-=======
-     * @var ObjectRepository
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     private $ktRepository;
 
@@ -50,31 +39,19 @@ class HomeController extends Controller
     /**
      * Untuk menyimpan parameter bulan dari url
      *
-<<<<<<< HEAD
      * @var int|null
-=======
-     * @var int / nullable
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     private $month = null;
 
     /**
      * Untuk menyimpan parameter wilker_id dari url
      *
-<<<<<<< HEAD
      * @var int|null
-=======
-     * @var int / nullable
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     private $wilker_id = null;
 
     /**
-<<<<<<< HEAD
      * Untuk menyatukan semua parameter yang dibutuhkan oleh route
-=======
-     * Untuk menyatukan semua parameter yang dibutuhkan oleh route menjadi 1
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      *
      * @var array
      */
@@ -83,13 +60,7 @@ class HomeController extends Controller
     /**
      * Init repository and request for this class
      *
-<<<<<<< HEAD
      * @param \Illuminate\Http\Request $request
-=======
-     * @param KhRepository $khRepository
-     * @param KtRepository $ktRepository
-     * @param Request $request
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      * @return void
      */
     public function __construct(Request $request)
@@ -110,11 +81,7 @@ class HomeController extends Controller
     /**
      * Untuk tampilan utama pada dashboard
      *
-<<<<<<< HEAD
      * @return \Illuminate\Http\Response
-=======
-     * @return void
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function dashboard()
     {

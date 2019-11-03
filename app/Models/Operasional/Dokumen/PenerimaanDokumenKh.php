@@ -2,10 +2,7 @@
 
 namespace App\Models\Operasional\Dokumen;
 
-<<<<<<< HEAD
 use Carbon\Carbon;
-=======
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 use Illuminate\Database\Eloquent\Model;
 
 class PenerimaanDokumenKh extends Model
@@ -87,11 +84,7 @@ class PenerimaanDokumenKh extends Model
         /*
         * init carbon set tanggal
         */
-<<<<<<< HEAD
         $date   = Carbon::createFromDate((int) $year, $month == 'all' ? null : (int) $month, 1);
-=======
-        $date   = \Carbon::createFromDate((int) $year, $month == 'all' ? null : (int) $month, 1);
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
         /*
         * untuk menghitung dari awal tahun pemakaian

@@ -46,17 +46,10 @@
   <h4>
     Rekapitulasi Data Operasional Karantina Tumbuhan 
     {{ $datas['bulan'] == 'all' 
-<<<<<<< HEAD
         ? '' 
         : 'Bulan ' . bulan($datas['bulan']) }} 
     Tahun {{ $datas['tahun'] }}
     {{ $datas['wilker'] === null ? 'Semua Wilker' : $datas['wilker']->getOriginal('nama_wilker') }}
-=======
-        ? 'Semua Bulan' 
-        : 'Bulan ' . bulan($datas['bulan']) }} 
-    Tahun {{ $datas['tahun'] }}
-    {{ $datas['wilker'] }}
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
   </h4>
 
 @else
@@ -116,7 +109,6 @@
 
         @foreach($wilkers as $wilker)
 
-<<<<<<< HEAD
           @if(isset($datas['wilker']) && $datas['wilker']->getOriginal('nama_wilker') == $wilker->getOriginal('nama_wilker'))
 
           <option value="{{ $wilker->id }}" selected>{{ $wilker->getOriginal('nama_wilker') }}</option>
@@ -124,15 +116,6 @@
           @else
 
           <option value="{{ $wilker->id }}">{{ $wilker->getOriginal('nama_wilker') }}</option>
-=======
-          @if(isset($datas['wilker']) && $datas['wilker'] == $wilker->nama_wilker)
-
-          <option value="{{ $wilker->id }}" selected>{{ $wilker->nama_wilker }}</option>
-
-          @else
-
-          <option value="{{ $wilker->id }}">{{ $wilker->nama_wilker }}</option>
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
           @endif
           

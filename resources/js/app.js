@@ -10,7 +10,6 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 /**
-<<<<<<< HEAD
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".
@@ -24,18 +23,11 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
-=======
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-<<<<<<< HEAD
-=======
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 const app = new Vue({
     el: '#app'
 });

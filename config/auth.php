@@ -36,10 +36,6 @@ return [
     */
 
     'guards' => [
-<<<<<<< HEAD
-=======
-
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -48,10 +44,7 @@ return [
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
-<<<<<<< HEAD
             'hash' => false,
-=======
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         ],
     ],
 
@@ -73,10 +66,6 @@ return [
     */
 
     'providers' => [
-<<<<<<< HEAD
-=======
-
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
@@ -104,19 +93,11 @@ return [
     */
 
     'passwords' => [
-<<<<<<< HEAD
-=======
-        
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
         ],
-<<<<<<< HEAD
-=======
-
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     ],
 
 ];

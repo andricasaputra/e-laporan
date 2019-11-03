@@ -26,21 +26,13 @@ class UserForm extends FormRequest
      */
     public function rules()
     {
-<<<<<<< HEAD
         if (is_null($this->route('masterPegawai'))) {
-=======
-        if (is_null($this->masterPegawai)) {
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
             $this->uniqueRules = 'required|string|max:255|unique:users,username';
             
         } else {
 
-<<<<<<< HEAD
             $this->uniqueRules = 'required|string|max:255|unique:users,username,' .$this->route('masterPegawai')->id. ',id';
-=======
-            $this->uniqueRules = 'required|string|max:255|unique:users,username,' .$this->masterPegawai->id. ',id';
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
         }
 
@@ -56,7 +48,6 @@ class UserForm extends FormRequest
         ]; 
     }
 
-<<<<<<< HEAD
      /**
      * Insert user baru kedalam database
      *
@@ -65,16 +56,10 @@ class UserForm extends FormRequest
     public function persistCreate()
     {
         $masterPegawai = Master::create(
-=======
-    public function persistCreate()
-    {
-        Master::create(
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
             $this->only(['nama', 'nip', 'jenis_karantina', 'golongan_id', 'jabatan_id'])
 
         );
-<<<<<<< HEAD
 
         return $masterPegawai;
     }
@@ -84,10 +69,6 @@ class UserForm extends FormRequest
      *
      * @return void
      */
-=======
-    }
-
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     public function persistUpdate(Master $masterPegawai)
     {
         $masterPegawai->update(

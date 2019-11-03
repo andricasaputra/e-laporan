@@ -3,10 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-<<<<<<< HEAD
 use App\Repositories\Operasional\Upload\UploadValidator;
-=======
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 class UploadOperasionalRequest extends FormRequest
 {

@@ -23,19 +23,11 @@ class LaporanOperasionalKhController extends DownloadController
      *
      * @return void
      */
-<<<<<<< HEAD
   	public function __construct(Request $request)
   	{
   		parent::__construct($request);
 
         $this->repository = new Repository($request);
-=======
-  	public function __construct(Repository $repository, Request $request)
-  	{
-  		parent::__construct($request);
-
-        $this->repository = new $repository($this->year, $this->month, $this->wilker_id);
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
   	}
 
     /**
@@ -109,11 +101,7 @@ class LaporanOperasionalKhController extends DownloadController
         return [
 
           'headers'       => $this->tableHeaderLaporanOperasionalKh(),
-<<<<<<< HEAD
           'bodies'        => $this->model::laporanOperasional([$this->year, $this->month, $this->wilker_id]),
-=======
-          'bodies'        => $this->model::laporanOperasional($this->year, $this->month, $this->wilker_id),
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
           'permohonan'    => $this->getPermohonanFullName($permohonan),
           'bulan'         => $this->getMonth(),
           'tahun'         => $this->year,

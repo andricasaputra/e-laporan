@@ -69,11 +69,7 @@ trait QueryScopeKtTrait
      *
      * @param $query
      * @param array $params
-<<<<<<< HEAD
      * @return Illuminate\Support\Collection
-=======
-     * @return collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function scopeCountFrekuensiByKomoditi($query, array $params)
     {
@@ -100,20 +96,11 @@ trait QueryScopeKtTrait
      *
      * @param $query
      * @param array $params
-<<<<<<< HEAD
      * @return Illuminate\Support\Collection
      */
     public function scopeCountRekapitulasi($query, array $params)
     {   
         $query->selectRaw(' *, sum(volume) as volume, sum(pnbp) as pnbp, sum(frekuensi) as frekuensi, nama_komoditas')   
-=======
-     * @return collections
-     */
-    public function scopeCountRekapitulasi($query, array $params)
-    {   
-        $query->selectRaw(' *, sum(volume) as volume, sum(pnbp) as pnbp, sum(frekuensi) as frekuensi')
-              ->whereNotNull('nama_komoditas')
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
               ->whereYear('bulan', $params[0]);
 
         $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
@@ -134,11 +121,7 @@ trait QueryScopeKtTrait
      *
      * @param $query
      * @param array $params
-<<<<<<< HEAD
      * @return Illuminate\Support\Collection
-=======
-     * @return collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function scopeTopFiveFrekuensiKomoditi($query, array $params)
     {
@@ -163,11 +146,7 @@ trait QueryScopeKtTrait
      * Mencari kota asal dan tujuan berdasarkan nama jenis MP, tahun, bulan dan wilker
      *
      * @param Request $request
-<<<<<<< HEAD
      * @return Illuminate\Support\Collection
-=======
-     * @return collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function scopeGetDetailKotaByKomoditi($query, Request $request)
     {
@@ -215,11 +194,7 @@ trait QueryScopeKtTrait
      *
      * @param $query
      * @param array $params
-<<<<<<< HEAD
      * @return Illuminate\Support\Collection
-=======
-     * @return collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function scopeLaporanOperasional($query, array $params)
     {
@@ -280,11 +255,7 @@ trait QueryScopeKtTrait
      *
      * @param $query
      * @param array $params
-<<<<<<< HEAD
      * @return Illuminate\Support\Collection
-=======
-     * @return collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function scopeLaporanRekapitulasiKomoditi($query, array $params)
     {

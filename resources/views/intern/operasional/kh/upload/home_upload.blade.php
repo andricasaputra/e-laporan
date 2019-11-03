@@ -213,11 +213,7 @@
 
             @foreach($wilkers as $wilker)
 
-<<<<<<< HEAD
               <option value="{{ $wilker->id }}">{{ $wilker->getOriginal('nama_wilker') }}</option>
-=======
-              <option value="{{ $wilker['id'] }}">{{ $wilker['nama_wilker'] }}</option>
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
             @endforeach
           
@@ -312,11 +308,7 @@
         </button>
       </div>
       <div class="modal-body text-center">
-<<<<<<< HEAD
         <h4>Apakah Anda Yakin Ingin Menarik Kembali Laporan Ini?</h4><br>
-=======
-        <h4>Apakah Anda Yakin Ingin Menarik Data Ini?</h4><br>
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         <form action="{{ route('rollback.operasional.kh', 'delete') }}" method="post">
 
           @csrf
@@ -357,11 +349,7 @@
       { "data" : "DT_Row_Index", orderable: false, searchable: false},
       { "data" : "type" },
       { "data" : "bulan" },
-<<<<<<< HEAD
       { "data" : "wilker.original_nama_wilker" },
-=======
-      { "data" : "wilker.nama_wilker" },
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
       { "data" : "rolledbackAtStatus"},
       { "data" : "created_at" },
       { "data" : "action" , orderable: false, searchable: false}

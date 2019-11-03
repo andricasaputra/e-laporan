@@ -2,16 +2,10 @@
 
 namespace App\Models\Operasional;
 
-<<<<<<< HEAD
 use Carbon\Carbon;
 use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\Operasional\ModelReportBillingInterface;
-=======
-use App\Models\Wilker;
-use Illuminate\Database\Eloquent\Model;
-use App\Contracts\ModelReportBillingInterface;
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 class ReportBillingKh extends Model implements ModelReportBillingInterface
 {
@@ -35,11 +29,7 @@ class ReportBillingKh extends Model implements ModelReportBillingInterface
      *
      * @var string
      */
-<<<<<<< HEAD
     public $permohonan  = 'billing';
-=======
-    public $permohonan  = 'setor billing';
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
     /**
      * Untuk alias dari jenis karantina
@@ -56,11 +46,7 @@ class ReportBillingKh extends Model implements ModelReportBillingInterface
      */
     public function getBulanAttribute($value)
     {
-<<<<<<< HEAD
         return Carbon::parse($value)->format('d-m-Y');
-=======
-        return \Carbon::parse($value)->format('d-m-Y');
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 
     /**
@@ -70,11 +56,7 @@ class ReportBillingKh extends Model implements ModelReportBillingInterface
      */
     public function getTglBillingAttribute($value)
     {
-<<<<<<< HEAD
         return Carbon::parse(str_replace("'", "", $value))->format('d-m-Y');
-=======
-        return \Carbon::parse(str_replace("'", "", $value))->format('d-m-Y');
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 
     /**
@@ -84,11 +66,7 @@ class ReportBillingKh extends Model implements ModelReportBillingInterface
      */
     public function getTglKwitansiAttribute($value)
     {
-<<<<<<< HEAD
         return Carbon::parse(str_replace("'", "", $value))->format('d-m-Y h:i:s');
-=======
-        return \Carbon::parse(str_replace("'", "", $value))->format('d-m-Y h:i:s');
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 
     /**
@@ -98,11 +76,7 @@ class ReportBillingKh extends Model implements ModelReportBillingInterface
      */
     public function getTglBayarAttribute($value)
     {
-<<<<<<< HEAD
         return Carbon::parse(str_replace("'", "", $value))->format('d-m-Y h:i:s');
-=======
-        return \Carbon::parse(str_replace("'", "", $value))->format('d-m-Y h:i:s');
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 
     /**

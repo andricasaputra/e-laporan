@@ -23,11 +23,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-<<<<<<< HEAD
-=======
-        //
-
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         parent::boot();
     }
 
@@ -50,17 +45,9 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapOperasionalKtRoutes();
 
-<<<<<<< HEAD
         $this->mapNotificationsRoutes();
 
         $this->mapApplicationManagementRoutes();
-=======
-        $this->mapAplicationManagementRoutes();
-
-        $this->mapNotificationsRoutes();
-
-        //
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 
     /**
@@ -153,11 +140,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-<<<<<<< HEAD
     protected function mapApplicationManagementRoutes()
-=======
-    protected function mapAplicationManagementRoutes()
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     {
         Route::middleware('web', 'admin')
              ->prefix('intern')

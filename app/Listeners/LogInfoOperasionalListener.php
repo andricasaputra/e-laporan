@@ -28,13 +28,9 @@ class LogInfoOperasionalListener
      */
     public function handle(LogInfoOperasionalEvent $event)
     {
-<<<<<<< HEAD
         $namaWilker = $event->wilker->getOriginal('nama_wilker');
 
         $wilker     = Wilker::whereNamaWilker($namaWilker)->first();
-=======
-        $wilker = Wilker::whereNamaWilker($event->wilker->nama_wilker)->first();
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
         LogInfo::create([
 

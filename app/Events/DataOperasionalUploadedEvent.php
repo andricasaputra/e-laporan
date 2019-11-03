@@ -16,7 +16,6 @@ class DataOperasionalUploadedEvent implements NotificationsEventInterface
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-<<<<<<< HEAD
     /**
      * Untuk menyimpan wilker dan digunakan sebagai notifikasi 
      *
@@ -59,9 +58,6 @@ class DataOperasionalUploadedEvent implements NotificationsEventInterface
      * @var string 
      */
     public $table;
-=======
-    public $wilker, $message, $users, $tanggal, $link, $table;
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
     /**
      * Create a new event instance.

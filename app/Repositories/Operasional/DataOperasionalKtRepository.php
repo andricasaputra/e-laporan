@@ -2,10 +2,7 @@
 
 namespace App\Repositories\Operasional;
 
-<<<<<<< HEAD
 use Carbon\Carbon;
-=======
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 use App\Models\Operasional\LogInfo;
 use App\Models\Operasional\DokelKt;
 use App\Models\Operasional\DomasKt;
@@ -31,11 +28,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * (bukan jumlah frekuensi komoditas)
      * memakai scope local pada Model
      *
-<<<<<<< HEAD
      * @return void
-=======
-     * @return array
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function totalFrekuensiPerKegiatan()
     {
@@ -83,11 +76,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * Mengatur total rekapitulasi frekuensi, volume, pnbp berdasakan komoditi
      * memakai scope local pada Model
      *
-<<<<<<< HEAD
      * @return void
-=======
-     * @return this
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function totalRekapitulasi()
     {
@@ -181,11 +170,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * Mengatur Top Five Komoditi Berdasarkan Frekuensi
      * memakai local scope pada model
      *
-<<<<<<< HEAD
      * @return array
-=======
-     * @return void
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function topFiveFrekuensiKomoditiKt()
     {
@@ -210,11 +195,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * Mengatur Total Penerimaan Dokumen semua kegiatan
      * memakai local scope pada model
      *
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return void
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function penerimaanDokumen($excel = false)
     {
@@ -226,11 +207,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * memakai local scope pada model
      *
      * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function penerimaanDokumenBulanLalu($excel = true)
     {
@@ -243,11 +220,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * Mengatur Total Pemakaian Dokumen semua kegiatan
      * memakai local scope pada model
      *
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function totalPenerimaanDokumen()
     {
@@ -259,11 +232,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * memakai local scope pada model
      *
      * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function pemakaianDokumen($excel = false)
     {
@@ -275,11 +244,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * memakai local scope pada model
      *
      * @param bool $excel -> untuk pemakaian pada laporan excel, default false = tidak untuk excel
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function pemakaianDokumenBulanLalu($excel = false)
     {
@@ -292,11 +257,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * Mengatur Total Pemakaian Dokumen semua kegiatan
      * memakai local scope pada model
      *
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function totalPemakaianDokumen()
     {
@@ -307,11 +268,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * Mengatur Total Pembatalan Dokumen semua kegiatan
      * memakai local scope pada model
      *
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return void
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function pembatalanDokumen()
     {
@@ -323,17 +280,12 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
     /**
      * Atur bulan lalu untuk keperluan penerimaan dokumen
      *
-<<<<<<< HEAD
      * @return mixed
-=======
-     * @return array
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     private function bulanLalu()
     {
         if ($this->month == 'all') {
 
-<<<<<<< HEAD
             $lastMonth = Carbon::parse($this->year)->subMonth()->month;
 
             $year      = Carbon::parse($this->year)->subYear()->year;
@@ -345,19 +297,6 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
             if ($this->month == 1) {
 
                 $year  = Carbon::parse($this->year .'-'. $this->month)->subYear()->year;
-=======
-            $lastMonth = \Carbon::parse($this->year)->subMonth()->month;
-
-            $year      = \Carbon::parse($this->year)->subYear()->year;
-
-        } else {
-
-            $lastMonth = \Carbon::parse($this->year .'-'. $this->month)->subMonth()->month;
-
-            if ($this->month == 1) {
-
-                $year  = \Carbon::parse($this->year .'-'. $this->month)->subYear()->year;
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
             } else {
 
@@ -379,15 +318,10 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
      * DIgunakan Oleh class HomeKtController
      * menggunakan local scope pada Model Loginfo
      *
-<<<<<<< HEAD
      * @param int|null $year
      * @param int|null $month
      * @param int|null $wilkerId
      * @return mixed
-=======
-     * @param int $year, int $wilker_id
-     * @return Collection of Datatables
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function log($year, $month, $wilker, $type)
     {
@@ -404,11 +338,7 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
             */
             return $datas->when(is_null($datas->rolledback_at) && is_null($datas->status) , function() use ($datas){
 
-<<<<<<< HEAD
                 return  now() > Carbon::parse($datas->created_at)->addWeek() 
-=======
-                return  now() > \Carbon::parse($datas->created_at)->addWeek() 
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
                         ? '-'
                         :'<a href="#" data-id = "'.$datas->id.'" class="btn btn-danger" id="rollbackOperasionalBtn">
                             <i class="fa fa-repeat fa-fw"></i> Rollback

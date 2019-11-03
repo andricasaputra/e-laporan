@@ -56,19 +56,11 @@
 
                       @if($w->id == $penerimaan->wilker_id)
 
-<<<<<<< HEAD
                       <option value="{{ $wilker->id }}" selected>{{ $wilker->getOriginal('nama_wilker') }}</option>
 
                       @else
 
                       <option value="{{ $wilker->id }}">{{ $wilker->getOriginal('nama_wilker') }}</option>
-=======
-                      <option value="{{ $w->id }}" selected>{{ $w->nama_wilker }}</option>
-
-                      @else
-
-                      <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
                       @endif
 

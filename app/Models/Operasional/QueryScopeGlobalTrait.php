@@ -2,7 +2,6 @@
 
 namespace App\Models\Operasional;
 
-<<<<<<< HEAD
 use Carbon\Carbon;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
@@ -11,10 +10,6 @@ trait QueryScopeGlobalTrait
     //  Disable this trait if you're using shared hosting!
     use Cachable;
 
-=======
-trait QueryScopeGlobalTrait
-{
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     /*
     |--------------------------------------------------------------------------
     | Info
@@ -61,35 +56,17 @@ trait QueryScopeGlobalTrait
      * @param $query
      * @param array $params
      * @param bool $excel
-<<<<<<< HEAD
      * @return Illuminate\Support\Collection
-=======
-     * @return collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function scopeCountPemakaianDokumen($query, array $params, $excel =  false)
     {
         $query->selectRaw('dokumen, sum(jumlah) as total')
               ->whereYear('bulan', $params[0]);
-<<<<<<< HEAD
         
         // Untuk cek apakah pemakain dokumen digunakan pada laporan excel
         if ($excel) {
 
             // Jika semua bulan dipilih maka gunakan bulan ke 12 untuk dokumen yang digunakan
-=======
-
-        /*
-        * untuk cek apakah pemakain dokumen digunakan pada laporan excel
-        * untuk mendapatkan bulan terakhir apabila laporan dicetak dalam format tahunan
-        * untuk laporan yang dipilih pada semua bulan
-        */      
-        if ($excel) {
-
-            /*
-            * jika semua bulan dipilih maka gunakan bulan ke 12 untuk dokumen yang digunakan
-            */
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
             $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
 
                 return $query->whereMonth('bulan', $params[1]);
@@ -100,14 +77,8 @@ trait QueryScopeGlobalTrait
 
             });
 
-<<<<<<< HEAD
         // Jika tidak digunakan pada laporan excel maka
         // data dipakai pada halaman statistik atau detail pemakaian dokumen saja
-=======
-        /*
-        * untuk menampilkan data pada statistik atau detail pemakaian dokumen saja
-        */
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         } else {
 
             $query->when($params[1] && $params[1] != 'all', function ($query) use ($params) {
@@ -130,7 +101,6 @@ trait QueryScopeGlobalTrait
      *
      * @param $query
      * @param array $params
-<<<<<<< HEAD
      * @return Illuminate\Support\Collection
      */
     public function scopeCountTotalPemakaianDokumen($query, array $params)
@@ -148,31 +118,6 @@ trait QueryScopeGlobalTrait
             $end = $date->copy()->endOfMonth()->toDateString();
         
         // Jika laporan yang dipilih pada bulan tertentu maka kita set tanggal akhir ke akhir bulan tsb
-=======
-     * @return collections
-     */
-    public function scopeCountTotalPemakaianDokumen($query, array $params)
-    {
-        /*
-        * init carbon set tanggal
-        */
-        $date   = \Carbon::createFromDate((int) $params[0], $params[1] == 'all' ? null : (int) $params[1], 1);
-
-        /*
-        * untuk menghitung dari awal tahun pemakaian
-        */
-        $start  = $date->copy()->startOfYear()->toDateString();
-
-        /*
-        * jika laporan yang dipilih semua bulan maka kita set tanggal akhir ke akhir tahun
-        */
-        if ($params[1] && $params[1] !== 'all') {
-            
-            $end = $date->copy()->endOfMonth()->toDateString();
-        /*
-        * jika laporan yang dipilih pada bulan tertentu maka kita set tanggal akhir ke akhir bulan tsb
-        */    
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         } else {
 
             $end = $date->copy()->endOfYear()->toDateString();
@@ -192,11 +137,7 @@ trait QueryScopeGlobalTrait
      *
      * @param $query
      * @param array $params
-<<<<<<< HEAD
      * @return Illuminate\Support\Collection
-=======
-     * @return collections
->>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function scopeCountTotalPnbp($query, array $params)
     {
