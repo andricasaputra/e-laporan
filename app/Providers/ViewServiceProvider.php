@@ -59,7 +59,11 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function mapOperasional()
     {
+<<<<<<< HEAD
         // Share Data For Statistik Page KH
+=======
+        /*Share Data For Statistik Page KH*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         View::composer(
 
             [
@@ -74,7 +78,11 @@ class ViewServiceProvider extends ServiceProvider
 
         );
 
+<<<<<<< HEAD
         // Share Data For Statistik Page KH
+=======
+        /*Share Data For Statistik Page KH*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         View::composer(
 
             [
@@ -92,7 +100,11 @@ class ViewServiceProvider extends ServiceProvider
 
         );
 
+<<<<<<< HEAD
         // Share Data For Statistik Page KT
+=======
+        /*Share Data For Statistik Page KT*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         View::composer(
 
             [
@@ -110,7 +122,11 @@ class ViewServiceProvider extends ServiceProvider
 
         );
 
+<<<<<<< HEAD
         // Share Data For Page Detail Table PNBP
+=======
+        /*Share Data For Page Detail Table PNBP*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         View::composer(
 
             [
@@ -122,7 +138,11 @@ class ViewServiceProvider extends ServiceProvider
 
         );
 
+<<<<<<< HEAD
         // Share Data For Home Upload Page
+=======
+        /*Share Data For Home Upload Page*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         View::composer(
 
             [
@@ -134,11 +154,19 @@ class ViewServiceProvider extends ServiceProvider
 
         );
 
+<<<<<<< HEAD
         // Share Data For Upload Page
         View::composer(
 
             [
                 // KH views
+=======
+        /*Share Data For Upload Page*/
+        View::composer(
+
+            [
+                /*KH views*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
                 'intern.operasional.kh.upload.dokel', 
                 'intern.operasional.kh.upload.domas',
                 'intern.operasional.kh.upload.ekspor',
@@ -148,7 +176,11 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kh.upload.serah_terima',
                 'intern.operasional.kh.upload.billing',
 
+<<<<<<< HEAD
                 // KT views
+=======
+                /*KT views*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
                 'intern.operasional.kt.upload.dokel', 
                 'intern.operasional.kt.upload.domas',
                 'intern.operasional.kt.upload.ekspor',
@@ -158,7 +190,11 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kt.upload.serah_terima',
                 'intern.operasional.kt.upload.billing',
 
+<<<<<<< HEAD
                 // Admin Pengumuman
+=======
+                /*Admin Pengumuman*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
                 'intern.operasional.admin.pengumuman.create.create',
                 'intern.operasional.admin.pengumuman.create.edit',
             ],
@@ -167,7 +203,11 @@ class ViewServiceProvider extends ServiceProvider
 
         );
 
+<<<<<<< HEAD
         // Share Data For Home Download Page
+=======
+        /*Share Data For Home Download Page*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         View::composer(
 
             [
@@ -179,17 +219,29 @@ class ViewServiceProvider extends ServiceProvider
 
         );
 
+<<<<<<< HEAD
         // Share Data For Dokumen Page
         View::composer(
 
             [
                 // KH views
+=======
+        /*Share Data For Dokumen Page*/
+        View::composer(
+
+            [
+                /*KH views*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
                 'intern.operasional.kh.dokumen.menu',
                 'intern.operasional.kh.dokumen.data',
                 'intern.operasional.kh.dokumen.penerimaan.create',
                 'intern.operasional.kh.dokumen.penerimaan.edit',
 
+<<<<<<< HEAD
                 // KT views
+=======
+                /*KT views*/
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
                 'intern.operasional.kt.dokumen.menu',
                 'intern.operasional.kt.dokumen.data',
                 'intern.operasional.kt.dokumen.penerimaan.create',

@@ -30,7 +30,11 @@ function datatablesOperasional(container, url, type){
 
     	{ "data" : "DT_Row_Index", orderable: false, searchable: false},
       { "data" : "bulan" },
+<<<<<<< HEAD
       { "data" : "wilker.original_nama_wilker" },
+=======
+      { "data" : "wilker.nama_wilker" },
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
   		{ "data" : "no_permohonan" },
   		{ "data" : "no_aju" },
   		{ "data" : "tanggal_permohonan" },
@@ -85,7 +89,11 @@ function datatablesOperasional(container, url, type){
 
     	{ "data" : "DT_Row_Index", orderable: false, searchable: false},
       { "data" : "bulan" },
+<<<<<<< HEAD
       { "data" : "wilker.original_nama_wilker" },
+=======
+      { "data" : "wilker.nama_wilker" },
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
       { "data" : "no_permohonan" },
       { "data" : "no_aju" },
       { "data" : "tanggal_permohonan" },
@@ -194,7 +202,11 @@ function dataTablesPnbpOperasional(container, url)
       { "data" : "DT_Row_Index", orderable: false, searchable: false},
       { "data" : "bulan" },
       { "data" : "upt" },
+<<<<<<< HEAD
       { "data" : "wilker.original_nama_wilker" },
+=======
+      { "data" : "wilker.nama_wilker" },
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
       { "data" : "kode_transaksi" },
       { "data" : "no_kwitansi" },
       { "data" : "tgl_kwitansi" },

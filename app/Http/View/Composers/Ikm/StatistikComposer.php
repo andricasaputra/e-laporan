@@ -32,6 +32,7 @@ class StatistikComposer
     {
         view()->composer('intern.ikm.statistik.index', function ($view){
 
+<<<<<<< HEAD
             $view->with('id', static::$data->id); 
 
             $view->with('questions', Question::all());
@@ -39,6 +40,12 @@ class StatistikComposer
             $view->with('ikm', Jadwal::select('id', 'keterangan')->get());
 
             $view->with('ikm_ket', Jadwal::select('keterangan')->whereId(static::$data->id)->first()); 
+=======
+            $view->with('questions', Question::all());
+            $view->with('ikm', Jadwal::select('id', 'keterangan')->get());
+            $view->with('ikm_ket', Jadwal::select('keterangan')->whereId(static::$data->id)->first());
+            $view->with('id', static::$data->id);  
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
             
         });     
     }

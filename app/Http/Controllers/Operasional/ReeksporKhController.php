@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use App\Models\Operasional\ReeksporKh as Operasional;
 use App\Contracts\Operasional\BaseOperasionalInterface;
+=======
+use App\Contracts\BaseOperasionalInterface;
+use App\Models\Operasional\ReeksporKh as Operasional;
+use App\Http\Controllers\Operasional\Upload\UploadFactory;
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 use App\Http\Requests\UploadOperasionalRequest as Validation;
 
 ini_set('max_execution_time', '500');
@@ -15,9 +21,15 @@ class ReeksporKhController extends BaseOperasionalController implements BaseOper
      * Untuk Halaman Detail Laporan 
      *
      * @param Illuminate\Http\Request $request
+<<<<<<< HEAD
      * @return \Illuminate\Http\Response
      */
     public function tableDetailPage(Request $request)
+=======
+     * @return to view
+     */
+    public function tableDetailFrekuensiView(Request $request)
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     {
         return view('intern.operasional.kh.data.statistik.detail.bigtable.reekspor');
     }
@@ -26,25 +38,40 @@ class ReeksporKhController extends BaseOperasionalController implements BaseOper
      * Untuk Halaman Rekapitulasi Laporan 
      *
      * @param Illuminate\Http\Request $request
+<<<<<<< HEAD
      * @return \Illuminate\Http\Response
      */
     public function rekapitulasiPage(Request $request)
     {
         return view('intern.operasional.kh.data.rekapitulasi.reekspor_rekapitulasi');
+=======
+     * @return to view
+     */
+    public function rekapitulasiTableDetail(Request $request)
+    {
+        // return view('intern.operasional.kh.data.rekapitulasi.reekspor_rekapitulasi');
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
     
     /**
      * Untuk Halaman Upload Laporan 
      *
+<<<<<<< HEAD
      * @param Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function uploadPage(Request $request)
+=======
+     * @return to view
+     */
+    public function uploadPageView(Request $request)
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     {
         return view('intern.operasional.kh.upload.reekspor');
     }
 
     /**
+<<<<<<< HEAD
      * Import data laporan excel ke dalam database 
      *
      * @param App\Http\Requests\UploadOperasionalRequest $request
@@ -67,10 +94,31 @@ class ReeksporKhController extends BaseOperasionalController implements BaseOper
 
         return back();
     }
+=======
+     *Import valid data ke database 
+     *
+     * @return void
+     */
+    public function imports(Validation $request)
+	{
+        // Filter Data Sebelum Insert Ke Database
+        if (! $this->setDataProperty($request, new Operasional)->checkingData() ) return back();
+
+        // Upload Data
+        $factory = new UploadFactory();
+
+        $upload  = $factory->initializeUploadType(new Operasional, $request);
+
+        $upload->uploadData();
+
+        return back();
+	}
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
     /**
      * API untuk detail big tabel 
      *
+<<<<<<< HEAD
      * @param int|null $year
      * @param int|null $month
      * @param int|null $wilkerId
@@ -83,5 +131,17 @@ class ReeksporKhController extends BaseOperasionalController implements BaseOper
         $operasional    = Operasional::sortTableDetail($params)->with('wilker')->get();
 
         return datatables($operasional)->addIndexColumn()->make(true);
+=======
+     * @param int $year
+     * @return datatables JSON
+     */
+    public function api($year = null, $month =  null, $wilker_id = null)
+    {
+        $reekspor  = Operasional::sortTableDetail([$year, $month, $wilker_id])
+                        ->with('wilker')
+                        ->get();
+
+        return datatables($reekspor)->addIndexColumn()->make(true);
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 }

@@ -13,7 +13,11 @@ return [
     |
     */
 
+<<<<<<< HEAD
     'name' => env('APP_NAME', 'Laravel'),
+=======
+    'name' => env('APP_NAME', 'E-office'),
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
     /*
     |--------------------------------------------------------------------------
@@ -54,8 +58,11 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+<<<<<<< HEAD
     'asset_url' => env('ASSET_URL', null),
 
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -97,6 +104,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+<<<<<<< HEAD
     | Faker Locale
     |--------------------------------------------------------------------------
     |
@@ -110,6 +118,8 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     | Encryption Key
     |--------------------------------------------------------------------------
     |
@@ -160,7 +170,11 @@ return [
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
+<<<<<<< HEAD
         Illuminate\View\ViewServiceProvider::class,
+=======
+        Illuminate\View\ViewServiceProvider::class,    
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
         /*
          * Package Service Providers...
@@ -168,8 +182,12 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Mavinoo\LaravelBatch\LaravelBatchServiceProvider::class,
+<<<<<<< HEAD
         Barryvdh\Debugbar\ServiceProvider::class,
 
+=======
+     
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         /*
          * Application Service Providers...
          */
@@ -196,7 +214,10 @@ return [
     'aliases' => [
 
         'App' => Illuminate\Support\Facades\App::class,
+<<<<<<< HEAD
         'Arr' => Illuminate\Support\Arr::class,
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
@@ -226,6 +247,7 @@ return [
         'Schema' => Illuminate\Support\Facades\Schema::class,
         'Session' => Illuminate\Support\Facades\Session::class,
         'Storage' => Illuminate\Support\Facades\Storage::class,
+<<<<<<< HEAD
         'Str' => Illuminate\Support\Str::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
@@ -234,6 +256,14 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Batch' => Mavinoo\LaravelBatch\LaravelBatchFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+=======
+        'URL' => Illuminate\Support\Facades\URL::class,
+        'Validator' => Illuminate\Support\Facades\Validator::class,
+        'View' => Illuminate\Support\Facades\View::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Carbon' => Carbon\Carbon::class,
+        'Batch' => Mavinoo\LaravelBatch\LaravelBatchFacade::class,
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
     ],
 

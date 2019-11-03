@@ -3,9 +3,20 @@
 /public/storage
 /storage/*.key
 /vendor
+<<<<<<< HEAD
 .env
 .phpunit.result.cache
+=======
+/.idea
+/.vscode
+/.vagrant
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+<<<<<<< HEAD
+=======
+.env
+.phpunit.result.cache
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41

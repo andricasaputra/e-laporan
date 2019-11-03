@@ -94,11 +94,19 @@ class LaporanPemakaianDokumenKtController extends DownloadController
      * @return void
      */
   	public function __construct(Request $request)
+<<<<<<< HEAD
     {
         parent::__construct($request);
 
         $this->repository = new Repository($request);
     }
+=======
+  	{
+  		parent::__construct($request);
+
+        $this->repository = new Repository($this->year, $this->month, $this->wilker_id);
+  	}
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
     /**
      * Method utama yang dipanggil untuk export

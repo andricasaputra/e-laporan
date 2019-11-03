@@ -42,6 +42,7 @@ Route::namespace('Operasional')->group(function () {
 	* ----------------------------------------------------------
 	*/
 
+<<<<<<< HEAD
 	Route::prefix('kh/rekapitulasi')->group(function(){
 
 		Route::get('dokel/{year?}/{month?}/{wilker_id?}', 'HomeKhController@volumeDokelApiKh')
@@ -60,6 +61,22 @@ Route::namespace('Operasional')->group(function () {
 		->name('api.kh.detail.tujuan');
 
 	});
+=======
+	Route::get('kh/dokel/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKhController@dataVolumeDokelApiKh')
+	->name('api.kh.dokel.rekapitulasi');
+
+	Route::get('kh/domas/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKhController@dataVolumeDomasApiKh')
+	->name('api.kh.domas.rekapitulasi');
+
+	Route::get('kh/ekspor/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKhController@dataVolumeEksporApiKh')
+	->name('api.kh.ekspor.rekapitulasi');
+
+	Route::get('kh/impor/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKhController@dataVolumeImporApiKh')
+	->name('api.kh.impor.rekapitulasi');
+
+	Route::get('kh/rekapitulasi/detail_tujuan_mp/{class?}/{mp?}/{year?}/{month?}/{wilker_id?}', 'HomeKhController@detailTujuanKh')
+	->name('api.kh.detail.tujuan');
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 	/*
 	* ----------------------------------------------------------
@@ -67,6 +84,7 @@ Route::namespace('Operasional')->group(function () {
 	* ----------------------------------------------------------
 	*/
 
+<<<<<<< HEAD
 	Route::prefix('kt/rekapitulasi')->group(function(){
 
 		Route::get('dokel/{year?}/{month?}/{wilker_id?}', 'HomeKtController@volumeDokelApiKt')
@@ -85,6 +103,22 @@ Route::namespace('Operasional')->group(function () {
 		->name('api.kt.detail.tujuan');
 
 	});
+=======
+	Route::get('kt/dokel/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKtController@dataVolumeDokelApiKt')
+	->name('api.kt.dokel.rekapitulasi');
+
+	Route::get('kt/domas/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKtController@dataVolumeDomasApiKt')
+	->name('api.kt.domas.rekapitulasi');
+
+	Route::get('kt/ekspor/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKtController@dataVolumeEksporApiKt')
+	->name('api.kt.ekspor.rekapitulasi');
+
+	Route::get('kt/impor/rekapitulasi/{year?}/{month?}/{wilker_id?}', 'HomeKtController@dataVolumeImporApiKt')
+	->name('api.kt.impor.rekapitulasi');
+
+	Route::get('kt/rekapitulasi/detail_tujuan_mp/{class?}/{mp?}/{year?}/{month?}/{wilker_id?}', 'HomeKtController@detailTujuanKt')
+	->name('api.kt.detail.tujuan');
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 	/*
 	* ------------------------------------------
@@ -92,6 +126,7 @@ Route::namespace('Operasional')->group(function () {
 	* ------------------------------------------
 	*/
 
+<<<<<<< HEAD
 	Route::prefix('kt/statistik')->group(function(){
 
 		Route::post('dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@api')
@@ -129,6 +164,37 @@ Route::namespace('Operasional')->group(function () {
 		->name('api.kh.statistik.detail.bigtable.pnbp');
 
 	});
+=======
+	Route::post('kt/statistik/detail/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKtController@api')
+	->name('api.kt.statistik.detail.bigtable.dokel');
+
+	Route::post('kt/statistik/detail/domas/{year?}/{month?}/{wilker_id?}', 'DomasKtController@api')
+	->name('api.kt.statistik.detail.bigtable.domas');
+
+	Route::post('kt/statistik/detail/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKtController@api')
+	->name('api.kt.statistik.detail.bigtable.ekspor');
+
+	Route::post('kt/statistik/detail/impor/{year?}/{month?}/{wilker_id?}', 'ImporKtController@api')
+	->name('api.kt.statistik.detail.bigtable.impor');
+
+	Route::post('kt/statistik/detail/pnbp/{year?}/{month?}/{wilker_id?}', 'ReportBillingKtController@api')
+	->name('api.kt.statistik.detail.bigtable.pnbp');
+
+	Route::post('kh/statistik/detail/dokel/{year?}/{month?}/{wilker_id?}', 'DokelKhController@api')
+	->name('api.kh.statistik.detail.bigtable.dokel');
+
+	Route::post('kh/statistik/detail/domas/{year?}/{month?}/{wilker_id?}', 'DomasKhController@api')
+	->name('api.kh.statistik.detail.bigtable.domas');
+
+	Route::post('kh/statistik/detail/ekspor/{year?}/{month?}/{wilker_id?}', 'EksporKhController@api')
+	->name('api.kh.statistik.detail.bigtable.ekspor');
+
+	Route::post('kh/statistik/detail/impor/{year?}/{month?}/{wilker_id?}', 'ImporKhController@api')
+	->name('api.kh.statistik.detail.bigtable.impor');
+
+	Route::post('kh/statistik/detail/pnbp/{year?}/{month?}/{wilker_id?}', 'ReportBillingKhController@api')
+	->name('api.kh.statistik.detail.bigtable.pnbp');
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 	/*
 	* ------------------------------------
@@ -136,10 +202,17 @@ Route::namespace('Operasional')->group(function () {
 	* ------------------------------------
 	*/
 
+<<<<<<< HEAD
 	Route::get('kh/frekuensi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKhController@frekuensiChartKh')
 	->name('api.kh.detail.frekuensi.chart');
 
 	Route::get('kt/frekuensi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKtController@frekuensiChartKt')
+=======
+	Route::get('kh/rekapitulasi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKhController@frekuensiChartKh')
+	->name('api.kh.detail.frekuensi.chart');
+
+	Route::get('kt/rekapitulasi/chart/{type_karantina?}/{year?}/{month?}/{wilker_id?}', 'HomeKtController@frekuensiChartKt')
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 	->name('api.kt.detail.frekuensi.chart');
 
 	/*

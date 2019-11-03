@@ -110,7 +110,11 @@ class PenerimaanDokumenKhController extends DokumenController
 
         foreach ($request->no_seri as $key => $value) {
 
+<<<<<<< HEAD
             if (strpos($value, ',') !== false || strpos($value, 's/d') !== false) {
+=======
+            if (strpos($value, ',')) {
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
                 return back()->withWarning('penulisan nomor seri tidak valid');
             }

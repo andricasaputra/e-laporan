@@ -25,7 +25,12 @@ class MainNotificationsEvent /*implements ShouldBroadcast*/
      * @param App\Contracts\NotificationsEventInterface $notification (data attributes)
      * @return void
      */
+<<<<<<< HEAD
     public function __construct(NotificationsInterface $classToNotify, NotificationsEventInterface $notifications)
+=======
+    public function __construct(NotificationsInterface $classToNotify, 
+                                NotificationsEventInterface $notifications)
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     {
         $this->classToNotify = $classToNotify;
         $this->users         = $notifications->users;

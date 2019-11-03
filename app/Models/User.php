@@ -55,12 +55,20 @@ class User extends Authenticatable
 
     public function golongan()
     {
+<<<<<<< HEAD
         return $this->hasOneThrough(Golongan::class, MasterPegawai::class, 'id', 'id', 'id', 'golongan_id');
+=======
+        return $this->hasManyThrough(Golongan::class, MasterPegawai::class, 'id', 'id', 'id', 'golongan_id');
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 
     public function jabatan()
     {
+<<<<<<< HEAD
         return $this->hasOneThrough(Jabatan::class, MasterPegawai::class, 'id', 'id', 'id', 'jabatan_id');
+=======
+        return $this->hasManyThrough(Jabatan::class, MasterPegawai::class, 'id', 'id', 'id', 'jabatan_id');
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 
     public function getUploadDokelKt()

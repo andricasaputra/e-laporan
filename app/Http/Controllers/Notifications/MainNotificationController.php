@@ -11,7 +11,10 @@ class MainNotificationController extends Controller
     /**
      * Untuk membaca single notifications
      *
+<<<<<<< HEAD
      * @param Illuminate\Http\Request $request
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      * @return \Illuminate\Http\Response
      */
     public function readNotifications(Request $request)
@@ -51,7 +54,10 @@ class MainNotificationController extends Controller
     /**
      * Resource dari semua notifikasi yang belum terbaca
      *
+<<<<<<< HEAD
      * @param App\Models\User $user
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      * @return \Illuminate\Http\Response
      */
     public function mainApiNotifications(User $user)
@@ -63,7 +69,10 @@ class MainNotificationController extends Controller
      * Untuk marked semua notifikasi apabila tombol
      * "tandai baca semua ditekan"
      *
+<<<<<<< HEAD
      * @param Illuminate\Http\Request $request
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      * @return \Illuminate\Http\Response
      */
     public function markAsReadAllNotifications(Request $request)
@@ -77,7 +86,10 @@ class MainNotificationController extends Controller
      * Untuk menghapus semua notifikasi apabila tombol
      * "hapus semua notifikasi ditekan"
      *
+<<<<<<< HEAD
      * @param Illuminate\Http\Request $request
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      * @return \Illuminate\Http\Response
      */
     public function deleteNotifications(Request $request)

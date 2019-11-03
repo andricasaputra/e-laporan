@@ -24,12 +24,17 @@ class OperasionalRollbackEvent
      */
     public function __construct(LogInfo $data)
     {
+<<<<<<< HEAD
         // getOriginal() untuk meng ignore mutator
         // dari type dan bulan attributes
         $this->type     = $data->getOriginal('type');
 
         $this->bulan    = $data->getOriginal('bulan');
         
+=======
+        $this->type     = $data->getOriginal('type');
+        $this->bulan    = $data->getOriginal('bulan');
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         $this->wilkerId = $data->wilker_id;
     }
 

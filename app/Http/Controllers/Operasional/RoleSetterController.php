@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Operasional;
 
+<<<<<<< HEAD
+=======
+use Illuminate\Http\Request;
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 use App\Http\Controllers\Controller;
 
 class RoleSetterController extends Controller

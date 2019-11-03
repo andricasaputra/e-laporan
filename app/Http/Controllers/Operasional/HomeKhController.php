@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Operasional;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+<<<<<<< HEAD
 use App\Traits\Operasional\DataOperasionalKhTrait;
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 use App\Repositories\Operasional\DataOperasionalKhRepository as Repository;
 
 class HomeKhController extends Controller
@@ -14,7 +17,11 @@ class HomeKhController extends Controller
     /**
      * Untuk menyimpan instance dari object repository
      *
+<<<<<<< HEAD
      * @var App\Repositories\Operasional\DataOperasionalKhRepository
+=======
+     * @var ObjectRepository
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     private $khRepository;
 
@@ -28,19 +35,31 @@ class HomeKhController extends Controller
     /**
      * Untuk menyimpan parameter bulan dari url
      *
+<<<<<<< HEAD
      * @var int|null
+=======
+     * @var int / nullable
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     private $month = null;
 
     /**
      * Untuk menyimpan parameter wilker_id dari url
      *
+<<<<<<< HEAD
      * @var int|null
+=======
+     * @var int / nullable
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     private $wilker_id = null;
 
     /**
+<<<<<<< HEAD
      * Untuk menyatukan semua parameter yang dibutuhkan oleh route
+=======
+     * Untuk menyatukan semua parameter yang dibutuhkan oleh route menjadi 1
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      *
      * @var array
      */
@@ -49,7 +68,11 @@ class HomeKhController extends Controller
     /**
      * Untuk set semua property yang dibutuhkan maka perlu constructor
      *
+<<<<<<< HEAD
      * @param \Illuminate\Http\Request $request
+=======
+     * @param DataOperasionalKhRepository $repository, Request $request
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      * @return void
      */
     public function __construct(Request $request)
@@ -68,7 +91,11 @@ class HomeKhController extends Controller
     /**
      * Untuk set menu di halaman home KH
      *
+<<<<<<< HEAD
      * @return \Illuminate\Http\Response
+=======
+     * @return view -> page show menu (data, upload, download)
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function showMenu()
     {
@@ -78,7 +105,11 @@ class HomeKhController extends Controller
     /**
      * Untuk set menu di halaman Data Operasional KH
      *
+<<<<<<< HEAD
      * @return \Illuminate\Http\Response
+=======
+     * @return view -> page show menu data operasionla
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function showMenuDataOperasional()
     {
@@ -88,8 +119,13 @@ class HomeKhController extends Controller
     /**
      * Halaman upload
      *
+<<<<<<< HEAD
      * @param int|null $year
      * @return \Illuminate\Http\Response
+=======
+     * @param int $ year nullable
+     * @return view -> page upload (domas, dokel, ekspor, impor)
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function homeUpload(int $year = null)
     {
@@ -99,8 +135,13 @@ class HomeKhController extends Controller
     /**
      * Halaman upload
      *
+<<<<<<< HEAD
      * @param int|null $year
      * @return \Illuminate\Http\Response
+=======
+     * @param int $ year nullable
+     * @return view -> page upload (domas, dokel, ekspor, impor)
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function homeDownload()
     {
@@ -110,7 +151,11 @@ class HomeKhController extends Controller
     /**
      * Halaman Utama untuk data - data opersional dari Karantina Hewan
      *
+<<<<<<< HEAD
      * @return \Illuminate\Http\Response
+=======
+     * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function homeRekapitulasi()
     {
@@ -121,7 +166,11 @@ class HomeKhController extends Controller
     /**
      * Halaman Utama untuk data - data opersional dari Karantina Hewan
      *
+<<<<<<< HEAD
      * @return \Illuminate\Http\Response
+=======
+     * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function homeStatistik()
     {
@@ -132,7 +181,11 @@ class HomeKhController extends Controller
     /**
      * Halaman Utama untuk data - data opersional dari Karantina Hewan
      *
+<<<<<<< HEAD
      * @return \Illuminate\Http\Response)
+=======
+     * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function statistikDetailFrekuensi()
     {
@@ -152,11 +205,16 @@ class HomeKhController extends Controller
     /**
      * Untuk API Log Pengiriman Laporan
      *
+<<<<<<< HEAD
      * @param int $year 
      * @param int $month
      * @param int $wilker
      * @param string $type
      * @return \Illuminate\Http\Response
+=======
+     * @param int $year, $wilker_id 
+     * @return view -> Data Operasional (statistik, grafik, rekapitulasi)
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function logApi(int $year, $month , $wilker, string $type)
     {
@@ -166,8 +224,13 @@ class HomeKhController extends Controller
     /**
      * Untuk Menghapus data laporan yang terkirim / rollback laporan
      *
+<<<<<<< HEAD
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+=======
+     * @param request $request
+     * @return void
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function destroy(Request $request)
     {

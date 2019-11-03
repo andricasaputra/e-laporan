@@ -4,9 +4,15 @@ namespace App\Models\Operasional\Dokumen;
 
 use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
+<<<<<<< HEAD
 use App\Models\Operasional\QueryScopeKhTrait;
 use App\Models\Operasional\Admin\MasterDokumen;
 use App\Contracts\Operasional\ModelPembatalanInterface;
+=======
+use App\Contracts\ModelPembatalanInterface;
+use App\Models\Operasional\QueryScopeKhTrait;
+use App\Models\Operasional\Admin\MasterDokumen;
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 class PembatalanDokKh extends Model implements ModelPembatalanInterface
 {

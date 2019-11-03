@@ -37,7 +37,10 @@ return [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
+<<<<<<< HEAD
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         ],
 
         'mysql' => [
@@ -51,7 +54,10 @@ return [
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
+<<<<<<< HEAD
             'prefix_indexes' => true,
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
             'strict' => true,
             'engine' => null,
             'modes' => [
@@ -63,9 +69,15 @@ return [
                 'NO_AUTO_CREATE_USER',
                 'NO_ENGINE_SUBSTITUTION',
             ],
+<<<<<<< HEAD
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+=======
+            'options' => [
+                \PDO::ATTR_EMULATE_PREPARES => true
+            ],
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         ],
 
         'mysql2' => [
@@ -79,7 +91,10 @@ return [
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
+<<<<<<< HEAD
             'prefix_indexes' => true,
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
             'strict' => true,
             'engine' => null,
             'modes' => [
@@ -91,9 +106,15 @@ return [
                 'NO_AUTO_CREATE_USER',
                 'NO_ENGINE_SUBSTITUTION',
             ],
+<<<<<<< HEAD
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+=======
+            'options' => [
+                \PDO::ATTR_EMULATE_PREPARES => true
+            ],
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         ],
 
         'pgsql' => [
@@ -105,7 +126,10 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
+<<<<<<< HEAD
             'prefix_indexes' => true,
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
@@ -119,7 +143,10 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
+<<<<<<< HEAD
             'prefix_indexes' => true,
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
         ],
 
     ],
@@ -143,18 +170,26 @@ return [
     |--------------------------------------------------------------------------
     |
     | Redis is an open source, fast, and advanced key-value store that also
+<<<<<<< HEAD
     | provides a richer body of commands than a typical key-value system
+=======
+    | provides a richer set of commands than a typical key-value systems
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     | such as APC or Memcached. Laravel makes it easy to dig right in.
     |
     */
 
     'redis' => [
 
+<<<<<<< HEAD
         'client' => env('REDIS_CLIENT', 'predis'),
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'predis'),
         ],
+=======
+        'client' => 'predis',
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
         'default' => [
             'host' => env('REDIS_HOST', '127.0.0.1'),

@@ -10,6 +10,7 @@ class Wilker extends Model
     protected $table    = 'wilker';
     protected $guarded  = ['id', 'created_at', 'updated_at'];
     protected $hidden   = ['id', 'created_at', 'updated_at'];
+<<<<<<< HEAD
     protected $appends  = ['original_nama_wilker'];
 
     public function getNamaWilkerAttribute($value)
@@ -30,6 +31,8 @@ class Wilker extends Model
     {
         return $this->getOriginal('nama_wilker');
     }
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
     public function logInfo()
     {

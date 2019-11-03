@@ -56,7 +56,11 @@
 
                     @foreach($wilkers as $w)
 
+<<<<<<< HEAD
                       <option value="{{ $w->id }}">{{ $w->getOriginal('nama_wilker') }}</option>
+=======
+                      <option value="{{ $w->id }}">{{ $w->nama_wilker }}</option>
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
                     @endforeach
                   

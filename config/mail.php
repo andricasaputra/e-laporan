@@ -12,7 +12,11 @@ return [
     | your application here. By default, Laravel is setup for SMTP mail.
     |
     | Supported: "smtp", "sendmail", "mailgun", "mandrill", "ses",
+<<<<<<< HEAD
     |            "sparkpost", "postmark", "log", "array"
+=======
+    |            "sparkpost", "log", "array"
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     |
     */
 
@@ -120,6 +124,7 @@ return [
         ],
     ],
 
+<<<<<<< HEAD
     /*
     |--------------------------------------------------------------------------
     | Log Channel
@@ -133,4 +138,6 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 ];

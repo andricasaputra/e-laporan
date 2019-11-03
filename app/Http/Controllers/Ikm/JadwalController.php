@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Ikm;
 
+<<<<<<< HEAD
 use Carbon\Carbon;
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 use Illuminate\Http\Request;
 use App\Models\Ikm\Jadwal as Model;
 use App\Http\Controllers\Controller;
@@ -67,7 +70,11 @@ class JadwalController extends Controller
     {
         $cek = Model::whereId($jadwal->id)->first();
         
+<<<<<<< HEAD
         if (Carbon::parse($cek->end_date) < Carbon::parse(date('Y-m-d')) && 
+=======
+        if (\Carbon::parse($cek->end_date) < \Carbon::parse(date('Y-m-d')) && 
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
             $cek->is_open === null) {
 
             return redirect(route('intern.ikm.settingikm.index'))
@@ -185,9 +192,15 @@ class JadwalController extends Controller
     {
     	$now          = now();
 
+<<<<<<< HEAD
 		$start_date   = Carbon::parse($start_date);
 
 		$end_date     = Carbon::parse($end_date);
+=======
+		$start_date   = \Carbon::parse($start_date);
+
+		$end_date     = \Carbon::parse($end_date);
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 		return $now->between($start_date, $end_date) ? 1 : NULL;
     }

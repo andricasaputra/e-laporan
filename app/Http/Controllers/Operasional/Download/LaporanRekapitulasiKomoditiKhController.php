@@ -44,12 +44,21 @@ class LaporanRekapitulasiKomoditiKhController extends DownloadController
      *
      * @return void
      */
+<<<<<<< HEAD
   	public function __construct(Request $request)
     {
         parent::__construct($request);
 
         $this->repository = new Repository($request);
     }
+=======
+  	public function __construct(Repository $repository, Request $request)
+  	{
+  		parent::__construct($request);
+
+        $this->repository = new $repository($this->year, $this->month, $this->wilker_id);
+  	}
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
     /**
      * Method utama yang dipanggil untuk export
@@ -146,7 +155,11 @@ class LaporanRekapitulasiKomoditiKhController extends DownloadController
     protected function setBodyData()
     {
         /*get data*/
+<<<<<<< HEAD
         $model =  $this->model::laporanRekapitulasiKomoditi([$this->year, $this->month, $this->wilker_id]);
+=======
+        $model =  $this->model::laporanRekapitulasiKomoditi($this->year, $this->month, $this->wilker_id);
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
         /*hitung jumlah data yang ada*/
         $this->setCountTotalData($model->count());

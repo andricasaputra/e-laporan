@@ -15,168 +15,264 @@ class DataOperasionalRepositoryManager implements RepositoryInterface
     /**
      * Untuk menyimpan data volume kegiatan dokel
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $dokelTotalVolume;
 
     /**
      * Untuk menyimpan data volume kegiatan domas
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $domasTotalVolume;
 
     /**
      * Untuk menyimpan data volume kegiatan ekspor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $eksporTotalVolume;
 
     /**
      * Untuk menyimpan data volume kegiatan impor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $imporTotalVolume;
 
     /**
      * Untuk menyimpan data volume kegiatan reeskpor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $reeksporTotalVolume;
 
     /**
      * Untuk menyimpan data volume kegiatan serahterima
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $serahTerimaTotalVolume;
 
     /**
      * Untuk menyimpan data frekuensi kegiatan domas
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiDomas;
 
     /**
      * Untuk menyimpan data frekuensi kegiatan dokel
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiDokel;
 
     /**
      * Untuk menyimpan data frekuensi kegiatan ekspor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiEkspor;
 
     /**
      * Untuk menyimpan data frekuensi kegiatan impor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiImpor;
 
     /**
      * Untuk menyimpan data frekuensi kegiatan reekspor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiReekspor;
 
     /**
      * Untuk menyimpan data frekuensi kegiatan reekspor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiSerahTerima;
 
     /**
      * Untuk menyimpan data pnbp kegiatan domas
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $pnbpDomas;
 
     /**
      * Untuk menyimpan data pnbp kegiatan dokel
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $pnbpDokel;
 
     /**
      * Untuk menyimpan data pnbp kegiatan ekspor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $pnbpEkspor;
 
     /**
      * Untuk menyimpan data pnbp kegiatan impor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $pnbpImpor;
 
     /**
      * Untuk menyimpan data pnbp kegiatan impor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $pnbpReekspor;
 
     /**
      * Untuk menyimpan data pnbp kegiatan impor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $pnbpSerahTerima;
 
     /**
      * Untuk menyimpan data frekuensi per bulan dokel
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiKomoditiDokel;
 
     /**
      * Untuk menyimpan data frekuensi per bulan domas
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiKomoditiDomas;
 
     /**
      * Untuk menyimpan data frekuensi per bulan ekspor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiKomoditiEkspor;
 
     /**
      * Untuk menyimpan data frekuensi per bulan impor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiKomoditiImpor;
 
     /**
      * Untuk menyimpan data frekuensi per bulan reekspor
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiKomoditiReekspor;
 
     /**
      * Untuk menyimpan data frekuensi per bulan serahterima
      *
+<<<<<<< HEAD
      * @var mixed
+=======
+     * @var collection
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public $frekuensiKomoditiSerahTerima;
 
@@ -219,7 +315,11 @@ class DataOperasionalRepositoryManager implements RepositoryInterface
      * Untuk set semua property yang ada di class ini 
      * -> dipanggil pada constructor class HomeKtController atau HomeKhController
      *
+<<<<<<< HEAD
      * @param null|\Illuminate\Http\Request
+=======
+     * @param  $year, $month, $wilker_id
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      * @return void 
      */
     public function __construct(?Request $request)
@@ -237,8 +337,13 @@ class DataOperasionalRepositoryManager implements RepositoryInterface
      * Mencari kota asal dan tujuan berdasarkan nama jenis MP, tahun, bulan dan wilker
      * Menggunakan model scope
      * 
+<<<<<<< HEAD
      * @param \Illuminate\Http\Request
      * @return mixed
+=======
+     * @param Request $request
+     * @return collections
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function getDetailKota(Request $request)
     {
@@ -250,8 +355,12 @@ class DataOperasionalRepositoryManager implements RepositoryInterface
     /**
      * Menjadikan angka dengan format rupiah
      *
+<<<<<<< HEAD
      * @param \Illuminate\Support\Collection
      * @return mixed
+=======
+     * @return collections
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public static function castNumberFormat($collections)
     {
@@ -272,8 +381,13 @@ class DataOperasionalRepositoryManager implements RepositoryInterface
      * Rollback action laporan operasional |
      * Paggil Rollback Event
      *
+<<<<<<< HEAD
      * @param \Illuminate\Http\Request
      * @return \Illuminate\Http\Response
+=======
+     * @param $request
+     * @return void
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
     public function rollback(Request $request)
     {

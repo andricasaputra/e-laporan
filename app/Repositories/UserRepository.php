@@ -14,7 +14,11 @@ class UserRepository implements RepositoryInterface
     /**
      * Untuk menyimpan instance dari model
      *
+<<<<<<< HEAD
      * @var App\Models\User
+=======
+     * @var instance of App/Models/AnyModels
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
      */
 	private $model;
 

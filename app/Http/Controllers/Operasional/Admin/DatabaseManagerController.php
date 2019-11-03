@@ -203,7 +203,11 @@ class DatabaseManagerController extends Controller
 
             return false;
                  
+<<<<<<< HEAD
         } catch (\Exception $e) {
+=======
+        } catch (Exception $e) {
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
                 
             return false;
         }     
@@ -251,7 +255,11 @@ class DatabaseManagerController extends Controller
 
                     	DB::statement($templine);
 
+<<<<<<< HEAD
                     } catch (\Exception $e) {
+=======
+                    } catch (Exception $e) {
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
                     	die('Error performing query \'<strong>' . $templine . '\': ' . $e . '<br /><br />');
 

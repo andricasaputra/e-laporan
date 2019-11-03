@@ -2,7 +2,10 @@
 
 namespace App\Models\Operasional;
 
+<<<<<<< HEAD
 use Carbon\Carbon;
+=======
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
 
@@ -109,7 +112,11 @@ class LogInfo extends Model
                             : 'Laporan Berhasil Diupload';
 
         $rolledBackAt   =   $this->rolledback_at !== null && (int) $this->status == 1 
+<<<<<<< HEAD
                             ? 'Pada ' . reverse_tanggal_indo(Carbon::parse($this->rolledback_at)->format('d-m-Y'))
+=======
+                            ? 'Pada ' . reverse_tanggal_indo(\Carbon::parse($this->rolledback_at)->format('d-m-Y'))
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
                             : '';
 
         return $status.' '.$rolledBackAt;
@@ -122,7 +129,11 @@ class LogInfo extends Model
      */
     public function getCreatedAtAttribute($value)
     {
+<<<<<<< HEAD
        return Carbon::parse($value)->toDateTimeString();
+=======
+       return \Carbon::parse($value)->toDateTimeString();
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
     }
 
     /**

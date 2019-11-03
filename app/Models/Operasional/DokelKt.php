@@ -5,7 +5,11 @@ namespace App\Models\Operasional;
 use App\Models\Wilker;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Operasional\ReportBillingKt;
+<<<<<<< HEAD
 use App\Contracts\Operasional\ModelOperasionalInterface;
+=======
+use App\Contracts\ModelOperasionalInterface;
+>>>>>>> 67c29aeccc0c7a28f91b3071026904c840692a41
 
 class DokelKt extends Model implements ModelOperasionalInterface
 {
