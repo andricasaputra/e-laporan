@@ -100,9 +100,14 @@ class ImportLaporanOperasional extends ImportMaster implements ToCollection, Wit
                 ->prepend($this->tanggalLaporan, 'bulan')
                 ->prepend($this->request->wilker_id, 'wilker_id')
                 ->prepend($this->request->user_id, 'user_id');
-                
-	        return $row->all();
 
+            foreach (config('e-operasional.guard') as $blacklist) {
+                if ($row->has($blacklist)) {
+                   $row->forget($blacklist);
+                }
+            }
+
+	        return $row->all();
     	}); 
     }
 

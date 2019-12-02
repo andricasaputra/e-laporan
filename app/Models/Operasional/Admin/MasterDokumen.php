@@ -3,13 +3,9 @@
 namespace App\Models\Operasional\Admin;
 
 use Illuminate\Database\Eloquent\Model;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class MasterDokumen extends Model
 {
-    //  Disable this trait if you're using shared hosting!
-    use Cachable;
-    
     protected $table 	= 'master_dokumen';
     protected $guarded 	= ['id', 'created_at', 'updated_at'];
 

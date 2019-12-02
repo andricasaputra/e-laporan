@@ -15,15 +15,26 @@ class Wilker extends Model
 
     public function getNamaWilkerAttribute($value)
     {
-        if ($value == 'Wilker Bandara Sultan M.Salahuddin') {
+        $except = config('e-operasional.wilker_except.original');
 
-            $value = 'Wilker Bandara M. Salahudin';
+        // Khusus bandara salahuddin yang punya naming berbeda pada IQFAST
+        if ($value == $except) {
 
-        } elseif($value == 'Wilker Bandara Sultan M.Kaharuddin') {
-            
-            $value = 'Wilker Bandara Brang Biji';
+            $value = config('e-operasional.wilker_except.replacement');
+
+        } else {
+
+            $x = explode(" ", $value);
+
+            $wilker = preg_replace('/^[A-Za-z.]+[.]/', '', end($x));
+
+            foreach (config('e-operasional.wilker') as $w) {
+                if (strripos($w, $wilker)) {
+                    $value = $w;
+                }
+            }
         }
-
+        
         return $value;
     }
 

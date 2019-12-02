@@ -270,9 +270,9 @@ abstract class BeforeImport
     {
         $ex    = explode(':', $this->tanggalLaporan);
 
-        $bulan = trim(str_replace('tahun', '', $ex[1]));
+        $bulan = preg_replace("/[^0-9]/", "", $ex[1]);
 
-        $tahun = trim(end($ex));
+        $tahun = preg_replace("/[^0-9]/", "", end($ex));
 
         // pengecekan untuk tanggal pada laporan pembatalan dokumen,
         // karena pada laporan pembatalan dokumen, tanggal yang tertera hanya berupa tahun saja

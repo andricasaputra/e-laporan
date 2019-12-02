@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
+use Spatie\ResponseCache\Facades\ResponseCache;
+
 /*Route::domain('e-office.skp1sumbawabesar.org')->group(function () {*/
 
     Route::get('/', 'LandingPageController@indexEoffice');
@@ -20,6 +23,31 @@
 
         Route::get('intern/operasional', 'RoleSetterController@handle');
 
+    });
+
+    Route::get('cache-clear', function(){
+        ResponseCache::clear();
+    });
+
+    Route::get('view-clear', function(){
+        Artisan::call('view:clear');
+    });
+
+    Route::get('route-clear', function(){
+        Artisan::call('route:clear');
+    });
+
+    Route::get('config-clear', function(){
+        Artisan::call('config:clear');
+    });
+
+    Route::get('clear-all', function(){
+        ResponseCache::clear();
+        Artisan::call('view:clear');
+        Artisan::call('route:clear');
+        Artisan::call('config:clear');
+
+        return redirect()->route('show.operasional');
     });
 
 /*});*/
