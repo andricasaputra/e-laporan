@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Http\Request;
+use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens, HasRoles;
 
     protected $connection   = 'usersDB';
 
@@ -37,32 +39,28 @@ class User extends Authenticatable
      * @var array
      */
     protected $with = [
-        'pegawai', 'golongan', 'jabatan'
+        'pegawai', 'roles'
     ];
 
     public function pegawai()
     {
-        return $this->belongsTo(MasterPegawai::class);
-    }
-
-    public function role()
-    {
-        return $this->belongsToMany(Role::class, 'role_users');
+        return $this->hasOne(MasterPegawai::class);
     }
 
     public function wilker()
     {
-        return $this->belongsToMany(Wilker::class, 'wilker_users');
+        return $this->belongsToMany(Wilker::class);
     }
 
-    public function golongan()
+    public function roles()
     {
-        return $this->hasOneThrough(Golongan::class, MasterPegawai::class, 'id', 'id', 'id', 'golongan_id');
-    }
-
-    public function jabatan()
-    {
-        return $this->hasOneThrough(Jabatan::class, MasterPegawai::class, 'id', 'id', 'id', 'jabatan_id');
+        return (new \App\User)->morphToMany(
+            config('permission.models.role'),
+            'model',
+            config('permission.table_names.model_has_roles'),
+            config('permission.column_names.model_morph_key'),
+            'role_id'
+        );
     }
 
     public function getUploadDokelKt()

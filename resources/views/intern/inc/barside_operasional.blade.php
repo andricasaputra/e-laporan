@@ -19,7 +19,7 @@
                         </div>
                         <div class="user-content hide-menu m-l-10">
                             <a href="javascript:void(0)" class="" id="Userdd" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <h5 class="m-b-0 user-name font-medium">&nbsp;&nbsp; {{ Auth::user()->pegawai->nama }} &nbsp; <i class="fa fa-angle-down"></i></h5>
+                                <h5 class="m-b-0 user-name font-medium">&nbsp;&nbsp; {{ auth()->user()->pegawai->nama ?? ucfirst(auth()->user()->username) }} &nbsp; <i class="fa fa-angle-down"></i></h5>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Userdd">
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>    

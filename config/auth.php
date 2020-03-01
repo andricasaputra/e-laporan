@@ -42,7 +42,7 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'users',
             'hash' => false,
         ],
@@ -98,6 +98,10 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
+    ],
+
+    'api_url' => [
+        'users' =>  env('APP_URL') . '/' . env('APP_USER_API_URL') . (env('APP_ENV') == 'local' ? '/public' : '') .'/api/auth'
     ],
 
 ];

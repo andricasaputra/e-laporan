@@ -57,18 +57,20 @@
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100 p-t-85 p-b-20">
+    
+                <div id="message">
+                    @if (Session::has('success'))
+                       <div class="alert alert-success text-center">{{ Session::get('success') }}</div>
+                    @elseif (Session::has('warning'))
+                        <div class="alert alert-danger text-center">{{ Session::get('warning') }}</div>
+                    @endif
 
-                @if (Session::has('success'))
-                   <div class="alert alert-success text-center">{{ Session::get('success') }}</div>
-                @elseif (Session::has('warning'))
-                    <div class="alert alert-danger text-center">{{ Session::get('warning') }}</div>
-                @endif
-
-                @if($errors->any())
-                  @foreach($errors->all() as $error)
-                    <div class="alert alert-danger text-center">{{$error}}</div>
-                  @endforeach
-                @endif
+                    @if($errors->any())
+                      @foreach($errors->all() as $error)
+                        <div class="alert alert-danger text-center">{{$error}}</div>
+                      @endforeach
+                    @endif
+                </div>
                 
                 <form class="login100-form validate-form" method="POST" action="{{ route('login') }}">
 
@@ -121,6 +123,41 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const autoLogin = async (token) =>
+        {
+            try{
+                const headers = {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                };
+
+                const response = await fetch('{{ route('sso.login') }}', {
+                    method: "POST",
+                    headers: headers,
+                    body: token
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    window.location = data.redirect;
+                }else if(response.status == 401) {
+                   throw new Error('Username atau password salah'); 
+                }else {
+                   throw new Error(response.statusText); 
+                }
+
+            }catch(err){
+                const container = document.querySelector('#message');
+                container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
+            }
+        }
+
+        const token = localStorage.getItem('access_token');
+
+        if (token && '{{ !session()->has('logout') }}') autoLogin(token);
+    </script>
     
 
 </body>

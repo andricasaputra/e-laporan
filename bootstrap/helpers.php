@@ -36,15 +36,8 @@ if (! function_exists('admin')) {
 	function admin() : ?bool
 	{
 		if(auth()->check()) {
-
-			$cek = auth()->user()->role->first()->id;
-
-			if ($cek  === 2 || $cek  === 3) return true;
-
-			return null;
-
+			return auth()->user()->hasRole('administrator');
 		}
-	
 	}
 
 }
@@ -59,15 +52,8 @@ if (! function_exists('superadmin')) {
 	function superadmin() : ?bool
 	{
 		if(auth()->check()) {
-
-			$cek = auth()->user()->role->first()->id;
-
-			if ($cek  === 1) return true;
-
-			return null;
-
+			return auth()->user()->hasAllRoles('administartor|superadmin');
 		}
-	
 	}
 
 }

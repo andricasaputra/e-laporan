@@ -17,10 +17,9 @@ class IsKh
     {
         if (auth()->user()) {
 
-            $cek = auth()->user()->pegawai->jenis_karantina;
+            $cek = auth()->user()->hasRole('kh');
 
-            // NULL atau kosong berarti untuk superadmin dan admin yang tidak mempunyai jenis karantina
-            if (is_null($cek) || $cek === '' || $cek === 'kh') return $next($request); 
+            if ($cek || admin()) return $next($request); 
 
             return back()->withWarning('Hak Akses Hanya Untuk Fungsional Karantina Hewan!');
                 

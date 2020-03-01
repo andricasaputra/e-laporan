@@ -15,11 +15,9 @@ class IsSuperAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()) {
-
-            $cek = auth()->user()->role->first()->id;
-
-            if ($cek === 1) return $next($request);
+        if (auth()->check()) {
+            
+            if (superadmin()) return $next($request);
 
             return back()->withWarning('Maaf anda tidak mempunyai hak akses ke halaman ini!');
 

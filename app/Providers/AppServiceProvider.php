@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Spipu\Html2Pdf\Html2Pdf;
 use App\Models\MasterPegawai;
 use App\Observers\UsersObserver;
@@ -34,9 +35,11 @@ class AppServiceProvider extends ServiceProvider
     {
         // Register HTML2PDF Class to Service Container
         $this->app->singleton('PDF', function ($app) {
-
             return new Html2Pdf('P', 'A4', 'en');
+        });
 
+        $this->app->singleton('Client', function ($app) {
+            return new Client;
         });
     }
 }

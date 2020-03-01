@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Wilker extends Model
 {
     protected $connection   = 'usersDB';
-    protected $table    = 'wilker';
     protected $guarded  = ['id', 'created_at', 'updated_at'];
     protected $hidden   = ['id', 'created_at', 'updated_at'];
     protected $appends  = ['original_nama_wilker'];
@@ -50,6 +49,6 @@ class Wilker extends Model
 
     public function user()
     {
-        return $this->belongsToMany(User::class, 'wilker_users');
+        return $this->belongsToMany(User::class);
     }
 }

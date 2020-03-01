@@ -96,10 +96,8 @@ class HomeController extends Controller
     public function api()
     {
         return [
-
             'kh' => $this->sourceDashboardApiKh(),
             'kt' => $this->sourceDashboardApiKt()
-
         ];
     }
 

@@ -53,7 +53,7 @@
     <div class="col-sm-12 mb-4">
       <div class="card">
         <div class="card-body welcome">
-          Selamat Datang <b>{{ auth()->user()->pegawai->nama }}</b>
+          Selamat Datang <b>{{ auth()->user()->pegawai->nama ?? ucfirst(auth()->user()->username) }}</b>
         </div>
       </div>
     </div>

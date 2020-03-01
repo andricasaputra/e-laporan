@@ -15,11 +15,9 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()) {
+        if (auth()->check()) {
 
-            $cek = auth()->user()->role->first()->id;
-
-            if ($cek  === 1 || $cek  === 2 || $cek  === 3) return $next($request);
+            if (adminn()) return $next($request);
                 
             return redirect(route('welcome'))
                     ->withWarning('Maaf anda tidak mempunyai hak akses ke halaman ini!');

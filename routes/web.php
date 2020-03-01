@@ -9,6 +9,10 @@ use Spatie\ResponseCache\Facades\ResponseCache;
 
     Route::get('/login', 'LandingPageController@login');
 
+    Route::post('/sso', 'Auth\\LoginController@autoLogin')->name('sso.login');
+
+    Route::get('/logout', 'Auth\\LoginController@logout')->name('logout');
+
     Auth::routes();
 
     Route::get('intern/welcome', WelcomeController::class)->middleware('auth')->name('welcome');

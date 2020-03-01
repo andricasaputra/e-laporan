@@ -183,13 +183,9 @@
                               <a class="dropdown-item" href="javascript:void(0)">
                                 <i class="ti-user m-r-5 m-l-5"></i> My Profile
                               </a>
-                              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                  document.getElementById('logout-form').submit();">
+                              <a class="dropdown-item" id="logout-btn" href="#">
                                   <i class="fa fa fa-power-off m-r-5 m-l-5"></i> Logout
                               </a>
-                              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                  @csrf
-                              </form>
                           </div>
                       </li>
                       <!-- ============================================================== -->
@@ -285,6 +281,8 @@
   <!-- End custom js for this page-->
 
   {{-- <script src="{{ asset('js/pusher.min.js') }}"></script> --}}
+
+  @include('intern.inc.logout_script')
 
   @include('intern.inc.notifications_script')
 
