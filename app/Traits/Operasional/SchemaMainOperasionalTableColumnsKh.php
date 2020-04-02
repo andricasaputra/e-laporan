@@ -41,20 +41,20 @@ trait SchemaMainOperasionalTableColumnsKh
         $table->string('kode_hs', 70)->nullable();
         $table->string('nama_mp')->nullable();
         $table->string('nama_latin')->nullable();
-        $table->integer('jumlah')->default(0)->nullable();
+        $table->float('jumlah')->default(0)->nullable();
         $table->string('satuan', 50)->nullable();
         $table->integer('jantan')->default(0)->nullable();
         $table->integer('betina')->default(0)->nullable();
-        $table->integer('netto')->default(0)->nullable();
+        $table->float('netto')->default(0)->nullable();
         $table->string('sat_netto', 50)->nullable();
-        $table->integer('bruto')->default(0)->nullable();
+        $table->float('bruto')->default(0)->nullable();
         $table->string('sat_bruto', 50)->nullable();
         $table->text('keterangan')->nullable();
         $table->string('breed')->default('-')->nullable();
-        $table->integer('volumeP1')->default(0)->nullable();
-        $table->integer('nettoP1')->default(0)->nullable();
-        $table->integer('volumeP8')->default(0)->nullable();
-        $table->integer('nettoP8')->default(0)->nullable();
+        $table->float('volumeP1')->default(0)->nullable();
+        $table->float('nettoP1')->default(0)->nullable();
+        $table->float('volumeP8')->default(0)->nullable();
+        $table->float('nettoP8')->default(0)->nullable();
         $table->string('dok_pelepasan', 50)->index()->nullable();
         $table->string('nomor_dok_pelepasan', 50)->index()->nullable();
         $table->date('tanggal_pelepasan')->index()->nullable();
@@ -62,8 +62,8 @@ trait SchemaMainOperasionalTableColumnsKh
         $table->string('no_kwitansi', 100)->nullable();
         $table->text('dokumen_pendukung')->nullable();
         $table->text('kontainer')->nullable();
-        $table->integer('biaya_perjadin')->default(0)->nullable();
-        $table->integer('total_pnbp')->default(0)->index()->nullable();
+        $table->float('biaya_perjadin')->default(0)->nullable();
+        $table->float('total_pnbp')->default(0)->index()->nullable();
         $table->timestamps(); 
 
         return $table;

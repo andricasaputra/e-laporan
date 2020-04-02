@@ -100,45 +100,6 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-3 text-center">
-               <i class="mdi mdi-checkbox-marked-circle fa-5x"></i>
-            </div>
-            <div class="col-sm-9 card_body_welcome">
-                <h3 class="card-title">E - IKM</h3>
-                <p class="card-text">
-                  Periode : {{ $ikm->keterangan ?? 'Tidak ada survey ikm yang aktif untuk saat ini' }}<br>
-                  Status : App Version 1.0
-                </p>
-                <a href="{{ route('intern.ikm.home.index') }}" class="btn btn-default">Masuk Ke Aplikasi!</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-sm-12 mb-4">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-3 text-center">
-               <i class="mdi mdi-file-check fa-5x"></i>
-            </div>
-            <div class="col-sm-9 card_body_welcome">
-                <h3 class="card-title">E - IPNBK</h3>
-                <p class="card-text">
-                  Periode : - <br>
-                  Status : In Planning
-                </p>
-                <a href="#" class="btn" style="background-color: #ffb31a; color: #fff">Masuk Ke Aplikasi!</a>
-            </div>
-          </div>
-        </div>
-      </div> 
-    </div>
-
-    <div class="col-md-6 col-sm-12 mb-4">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-3 text-center">
                <i class="mdi mdi-web fa-5x"></i>
             </div>
             <div class="col-sm-9 card_body_welcome">
@@ -158,13 +119,42 @@
                <i class="mdi mdi-settings fa-5x"></i>
             </div>
             <div class="col-sm-9 card_body_welcome">
-                <h3 class="card-title">Aplikasi Manajemen</h3>
+                <h3 class="card-title">User Manajemen</h3>
                 <p class="card-text">Status : In Progress</p>
-                <a href="{{ route('users.index') }}" class="btn" style="background-color: #0087CB; color:#fff">Masuk Ke Aplikasi!</a>
+                <a href="#" class="btn btn-user-management" style="background-color: #0087CB; color:#fff">Masuk Ke Aplikasi!</a>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <script>
+        const userManagerLogin = async (e) => {
+            e.preventDefault();
+
+            try{
+                const response = await fetch('{{ config('e-operasional.url.user-management') }}', {
+                    method: 'POST',
+                    body: '{{ auth()->id() }}'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('access_token', data.access_token);
+                    window.location = data.redirect;
+                } else if(response.status == 401) {
+                   throw new Error('Username anda tidak ditemukan, silahkan hubungi admin'); 
+                }else {
+                   throw new Error(response.statusText); 
+                }
+
+            }catch(err){
+                const container = document.querySelector('#message');
+                container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
+            }
+        }
+
+        document.querySelector('.btn-user-management').addEventListener('click', userManagerLogin);
+    </script>
 @endsection

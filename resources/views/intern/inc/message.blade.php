@@ -10,3 +10,5 @@
   @endforeach
 @endif
 
+ <div id="message"></div>
+

@@ -101,7 +101,7 @@ return [
     ],
 
     'api_url' => [
-        'users' =>  env('APP_URL') . '/' . env('APP_USER_API_URL') . (env('APP_ENV') == 'local' ? '/public' : '') .'/api/auth'
+        'users' =>  env('APP_BASE_URL') . '/' . env('APP_USER_API_URL') . (env('APP_ENV') == 'local' ? '/public' : '') .'/api/auth'
     ],
 
 ];

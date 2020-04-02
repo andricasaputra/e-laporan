@@ -25,5 +25,9 @@ return [
         'no_voyage_terakhir' => 'no_voyage_terakhir'
     ],
 
+    'url' => [
+        'user-management' => env('APP_BASE_URL') . '/' . env('APP_USER_API_URL') . (env('APP_ENV') == 'local' ? '/public' : '') .'/login/e-office'
+    ]
+
 ];
 
