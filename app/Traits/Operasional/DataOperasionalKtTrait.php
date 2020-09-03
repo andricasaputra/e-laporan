@@ -56,7 +56,15 @@ trait DataOperasionalKtTrait
                             ->groupBy('sat_netto')
                             ->map(function($value, $key){
 
-                                return number_format($value->sum('volume'), 0, ',', '.') . ' ' . ucfirst($key);
+                                $number = number_format($value->sum('volume'), 3, ',', '.');
+
+                                $ex = explode(',', $number);
+
+                                if (end($ex) == 000) {
+                                  $number = number_format($value->sum('volume'), 0, ',', '.');
+                                }
+
+                                return $number . ' ' . ucfirst($key);
 
                             }),
 

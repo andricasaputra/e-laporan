@@ -52,7 +52,7 @@
         },
         "columns": [
           { "data" : "nama_mp" },
-          { "data" : "volume", render: $.fn.dataTable.render.number( '.', ',', 0 ) },
+          { "data" : "volume" },
           { "data" : "satuan" },
           { "data" : "frekuensi" },
           { "data" : "pnbp" },

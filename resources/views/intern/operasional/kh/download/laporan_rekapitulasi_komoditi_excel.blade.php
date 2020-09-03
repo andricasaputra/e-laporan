@@ -58,7 +58,6 @@
 				@else
 				
 					@if($komoditi != '' && $data['volume'] !== 0)
-						
 						<tr>
 							
 							<td>{{ $no += 1 }}</td>
@@ -67,7 +66,9 @@
 							
 							<td>{{ $komoditi ?? '-' }}</td>
 							
-							<td>{{ $data['volume'] ?? '-' }}</td>
+							<td>
+								{{ $data['volume'] ?? '-' }}
+							</td>
 							
 							<td>{{ $data['satuan'] ?? '-' }}</td>
 							
@@ -170,7 +171,7 @@
 				<td></td>
 			@endfor
 			<td colspan="4">
-				{{ $datas['signatory']->jabatan->jabatan }}
+				{{-- {{ $datas['signatory']->jabatan->jabatan }} --}}
 			</td>
 		</tr>
 
@@ -185,7 +186,7 @@
 				<td></td>
 			@endfor
 			<td colspan="4">
-				{{ $datas['signatory']->nama }}
+				{{-- {{ $datas['signatory']->nama }} --}}
 			</td>
 		</tr>
 		

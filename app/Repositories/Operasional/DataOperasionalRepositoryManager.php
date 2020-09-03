@@ -259,7 +259,9 @@ class DataOperasionalRepositoryManager implements RepositoryInterface
 
             return collect($value)->map(function($val, $k){
 
-                if ($k == 'pnbp') $val = rp($val);
+                if ($k == 'pnbp') {
+                    $val = rp($val);
+                } 
 
                 return $val;
 

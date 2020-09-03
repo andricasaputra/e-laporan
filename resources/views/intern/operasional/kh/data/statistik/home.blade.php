@@ -165,7 +165,9 @@
                   <h5 class="mt-2">Volume :</h5>
                   @foreach($data['volume'] as $k => $volume)
                   <h5 class="card-text mt-2">
-                    <i>  {{ number_format($volume->sum('volume'), 0 , '.', '.') }} {{ ucfirst($k) }}</i>
+                    <i> {{ number_format(array_sum(array_map(function($value){
+                      return str_replace(',', '.', $value);
+                  }, $volume->pluck('volume')->all())), 3 , ',', '.') }} {{ ucfirst($k) }}</i>
                   </h5>
                   @endforeach
                 @else

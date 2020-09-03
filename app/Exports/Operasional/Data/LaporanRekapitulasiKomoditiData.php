@@ -71,7 +71,20 @@ class LaporanRekapitulasiKomoditiData extends AbstractLaporanData
                 return [
 
                     'wilker'      => $subdata->first()->wilker->nama_wilker,
-                    'volume'      => $subdata->sum($this->getColumn('volume')), 
+                    
+                    'volume'      => collect($subdata->sum($this->getColumn('volume')))->map(function($val, $k){
+
+                        // $val = number_format($val, 3, ',', '.');
+
+                        // $ex = explode(',', $val);
+
+                        // if (end($ex) == 000) {
+                        //   $val = $ex[0];
+                        // }
+
+                        return $val;
+
+                    }),  
                     'frekuensi'   => $subdata->count(),
                     'satuan'      => $subdata->pluck($this->getColumn('satuan'))->flatten(1)->first(),
                     'kota_asal'   => $subdata->groupBy('kota_asal'),

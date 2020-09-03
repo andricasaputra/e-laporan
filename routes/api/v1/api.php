@@ -183,27 +183,6 @@ Route::namespace('Operasional')->group(function () {
 
 });
 
-/*
-|
-| E-IKM API
-|
-*/
-
-Route::namespace('Ikm')->group(function () {
-
-	/*Route API For tabel utama e-ikm*/
-	Route::post('ikm/{ikm_id?}', 'HomeController@api')->name('api.ikm');
-	
-	/*Route API For detail pertanyaan e-ikm*/
-	Route::get('ikm/detail/{id}/{ikm_id?}', 'HomeController@detailApi')->name('api.show');
-
-	/*Route API For data statistik e-ikm*/
-	Route::get('statistik/ikm/{id?}', 'StatistikController@api')->name('api.statistik');
-
-	/*Route API For data grafik e-ikm*/
-	Route::get('statistik/grafik/{id?}', 'GrafikController@chartApi')->name('api.grafik');
-
-});
 
 /*
 |

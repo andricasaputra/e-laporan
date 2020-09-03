@@ -37,8 +37,6 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        $this->mapIkmRoutes();
-
         $this->mapOperasionalRoutes();
 
         $this->mapOperasionalKhRoutes();
@@ -116,22 +114,6 @@ class RouteServiceProvider extends ServiceProvider
              });
     }
 
-    /**
-     * Define the "IKM" routes for the application.
-     *
-     * Route utama untuk E - IKM
-     *
-     * @return void
-     */
-    protected function mapIkmRoutes()
-    {
-        Route::middleware('web', 'auth')
-             ->prefix('intern')
-             ->namespace($this->namespace . '\Ikm')
-             ->group(function(){
-                Route::prefix('ikm')->group(base_path('routes/ikm.php'));
-             });
-    }
 
     /**
      * Define the "Manajemen Aplikasi" routes for the application.
