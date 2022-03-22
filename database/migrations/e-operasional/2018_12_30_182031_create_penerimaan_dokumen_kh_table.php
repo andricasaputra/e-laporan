@@ -23,8 +23,6 @@ class CreatePenerimaanDokumenKhTable extends Migration
             $table->date('tanggal');
             $table->timestamps();
 
-            $table->foreign('wilker_id')->references('id')->on('wilker');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('dokumen_id')->references('id')->on('master_dokumen');
         });
     }

@@ -167,7 +167,7 @@ return [
          */
         Yajra\DataTables\DataTablesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Mavinoo\LaravelBatch\LaravelBatchServiceProvider::class,
+        Mavinoo\Batch\BatchServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
@@ -233,7 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'Batch' => Mavinoo\LaravelBatch\LaravelBatchFacade::class,
+        'Batch' =>Mavinoo\Batch\BatchFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],

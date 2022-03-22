@@ -10,9 +10,7 @@ trait SchemaMainOperasionalTableColumnsKt
   {
       $table->increments('id');
       $table->integer('wilker_id')->unsigned();
-      $table->foreign('wilker_id')->references('id')->on('users_e-office.wilker');
       $table->integer('user_id')->unsigned();
-      $table->foreign('user_id')->references('id')->on('users');
       $table->date('bulan')->index()->nullable();
       $table->integer('no')->default(0)->nullable();            
       $table->string('no_permohonan', 50)->nullable();
@@ -38,6 +36,7 @@ trait SchemaMainOperasionalTableColumnsKt
       $table->string('lokasi_mp')->nullable();
       $table->string('tempat_produksi')->nullable();
       $table->string('nama_tempat_pelaksanaan')->nullable();
+      $table->double('nilai_barang_total')->nullable();
       $table->string('peruntukan', 70)->nullable();
       $table->string('golongan', 70)->nullable();
       $table->integer('kode_hs')->nullable();
@@ -49,6 +48,7 @@ trait SchemaMainOperasionalTableColumnsKt
       $table->string('sat_bruto', 50)->nullable();
       $table->float('volume_lain')->default(0)->nullable();
       $table->string('sat_lain', 50)->nullable();
+      $table->double('harga')->nullable();
       $table->float('volumeP1')->default(0)->nullable();
       $table->float('nettoP1')->default(0)->nullable();
       $table->float('volumeP8')->default(0)->nullable();

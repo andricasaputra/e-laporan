@@ -14,8 +14,6 @@ class WelcomeController extends Controller
      */
     public function __invoke()
     {
-    	//$ikm  = Jadwal::select('keterangan')->whereIsOpen(1)->first();
-
     	return view('intern.welcome');
     }
 }

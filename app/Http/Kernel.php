@@ -38,10 +38,14 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            \Barryvdh\Cors\HandleCors::class,
+            \Fruitcake\Cors\HandleCors::class,
             'throttle:60,1',
             'bindings',
         ],
+
+        'cors' => [
+            \Fruitcake\Cors\HandleCors::class,
+        ]
     ];
 
     /**

@@ -280,7 +280,7 @@ class DataOperasionalRepositoryManager implements RepositoryInterface
     public function rollback(Request $request)
     {
         $log = LogInfo::find($request->id);
-
+       
         event( new OperasionalRollbackEvent($log) );
 
         $log->update([

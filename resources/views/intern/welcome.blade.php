@@ -151,7 +151,9 @@
 
             }catch(err){
                 const container = document.querySelector('#message');
-                container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
+                container.innerHTML = `
+                <div class="alert alert-danger">Gagal Login.. <a href="/users-management/public/login">Klik link berikut</a></div>
+                `;
             }
         }
 

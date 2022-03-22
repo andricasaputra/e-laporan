@@ -20,7 +20,7 @@ class CreateLogOperasionalTable extends Migration
             $table->unsignedInteger('wilker_id');
             $table->string('status', 20)->nullable();
             $table->dateTime('rolledback_at')->nullable();
-            $table->foreign('wilker_id')->references('id')->on('wilker');
+            //$table->foreign('wilker_id')->references('id')->on('wilker');
             $table->timestamps();
             $table->index(['type', 'bulan', 'wilker_id']);
         });

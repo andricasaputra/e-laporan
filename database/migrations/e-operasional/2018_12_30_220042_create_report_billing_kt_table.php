@@ -16,9 +16,9 @@ class CreateReportBillingKtTable extends Migration
         Schema::create('report_billing_kt', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('wilker_id')->unsigned();
-            $table->foreign('wilker_id')->references('id')->on('wilker');
+            //$table->foreign('wilker_id')->references('id')->on('wilker');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            //$table->foreign('user_id')->references('id')->on('users');
             $table->date('bulan')->index()->nullable();
             $table->integer('no')->default(0)->nullable(); 
             $table->string('kode_transaksi')->nullable();

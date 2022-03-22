@@ -49,12 +49,12 @@ class User extends Authenticatable
 
     public function wilker()
     {
-        return $this->belongsToMany(Wilker::class);
+        return $this->belongsToMany(Wilker::class, 'wilker_users');
     }
 
     public function roles()
     {
-        return (new \App\User)->morphToMany(
+        return (new \App\Models\User)->morphToMany(
             config('permission.models.role'),
             'model',
             config('permission.table_names.model_has_roles'),

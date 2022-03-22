@@ -44,11 +44,13 @@ class OperasionalRollbackEvent
      */
     public function __construct(LogInfo $data)
     {
-        // getOriginal() untuk meng ignore mutator
+        // getRawOriginal () untuk meng ignore mutator
         // dari type dan bulan attributes
-        $this->type     = $data->getOriginal('type');
+        // karna di model attribute bulan dan type
+        // diubah formatnya
+        $this->type     = $data->getRawOriginal ('type');
 
-        $this->bulan    = $data->getOriginal('bulan');
+        $this->bulan    = $data->getRawOriginal ('bulan');
         
         $this->wilkerId = $data->wilker_id;
     }

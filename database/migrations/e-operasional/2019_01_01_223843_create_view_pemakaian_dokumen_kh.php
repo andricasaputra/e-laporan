@@ -66,6 +66,6 @@ class CreateViewPemakaianDokumenKh extends Migration
      */
     public function down()
     {
-        DB::statement("DROP VIEW v_pemakaian_dokumen_kh");
+        DB::statement("CREATE OR REPLACE VIEW v_pemakaian_dokumen_kh");
     }
 }
