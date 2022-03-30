@@ -86,9 +86,9 @@
                <i class="fa fa-envelope fa-4x"></i>
             </div>
             <div class="col-sm-9 card_body_welcome">
-                <h3 class="card-title">E - Persuratan</h3>
-                <p class="card-text">Status : In Planning</p>
-                <a href="#" class="btn" style="background-color: #D62D20; color:#fff">Masuk Ke Aplikasi!</a>
+                <h3 class="card-title">E - IPNBK</h3>
+                <p class="card-text">Status : Version 1.0</p>
+                <a href="#" class="btn" id="btn-e-ipnbk" style="background-color: #D62D20; color:#fff">Masuk Ke Aplikasi!</a>
             </div>
           </div>
         </div>
@@ -120,8 +120,8 @@
             </div>
             <div class="col-sm-9 card_body_welcome">
                 <h3 class="card-title">User Manajemen</h3>
-                <p class="card-text">Status : In Progress</p>
-                <a href="#" class="btn btn-user-management" style="background-color: #0087CB; color:#fff">Masuk Ke Aplikasi!</a>
+                <p class="card-text">Status : Version : 1.4</p>
+                <a href="#" class="btn" id="btn-user-management" style="background-color: #0087CB; color:#fff">Masuk Ke Aplikasi!</a>
             </div>
           </div>
         </div>
@@ -129,11 +129,12 @@
     </div>
 
     <script>
-        const userManagerLogin = async (e) => {
-            e.preventDefault();
+
+        const userEofficeLogin = async (url) => {
+            
 
             try{
-                const response = await fetch('{{ config('e-operasional.url.user-management') }}', {
+                const response = await fetch(url, {
                     method: 'POST',
                     body: '{{ auth()->id() }}'
                 });
@@ -141,6 +142,7 @@
                 const data = await response.json();
 
                 if (response.ok) {
+                  console.log(data);
                     localStorage.setItem('access_token', data.access_token);
                     window.location = data.redirect;
                 } else if(response.status == 401) {
@@ -157,6 +159,24 @@
             }
         }
 
-        document.querySelector('.btn-user-management').addEventListener('click', userManagerLogin);
+        document.querySelector('#btn-user-management').addEventListener('click', e => {
+
+          e.preventDefault();
+
+          
+
+          userEofficeLogin('{{ config('e-operasional.url.user-management') }}')
+
+        });
+
+        document.querySelector('#btn-e-ipnbk').addEventListener('click', e => {
+
+          e.preventDefault();
+
+          console.log('click');
+
+          userEofficeLogin('{{ config('e-operasional.url.e-ipnbk') }}')
+
+        });
     </script>
 @endsection
