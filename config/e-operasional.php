@@ -31,8 +31,8 @@ return [
 
     // Handle url untuk data users
     'url' => [
-        'user-management' => env('APP_BASE_URL') . '/' . env('APP_USER_API_URL') . (env('APP_ENV') == 'local' ? '/public' : '') .'/login/e-office',
-        'e-ipnbk' => env('APP_BASE_URL') . '/' . env('APP_IPNBK_API_URL') . (env('APP_ENV') == 'local' ? '/public' : '') .'/login/e-office'
+        'user-management' =>  env('APP_USER_API_URL') . (env('APP_ENV') == 'local' ? '/public' : '') .'/login/e-office',
+        'e-ipnbk' =>  env('APP_IPNBK_API_URL') . (env('APP_ENV') == 'local' ? '/public' : '') .'/login/e-office'
     ]
 ];
 
