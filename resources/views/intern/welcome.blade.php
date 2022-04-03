@@ -132,19 +132,16 @@
 
         const userEofficeLogin = async (url) => {
             
-
             try{
                 const response = await fetch(url, {
                     method: 'POST',
-                    body: '{{ auth()->id() }}'
+                    body: '{{ auth()->user()->api_token }}'
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
-                  console.log(data);
-                    localStorage.setItem('access_token', data.access_token);
-                    window.location = data.redirect;
+                    window.open(data.redirect);return false;
                 } else if(response.status == 401) {
                    throw new Error('Username anda tidak ditemukan, silahkan hubungi admin'); 
                 }else {
@@ -163,8 +160,6 @@
 
           e.preventDefault();
 
-          
-
           userEofficeLogin('{{ config('e-operasional.url.user-management') }}')
 
         });
@@ -172,8 +167,6 @@
         document.querySelector('#btn-e-ipnbk').addEventListener('click', e => {
 
           e.preventDefault();
-
-          console.log('click');
 
           userEofficeLogin('{{ config('e-operasional.url.e-ipnbk') }}')
 

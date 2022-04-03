@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Operasional;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Imports\Operasional\Factories\ImportFactory;
 use App\Imports\Operasional\Factories\BeforeImportFactory;
@@ -135,14 +136,26 @@ abstract class AbstractBaseOperasional extends Controller
 
         $imports     = $factory->initializeImportsType($model, $this->request, $this->tanggal);
 
-        excel()->import($imports, $this->request->file('filenya'));
+        try {
 
-        // Beri notifikasi kepada user apabila berhasil imports
-        if ($imports->notificationTrigger()) {
+            DB::beginTransaction();
 
-            $this->setNotificationProperties()->fireUploadEvent();
+            excel()->import($imports, $this->request->file('filenya'));
 
+            // Beri notifikasi kepada user apabila berhasil imports
+            if ($imports->notificationTrigger()) {
+
+                $this->setNotificationProperties()->fireUploadEvent();
+
+            }
+            
+            DB::commit();
+            
+        } catch (Exception $e) {
+
+             DB::rollback();
         }
+
     }
 
     abstract public function setNotificationProperties();

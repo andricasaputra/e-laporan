@@ -149,9 +149,19 @@
                 }
 
             }catch(err){
-                localStorage.removeItem('access_token');
+
+                
+                const token = localStorage.getItem('access_token');
+
                 const container = document.querySelector('#message');
-                container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
+
+                if (token) {
+
+                    container.innerHTML = `<div class="alert alert-danger">Silahkan login kembali</div>`;
+                } else {
+                    container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
+                }
+                
             }
         }
 
