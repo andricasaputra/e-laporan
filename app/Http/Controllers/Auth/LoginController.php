@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    use AuthenticatesUsers, AuthUserTrait;
+    use AuthenticatesUsers;
+
+    protected $user;
+    protected $apiToken;
 
     /**
      * Where to redirect users after login.
@@ -39,11 +43,11 @@ class LoginController extends Controller
 
     public function autoLogin(Request $request)
     {
-        $this->accessToken = $request->getContent();
+        $this->apiToken = $request->getContent();
 
-        $this->getAuthUser();
+        $this->user = User::whereApiToken($this->apiToken)->first();
 
-        if(!$this->auth){
+        if(!$this->user){
             return response()->json([
                 'error' => true,
                 'message' => 'Unauthorized',
@@ -51,13 +55,13 @@ class LoginController extends Controller
             ], 401);
         }
 
-        auth()->login($this->auth);
+        auth()->login($this->user);
 
         return response()->json([
             'error' => false,
             'message' => 'Successfully Login',
             'redirect' => route('welcome'),
-            'access_token' => $this->accessToken,
+            'api_token' => $this->apiToken,
             'token_type' => 'Bearer',
             'status' => 'Authenticated'
         ], 200);
@@ -71,6 +75,12 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
+        $user = auth()->user();
+
+        $user->api_token = NULL;
+
+        $user->save();
+
         $this->guard()->logout();
 
         $request->session()->invalidate();

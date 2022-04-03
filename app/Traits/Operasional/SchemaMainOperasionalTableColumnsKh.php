@@ -63,7 +63,7 @@ trait SchemaMainOperasionalTableColumnsKh
         $table->text('dokumen_pendukung')->nullable();
         $table->text('kontainer')->nullable();
         $table->float('biaya_perjadin')->default(0)->nullable();
-        $table->float('total_pnbp')->default(0)->index()->nullable();
+        $table->string('total_pnbp')->default(0)->index()->nullable();
         $table->timestamps(); 
 
         return $table;
