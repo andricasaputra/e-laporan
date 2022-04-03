@@ -149,6 +149,7 @@
                 }
 
             }catch(err){
+                localStorage.removeItem('access_token');
                 const container = document.querySelector('#message');
                 container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
             }
