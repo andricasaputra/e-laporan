@@ -172,7 +172,7 @@ Route::middleware('kt')->group(function(){
 		Route::post('rekapitulasi', 'LaporanRekpitulasiKomoditiController@laporanRekapitulasiKomoditiKt')
 		->name('kt.download.rekapitulasi');
 
-		Route::post('pemakaian_dokumen', 'LaporanPemakaianDokumenKtController@laporanPemakaianDokumenKt')
+		Route::post('pemakaian_dokumen', 'LaporanPemakaianDokumenKtController@export')
 		->name('kt.download.pemakaian_dokumen');
 
 	});/*End Download Namespace*/

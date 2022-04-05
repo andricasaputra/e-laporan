@@ -56,12 +56,7 @@
 			<td valign="middle" style="border: 1px solid #000; text-align: center;font-weight: bold">
 				Sampai Dengan Bulan Lalu
 			</td>
-			<td valign="middle" style="border: 1px solid #000; text-align: center;font-weight: bold">
-				Pada Bulan Ini
-			</td>
-			<td valign="middle" style="border: 1px solid #000; text-align: center;font-weight: bold">
-				Sampai Dengan Bulan Ini
-			</td>
+			
 		</tr>
 		{{-- End Header --}}
 
@@ -825,7 +820,8 @@
 		<tr>
 			<td colspan="5"></td>
 			<td colspan="5" valign="top" style="font-weight: bold;text-align: center;font-size: 12">
-				{{ $datas['signatory']->jabatan->jabatan }}
+
+				{{ $datas['signatory']->jabatan }}
 			</td>
 		</tr>
 		
@@ -848,7 +844,5 @@
 		</tr>
 
 	</table>
-
-	
 </body>
 </html>

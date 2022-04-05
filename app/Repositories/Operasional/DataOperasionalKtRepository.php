@@ -243,8 +243,13 @@ class DataOperasionalKtRepository extends DataOperasionalRepositoryManager
     public function pemakaianDokumenBulanLalu($excel = false)
     {
         return  DokumenKt::countPemakaianDokumen(
-                    $this->bulanLalu()['year'], $this->bulanLalu()['lastMonth'], $this->wilker_id, $excel
-                )->get();
+            [
+                $this->bulanLalu()['year'], 
+                $this->bulanLalu()['lastMonth'], 
+                $this->wilker_id
+            ], 
+            $excel
+        )->get();
     }
 
     /**
