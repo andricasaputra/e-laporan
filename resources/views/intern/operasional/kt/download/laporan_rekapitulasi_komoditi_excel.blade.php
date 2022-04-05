@@ -67,7 +67,7 @@
 							
 							<td>{{ $komoditi ?? '-' }}</td>
 							
-							<td>{{ $data['volume'] ?? '-' }}</td>
+							<td>{{ $data['volume'][0] ?? '-' }}</td>
 							
 							<td>{{ $data['satuan'] ?? '-' }}</td>
 							

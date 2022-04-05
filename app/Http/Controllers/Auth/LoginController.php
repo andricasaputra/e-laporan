@@ -4,15 +4,73 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Str;
+//use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    use AuthenticatesUsers;
-
     protected $user;
     protected $apiToken;
+
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'username' => ['required', 'string'],
+            'password' => ['required']
+        ]);
+        
+        if (str_contains($credentials['username'], '@pertanian.go.id')) {
+            $credentials['username'] = str_replace('@pertanian.go.id', '', $credentials['username']);
+        }
+
+        if (str_contains($credentials['username'], '-')) {
+            $credentials['username'] = str_replace('-', '_', $credentials['username']);
+        }
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            $user = auth()->user();
+
+            if (is_null($user->api_token)) {
+                $user->api_token = Str::random(80);
+                $user->save();
+            }
+ 
+            return redirect()->intended(route('welcome'));
+        }
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        if ($response = $this->authenticated($request, $this->guard()->user())) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+                    ? new JsonResponse([], 204)
+                    : redirect()->intended($this->redirectPath());
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            'username' => [trans('auth.failed')],
+        ]);
+    }
 
     /**
      * Where to redirect users after login.
@@ -81,7 +139,7 @@ class LoginController extends Controller
 
         $user->save();
 
-        $this->guard()->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
 

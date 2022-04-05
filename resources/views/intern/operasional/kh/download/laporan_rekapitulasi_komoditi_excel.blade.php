@@ -66,8 +66,8 @@
 							
 							<td>{{ $komoditi ?? '-' }}</td>
 							
-							<td>
-								{{ $data['volume'] ?? '-' }}
+							<td> 
+								{{ $data['volume'][0] ?? '-' }}
 							</td>
 							
 							<td>{{ $data['satuan'] ?? '-' }}</td>
@@ -171,7 +171,7 @@
 				<td></td>
 			@endfor
 			<td colspan="4">
-				{{-- {{ $datas['signatory']->jabatan->jabatan }} --}}
+				{{ $datas['signatory']->jabatan }}
 			</td>
 		</tr>
 
@@ -186,7 +186,7 @@
 				<td></td>
 			@endfor
 			<td colspan="4">
-				{{-- {{ $datas['signatory']->nama }} --}}
+				{{ $datas['signatory']->nama }}
 			</td>
 		</tr>
 		

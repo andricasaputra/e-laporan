@@ -146,7 +146,7 @@
 				@for($i=1; $i < 28; $i++)
 					<td></td>
 				@endfor
-				<td colspan="6">{{ $datas['signatory']->jabatan->jabatan }} </td>
+				<td colspan="6">{{ $datas['signatory']->jabatan }} </td>
 			</tr>
 			<tr>
 				<td></td>

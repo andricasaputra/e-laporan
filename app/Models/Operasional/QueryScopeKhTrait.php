@@ -19,7 +19,7 @@ trait QueryScopeKhTrait
     public function scopeCountFrekuensiByPermohonan($query, array $arguments)
     {
         $query->selectRaw('count(*) as frekuensi')
-              ->where('no_permohonan', '!=', 'IDEM')
+              //->where('no_permohonan', '!=', 'IDEM')
               ->where('no_permohonan', '!=', '')
               ->whereNotNull('nama_mp')
               ->whereYear('bulan', $arguments[0]);
@@ -102,7 +102,7 @@ trait QueryScopeKhTrait
         $query->selectRaw(' *, sum(jumlah) as volume, sum(total_pnbp) as pnbp, count(*) as frekuensi, nama_mp')
               ->whereYear('bulan', $arguments[0])
               ->whereNotNull('nama_mp')
-              ->where('no_permohonan', '!=', 'IDEM')
+              //->where('no_permohonan', '!=', 'IDEM')
               ->where('no_permohonan', '!=', '');
 
         $query->when($arguments[1] && $arguments[1] != 'all', function ($query) use ($arguments) {

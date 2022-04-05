@@ -24,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
 
         // Set Localization For Whole aplication times (Asia/Makassar, WITA)
         Carbon::setLocale(config('app.timezone'));
+
+        $this->loadMigrationsFrom($this->getMigrationPath());
+
     }
 
     /**
@@ -41,5 +44,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('Client', function ($app) {
             return new Client;
         });
+    }
+
+    private function getMigrationPath()
+    {
+        $mainPath = database_path('migrations/e-operasional');
+
+        $directories = glob($mainPath . '/*' , GLOB_ONLYDIR);
+
+        return  array_merge([$mainPath], $directories);
     }
 }

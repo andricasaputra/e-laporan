@@ -42,17 +42,17 @@ trait SchemaMainOperasionalTableColumnsKt
       $table->integer('kode_hs')->nullable();
       $table->string('nama_komoditas')->index()->nullable();
       $table->string('nama_komoditas_en')->nullable();
-      $table->float('volume_netto')->default(0)->index()->nullable();
+      $table->float('volume_netto', 11, 2)->default(0)->index()->nullable();
       $table->string('sat_netto', 50)->index()->nullable();
-      $table->float('volume_bruto')->default(0)->nullable();
+      $table->float('volume_bruto', 11, 2)->default(0)->nullable();
       $table->string('sat_bruto', 50)->nullable();
-      $table->float('volume_lain')->default(0)->nullable();
+      $table->float('volume_lain', 11, 2)->default(0)->nullable();
       $table->string('sat_lain', 50)->nullable();
       $table->double('harga')->nullable();
-      $table->float('volumeP1')->default(0)->nullable();
-      $table->float('nettoP1')->default(0)->nullable();
-      $table->float('volumeP8')->default(0)->nullable();
-      $table->float('nettoP8')->default(0)->nullable();
+      $table->float('volumeP1', 11, 2)->default(0)->nullable();
+      $table->float('nettoP1', 11, 2)->default(0)->nullable();
+      $table->float('volumeP8', 11, 2)->default(0)->nullable();
+      $table->float('nettoP8', 11, 2)->default(0)->nullable();
       $table->string('dok_pelepasan', 50)->index()->nullable();
       $table->string('nomor_dok_pelepasan', 50)->index()->nullable();
       $table->date('tanggal_pelepasan')->index()->nullable();
@@ -60,8 +60,8 @@ trait SchemaMainOperasionalTableColumnsKt
       $table->string('no_kwitansi', 100)->nullable();
       $table->text('dokumen_pendukung')->nullable();
       $table->text('kontainer')->nullable();
-      $table->float('biaya_perjadin')->default(0)->nullable();
-      $table->float('total_pnbp')->default(0)->index()->nullable();
+      $table->float('biaya_perjadin', 11, 2)->default(0)->nullable();
+      $table->float('total_pnbp', 11, 2)->default(0)->index()->nullable();
       $table->timestamps();
 
       return $table;

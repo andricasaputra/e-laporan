@@ -19,7 +19,7 @@ trait QueryScopeKtTrait
     public function scopeCountFrekuensiByPermohonan($query, array $arguments)
     {
         $query->selectRaw('count(*) as frekuensi')
-              ->where('no_permohonan', '!=', 'IDEM')
+              //->where('no_permohonan', '!=', 'IDEM')
               ->where('no_permohonan', '!=', '')
               ->whereNotNull('nama_komoditas')
               ->whereYear('bulan', $arguments[0]);
@@ -60,7 +60,7 @@ trait QueryScopeKtTrait
 
         });
                      
-        return $query->groupBy('sat_netto');
+        return $query->orderBy('id')->groupBy('sat_netto');
     }
 
     /**
@@ -104,7 +104,7 @@ trait QueryScopeKtTrait
         $query->selectRaw(' *, sum(volume_netto) as volume, sum(total_pnbp) as pnbp, count(*) as frekuensi, nama_komoditas')   
               ->whereYear('bulan', $arguments[0])
               ->whereNotNull('nama_komoditas')
-              ->where('no_permohonan', '!=', 'IDEM')
+              //->where('no_permohonan', '!=', 'IDEM')
               ->where('no_permohonan', '!=', '');
 
         $query->when($arguments[1] && $arguments[1] != 'all', function ($query) use ($arguments) {
