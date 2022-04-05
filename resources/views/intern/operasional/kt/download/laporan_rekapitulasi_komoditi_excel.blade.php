@@ -170,7 +170,7 @@
 				<td></td>
 			@endfor
 			<td colspan="4">
-				{{ $datas['signatory']->jabatan->jabatan }}
+				{{ $datas['signatory']->jabatan }}
 			</td>
 		</tr>
 
