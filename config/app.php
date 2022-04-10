@@ -233,7 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'Batch' =>Mavinoo\Batch\BatchFacade::class,
+        'Batch' => Mavinoo\Batch\BatchFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
