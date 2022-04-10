@@ -7,10 +7,10 @@ namespace App\Imports\Operasional\Process;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Mavinoo\Batch\BatchFacade as Batch;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use Mavinoo\LaravelBatch\LaravelBatchFacade as Batch;
 use App\Contracts\Operasional\ModelReportBillingInterface as Model;
 
 class ImportLaporanBilling extends ImportMaster implements ToCollection, WithMultipleSheets, WithHeadingRow
