@@ -18,8 +18,8 @@ trait QueryScopeKtTrait
      */
     public function scopeCountFrekuensiByPermohonan($query, array $arguments)
     {
-        $query->selectRaw('count(*) as frekuensi')
-              //->where('no_permohonan', '!=', 'IDEM')
+        $query->selectRaw('no_permohonan, count(*) as frekuensi')
+              ->where('no_permohonan', '!=', 'IDEM')
               ->where('no_permohonan', '!=', '')
               ->whereNotNull('nama_komoditas')
               ->whereYear('bulan', $arguments[0]);
