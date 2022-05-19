@@ -184,24 +184,39 @@ class ImportLaporanOperasional extends ImportMaster implements ToCollection, Wit
     {
         // Pengecekan PNBP yang tidak boleh 0 pada dokumen pelepasan yang dikenakan tarif
         if (! $this->checkPnbp($datas)) return false;
+
+        try{
+
+             // Jika Laporan belum pernah diupload, maka insert 
+            $datas->when((int) $this->forInsertOrUpdate($datas) === 0, function ($datas) {
+
+                $this->model->insert( $datas->all() ); 
+
+                $this->notificationTrigger = true;
+
+                $this->setFeedback('success', 'Laporan Berhasil Diupload!');
+
+            // Jika Laporan sudah pernah diupload, maka update
+            }, function($datas){
+
+                Batch::update($this->model, $datas->all(), $this->index);
+
+                $this->setFeedback('success', 'Laporan Berhasil Diperbarui!');
+
+            });         
+
+        }catch(\Throwable $e) {
+
+            if ($e instanceof \Illuminate\Database\QueryException) {
+
+                $this->setFeedback('warning', $e->getPrevious()->errorInfo[2]);
+
+                return false;
+            }
+
+        }
  
-        // Jika Laporan belum pernah diupload, maka insert 
-        $datas->when((int) $this->forInsertOrUpdate($datas) === 0, function ($datas) {
-
-            $this->model->insert( $datas->all() ); 
-
-            $this->notificationTrigger = true;
-
-            $this->setFeedback('success', 'Laporan Berhasil Diupload!');
-
-        // Jika Laporan sudah pernah diupload, maka update
-        }, function($datas){
-
-            Batch::update($this->model, $datas->all(), $this->index);
-
-            $this->setFeedback('success', 'Laporan Berhasil Diperbarui!');
-
-        });                   
+                 
     }
 
     /**

@@ -29,10 +29,6 @@ use Spatie\ResponseCache\Facades\ResponseCache;
 
     });
 
-    Route::get('cache-clear', function(){
-        ResponseCache::clear();
-    });
-
     Route::get('view-clear', function(){
         Artisan::call('view:clear');
     });
