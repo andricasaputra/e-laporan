@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title', 'Upload Laporan Domas')
+@section('title', 'Upload Laporan Penugasan Impor')
 
 @section('barside')
 
@@ -10,14 +10,14 @@
 
 @section('page-breadcrumb')
 
-<h4 class="page-title">Upload Domestik Masuk Karantina Tumbuhan</h4>
+<h4 class="page-title">Upload Penugasan Impor Karantina Tumbuhan</h4>
 <div class="d-flex align-items-center">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('showmenu.operasional.kt') }}">Menu</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('kt.homeupload') }}">Upload</a></li>
-            <li class="breadcrumb-item" aria-current="page">Domestik Masuk</li>
+            <li class="breadcrumb-item"><a href="{{ route('kt.menu.penugasan.page') }}">Menu</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('kt.upload.penugasan.page.home') }}">Upload</a></li>
+            <li class="breadcrumb-item" aria-current="page">Impor</li>
         </ol>
     </nav>
 </div>
@@ -33,13 +33,13 @@
 
     <div class="card text-center">
       <div class="card-body">
-        <h4>Upload Domestik Masuk Karantina Tumbuhan</h4>
-        <form action="{{ route('kt.upload.proses.domas') }}" method="post" enctype="multipart/form-data" class="form-loader">
+        <h4>Upload Penugasan Impor Karantina Tumbuhan</h4>
+        <form action="{{ route('kt.upload.proses.impor') }}" method="post" enctype="multipart/form-data" class="form-loader">
             @csrf
 
             <input type="hidden" name="user_id" value="{{ $user->id }}">
 
-            <input type="hidden" name="jenis_permohonan" value="Domestik Masuk">
+            <input type="hidden" name="jenis_permohonan" value="Penugasan Impor">
 
             <div class="form-group">
               <label for="wilker_id">Nama Wilker</label>
@@ -70,7 +70,7 @@
     </div>
     <div class="col">
       <div class="text-center">
-       <a href="{{ route('kt.homeupload') }}" class="btn btn-default"><i class="fa fa-angle-double-left"></i> Kembali</a>
+        <a href="{{ route('kt.upload.penugasan.page.home') }}" class="btn btn-default"><i class="fa fa-angle-double-left"></i> Kembali</a>
       </div>
     </div>
   </div>  

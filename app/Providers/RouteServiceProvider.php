@@ -46,6 +46,9 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapNotificationsRoutes();
 
         $this->mapApplicationManagementRoutes();
+
+        $this->mapPenugasanRoutes();
+
     }
 
     /**
@@ -114,6 +117,20 @@ class RouteServiceProvider extends ServiceProvider
              });
     }
 
+     /**
+     * Define the "Penugasan" routes for the application.
+     *
+     * Route utama untuk Penugasan pada semua Aplikasi
+     *
+     * @return void
+     */
+    protected function mapPenugasanRoutes()
+    {
+        Route::middleware('web', 'auth')
+         ->namespace($this->namespace . '\Penugasan')
+         ->group(base_path('routes/penugasan.php'));
+    }
+
 
     /**
      * Define the "Manajemen Aplikasi" routes for the application.
@@ -159,4 +176,6 @@ class RouteServiceProvider extends ServiceProvider
              ->namespace($this->namespace)
              ->group(base_path('routes/api/v1/api.php'));
     }
+
+    
 }

@@ -49,6 +49,14 @@
                     </a>
                 </li>
                 <li class="sidebar-item"> 
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('kh.menu.penugasan.page') }}" aria-expanded="false"><i class="mdi mdi-book-plus"></i><span class="hide-menu">Penugasan KH</span>
+                    </a>
+                </li>
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('kt.menu.penugasan.page') }}" aria-expanded="false"><i class="mdi mdi-book-open"></i><span class="hide-menu">Penugasan KT</span>
+                    </a>
+                </li>
+                <li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('page.info') }}" aria-expanded="false"><i class="mdi mdi-access-point"></i><span class="hide-menu">Info Update Aplikasi</span>
                     </a>
                 </li>

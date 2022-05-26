@@ -137,14 +137,14 @@
   <div class="col-md-3 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
-        Upload Laporan Re Ekspor
+        Upload Laporan Penugasan
       </div>
       <div class="card-body">
         <i class="fa fa-repeat fa-2x mb-3"></i>
         <h4 class="card-text mb-3">
-          Re Ekspor
+         Penugasan
         </h4>
-        <a href="{{ route('kt.upload.page.reekspor') }}" class="btn btn-primary">Masuk</a>
+        <a href="{{ route('kt.upload.penugasan.page.home') }}" class="btn btn-primary">Masuk</a>
       </div>
     </div>
   </div> 

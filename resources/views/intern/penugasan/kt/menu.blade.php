@@ -1,6 +1,6 @@
 @extends('intern.layouts.app')
 
-@section('title', 'Menu Operasional KH')
+@section('title', 'Menu Penugasan KT')
 
 @section('barside')
 
@@ -10,12 +10,12 @@
 
 @section('page-breadcrumb')
 
-<h4 class="page-title">Menu Operasional Karantina Hewan</h4>
+<h4 class="page-title">Menu Penugasan Karantina Tumbuhan</h4>
 <div class="d-flex align-items-center">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('show.operasional') }}">Home</a></li>
-            <li class="breadcrumb-item" aria-current="page">Menu Karantina Hewan</li>
+            <li class="breadcrumb-item" aria-current="page">Menu Karantina Tumbuhan</li>
         </ol>
     </nav>
 </div>
@@ -54,77 +54,60 @@
   }
 
   .card{
-    min-height: 280px ;
+    min-height: 300px ;
   }
 
 </style>
 
 <div class="row">
-  <div class="col-md-3 col-sm-12">
+  <div class="col-md-4 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
-        Detail Rekapitulasi, Statistik Dan Grafik!
+        Detail Penugasan!
       </div>
       <div class="card-body">
         <i class="fa fa-expand fa-2x mb-4"></i>
         <h4 class="card-text">
-          Lihat Data Operasional
+          Lihat Detail Penugasan
         </h4>
-        <p>Karantina Hewan</p>
+        <p>Karantina Tumbuhan</p>
       </div>
       <div class="card-footer bg-transparent">
-        <a href="{{ route('showmenu.data.operasional.kh') }}" class="btn btn-default">Masuk</a>
+        <a href="{{ route('kt.view.penugasan.home') }}" class="btn btn-default">Masuk</a>
       </div>
     </div>
   </div>  
-  <div class="col-md-3 col-sm-12">
+  <div class="col-md-4 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
-        Upload Laporan Operasional!
+        Upload Laporan Penugasan!
       </div>
       <div class="card-body">
         <i class="fa fa-upload fa-2x mb-4"></i>
         <h4 class="card-text">
-          Upload Laporan Operasional
+          Upload Laporan Penugasan
         </h4>
-        <p>Karantina Hewan</p>
+        <p>Karantina Tumbuhan</p>
       </div>
       <div class="card-footer bg-transparent">
-        <a href="{{ route('kh.homeupload') }}" class="btn btn-default">Masuk</a>
+        <a href="{{ route('kt.upload.penugasan.page.home') }}" class="btn btn-default">Masuk</a>
       </div>
     </div>
   </div> 
-  <div class="col-md-3 col-sm-12">
+  <div class="col-md-4 col-sm-12">
     <div class="card text-center">
       <div class="card-header">
-        Download Laporan Operasional!
+        Download Laporan Penugasan!
       </div>
       <div class="card-body">
         <i class="fa fa-download fa-2x mb-4"></i>
         <h4 class="card-text">
-          Download Laporan Operasional
+          Download Laporan Penugasan
         </h4>
-        <p>Karantina Hewan</p>
+        <p>Karantina Tumbuhan</p>
       </div>
       <div class="card-footer bg-transparent">
-        <a href="{{ route('kh.homedownload') }}" class="btn btn-default">Masuk</a>
-      </div>
-    </div>
-  </div> 
-  <div class="col-md-3 col-sm-12">
-    <div class="card text-center">
-      <div class="card-header">
-        Data & Penerimaan Dokumen Operasional!
-      </div>
-      <div class="card-body">
-        <i class="fa fa-file fa-2x mb-4"></i>
-        <h4 class="card-text">
-          Dokumen Operasional
-        </h4>
-        <p>Karantina Hewan</p>
-      </div>
-      <div class="card-footer bg-transparent">
-        <a href="{{ route('kh.dokumen.index') }}" class="btn btn-default">Masuk</a>
+        <a href="{{ route('kt.homedownload') }}" class="btn btn-default">Masuk</a>
       </div>
     </div>
   </div> 

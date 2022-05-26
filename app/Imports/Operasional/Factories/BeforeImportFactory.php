@@ -5,9 +5,11 @@ namespace App\Imports\Operasional\Factories;
 use App\Contracts\Operasional\ModelPembatalanInterface;
 use App\Contracts\Operasional\ModelOperasionalInterface;
 use App\Contracts\Operasional\ModelReportBillingInterface;
+use App\Contracts\Operasional\ModelPenugasanInterface;
 use App\Imports\Operasional\Validation\BeforeImportOperasional;
 use App\Imports\Operasional\Validation\BeforeImportReportBilling;
 use App\Imports\Operasional\Validation\BeforeImportPembatalanDokumen;
+use App\Imports\Operasional\Validation\BeforeImportPenugasan;
 
 class BeforeImportFactory 
 {
@@ -25,7 +27,11 @@ class BeforeImportFactory
 
     		return new BeforeImportReportBilling($model, $request);
 
-    	}
+    	} elseif ($model instanceof ModelPenugasanInterface) {
+
+            return new BeforeImportPenugasan($model, $request);
+
+        } 
 
     	throw new \Exception("Jenis Laporan Tidak Ditemukan", 1);
     }

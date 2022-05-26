@@ -68,6 +68,7 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kh.data.statistik.home',
                 'intern.operasional.kt.data.rekapitulasi.home',
                 'intern.operasional.kt.data.statistik.home',
+                
             ],
 
             $this->namespace . '\Operasional\HomeComposer'
@@ -158,6 +159,18 @@ class ViewServiceProvider extends ServiceProvider
                 'intern.operasional.kt.upload.serah_terima',
                 'intern.operasional.kt.upload.billing',
 
+                // Penugasan KH views
+                'intern.penugasan.kh.upload.dokel', 
+                'intern.penugasan.kh.upload.domas',
+                'intern.penugasan.kh.upload.ekspor',
+                'intern.penugasan.kh.upload.impor',
+
+                // Penugasan KT views
+                'intern.penugasan.kt.upload.dokel', 
+                'intern.penugasan.kt.upload.domas',
+                'intern.penugasan.kt.upload.ekspor',
+                'intern.penugasan.kt.upload.impor',
+
                 // Admin Pengumuman
                 'intern.operasional.admin.pengumuman.create.create',
                 'intern.operasional.admin.pengumuman.create.edit',
@@ -197,6 +210,19 @@ class ViewServiceProvider extends ServiceProvider
             ],
 
             $this->namespace . '\Operasional\HomeDokumenPageComposer'
+
+        );
+
+        // Penugasan 
+        View::composer(
+
+            [
+
+                // KT views
+                'intern.penugasan.kt.data.home',
+            ],
+
+            $this->namespace . '\Operasional\PenugasanComposer'
 
         );
 

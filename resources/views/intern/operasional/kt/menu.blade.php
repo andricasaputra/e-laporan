@@ -53,6 +53,9 @@
     color: #fff
   }
 
+  .card{
+    min-height: 300px ;
+  }
 
 </style>
 

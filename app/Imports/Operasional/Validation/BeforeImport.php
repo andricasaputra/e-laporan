@@ -134,6 +134,27 @@ abstract class BeforeImport
         return true;
     }
 
+    /**
+     * Untuk validasi laporan harus asli dari iqfast
+     * dan tanpa perubahan apapun!
+     *
+     * @return bool
+     */
+    protected function validateLaporanPenugasanFromIqfast() : bool
+    {
+        // Mencegah laporan/file yang diupload kosong
+        if (is_null($this->jenisLaporan) && is_null($this->wilker) && is_null($this->jenisPermohonan)) {
+            return false;
+        }
+
+        // Mencegah laporan/file yang diupload bukan kegiatan operasional
+        if (stripos($this->jenisLaporan, 'LAPORAN PENUGASAN') === false) {
+            return false;
+        }
+
+        return true;
+    }
+
    	/**
      * Untuk validasi kesesuaian wilker user pengupload
      * dengan wilker pada laporan excel yang diupload 
