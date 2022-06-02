@@ -261,6 +261,140 @@ if (! function_exists('bulan')) {
 
 }
 
+if (! function_exists('bulan_to_month')) {
+
+	/**
+	 * Merubah angka bulan menjadi string (Indonesia)
+	 *
+	 * @param string $bulan
+	 * @return string
+	 */
+	function bulan_to_month($bulan) : ?string
+	{
+	    switch ($bulan) {
+
+	        case 'Januari':$bulan = "January";
+
+	            break;
+
+	        case 'Februari':$bulan = "February";
+
+	            break;
+
+	        case 'Maret':$bulan = "March";
+
+	            break;
+
+	        case 'April':$bulan = "April";
+
+	            break;
+
+	        case 'Mei':$bulan = "May";
+
+	            break;
+
+	        case 'Juni':$bulan = "June";
+
+	            break;
+
+	        case 'Juli':$bulan = "July";
+
+	            break;
+
+	        case 'Agustus':$bulan = "August";
+
+	            break;
+
+	        case 'September':$bulan = "September";
+
+	            break;
+
+	        case 'Oktober':$bulan = "October";
+
+	            break;
+
+	        case 'November':$bulan = "November";
+
+	            break;
+
+	        case 'Desember':$bulan = "December";
+
+	            break;
+
+	    }
+
+	    return $bulan;
+	}
+
+}
+
+if (! function_exists('month_to_bulan')) {
+
+	/**
+	 * Merubah angka bulan menjadi string (Indonesia)
+	 *
+	 * @param string $bulan
+	 * @return string
+	 */
+	function month_to_bulan($bulan) : ?string
+	{
+	    switch ($bulan) {
+
+	        case 'January':$bulan = "Januari";
+
+	            break;
+
+	        case 'February':$bulan = "Februari";
+
+	            break;
+
+	        case 'March':$bulan = "Maret";
+
+	            break;
+
+	        case 'April':$bulan = "April";
+
+	            break;
+
+	        case 'May':$bulan = "Mei";
+
+	            break;
+
+	        case 'June':$bulan = "Juni";
+
+	            break;
+
+	        case 'July':$bulan = "Juli";
+
+	            break;
+
+	        case 'August':$bulan = "Agustus";
+
+	            break;
+
+	        case 'September':$bulan = "September";
+
+	            break;
+
+	        case 'October':$bulan = "Oktober";
+
+	            break;
+
+	        case 'November':$bulan = "November";
+
+	            break;
+
+	        case 'December':$bulan = "Desember";
+
+	            break;
+
+	    }
+
+	    return $bulan;
+	}
+
+}
+
 if (! function_exists('rp')) {
 
 	/**

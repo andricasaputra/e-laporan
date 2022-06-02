@@ -29,6 +29,23 @@ Route::prefix('kt')->group(function(){
 		'/penugasan/data/table/{year?}/{month?}/{wilker_id?}', 'PenugasanDokelKtController@tableData'
 	)->name('api.kt.dokel.penugasan');
 
+	Route::get(
+		'/penugasan/data/epersonal', 'EpersonalController@create'
+	)->name('epersonal.penugasan');
+
+	//Download routes
+	Route::get('test', function(){
+
+		// return view('intern.penugasan.kt.download.pdf.test');
+
+		// $res = Http::asForm()->post('http://fungsional.pertanian.go.id/mainController/get_child/1');
+		// dd($res->object());
+		// $pdf = App::make('snappy.pdf.wrapper');
+		// $pdf->loadView('intern.penugasan.kt.download.pdf.dokel');
+		// return $pdf->inline();
+
+	});
+
 });
 
 Route::prefix('kh')->group(function(){

@@ -180,6 +180,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
         App\Providers\ExcelServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
+        App\Providers\EpersonalServiceProvider::class,
 
     ],
 
@@ -235,6 +237,8 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Batch' => Mavinoo\Batch\BatchFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
 
     ],
 

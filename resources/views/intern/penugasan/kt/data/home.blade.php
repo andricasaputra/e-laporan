@@ -213,7 +213,11 @@
           { "data" : "dokumen_pendukung" },
           { "data" : "kontainer" }, 
           { "data" : "created_at" }, 
-        ]
+        ],
+        "columnDefs": [{
+          "defaultContent": "-",
+          "targets": "_all"
+        }]
 
       });
     }/*end function*/

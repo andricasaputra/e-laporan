@@ -57,6 +57,14 @@
                     </a>
                 </li>
                 <li class="sidebar-item"> 
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('epersonal.index') }}" aria-expanded="false"><i class="mdi mdi-book-plus"></i><span class="hide-menu">Data SKP</span>
+                    </a>
+                </li>
+                 <li class="sidebar-item"> 
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('epersonal.index') }}" aria-expanded="false"><i class="mdi mdi-format-line-weight"></i><span class="hide-menu">Butir Kegiatan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('page.info') }}" aria-expanded="false"><i class="mdi mdi-access-point"></i><span class="hide-menu">Info Update Aplikasi</span>
                     </a>
                 </li>

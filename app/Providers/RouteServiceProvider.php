@@ -49,6 +49,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapPenugasanRoutes();
 
+        $this->mapEpersonalRoutes();
+
     }
 
     /**
@@ -129,6 +131,20 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web', 'auth')
          ->namespace($this->namespace . '\Penugasan')
          ->group(base_path('routes/penugasan.php'));
+    }
+
+     /**
+     * Define the "Epersonal" routes for the application.
+     *
+     * Route utama untuk Penugasan pada semua Aplikasi
+     *
+     * @return void
+     */
+    protected function mapEpersonalRoutes()
+    {
+        Route::middleware('web', 'auth')
+         ->namespace($this->namespace)
+         ->group(base_path('routes/epersonal.php'));
     }
 
 

@@ -13,7 +13,7 @@ class CreateViewPemakaianDokumenKh extends Migration
      */
     public function up()
     {
-        DB::statement("CREATE VIEW v_pemakaian_dokumen_kh AS
+        DB::statement("CREATE OR REPLACE VIEW v_pemakaian_dokumen_kh AS
 
                         SELECT  wilker_id,
                                 dok_pelepasan as dokumen, 
