@@ -182,6 +182,7 @@ return [
         App\Providers\ExcelServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         App\Providers\EpersonalServiceProvider::class,
+        App\Providers\ButirKegiatanProvider::class,
 
     ],
 

@@ -23,6 +23,7 @@ class CreateSkpUserTable extends Migration
             $table->text('judul_kegiatan');
             $table->text('butir_kegiatan');
             $table->string('target');
+            $table->string('realisasi');
             $table->timestamps();
         });
     }

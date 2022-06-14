@@ -40,30 +40,43 @@
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('show.operasional') }}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Ringkasan</span>
                     </a>
                 </li>
-                <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('showmenu.operasional.kh') }}" aria-expanded="false"><i class="mdi mdi-paw"></i><span class="hide-menu">Operasional KH</span>
-                    </a>
-                </li>
-                <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('showmenu.operasional.kt') }}" aria-expanded="false"><i class="mdi mdi-leaf"></i><span class="hide-menu">Operasional KT</span>
-                    </a>
-                </li>
-                <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('kh.menu.penugasan.page') }}" aria-expanded="false"><i class="mdi mdi-book-plus"></i><span class="hide-menu">Penugasan KH</span>
-                    </a>
-                </li>
-                <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('kt.menu.penugasan.page') }}" aria-expanded="false"><i class="mdi mdi-book-open"></i><span class="hide-menu">Penugasan KT</span>
-                    </a>
-                </li>
-                <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('epersonal.index') }}" aria-expanded="false"><i class="mdi mdi-book-plus"></i><span class="hide-menu">Data SKP</span>
-                    </a>
-                </li>
-                 <li class="sidebar-item"> 
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('epersonal.index') }}" aria-expanded="false"><i class="mdi mdi-format-line-weight"></i><span class="hide-menu">Butir Kegiatan</span>
-                    </a>
-                </li>
+
+                @role('administrator|kh')
+                    <li class="sidebar-item"> 
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('showmenu.operasional.kh') }}" aria-expanded="false"><i class="mdi mdi-paw"></i><span class="hide-menu">Operasional KH</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item"> 
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('kh.menu.penugasan.page') }}" aria-expanded="false"><i class="mdi mdi-book-plus"></i><span class="hide-menu">Penugasan KH</span>
+                        </a>
+                    </li>
+                @endrole
+
+                @role('administrator|kt')
+                    <li class="sidebar-item"> 
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('showmenu.operasional.kt') }}" aria-expanded="false"><i class="mdi mdi-leaf"></i><span class="hide-menu">Operasional KT</span>
+                        </a>
+                    </li>
+                    
+                    <li class="sidebar-item"> 
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('kt.menu.penugasan.page') }}" aria-expanded="false"><i class="mdi mdi-book-open"></i><span class="hide-menu">Penugasan KT</span>
+                        </a>
+                    </li>
+                @endrole
+                
+                @role('administrator|fungsional_khusus')
+                    <li class="sidebar-item"> 
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('epersonal.index') }}" aria-expanded="false"><i class="mdi mdi-book-plus"></i><span class="hide-menu">Data SKP</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item"> 
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('epersonal.index') }}" aria-expanded="false"><i class="mdi mdi-format-line-weight"></i><span class="hide-menu">Butir Kegiatan</span>
+                        </a>
+                    </li>
+                @endrole
+
+                
                 <li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('page.info') }}" aria-expanded="false"><i class="mdi mdi-access-point"></i><span class="hide-menu">Info Update Aplikasi</span>
                     </a>

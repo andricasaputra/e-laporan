@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ButirPktTerampil extends Model
+class ButirAptUtama extends Model
 {
     use HasFactory;
 
-    protected $table = 'bk_pkt_terampil';
+    protected $table = 'bk_apt_utama';
     protected $guarded = ['id'];
 
     protected function jenjangSebelum()
     {
-        return new ButirPktPemula;
+        return new ButirAptMuda;
     }
 
     protected function jenjangSesudah()
     {
-        return new ButirPktMahir;
+        return new ButirAptMadya;
     }
 
     public function getAllBk($bk)

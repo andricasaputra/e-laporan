@@ -40,17 +40,31 @@ class SkpUser extends Model
 
     public function getBkAttribute()
     {
-        $ex = explode("-", $this->attributes['butir_kegiatan']);
+        try {
 
-        $bk = trim($ex[1]);
+            $ex = explode("-", $this->attributes['butir_kegiatan']);
 
-        if (auth()->user()->pegawai->jabatan == 'PEMERIKSA KARANTINA TUMBUHAN TERAMPIL') {
+            $bk = trim($ex[1]);
 
-            $jenjangSebelum = ButirPktPemula::select('ak')->where('nama_butir', $bk);
- 
-            $jenjangSesudah = ButirPktMahir::select('ak')->where('nama_butir', $bk);
+            $bkModel = app()->make('BK');
 
-           return ButirPktTerampil::select('ak')->where('nama_butir', $bk)->union($jenjangSebelum)->union($jenjangSesudah)->first();
+            $bkUtama = (new $bkModel)->getAllBk($bk);
+
+            if($bkUtama == '' || is_null($bkUtama) || empty($bkUtama)){
+
+                $bk = trim($ex[1]);
+
+                $ex = explode(":", $bk);
+
+                 return (new $bkModel)->getAllBkPenunjang($ex[1]);
+            }
+
+            return $bkUtama;
+            
+        } catch (\Exception $e) {
+
+            return;
+            
         }
     }
 

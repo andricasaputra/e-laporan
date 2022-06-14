@@ -186,6 +186,7 @@ class ViewServiceProvider extends ServiceProvider
             [
                 'intern.operasional.kh.download.home_download',
                 'intern.operasional.kt.download.home_download',
+                'intern.penugasan.kt.menu'
             ],
 
             $this->namespace . '\Operasional\HomeDownloadPageComposer'

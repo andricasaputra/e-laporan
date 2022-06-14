@@ -22,7 +22,7 @@ class LaporanOperasionalKtPerSheet extends AbstractLaporanPerSheet implements Fr
     * @param string $permohonan
     * @return void
     */
-	  public function __construct(Request $request, $repository, $permohonan)
+	public function __construct(Request $request, $repository, $permohonan)
     {
         parent::__construct($request, $repository, $permohonan);
     }

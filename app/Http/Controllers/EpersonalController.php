@@ -27,7 +27,15 @@ class EpersonalController extends Controller
 
     public function tableApi($year = null, $month = null)
     {
-        return $this->repository->tableData($year, $month);
+        $skp = $this->repository->tableData($year, $month);
+
+        return datatables($skp)
+            ->addIndexColumn() 
+            ->editColumn('bulan', function($data){
+                return month_to_bulan($data->bulan) . ' ' . $data->tahun;
+            })
+            ->removeColumn('user_id')
+            ->make(true);
     }
 
 }

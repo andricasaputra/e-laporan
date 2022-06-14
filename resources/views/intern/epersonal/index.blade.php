@@ -10,7 +10,7 @@
 
 @section('page-breadcrumb')
 
-<h4 class="page-title">SKP {{ auth()->user()->pegawai->nama }}</h4>
+<h4 class="page-title">SKP {{ auth()->user()->pegawai->nama ?? 'Admin' }}</h4>
 <div class="d-flex align-items-center">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -56,6 +56,8 @@
   
 @endif
 
+@role('fungsional_khusus')
+
 <form class="form-inline" id="change_data_epersonal d-flex justify-content-end">
   <div class="form-group mb-2">
      <label for="year">Pilih Tahun</label>
@@ -98,11 +100,24 @@
   
 </form>
 
-<div class="d-flex justify-content-end w-100 mb-3" >
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-download"></i> Ambil Data SKP dari E-personal</button>
+<div class="alert alert-info">
+  Nama : {{ auth()->user()->pegawai->nama ?? 'Admin' }}
+  <br>
+  Jabatan : {{ auth()->user()->pegawai->jabatan ?? 'Admin' }}.
+  <br>
+  Golongan : {{ auth()->user()->pegawai->gol_akhir ?? '' }}
 </div>
 
-<div class="row">
+<div class="alert alert-warning">Jika Angka kredit tidak muncul silahkan lakukan update data pegawai pada aplikasi <b>user management.</b> <a href="#" id="btn-user-management">klik link berikut</a>
+
+</div>
+
+
+  <div class="d-flex justify-content-end w-100 mb-3" >
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-download"></i> Ambil Data SKP dari E-personal</button>
+  </div>
+
+  <div class="row">
     <div class="col-sm-12">
 
       @include('intern.inc.message')
@@ -115,13 +130,11 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama</th>
                   <th>Tanggal</th>
-                  <th>Tahun</th>
-                  <th>Bulan</th>
                   <th>Kegiatan</th>
                   <th>Butir Kegiatan</th>
                   <th>Target</th>
+                  <th>realisasi</th>
                   <th>Angka Kredit</th>
                 </tr>
               </thead>
@@ -132,6 +145,15 @@
       </div>
     </div>
 </div>
+
+  @else
+
+  <div class="alert alert-warning mt-5 text-center">
+    <h3>Maaf layanan ini todak tersedia untuk jabatan anda!</h3>
+    <a href="{{ route('show.operasional') }}">Kembali ke dashboard</a>
+  </div>
+
+@endrole
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -198,13 +220,11 @@
         },
         "columns": [
           {"data" : "DT_Row_Index"},
-          { "data" : "user_id" }, 
-          { "data" : "tanggal" }, 
-          { "data" : "tahun" },
-          { "data" : "bulan" },
+          { "data" : "bulan" }, 
           { "data" : "judul_kegiatan"}, 
           { "data" : "butir_kegiatan" }, 
           { "data" : "target" },
+          { "data" : "realisasi" },
           {"data" : "bk.ak"},
         ],
         "columnDefs": [{
@@ -251,6 +271,40 @@
 
       
     }
+
+    const userEofficeLogin = async (url) => {
+            
+      try{
+        const response = await fetch(url, {
+            method: 'POST',
+            body: '{{ auth()->user()->api_token }}'
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            window.open(data.redirect);return false;
+        } else if(response.status == 401) {
+           throw new Error('Username anda tidak ditemukan, silahkan hubungi admin'); 
+        }else {
+           throw new Error(response.statusText); 
+        }
+
+      }catch(err){
+        const container = document.querySelector('#message');
+        container.innerHTML = `
+        <div class="alert alert-danger">Gagal Login.. <a href="/users-management/public/login">Klik link berikut</a></div>
+        `;
+      }
+    }
+
+    document.querySelector('#btn-user-management').addEventListener('click', e => {
+
+      e.preventDefault();
+
+      userEofficeLogin('{{ config('e-operasional.url.user-management') }}')
+
+    });
  </script>
 
 @endsection

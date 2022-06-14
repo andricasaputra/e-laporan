@@ -83,8 +83,6 @@
       <label for="month">Pilih Bulan</label>
       <select class="form-control" name="month" id="month">
         <option value="all">Semua Bulan</option>
-
-        <option value="{{ date('m') - 1 }}" selected>Bulan Lalu</option>
         
         @for($i = 1; $i < 13 ; $i++)
     

@@ -14,7 +14,7 @@ class PenugasanRepository
          "wilker" => NULL
     ];
 
-	public function __construcr(Request $request)
+	public function __construct(Request $request)
 	{
 		$this->year         = $request->year ?? date('Y');
 

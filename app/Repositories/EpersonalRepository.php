@@ -4,17 +4,15 @@ namespace App\Repositories;
 
 use App\Models\SkpUser;
 use Illuminate\Http\Request;
-use App\Traits\Butir\ButirKegiatanPkt;
 
 class EpersonalRepository
 {
-	use ButirKegiatanPkt;
-
 	public $client, 
 	$mlog, 
 	$skpTahunan = [], 
 	$kegiatan = [], 
 	$target = [],
+	$realisasi = [],
 	$bulan,
 	$tanggal,
 	$tahun,
@@ -65,6 +63,7 @@ class EpersonalRepository
 		        				'judul_kegiatan' => trim($kegiatan['judul_kegiatan']),
 			        			'butir_kegiatan' => trim($kegiatan['butir_kegiatan']),
 			        			'target' => trim($kegiatan['target']),
+			        			'realisasi' => trim($kegiatan['realisasi']),
 			        			'bulan' => $kegiatan['bulan'],
 			        			'tahun' => trim($kegiatan['tahun']),
 		        			], 
@@ -190,6 +189,7 @@ class EpersonalRepository
 
 			$this->kegiatan[$this->bulan] = $datas[1] ?? '';
 	        $this->target[$this->bulan] = $datas[2] ?? '';
+	        $this->realisasi[$this->bulan] = $datas[3] ?? '';
 
 	        $this->skpTahunan[$judulkegiatan][$this->bulan][] = [
 
@@ -199,7 +199,8 @@ class EpersonalRepository
     			'tanggal' => $this->tanggal,
     			'judul_kegiatan' => $judulkegiatan,
     			'butir_kegiatan' => $this->kegiatan[$this->bulan],
-    			'target' => $this->target[$this->bulan]
+    			'target' => $this->target[$this->bulan],
+    			'realisasi' => $this->realisasi[$this->bulan]
 				
 			];
 		}
@@ -210,19 +211,7 @@ class EpersonalRepository
     {
         $params = [$year, $month];
 
-        $skp    = SkpUser::sortTableDetail($params)->with('pegawai')->whereUserId(auth()->id())->get();
-
-        return datatables($skp)
-            ->addIndexColumn() 
-            ->editColumn('user_id', function ($user) {
-                  return $user->pegawai->nama;
-           })
-            ->editColumn('bulan', function($data){
-            	return month_to_bulan($data->bulan);
-            })
-            ->make(true);
-
-         return $this;
+        return SkpUser::sortTableDetail($params)->with('pegawai')->whereUserId(auth()->id())->get();
     }
 
     public function getRouteParams()

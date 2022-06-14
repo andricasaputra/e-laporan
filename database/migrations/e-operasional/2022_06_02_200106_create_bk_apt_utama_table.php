@@ -17,7 +17,7 @@ class CreateBkAptUtamaTable extends Migration
             (
                 `no` varchar(20) DEFAULT NULL,
                 `kode_butir` varchar(100) DEFAULT NULL,
-                `nama_butir` varchar(255) DEFAULT NULL,
+                `nama_butir` text DEFAULT NULL,
                 `ak` varchar(50) DEFAULT NULL,
                 `satuan` varchar(255) DEFAULT NULL,
                 UNIQUE KEY `no` (`no`),

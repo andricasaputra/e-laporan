@@ -5,32 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ButirPktTerampil extends Model
+class ButirAptMuda extends Model
 {
     use HasFactory;
 
-    protected $table = 'bk_pkt_terampil';
+    protected $table = 'bk_apt_muda';
     protected $guarded = ['id'];
 
-    protected function jenjangSebelum()
+     protected function jenjangSebelum()
     {
-        return new ButirPktPemula;
+        return new ButirAptPertama;
     }
 
     protected function jenjangSesudah()
     {
-        return new ButirPktMahir;
+        return new ButirAptUtama;
     }
 
     public function getAllBk($bk)
     {
-
         $jenjangSebelum = $this->jenjangSebelum()->select('ak')->where('nama_butir', $bk);
 
         $jenjangSesudah = $this->jenjangSesudah()->select('ak')->where('nama_butir', $bk);
 
        return self::select('ak')->where('nama_butir', $bk)->union($jenjangSebelum)->union($jenjangSesudah)->first();
-        
     }
 
     public function getAllBkPenunjang($bk)

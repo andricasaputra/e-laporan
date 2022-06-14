@@ -23,7 +23,8 @@ class PenugasanDokelKtController extends BaseOperasionalController
 
     public function menu()
     {
-        return view('intern.penugasan.kt.menu');
+        return view('intern.penugasan.kt.menu')
+            ->withDatas($this->repository->getRouteParams());
     }
 
     public function home()
@@ -63,7 +64,12 @@ class PenugasanDokelKtController extends BaseOperasionalController
 
     public function tableData($year = null, $month = null, $wilkerId = null)
     {
-        $params         = [$year, $month, $wilkerId];
+
+        $params = [
+            $year, 
+            $month, 
+            $wilkerId
+        ];
 
         $penugasan    = Penugasan::sortTableDetail($params)->with('wilker')->get();
 
